@@ -1,0 +1,6 @@
+framework module Pods_LightningNode {
+  umbrella header "Pods-LightningNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

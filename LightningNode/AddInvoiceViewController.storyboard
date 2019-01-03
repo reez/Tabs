@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Invoice View Controller-->
+        <scene sceneID="Qsn-P9-c6E">
+            <objects>
+                <viewController storyboardIdentifier="AddInvoiceViewController" id="vXz-Iy-sZ1" customClass="AddInvoiceViewController" customModule="LightningNode" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Fkg-ek-ewR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pZi-Lj-70Y">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-50-Xam" userLabel="Root Stack View">
+                                <rect key="frame" x="20" y="40" width="335" height="411"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHI-qh-5kX">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                        <state key="normal" title="&lt;"/>
+                                        <connections>
+                                            <action selector="goBackPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="LYy-5m-EMx"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an Invoice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Kc-hbV">
+                                        <rect key="frame" x="0.0" y="42" width="335" height="31.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="GL8-9Q-kgi" userLabel="Invoice Stack View">
+                                        <rect key="frame" x="0.0" y="85.5" width="335" height="325.5"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qFp-dN-AZV" userLabel="Amount Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="62.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1U-wu-Ns5">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CHH-HC-qkr">
+                                                        <rect key="frame" x="0.0" y="32.5" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="pb3-CT-VMr" userLabel="Memo Stack View">
+                                                <rect key="frame" x="0.0" y="74.5" width="335" height="62.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwY-g5-kTH">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tCJ-jT-Khh">
+                                                        <rect key="frame" x="0.0" y="32.5" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liw-dG-Hxe">
+                                                <rect key="frame" x="0.0" y="149" width="335" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="9lX-G9-XYx"/>
+                                                </constraints>
+                                                <state key="normal" title="Add Invoice"/>
+                                                <connections>
+                                                    <action selector="submitButtonPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="znE-9r-4v2"/>
+                                                </connections>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="tBc-Vj-bPq" userLabel="Invoice Response Stack View">
+                                                <rect key="frame" x="0.0" y="201" width="335" height="124.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzY-Zu-Twf">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mme-0p-yhM">
+                                                        <rect key="frame" x="0.0" y="32.5" width="335" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="Sta-Ce-acc"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Copy Invoice"/>
+                                                        <connections>
+                                                            <action selector="copyButtonPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="WQG-kF-KRs"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XMs-7r-qAw">
+                                                        <rect key="frame" x="0.0" y="84.5" width="335" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="knb-WK-XQX"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Zap Button"/>
+                                                        <connections>
+                                                            <action selector="zapButtonPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="35g-7y-Ec3"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yGf-50-Xam" firstAttribute="leading" secondItem="04P-ls-oIi" secondAttribute="leading" constant="20" id="a7w-fV-xZc"/>
+                            <constraint firstItem="04P-ls-oIi" firstAttribute="trailing" secondItem="yGf-50-Xam" secondAttribute="trailing" constant="20" id="hME-vC-XbZ"/>
+                            <constraint firstItem="yGf-50-Xam" firstAttribute="top" secondItem="04P-ls-oIi" secondAttribute="top" constant="20" id="ixY-Kx-1Vd"/>
+                            <constraint firstItem="04P-ls-oIi" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="yGf-50-Xam" secondAttribute="bottom" constant="20" id="u4S-wX-loJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="04P-ls-oIi"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="pZi-Lj-70Y" id="agf-Na-pFr"/>
+                        <outlet property="amountLabel" destination="X1U-wu-Ns5" id="SZm-Vv-Ks6"/>
+                        <outlet property="amountTextField" destination="CHH-HC-qkr" id="c2V-dG-zL3"/>
+                        <outlet property="copyButton" destination="Mme-0p-yhM" id="2lj-cI-66y"/>
+                        <outlet property="invoiceLabel" destination="wzY-Zu-Twf" id="Kt6-8h-kbs"/>
+                        <outlet property="memoLabel" destination="kwY-g5-kTH" id="LQh-Pu-oZH"/>
+                        <outlet property="memoTextField" destination="tCJ-jT-Khh" id="bVi-A9-zhV"/>
+                        <outlet property="rootStackView" destination="yGf-50-Xam" id="YTM-yT-P2k"/>
+                        <outlet property="submitButton" destination="liw-dG-Hxe" id="DY1-h3-tsH"/>
+                        <outlet property="titleLabel" destination="tGE-Kc-hbV" id="6I1-Pb-MbH"/>
+                        <outlet property="zapButton" destination="XMs-7r-qAw" id="byN-wb-ocV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="evk-fa-cjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="108" y="-3.1484257871064472"/>
+        </scene>
+    </scenes>
+</document>

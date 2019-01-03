@@ -1,0 +1,719 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		63DC10AC96852BEE395C11C8 /* Pods_LightningNode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */; };
+		AB4A01DB7BEBF87F1A15894C /* Pods_LightningNodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */; };
+		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
+		AE1571F021C4927D0055D5BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571EF21C4927D0055D5BD /* ViewController.swift */; };
+		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
+		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
+		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
+		AE15720321C4927E0055D5BD /* LightningNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15720221C4927E0055D5BD /* LightningNodeTests.swift */; };
+		AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721121C4943F0055D5BD /* LightningAPI.swift */; };
+		AE15721421C494EB0055D5BD /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721321C494EB0055D5BD /* NavigationViewController.swift */; };
+		AE15721621C494FC0055D5BD /* NavigationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */; };
+		AE15721821C495C10055D5BD /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721721C495C10055D5BD /* Environment.swift */; };
+		AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721921C49E070055D5BD /* AddNodeViewController.swift */; };
+		AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */; };
+		AE15722221C4B0740055D5BD /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15722121C4B0740055D5BD /* Errors.swift */; };
+		AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */; };
+		AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5121C5A2B200D0E1B9 /* Invoice.swift */; };
+		AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5521C5A54900D0E1B9 /* Info.swift */; };
+		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
+		AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */; };
+		AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */; };
+		AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */; };
+		AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */; };
+		AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */; };
+		AE6C321321D040EF00FF8E09 /* NodeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */; };
+		AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */; };
+		AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */; };
+		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
+		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
+		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AE1571FF21C4927E0055D5BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE1571E221C4927D0055D5BD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE1571E921C4927D0055D5BD;
+			remoteInfo = LightningNode;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		07AE26A9EB31436C12754ACD /* Pods-LightningNodeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNodeTests.release.xcconfig"; path = "Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests.release.xcconfig"; sourceTree = "<group>"; };
+		289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.release.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.release.xcconfig"; sourceTree = "<group>"; };
+		80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.debug.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.debug.xcconfig"; sourceTree = "<group>"; };
+		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AE1571EF21C4927D0055D5BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AE1571F221C4927D0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AE1571F421C4927E0055D5BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AE1571F721C4927E0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AE1571F921C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE1571FE21C4927E0055D5BD /* LightningNodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightningNodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE15720221C4927E0055D5BD /* LightningNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningNodeTests.swift; sourceTree = "<group>"; };
+		AE15720421C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE15721121C4943F0055D5BD /* LightningAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPI.swift; sourceTree = "<group>"; };
+		AE15721321C494EB0055D5BD /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NavigationViewController.storyboard; sourceTree = "<group>"; };
+		AE15721721C495C10055D5BD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		AE15721921C49E070055D5BD /* AddNodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewController.swift; sourceTree = "<group>"; };
+		AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddNodeViewController.storyboard; sourceTree = "<group>"; };
+		AE15722121C4B0740055D5BD /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPI.swift; sourceTree = "<group>"; };
+		AE434C5121C5A2B200D0E1B9 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
+		AE434C5521C5A54900D0E1B9 /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
+		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnection.swift; sourceTree = "<group>"; };
+		AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModel.swift; sourceTree = "<group>"; };
+		AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewController.swift; sourceTree = "<group>"; };
+		AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddInvoiceViewController.storyboard; sourceTree = "<group>"; };
+		AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctions.swift; sourceTree = "<group>"; };
+		AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewController.swift; sourceTree = "<group>"; };
+		AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NodeCollectionViewController.storyboard; sourceTree = "<group>"; };
+		AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewCell.swift; sourceTree = "<group>"; };
+		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
+		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
+		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1EBA9A6EE7F1635969FCFA2 /* Pods-LightningNodeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNodeTests.debug.xcconfig"; path = "Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AE1571E721C4927D0055D5BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63DC10AC96852BEE395C11C8 /* Pods_LightningNode.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE1571FB21C4927E0055D5BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4A01DB7BEBF87F1A15894C /* Pods_LightningNodeTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AE1571E121C4927D0055D5BD = {
+			isa = PBXGroup;
+			children = (
+				AE1571EC21C4927D0055D5BD /* LightningNode */,
+				AE15720121C4927E0055D5BD /* LightningNodeTests */,
+				AE1571EB21C4927D0055D5BD /* Products */,
+				D903335C39BA34857A6561E8 /* Pods */,
+				B7CEF8F914E4A4EC92C738E3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AE1571EB21C4927D0055D5BD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE1571EA21C4927D0055D5BD /* LightningNode.app */,
+				AE1571FE21C4927E0055D5BD /* LightningNodeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AE1571EC21C4927D0055D5BD /* LightningNode */ = {
+			isa = PBXGroup;
+			children = (
+				AE1571ED21C4927D0055D5BD /* AppDelegate.swift */,
+				AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */,
+				AE15721721C495C10055D5BD /* Environment.swift */,
+				AE434C5521C5A54900D0E1B9 /* Info.swift */,
+				AE434C5121C5A2B200D0E1B9 /* Invoice.swift */,
+				AE15722121C4B0740055D5BD /* Errors.swift */,
+				AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */,
+				AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */,
+				AE15721121C4943F0055D5BD /* LightningAPI.swift */,
+				AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */,
+				AE8DD45221D16CCA003E5EC2 /* Operators.swift */,
+				AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */,
+				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
+				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
+				AE1571EF21C4927D0055D5BD /* ViewController.swift */,
+				AE15721321C494EB0055D5BD /* NavigationViewController.swift */,
+				AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */,
+				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
+				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
+				AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */,
+				AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */,
+				AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */,
+				AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */,
+				AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */,
+				AE1571F121C4927D0055D5BD /* Main.storyboard */,
+				AE1571F421C4927E0055D5BD /* Assets.xcassets */,
+				AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */,
+				AE1571F921C4927E0055D5BD /* Info.plist */,
+			);
+			path = LightningNode;
+			sourceTree = "<group>";
+		};
+		AE15720121C4927E0055D5BD /* LightningNodeTests */ = {
+			isa = PBXGroup;
+			children = (
+				AE15720221C4927E0055D5BD /* LightningNodeTests.swift */,
+				AE15720421C4927E0055D5BD /* Info.plist */,
+			);
+			path = LightningNodeTests;
+			sourceTree = "<group>";
+		};
+		B7CEF8F914E4A4EC92C738E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */,
+				D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D903335C39BA34857A6561E8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */,
+				289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */,
+				F1EBA9A6EE7F1635969FCFA2 /* Pods-LightningNodeTests.debug.xcconfig */,
+				07AE26A9EB31436C12754ACD /* Pods-LightningNodeTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AE1571E921C4927D0055D5BD /* LightningNode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE15720721C4927E0055D5BD /* Build configuration list for PBXNativeTarget "LightningNode" */;
+			buildPhases = (
+				5A0051F29FAECAB24A58CD6B /* [CP] Check Pods Manifest.lock */,
+				AE1571E621C4927D0055D5BD /* Sources */,
+				AE1571E721C4927D0055D5BD /* Frameworks */,
+				AE1571E821C4927D0055D5BD /* Resources */,
+				4A129B6F4F76EBFEF3B81E90 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LightningNode;
+			productName = LightningNode;
+			productReference = AE1571EA21C4927D0055D5BD /* LightningNode.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AE1571FD21C4927E0055D5BD /* LightningNodeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE15720A21C4927E0055D5BD /* Build configuration list for PBXNativeTarget "LightningNodeTests" */;
+			buildPhases = (
+				2F2865007DCA122C38C8C944 /* [CP] Check Pods Manifest.lock */,
+				AE1571FA21C4927E0055D5BD /* Sources */,
+				AE1571FB21C4927E0055D5BD /* Frameworks */,
+				AE1571FC21C4927E0055D5BD /* Resources */,
+				BCD2976A17499EEE71AF9117 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE15720021C4927E0055D5BD /* PBXTargetDependency */,
+			);
+			name = LightningNodeTests;
+			productName = LightningNodeTests;
+			productReference = AE1571FE21C4927E0055D5BD /* LightningNodeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AE1571E221C4927D0055D5BD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Matthew Ramsden";
+				TargetAttributes = {
+					AE1571E921C4927D0055D5BD = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					AE1571FD21C4927E0055D5BD = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = AE1571E921C4927D0055D5BD;
+					};
+				};
+			};
+			buildConfigurationList = AE1571E521C4927D0055D5BD /* Build configuration list for PBXProject "LightningNode" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AE1571E121C4927D0055D5BD;
+			productRefGroup = AE1571EB21C4927D0055D5BD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AE1571E921C4927D0055D5BD /* LightningNode */,
+				AE1571FD21C4927E0055D5BD /* LightningNodeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AE1571E821C4927D0055D5BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
+				AE15721621C494FC0055D5BD /* NavigationViewController.storyboard in Resources */,
+				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
+				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
+				AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */,
+				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
+				AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE1571FC21C4927E0055D5BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F2865007DCA122C38C8C944 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LightningNodeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A129B6F4F76EBFEF3B81E90 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LightningNode/Pods-LightningNode-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/LNDrpc/LNDrpc.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LNDrpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LightningNode/Pods-LightningNode-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A0051F29FAECAB24A58CD6B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LightningNode-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCD2976A17499EEE71AF9117 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/LNDrpc/LNDrpc.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LNDrpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AE1571E621C4927D0055D5BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */,
+				AE15721421C494EB0055D5BD /* NavigationViewController.swift in Sources */,
+				AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */,
+				AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */,
+				AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */,
+				AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */,
+				AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */,
+				AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */,
+				AE15721821C495C10055D5BD /* Environment.swift in Sources */,
+				AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */,
+				AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */,
+				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
+				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
+				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
+				AE1571F021C4927D0055D5BD /* ViewController.swift in Sources */,
+				AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */,
+				AE6C321321D040EF00FF8E09 /* NodeCollectionViewController.swift in Sources */,
+				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
+				AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */,
+				AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE1571FA21C4927E0055D5BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE15720321C4927E0055D5BD /* LightningNodeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AE15720021C4927E0055D5BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE1571E921C4927D0055D5BD /* LightningNode */;
+			targetProxy = AE1571FF21C4927E0055D5BD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AE1571F121C4927D0055D5BD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE1571F221C4927D0055D5BD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE1571F721C4927E0055D5BD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AE15720521C4927E0055D5BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AE15720621C4927E0055D5BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AE15720821C4927E0055D5BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9G6M658RKZ;
+				INFOPLIST_FILE = LightningNode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AE15720921C4927E0055D5BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9G6M658RKZ;
+				INFOPLIST_FILE = LightningNode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AE15720B21C4927E0055D5BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1EBA9A6EE7F1635969FCFA2 /* Pods-LightningNodeTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9G6M658RKZ;
+				INFOPLIST_FILE = LightningNodeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNodeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightningNode.app/LightningNode";
+			};
+			name = Debug;
+		};
+		AE15720C21C4927E0055D5BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07AE26A9EB31436C12754ACD /* Pods-LightningNodeTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9G6M658RKZ;
+				INFOPLIST_FILE = LightningNodeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNodeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightningNode.app/LightningNode";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AE1571E521C4927D0055D5BD /* Build configuration list for PBXProject "LightningNode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE15720521C4927E0055D5BD /* Debug */,
+				AE15720621C4927E0055D5BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE15720721C4927E0055D5BD /* Build configuration list for PBXNativeTarget "LightningNode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE15720821C4927E0055D5BD /* Debug */,
+				AE15720921C4927E0055D5BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE15720A21C4927E0055D5BD /* Build configuration list for PBXNativeTarget "LightningNodeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE15720B21C4927E0055D5BD /* Debug */,
+				AE15720C21C4927E0055D5BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AE1571E221C4927D0055D5BD /* Project object */;
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Node View Controller-->
+        <scene sceneID="7cN-7V-GDu">
+            <objects>
+                <viewController storyboardIdentifier="AddNodeViewController" id="lhW-Ur-Inu" customClass="AddNodeViewController" customModule="LightningNode" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="22e-FL-Rk9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="T0N-wr-cdx">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="VdR-gI-GAc">
+                                <rect key="frame" x="20" y="40" width="335" height="296"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a Node" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQU-PX-ha4">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="4lQ-3g-FQo">
+                                        <rect key="frame" x="0.0" y="32.5" width="335" height="62.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Certificate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wVI-ni-rha">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Fy-4F-S69" userLabel="Certificate Text Field">
+                                                <rect key="frame" x="0.0" y="32.5" width="335" height="30"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="DgO-wV-ZhQ">
+                                        <rect key="frame" x="0.0" y="107" width="335" height="62.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Macaroon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N5U-wp-TjS">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-gp-xTC" userLabel="Macaroon Text Field">
+                                                <rect key="frame" x="0.0" y="32.5" width="335" height="30"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="ye5-Qj-l7l">
+                                        <rect key="frame" x="0.0" y="181.5" width="335" height="62.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGi-oO-qTa" userLabel="URI Label">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K0N-OM-g6Q" userLabel="URI Text Field">
+                                                <rect key="frame" x="0.0" y="32.5" width="335" height="30"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJe-SY-iCh">
+                                        <rect key="frame" x="0.0" y="256" width="335" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="nRn-oa-ev0"/>
+                                        </constraints>
+                                        <state key="normal" title="Submit"/>
+                                        <connections>
+                                            <action selector="submitButtonPressed:" destination="lhW-Ur-Inu" eventType="touchUpInside" id="Txc-gc-QaJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="gjf-mP-tXG" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="VdR-gI-GAc" secondAttribute="bottom" id="DB8-l5-RTC"/>
+                            <constraint firstItem="gjf-mP-tXG" firstAttribute="trailing" secondItem="VdR-gI-GAc" secondAttribute="trailing" constant="20" id="GKJ-FO-rGL"/>
+                            <constraint firstItem="VdR-gI-GAc" firstAttribute="top" secondItem="gjf-mP-tXG" secondAttribute="top" constant="20" id="Kec-NU-fTJ"/>
+                            <constraint firstItem="VdR-gI-GAc" firstAttribute="leading" secondItem="gjf-mP-tXG" secondAttribute="leading" constant="20" id="RoC-18-yvk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gjf-mP-tXG"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="T0N-wr-cdx" id="iBO-eU-6NQ"/>
+                        <outlet property="certificateLabel" destination="wVI-ni-rha" id="QqO-Yf-RmM"/>
+                        <outlet property="certificateStackView" destination="4lQ-3g-FQo" id="nlP-nl-RC2"/>
+                        <outlet property="certificateTextField" destination="9Fy-4F-S69" id="9tM-Z2-Utc"/>
+                        <outlet property="macaroonLabel" destination="N5U-wp-TjS" id="C1v-oJ-JR9"/>
+                        <outlet property="macaroonStackView" destination="DgO-wV-ZhQ" id="HQH-jL-f0V"/>
+                        <outlet property="macaroonTextField" destination="n5f-gp-xTC" id="1on-CB-okG"/>
+                        <outlet property="rootStackView" destination="VdR-gI-GAc" id="kaT-dN-4Uq"/>
+                        <outlet property="submitButton" destination="aJe-SY-iCh" id="0Is-4Y-JmK"/>
+                        <outlet property="titleLabel" destination="NQU-PX-ha4" id="jZt-NJ-rRO"/>
+                        <outlet property="uriLabel" destination="xGi-oO-qTa" id="Iji-qy-AU2"/>
+                        <outlet property="uriStackView" destination="ye5-Qj-l7l" id="WGF-vE-321"/>
+                        <outlet property="uriTextField" destination="K0N-OM-g6Q" id="JWv-te-Xhw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fUV-EQ-ZOo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="89.505247376311857"/>
+        </scene>
+    </scenes>
+</document>
