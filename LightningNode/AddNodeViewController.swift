@@ -66,24 +66,19 @@ class AddNodeViewController: UIViewController {
         activityIndicator.startAnimating()
         
         if let certificate =
-            certificateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            certificateTextField.text,
             let macaroon =
-            macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            macaroonTextField.text?.trimmingCharacters(in: .whitespaces),
             let uri =
-            uriTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+            uriTextField.text?.trimmingCharacters(in: .whitespaces) {
             
-            remoteNodeConnection = RemoteNodeConnection(
+            let rnc = RemoteNodeConnection(
                 uri: uri,
-                certificate: certificate,
+                certificate: Pem(key: certificate).string,
                 macaroon: macaroon
             )
             
-            // Fake
-//            remoteNodeConnection = RemoteNodeConnection(
-//                uri: localIP
-//                certificate: localC
-//                macaroon: localM
-//            )
+            remoteNodeConnection = rnc
             
             guard let remoteNodeConnection = remoteNodeConnection else { return }
             let resultSavedPost = Current.keychain.save(remoteNodeConnection)

@@ -13,7 +13,6 @@ class NodeCollectionViewController: UICollectionViewController {
     private var hiddenCells: [NodeCollectionViewCell] = []
     private var expandedCell: NodeCollectionViewCell?
     private var remoteNodeConnection: RemoteNodeConnection?
-//    private let fakeRemoteNodeConnection = RemoteNodeConnection(uri: localIP, certificate: localC, macaroon: localM)
 
     private var viewModel: LightningViewModel!
     private var height: String?
@@ -31,7 +30,7 @@ class NodeCollectionViewController: UICollectionViewController {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             remoteNodeConnection = savedConfig
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
+            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig) // was using saved config
             Current.lightningAPIRPC?.info { [weak self] result in
                 result.value
                     |> flatMap {
@@ -84,6 +83,8 @@ class NodeCollectionViewController: UICollectionViewController {
         let bundle = Bundle(for: AddInvoiceViewController.self)
         let storyboard = UIStoryboard(name: "AddInvoiceViewController", bundle: bundle)
         let vc = storyboard.instantiateViewController(withIdentifier: "AddInvoiceViewController") as! AddInvoiceViewController
+        print("Remote Node Connection invoice: \(remoteNodeConnection)")
+
         vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -235,3 +236,4 @@ extension NodeCollectionViewController {
     }
     
 }
+
