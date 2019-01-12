@@ -54,6 +54,13 @@ public class CameraViewController: UIViewController {
         self.view.layer.addSublayer(self.previewLayer)
         
         self.captureSession.startRunning()
+        
+        let button = UIButton(frame: CGRect(x: 10, y: 60, width: 40, height: 40))
+        button.backgroundColor = .clear
+        button.setTitle("<", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        self.view.addSubview(button)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -106,10 +113,10 @@ public class CameraViewController: UIViewController {
 
     }
     
-    // This doesn't work yet
-    @IBAction func goBackPressed(_ sender: Any) {
+    @objc func buttonAction(sender: UIButton!) {
         _ = navigationController?.popViewController(animated: true)
     }
+    
 
 }
 

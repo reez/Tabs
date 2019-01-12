@@ -60,16 +60,16 @@ class AddNodeViewController: UIViewController {
         
         self.uriTextField
             |> baseTextFieldStyleBold
+
+        self.lndConnectButton
+            |> filledButtonStyle
+            <> backgroundStyle(color: .white)
+            <> { $0.setTitleColor(.mr_gold, for: .normal) }
         
         self.submitButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_black)
         
-        self.lndConnectButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .white)
-            <> { $0.setTitleColor(.mr_gold, for: .normal) }
-
         // This is just to make sure I don't have anything in keychain and its deleted if user pressed delete button
         print("Load from keychain: \(loadFromKeychain())")
     }
@@ -150,5 +150,16 @@ extension AddNodeViewController:  UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         submitPressed()
         return true
+    }
+}
+
+extension UIButton {
+    func underline() {
+        guard let text = self.titleLabel?.text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: text.count))
+        
+        self.setAttributedTitle(attributedString, for: .normal)
     }
 }
