@@ -12,3 +12,9 @@ struct RemoteNodeConnection: Codable {
     var certificate: String
     var macaroon: String
 }
+
+extension Data {
+    var hexDescription: String {
+        return reduce("") {$0 + String(format: "%02x", $1)}
+    }
+}

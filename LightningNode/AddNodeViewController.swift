@@ -68,14 +68,20 @@ class AddNodeViewController: UIViewController {
         if let certificate =
             certificateTextField.text,
             let macaroon =
-            macaroonTextField.text?.trimmingCharacters(in: .whitespaces),
+            macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let uri =
             uriTextField.text?.trimmingCharacters(in: .whitespaces) {
             
+            
+            let cert = Pem(key: certificate).string
+            let formattedMacaroon = macaroon.replacingOccurrences(of: " ", with: "")
+            guard let data = Data(base64Encoded: formattedMacaroon) else { return print("mac error") } // This needs to not just silently return
+            let mac = data.hexDescription
+            
             let rnc = RemoteNodeConnection(
                 uri: uri,
-                certificate: Pem(key: certificate).string,
-                macaroon: macaroon
+                certificate: cert,
+                macaroon: mac
             )
             
             remoteNodeConnection = rnc
