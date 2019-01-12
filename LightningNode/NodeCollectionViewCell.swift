@@ -59,7 +59,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.topLabel
             |> map { $0.text = "Status" }
-        
+    
         blockstreamAPIRequest(testnet: info.testnet) { result in
             
             switch result {
@@ -77,6 +77,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 
                 Blockstream.info:
                 \(height)
+                
+                refreshed:
+                \(Current.date())
                 """
                 
                 DispatchQueue.main.async {
@@ -94,6 +97,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
                         
                         blockHeight:
                         \(info.blockHeight)
+                        
+                        refreshed:
+                        \(Current.date())
                         """
                         
                         $0.text = text
