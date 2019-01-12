@@ -49,11 +49,11 @@ class AddInvoiceViewController: UIViewController {
         
         self.submitButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .purple)
+            <> backgroundStyle(color: .mr_purple)
         
         self.copyButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .purple)
+            <> backgroundStyle(color: .mr_purple)
         
         self.zapButton
             |> filledButtonStyle

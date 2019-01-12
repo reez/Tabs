@@ -38,18 +38,18 @@ let roundedButtonStyle =
 let filledButtonStyle =
     roundedButtonStyle
         <> {
-            $0.backgroundColor = .black
+            $0.backgroundColor = .mr_black
             $0.tintColor = .white
             $0.setTitleColor(.white, for: .normal)
 }
 
 let borderButtonStyle  =
     roundedButtonStyle
-        <> borderStyle(color: .blue, width: 2)
+        <> borderStyle(color: .mr_blue, width: 2)
 
 let invoiceButtonStyle =
     filledButtonStyle
-        <> { $0.backgroundColor = .purple }
+        <> { $0.backgroundColor = .mr_purple }
 
 func fontStyle(ofSize size: CGFloat, weight: UIFont.Weight) -> (UILabel) -> Void {
     return {
@@ -134,25 +134,11 @@ extension UIColor {
     public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 }
 
-private extension String {
+extension String {
     func separate(every: Int, with separator: String) -> String {
         let result = stride(from: 0, to: count, by: every)
             .map { Array(Array(self)[$0..<min($0 + every, count)]) }
             .joined(separator: separator)
         return String(result)
-    }
-}
-
-class Pem {
-    private let prefix = "-----BEGIN CERTIFICATE-----"
-    private let suffix = "-----END CERTIFICATE-----"
-    let string: String
-    
-    init(key: String) {
-        if key.hasPrefix(prefix) {
-            string = key
-        } else {
-            string = "\(prefix)\n\(key.separate(every: 64, with: "\n"))\n\(suffix)\n"
-        }
     }
 }

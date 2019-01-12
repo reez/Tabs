@@ -10,7 +10,7 @@ import UIKit
 
 class AddNodeViewController: UIViewController {
     
-    private var remoteNodeConnection: RemoteNodeConnection?
+    var remoteNodeConnection: RemoteNodeConnection?
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var certificateStackView: UIStackView!
@@ -25,10 +25,17 @@ class AddNodeViewController: UIViewController {
     @IBOutlet var uriLabel: UILabel!
     @IBOutlet var uriTextField: UITextField!
     @IBOutlet var submitButton: UIButton!
+    @IBOutlet var lndConnectButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        if let rnc = remoteNodeConnection {
+            self.certificateTextField.text = rnc.certificate
+            self.macaroonTextField.text = rnc.macaroon
+            self.uriTextField.text = rnc.uri
+        }
+        
         macaroonTextField.delegate = self
         certificateTextField.delegate = self
         uriTextField.delegate = self
@@ -56,7 +63,12 @@ class AddNodeViewController: UIViewController {
         
         self.submitButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .black)
+            <> backgroundStyle(color: .mr_black)
+        
+        self.lndConnectButton
+            |> filledButtonStyle
+            <> backgroundStyle(color: .white)
+            <> { $0.setTitleColor(.mr_gold, for: .normal) }
 
         // This is just to make sure I don't have anything in keychain and its deleted if user pressed delete button
         print("Load from keychain: \(loadFromKeychain())")
@@ -65,19 +77,15 @@ class AddNodeViewController: UIViewController {
     private func submitPressed() {
         activityIndicator.startAnimating()
         
-        if let certificate =
-            certificateTextField.text,
-            let macaroon =
-            macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let uri =
-            uriTextField.text?.trimmingCharacters(in: .whitespaces) {
-            
+        if let certificate = certificateTextField.text,
+            let macaroon = macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let uri = uriTextField.text?.trimmingCharacters(in: .whitespaces) {
             
             let cert = Pem(key: certificate).string
             let formattedMacaroon = macaroon.replacingOccurrences(of: " ", with: "")
             guard let data = Data(base64Encoded: formattedMacaroon) else { return print("mac error") } // This needs to not just silently return
             let mac = data.hexDescription
-            
+
             let rnc = RemoteNodeConnection(
                 uri: uri,
                 certificate: cert,
@@ -85,7 +93,6 @@ class AddNodeViewController: UIViewController {
             )
             
             remoteNodeConnection = rnc
-            
             guard let remoteNodeConnection = remoteNodeConnection else { return }
             let resultSavedPost = Current.keychain.save(remoteNodeConnection)
 
@@ -128,6 +135,14 @@ class AddNodeViewController: UIViewController {
     @IBAction func submitButtonPressed(_ sender: Any) {
         submitPressed()
     }
+    
+    @IBAction func cameraButtonPressed(_ sender: Any) {
+        let bundle = Bundle(for: CameraViewController.self)
+        let storyboard = UIStoryboard(name: "CameraViewController", bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: "CameraViewController") as! CameraViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 
 }
 

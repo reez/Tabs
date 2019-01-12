@@ -18,3 +18,46 @@ extension Data {
         return reduce("") {$0 + String(format: "%02x", $1)}
     }
 }
+
+class Pem {
+    private let prefix = "-----BEGIN CERTIFICATE-----"
+    private let suffix = "-----END CERTIFICATE-----"
+    let string: String
+    
+    init(key: String) {
+        if key.hasPrefix(prefix) {
+            string = key
+        } else {
+            string = "\(prefix)\n\(key.separate(every: 64, with: "\n"))\n\(suffix)\n"
+        }
+    }
+}
+
+extension String {
+    func base64UrlToBase64() -> String {
+        var base64 = self
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        if base64.count % 4 != 0 {
+            base64.append(String(repeating: "=", count: 4 - base64.count % 4))
+        }
+        
+        return base64
+    }
+}
+
+extension URL {
+    var queryParameters: [String: String]? {
+        guard
+            let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+            let queryItems = components.queryItems
+            else { return nil }
+        
+        var parameters = [String: String]()
+        for item in queryItems {
+            parameters[item.name] = item.value
+        }
+        return parameters
+    }
+}

@@ -55,7 +55,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
     func configure(with info: Info) {
         
         self.mainView
-            |> backgroundStyle(color: .blue)
+            |> backgroundStyle(color: .mr_blue)
         
         self.topLabel
             |> map { $0.text = "Status" }
@@ -114,7 +114,8 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.hiddenButton
             |> borderButtonStyle
-            <> { $0.setTitleColor(.blue, for: .normal) }
+            <> backgroundStyle(color: .white)
+            <> { $0.setTitleColor(.mr_blue, for: .normal) }
             <> { $0.isEnabled = false }
         
         info.testnet ?
@@ -126,7 +127,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
     func configureInvoice(with info: Info) {
         
         self.mainView
-            |> backgroundStyle(color: .purple)
+            |> backgroundStyle(color: .mr_purple)
         
         self.topLabel
             |> map { $0.text = "Invoice" }
@@ -155,7 +156,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.hiddenButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .purple)
+            <> backgroundStyle(color: .mr_purple)
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
             <> { $0.setTitle("Invoice", for: .normal) }
@@ -165,7 +166,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
     func configureDelete(with info: Info) {
         
         self.mainView
-            |> backgroundStyle(color: .red)
+            |> backgroundStyle(color: .mr_red)
         
         self.topLabel
             |> map { $0.text = "Settings" }
@@ -194,7 +195,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.hiddenButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .red)
+            <> backgroundStyle(color: .mr_red)
             <> { $0.setTitle("Delete", for: .normal) }
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }

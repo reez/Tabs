@@ -35,6 +35,8 @@
 		AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */; };
 		AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */; };
 		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
+		AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8BB8B021E9967B001513DD /* CameraViewController.swift */; };
+		AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */; };
 		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 /* End PBXBuildFile section */
@@ -84,6 +86,8 @@
 		AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NodeCollectionViewController.storyboard; sourceTree = "<group>"; };
 		AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
+		AE8BB8B021E9967B001513DD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraViewController.storyboard; sourceTree = "<group>"; };
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 				AE1571EF21C4927D0055D5BD /* ViewController.swift */,
 				AE15721321C494EB0055D5BD /* NavigationViewController.swift */,
 				AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */,
+				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
+				AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
 				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
 				AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */,
@@ -287,6 +293,7 @@
 				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
 				AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */,
 				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
+				AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */,
 				AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,6 +444,7 @@
 				AE15721821C495C10055D5BD /* Environment.swift in Sources */,
 				AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */,
 				AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */,
+				AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */,
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
