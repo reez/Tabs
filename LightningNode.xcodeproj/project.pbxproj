@@ -86,6 +86,7 @@
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1EBA9A6EE7F1635969FCFA2 /* Pods-LightningNodeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNodeTests.debug.xcconfig"; path = "Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +114,7 @@
 		AE1571E121C4927D0055D5BD = {
 			isa = PBXGroup;
 			children = (
+				AEA649EC21E98F6000F9689A /* README.md */,
 				AE1571EC21C4927D0055D5BD /* LightningNode */,
 				AE15720121C4927E0055D5BD /* LightningNodeTests */,
 				AE1571EB21C4927D0055D5BD /* Products */,
