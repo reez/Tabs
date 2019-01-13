@@ -16,9 +16,15 @@ class NodeCollectionViewController: UICollectionViewController {
 
     private var viewModel: LightningViewModel!
     private var height: String?
-    
+    private let activityIndicator = UIActivityIndicatorView(style: .white)
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.center = self.view.center
+
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -54,6 +60,8 @@ class NodeCollectionViewController: UICollectionViewController {
     }
     
     @objc private func refreshButtonPressed() {
+        self.activityIndicator.startAnimating()
+
         switch Current.keychain.load() {
         case let .success(savedConfig):
             Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
@@ -63,14 +71,18 @@ class NodeCollectionViewController: UICollectionViewController {
                     self?.collectionView.reloadData()
                 }
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
+                self.activityIndicator.stopAnimating()
+            }
         case .failure(_):
+            self.activityIndicator.stopAnimating()
             let alertController = UIAlertController(
                 title: DataError.fetchInfoFailure.localizedDescription,
                 message: DataError.fetchInfoFailure.errorDescription,
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true)
         }
     }
     

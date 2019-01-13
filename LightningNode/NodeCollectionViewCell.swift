@@ -160,6 +160,8 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
             <> { $0.setTitle("Invoice", for: .normal) }
+            <> { $0.layer.borderColor = UIColor.mr_purple.cgColor }
+
         
     }
     

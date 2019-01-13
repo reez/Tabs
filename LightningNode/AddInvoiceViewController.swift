@@ -20,11 +20,15 @@ class AddInvoiceViewController: UIViewController {
     @IBOutlet var submitButton: UIButton!
     @IBOutlet var invoiceLabel: UILabel!
     @IBOutlet var copyButton: UIButton!
-    @IBOutlet var zapButton: UIButton!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    private let activityIndicator = UIActivityIndicatorView(style: .gray)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.center = self.view.center
         
         amountTextField.delegate = self
         memoTextField.delegate = self
@@ -55,11 +59,6 @@ class AddInvoiceViewController: UIViewController {
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_purple)
         
-        self.zapButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .mr_gold)
-            <> { $0.setTitle("Open in Zap", for: .normal)}
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,9 +66,6 @@ class AddInvoiceViewController: UIViewController {
             |> map { $0.isHidden = true }
         
         self.copyButton
-            |> map { $0.isHidden = true }
-        
-        self.zapButton
             |> map { $0.isHidden = true }
     }
     
@@ -82,16 +78,12 @@ class AddInvoiceViewController: UIViewController {
             Current.lightningAPIRPC?.addInvoice(
                 value: invoiceRequest.value,
                 memo: invoiceRequest.memo) { [weak self] result in
-                self?.activityIndicator.stopAnimating()
-                
                 switch result {
                 case let .success(invoice):
                     DispatchQueue.main.async {
                         self?.invoiceLabel
                             |> flatMap { $0.isHidden = false }
                         self?.copyButton
-                            |> flatMap { $0.isHidden = false }
-                        self?.zapButton
                             |> flatMap { $0.isHidden = false }
                         self?.invoiceLabel
                             |> flatMap { $0.text = invoice }
@@ -100,8 +92,13 @@ class AddInvoiceViewController: UIViewController {
                         self?.memoTextField
                             |> flatMap { $0.text = "" }
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
+                        self?.activityIndicator.stopAnimating()
+                    }
                 case let .failure(error):
-                    self?.activityIndicator.stopAnimating()
+                    DispatchQueue.main.async {
+                        self?.activityIndicator.stopAnimating()
+                    }
                     
                     let alertController = UIAlertController(
                         title: DataError.fetchInfoFailure.localizedDescription,
@@ -109,9 +106,7 @@ class AddInvoiceViewController: UIViewController {
                         preferredStyle: .alert
                     )
                     alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                        self?.present(alertController, animated: true, completion: nil)
-                    }
+                    self?.present(alertController, animated: true)
                 }
             }
         }
@@ -135,7 +130,7 @@ class AddInvoiceViewController: UIViewController {
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true)
         }
         
     }
@@ -143,20 +138,6 @@ class AddInvoiceViewController: UIViewController {
     @IBAction func copyButtonPressed(_ sender: Any) {
         self.invoiceLabel.text.flatMap { print("Copied invoice: \($0)") }
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
-    }
-    
-    @IBAction func zapButtonPressed(_ sender: Any) {
-        print("Open in Zap...")
-
-        self.invoiceLabel.text.flatMap {
-            guard let url = URL(string: "lightning:\($0)") else { return }
-            UIApplication.shared.open(
-                url,
-                options: [:],
-                completionHandler: { print("Open Success?: \($0)") }
-            )
-        }
-    
     }
     
 }
