@@ -52,6 +52,34 @@ class NodeCollectionViewController: UICollectionViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        switch Current.keychain.load() {
+        case let .success(savedConfig):
+            remoteNodeConnection = savedConfig
+            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig) // was using saved config
+            Current.lightningAPIRPC?.info { [weak self] result in
+                result.value
+                    |> flatMap {
+                        self?.viewModel.lightningNodeInfo = $0
+                        self?.collectionView.reloadData()
+                }
+            }
+        case .failure(_):
+            let alert = UIAlertController(
+                title: DataError.fetchInfoFailure.localizedDescription,
+                message: DataError.fetchInfoFailure.errorDescription,
+                preferredStyle: .alert
+            )
+            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
+                alert.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
     @IBAction func refreshButtonAction(_ sender: Any) {
         refreshButtonPressed()
     }

@@ -7,17 +7,9 @@
 
 import Foundation
 
-enum Result<Value>: CustomStringConvertible, CustomDebugStringConvertible {
+enum Result<Value> {
     case success(Value)
     case failure(Error)
-    
-    init(value: Value?, error: Error) {
-        if let value = value {
-            self = .success(value)
-        } else {
-            self = .failure(error)
-        }
-    }
     
     var value: Value? {
         switch self {
@@ -35,19 +27,6 @@ enum Result<Value>: CustomStringConvertible, CustomDebugStringConvertible {
         case let .failure(error):
             return error
         }
-    }
-    
-    var description: String {
-        switch self {
-        case let .success(value):
-            return ".success(\(value))"
-        case let .failure(error):
-            return ".failure(\(error))"
-        }
-    }
-    
-    var debugDescription: String {
-        return description
     }
     
 }
