@@ -50,7 +50,7 @@ extension KeychainDataStore {
 extension KeychainDataStore {
     static let test = KeychainDataStore(load: {
         let rnc = RemoteNodeConnection.mock
-        return Result.failure(DataError.fetchInfoFailure)//Result.success(rnc)
+        return Result.failure(DataError.fetchInfoFailure)// Result.success(rnc)
     }, save: { _ in //(rnc) -> Result<String> in
         return Result.success("Failure!")
     }, delete: { }

@@ -39,47 +39,16 @@ class NodeCollectionViewController: UICollectionViewController {
                 }
             }
         case .failure(_):
-            let alert = UIAlertController(
+            let alertController = UIAlertController(
                 title: DataError.fetchInfoFailure.localizedDescription,
                 message: DataError.fetchInfoFailure.errorDescription,
-                preferredStyle: .alert
-            )
-            self.present(alert, animated: true, completion: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                alert.dismiss(animated: true, completion: nil)
-            }
+                preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true)
         }
         
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        switch Current.keychain.load() {
-        case let .success(savedConfig):
-            remoteNodeConnection = savedConfig
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig) // was using saved config
-            Current.lightningAPIRPC?.info { [weak self] result in
-                result.value
-                    |> flatMap {
-                        self?.viewModel.lightningNodeInfo = $0
-                        self?.collectionView.reloadData()
-                }
-            }
-        case .failure(_):
-            let alert = UIAlertController(
-                title: DataError.fetchInfoFailure.localizedDescription,
-                message: DataError.fetchInfoFailure.errorDescription,
-                preferredStyle: .alert
-            )
-            self.present(alert, animated: true, completion: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                alert.dismiss(animated: true, completion: nil)
-            }
-        }
-        
-    }
-    
     @IBAction func refreshButtonAction(_ sender: Any) {
         refreshButtonPressed()
     }
@@ -95,15 +64,13 @@ class NodeCollectionViewController: UICollectionViewController {
                 }
             }
         case .failure(_):
-            let alert = UIAlertController(
+            let alertController = UIAlertController(
                 title: DataError.fetchInfoFailure.localizedDescription,
                 message: DataError.fetchInfoFailure.errorDescription,
                 preferredStyle: .alert
             )
-            self.present(alert, animated: true, completion: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                alert.dismiss(animated: true, completion: nil)
-            }
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -111,19 +78,19 @@ class NodeCollectionViewController: UICollectionViewController {
         let bundle = Bundle(for: AddInvoiceViewController.self)
         let storyboard = UIStoryboard(name: "AddInvoiceViewController", bundle: bundle)
         let vc = storyboard.instantiateViewController(withIdentifier: "AddInvoiceViewController") as! AddInvoiceViewController
-        print("Remote Node Connection invoice: \(remoteNodeConnection)")
+        print("Remote Node Connection invoice: \(String(describing: remoteNodeConnection))")
 
         vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func deleteButtonPressed() {
-        let refreshAlert = UIAlertController(
+        let alertController = UIAlertController(
             title: "Remove Node",
             message: "Are you sure you want to remove the node?",
             preferredStyle: UIAlertController.Style.alert)
         
-        refreshAlert.addAction(
+        alertController.addAction(
             UIAlertAction(
                 title: "Ok",
                 style: .default,
@@ -137,7 +104,7 @@ class NodeCollectionViewController: UICollectionViewController {
             )
         )
         
-        refreshAlert.addAction(
+        alertController.addAction(
             UIAlertAction(
                 title: "Cancel",
                 style: .cancel,
@@ -147,7 +114,7 @@ class NodeCollectionViewController: UICollectionViewController {
             )
         )
         
-        present(refreshAlert, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
 }

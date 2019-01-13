@@ -30,10 +30,10 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let rnc = remoteNodeConnection {
-            self.certificateTextField.text = rnc.certificate
-            self.macaroonTextField.text = rnc.macaroon
-            self.uriTextField.text = rnc.uri
+        if let lndConnect = remoteNodeConnection {
+            self.certificateTextField.text = lndConnect.certificate
+            self.macaroonTextField.text = lndConnect.macaroon
+            self.uriTextField.text = lndConnect.uri
         }
         
         macaroonTextField.delegate = self
@@ -48,19 +48,19 @@ class AddNodeViewController: UIViewController {
         
         self.certificateTextField
             |> baseTextFieldStyleBold
-
+        
         self.macaroonLabel
             |> baseLabelStyleSmall
         
         self.macaroonTextField
             |> baseTextFieldStyleBold
-
+        
         self.uriLabel
             |> baseLabelStyleSmall
         
         self.uriTextField
             |> baseTextFieldStyleBold
-
+        
         self.lndConnectButton
             |> filledButtonStyle
             <> backgroundStyle(color: .white)
@@ -79,13 +79,26 @@ class AddNodeViewController: UIViewController {
         
         if let certificate = certificateTextField.text,
             let macaroon = macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let uri = uriTextField.text?.trimmingCharacters(in: .whitespaces) {
+            let uri = uriTextField.text?.trimmingCharacters(in: .whitespaces),
+            !certificate.isEmpty,
+            !macaroon.isEmpty,
+            !uri.isEmpty {
             
             let cert = Pem(key: certificate).string
             let formattedMacaroon = macaroon.replacingOccurrences(of: " ", with: "")
-            guard let data = Data(base64Encoded: formattedMacaroon) else { return print("mac error") } // This needs to not just silently return
+            
+            guard let data = Data(base64Encoded: formattedMacaroon) else {
+                let alertController = UIAlertController(
+                    title: DataError.macaroonFormatting.localizedDescription,
+                    message: "Could not use format of Macaroon",
+                    preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alertController, animated: true)
+                return
+            }
+            
             let mac = data.hexDescription
-
+            
             let rnc = RemoteNodeConnection(
                 uri: uri,
                 certificate: cert,
@@ -95,7 +108,7 @@ class AddNodeViewController: UIViewController {
             remoteNodeConnection = rnc
             guard let remoteNodeConnection = remoteNodeConnection else { return }
             let resultSavedPost = Current.keychain.save(remoteNodeConnection)
-
+            
             switch resultSavedPost {
             case .success(_):
                 self.activityIndicator.stopAnimating()
@@ -105,30 +118,20 @@ class AddNodeViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             case let .failure(error):
                 self.activityIndicator.stopAnimating()
-                let alert = UIAlertController(
+                let alertController = UIAlertController(
                     title: "Something went wrong adding node",
                     message: error.localizedDescription,
-                    preferredStyle: .alert
-                )
-                self.present(alert, animated: true, completion: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                })
+                    preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alertController, animated: true)
             }
         } else {
-            DispatchQueue.main.async {
-                let alert = UIAlertController(
-                    title: "Something went wrong in adding node",
-                    message: DataError.remoteNodeInfoMissing.localizedDescription,
-                    preferredStyle: .alert
-                )
-                self.present(alert, animated: true, completion: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                })
-            }
+            let alertController = UIAlertController(
+                title: "Something went wrong in adding node.",
+                message: DataError.remoteNodeInfoMissing.localizedDescription,
+                preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true)
         }
     }
     
@@ -143,23 +146,12 @@ class AddNodeViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-
+    
 }
 
 extension AddNodeViewController:  UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         submitPressed()
         return true
-    }
-}
-
-extension UIButton {
-    func underline() {
-        guard let text = self.titleLabel?.text else { return }
-        
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: text.count))
-        
-        self.setAttributedTitle(attributedString, for: .normal)
     }
 }

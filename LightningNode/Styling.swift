@@ -77,7 +77,6 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
 
 let baseLabelStyleSmall: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
-//        <> textColorStyle(UIColor(white: 0.625, alpha: 1))
 
 let baseLabelStyleBoldCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).bolded)

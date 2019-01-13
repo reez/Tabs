@@ -30,8 +30,6 @@ class NavigationViewController: UIViewController {
             let storyboard = UIStoryboard(name: "NodeCollectionViewController", bundle: bundle)
             let vc = storyboard.instantiateViewController(withIdentifier: "NodeCollectionViewController") as! NodeCollectionViewController
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                // Make a real network call here?
-                // (In the case that I have info in Keychain but no internet)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             print("Successfully got saved data and ready to proceed!")
@@ -45,5 +43,5 @@ class NavigationViewController: UIViewController {
             print("Did not get saved data or make successful request!")
         }
     }
-
+    
 }

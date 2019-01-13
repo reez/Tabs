@@ -17,7 +17,7 @@ enum BlockstreamAPIMainnet: String {
 
 func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String>) -> Void) {
     
-     var request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
+    var request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
     
     switch testnet {
     case true:
@@ -30,7 +30,8 @@ func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String>)
     URLSession.shared.dataTask(
         with: request,
         completionHandler: { data, response, error in
-            if let data = data, let height = String(data: data, encoding: .utf8) {
+            if let data = data,
+                let height = String(data: data, encoding: .utf8) {
                 completion(Result.success(height))
             } else {
                 completion(Result.failure(error!))

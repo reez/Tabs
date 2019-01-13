@@ -102,14 +102,15 @@ class AddInvoiceViewController: UIViewController {
                     }
                 case let .failure(error):
                     self?.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(
+                    
+                    let alertController = UIAlertController(
                         title: DataError.fetchInfoFailure.localizedDescription,
                         message: error.localizedDescription,
                         preferredStyle: .alert
                     )
-                    self?.present(alert, animated: true, completion: nil)
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                        alert.dismiss(animated: true, completion: nil)
+                        self?.present(alertController, animated: true, completion: nil)
                     }
                 }
             }
@@ -128,15 +129,13 @@ class AddInvoiceViewController: UIViewController {
             let request = InvoiceRequest(memo: memo, value: value)
             requestInvoice(invoiceRequest: request)
         } else {
-            let alert = UIAlertController(
+            let alertController = UIAlertController(
                 title: DataError.invoiceInfoMissing.localizedDescription,
                 message: "Missing Info",
                 preferredStyle: .alert
             )
-            self.present(alert, animated: true, completion: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                alert.dismiss(animated: true, completion: nil)
-            }
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true, completion: nil)
         }
         
     }
