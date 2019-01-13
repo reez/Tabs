@@ -113,8 +113,9 @@ class AddNodeViewController: UIViewController {
             case .success(_):
                 self.activityIndicator.stopAnimating()
                 let bundle = Bundle(for: NodeCollectionViewController.self)
-                let storyboard = UIStoryboard(name: "NodeCollectionViewController", bundle: bundle)
-                let vc = storyboard.instantiateViewController(withIdentifier: "NodeCollectionViewController") as! NodeCollectionViewController
+                let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
+                let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
+                let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
                 self.navigationController?.pushViewController(vc, animated: true)
             case let .failure(error):
                 self.activityIndicator.stopAnimating()
@@ -141,8 +142,9 @@ class AddNodeViewController: UIViewController {
     
     @IBAction func cameraButtonPressed(_ sender: Any) {
         let bundle = Bundle(for: CameraViewController.self)
-        let storyboard = UIStoryboard(name: "CameraViewController", bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: "CameraViewController") as! CameraViewController
+        let cameraIdentifier = Reusing<CameraViewController>().identifier()
+        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

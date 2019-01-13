@@ -13,8 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let storyboard = UIStoryboard(name: "NavigationViewController", bundle: Bundle(for: NavigationViewController.self))
-        let vc = storyboard.instantiateViewController(withIdentifier: "NavigationViewController")
+        let navigationIdentifier = Reusing<NavigationViewController>().identifier()
+        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: NavigationViewController.self))
+        let vc = storyboard.instantiateViewController(withIdentifier: navigationIdentifier)
         let navigationController = UINavigationController(rootViewController: vc)
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()

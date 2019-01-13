@@ -106,8 +106,9 @@ public class CameraViewController: UIViewController {
         let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate!, macaroon: macaroonString!)
         
         let bundle = Bundle(for: AddNodeViewController.self)
-        let storyboard = UIStoryboard(name: "AddNodeViewController", bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: "AddNodeViewController") as! AddNodeViewController
+        let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+        let storyboard = UIStoryboard(name: addNodeIdentifier, bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
         vc.remoteNodeConnection = rnc
         self.navigationController?.pushViewController(vc, animated: true)
 

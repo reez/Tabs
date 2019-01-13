@@ -27,16 +27,18 @@ class NavigationViewController: UIViewController {
         switch Current.keychain.load() {
         case .success(_):
             let bundle = Bundle(for: NodeCollectionViewController.self)
-            let storyboard = UIStoryboard(name: "NodeCollectionViewController", bundle: bundle)
-            let vc = storyboard.instantiateViewController(withIdentifier: "NodeCollectionViewController") as! NodeCollectionViewController
+            let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
+            let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
+            let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             print("Successfully got saved data and ready to proceed!")
         case .failure(_):
             let bundle = Bundle(for: AddNodeViewController.self)
-            let storyboard = UIStoryboard.init(name: "AddNodeViewController", bundle: bundle)
-            let vc = storyboard.instantiateViewController(withIdentifier: "AddNodeViewController") as! AddNodeViewController
+            let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+            let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+            let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.pushViewController(vc, animated: true)
             }

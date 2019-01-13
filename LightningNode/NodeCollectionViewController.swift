@@ -88,8 +88,9 @@ class NodeCollectionViewController: UICollectionViewController {
     
     @objc private func invoiceButtonPressed() {
         let bundle = Bundle(for: AddInvoiceViewController.self)
-        let storyboard = UIStoryboard(name: "AddInvoiceViewController", bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: "AddInvoiceViewController") as! AddInvoiceViewController
+        let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
+        let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
         print("Remote Node Connection invoice: \(String(describing: remoteNodeConnection))")
 
         vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
@@ -109,8 +110,9 @@ class NodeCollectionViewController: UICollectionViewController {
                 handler: { (action: UIAlertAction!) in
                     deleteFromKeychain()
                     let bundle = Bundle(for: AddNodeViewController.self)
-                    let storyboard = UIStoryboard.init(name: "AddNodeViewController", bundle: bundle)
-                    let vc = storyboard.instantiateViewController(withIdentifier: "AddNodeViewController") as! AddNodeViewController
+                    let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+                    let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+                    let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
                     self.navigationController?.pushViewController(vc, animated: true)
             }
             )
@@ -138,15 +140,18 @@ extension NodeCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let nodeCellIdentifier = Reusing<NodeCollectionViewCell>().identifier()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
+
         
         if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NodeCell", for: indexPath) as! NodeCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configure(with: viewModel.lightningNodeInfo)
             
             return cell
         }
         else if indexPath.row == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NodeCell", for: indexPath) as! NodeCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configureInvoice(with: viewModel.lightningNodeInfo)
             cell.hiddenButton.addTarget(
                 self,
@@ -157,7 +162,7 @@ extension NodeCollectionViewController {
             return cell
         }
         else if indexPath.row == 2 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NodeCell", for: indexPath) as! NodeCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configureDelete(with: viewModel.lightningNodeInfo)
             cell.hiddenButton.addTarget(
                 self,
