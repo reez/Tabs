@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		63DC10AC96852BEE395C11C8 /* Pods_LightningNode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */; };
 		AB4A01DB7BEBF87F1A15894C /* Pods_LightningNodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */; };
+		AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */; };
+		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
 		AE1571F021C4927D0055D5BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571EF21C4927D0055D5BD /* ViewController.swift */; };
 		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
@@ -57,6 +59,8 @@
 		289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.release.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.release.xcconfig"; sourceTree = "<group>"; };
 		80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.debug.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.debug.xcconfig"; sourceTree = "<group>"; };
+		AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModel.swift; sourceTree = "<group>"; };
+		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1571EF21C4927D0055D5BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -162,11 +166,13 @@
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
+				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
 				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
 				AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */,
 				AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */,
 				AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */,
 				AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */,
+				AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */,
 				AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */,
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 				AE1571F421C4927E0055D5BD /* Assets.xcassets */,
@@ -448,6 +454,7 @@
 				AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */,
 				AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */,
 				AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */,
+				AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */,
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
@@ -458,6 +465,7 @@
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
 				AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */,
 				AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */,
+				AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

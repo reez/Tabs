@@ -13,7 +13,6 @@ class NodeCollectionViewController: UICollectionViewController {
     private var hiddenCells: [NodeCollectionViewCell] = []
     private var expandedCell: NodeCollectionViewCell?
     private var remoteNodeConnection: RemoteNodeConnection?
-
     private var viewModel: LightningViewModel!
     private var height: String?
     private let activityIndicator = UIActivityIndicatorView(style: .white)
@@ -21,13 +20,12 @@ class NodeCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         self.view.addSubview(activityIndicator)
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.center = self.view.center
-
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
         
         viewModel = LightningViewModel { [weak self] _ in
             self?.collectionView.reloadData()
@@ -59,78 +57,6 @@ class NodeCollectionViewController: UICollectionViewController {
         refreshButtonPressed()
     }
     
-    @objc private func refreshButtonPressed() {
-        self.activityIndicator.startAnimating()
-
-        switch Current.keychain.load() {
-        case let .success(savedConfig):
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
-            Current.lightningAPIRPC?.info { [weak self] result in
-                result.value.flatMap {
-                    self?.viewModel.lightningNodeInfo = $0
-                    self?.collectionView.reloadData()
-                }
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-                self.activityIndicator.stopAnimating()
-            }
-        case .failure(_):
-            self.activityIndicator.stopAnimating()
-            let alertController = UIAlertController(
-                title: DataError.fetchInfoFailure.localizedDescription,
-                message: DataError.fetchInfoFailure.errorDescription,
-                preferredStyle: .alert
-            )
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
-        }
-    }
-    
-    @objc private func invoiceButtonPressed() {
-        let bundle = Bundle(for: AddInvoiceViewController.self)
-        let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
-        let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
-        print("Remote Node Connection invoice: \(String(describing: remoteNodeConnection))")
-
-        vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @objc private func deleteButtonPressed() {
-        let alertController = UIAlertController(
-            title: "Remove Node",
-            message: "Are you sure you want to remove the node?",
-            preferredStyle: UIAlertController.Style.alert)
-        
-        alertController.addAction(
-            UIAlertAction(
-                title: "Ok",
-                style: .default,
-                handler: { (action: UIAlertAction!) in
-                    deleteFromKeychain()
-                    let bundle = Bundle(for: AddNodeViewController.self)
-                    let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
-                    let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
-                    let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
-            }
-            )
-        )
-        
-        alertController.addAction(
-            UIAlertAction(
-                title: "Cancel",
-                style: .cancel,
-                handler: { (action: UIAlertAction!) in
-                    print("Handle Cancel Logic here")
-            }
-            )
-        )
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
 }
 
 extension NodeCollectionViewController {
@@ -142,16 +68,13 @@ extension NodeCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let nodeCellIdentifier = Reusing<NodeCollectionViewCell>().identifier()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
-
         
         if indexPath.row == 0 {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configure(with: viewModel.lightningNodeInfo)
             
             return cell
         }
         else if indexPath.row == 1 {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configureInvoice(with: viewModel.lightningNodeInfo)
             cell.hiddenButton.addTarget(
                 self,
@@ -162,7 +85,6 @@ extension NodeCollectionViewController {
             return cell
         }
         else if indexPath.row == 2 {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
             cell.configureDelete(with: viewModel.lightningNodeInfo)
             cell.hiddenButton.addTarget(
                 self,
@@ -245,6 +167,82 @@ extension NodeCollectionViewController {
         animator.addCompletion { _ in self.view.isUserInteractionEnabled = true }
         
         animator.startAnimation()
+    }
+    
+}
+
+extension NodeCollectionViewController {
+    
+    @objc private func refreshButtonPressed() {
+        self.activityIndicator.startAnimating()
+        
+        switch Current.keychain.load() {
+        case let .success(savedConfig):
+            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
+            Current.lightningAPIRPC?.info { [weak self] result in
+                result.value.flatMap {
+                    self?.viewModel.lightningNodeInfo = $0
+                    self?.collectionView.reloadData()
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
+                self.activityIndicator.stopAnimating()
+            }
+        case .failure(_):
+            self.activityIndicator.stopAnimating()
+            let alertController = UIAlertController(
+                title: DataError.fetchInfoFailure.localizedDescription,
+                message: DataError.fetchInfoFailure.errorDescription,
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true)
+        }
+    }
+    
+    @objc private func invoiceButtonPressed() {
+        let bundle = Bundle(for: AddInvoiceViewController.self)
+        let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
+        let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
+        print("Remote Node Connection invoice: \(String(describing: remoteNodeConnection))")
+        
+        vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func deleteButtonPressed() {
+        let alertController = UIAlertController(
+            title: "Remove Node",
+            message: "Are you sure you want to remove the node?",
+            preferredStyle: UIAlertController.Style.alert)
+        
+        alertController.addAction(
+            UIAlertAction(
+                title: "Ok",
+                style: .default,
+                handler: { (action: UIAlertAction!) in
+                    deleteFromKeychain()
+                    let bundle = Bundle(for: AddNodeViewController.self)
+                    let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+                    let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+                    let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
+                    self.navigationController?.pushViewController(vc, animated: true)
+            }
+            )
+        )
+        
+        alertController.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel,
+                handler: { (action: UIAlertAction!) in
+                    print("Handle Cancel Logic here")
+            }
+            )
+        )
+        
+        present(alertController, animated: true, completion: nil)
     }
     
 }

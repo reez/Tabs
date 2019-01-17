@@ -9,7 +9,6 @@
 import UIKit
 
 class AddNodeViewController: UIViewController {
-    
     var remoteNodeConnection: RemoteNodeConnection?
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -30,16 +29,44 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        macaroonTextField.delegate = self
+        certificateTextField.delegate = self
+        uriTextField.delegate = self
+        setupUI()
+        
         if let lndConnect = remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
         }
         
-        macaroonTextField.delegate = self
-        certificateTextField.delegate = self
-        uriTextField.delegate = self
-        
+        // This is just to make sure I don't have anything in keychain and its deleted if user pressed delete button
+        print("Load from keychain: \(loadFromKeychain())")
+    }
+    
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        submitPressed()
+    }
+    
+    @IBAction func cameraButtonPressed(_ sender: Any) {
+        let bundle = Bundle(for: CameraViewController.self)
+        let cameraIdentifier = Reusing<CameraViewController>().identifier()
+        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension AddNodeViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        submitPressed()
+        return true
+    }
+}
+
+extension AddNodeViewController {
+    func setupUI() {
         self.titleLabel
             |> baseLabelStyleBoldTitle
         
@@ -69,12 +96,11 @@ class AddNodeViewController: UIViewController {
         self.submitButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_black)
-        
-        // This is just to make sure I don't have anything in keychain and its deleted if user pressed delete button
-        print("Load from keychain: \(loadFromKeychain())")
     }
-    
-    private func submitPressed() {
+}
+
+extension AddNodeViewController {
+    func submitPressed() {
         activityIndicator.startAnimating()
         
         if let certificate = certificateTextField.text,
@@ -84,47 +110,29 @@ class AddNodeViewController: UIViewController {
             !macaroon.isEmpty,
             !uri.isEmpty {
             
-            let cert = Pem(key: certificate).string
-            let formattedMacaroon = macaroon.replacingOccurrences(of: " ", with: "")
-            
-            guard let data = Data(base64Encoded: formattedMacaroon) else {
-                let alertController = UIAlertController(
-                    title: DataError.macaroonFormatting.localizedDescription,
-                    message: "Could not use format of Macaroon",
-                    preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alertController, animated: true)
-                return
-            }
-            
-            let mac = data.hexDescription
-            
-            let rnc = RemoteNodeConnection(
-                uri: uri,
-                certificate: cert,
-                macaroon: mac
+            let input = AddNodeViewModelInputs(
+                certificateTextFieldInput: certificate,
+                macaroonTextFieldInput: macaroon,
+                uriTextFieldInput: uri
             )
             
-            remoteNodeConnection = rnc
-            guard let remoteNodeConnection = remoteNodeConnection else { return }
-            let resultSavedPost = Current.keychain.save(remoteNodeConnection)
-            
-            switch resultSavedPost {
-            case .success(_):
-                self.activityIndicator.stopAnimating()
-                let bundle = Bundle(for: NodeCollectionViewController.self)
-                let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
-                let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
-                let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
-                self.navigationController?.pushViewController(vc, animated: true)
-            case let .failure(error):
-                self.activityIndicator.stopAnimating()
-                let alertController = UIAlertController(
-                    title: "Something went wrong adding node",
-                    message: error.localizedDescription,
-                    preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alertController, animated: true)
+            addNodeViewModel(input: input) { (output) in
+                if !output.alertNeeded {
+                    self.activityIndicator.stopAnimating()
+                    let bundle = Bundle(for: NodeCollectionViewController.self)
+                    let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
+                    let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
+                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    self.activityIndicator.stopAnimating()
+                    let alertController = UIAlertController(
+                        title: "Something went wrong Adding Node",
+                        message: output.alertErrorMessage,
+                        preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alertController, animated: true)
+                }
             }
         } else {
             let alertController = UIAlertController(
@@ -135,25 +143,52 @@ class AddNodeViewController: UIViewController {
             self.present(alertController, animated: true)
         }
     }
-    
-    @IBAction func submitButtonPressed(_ sender: Any) {
-        submitPressed()
-    }
-    
-    @IBAction func cameraButtonPressed(_ sender: Any) {
-        let bundle = Bundle(for: CameraViewController.self)
-        let cameraIdentifier = Reusing<CameraViewController>().identifier()
-        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
 }
 
-extension AddNodeViewController:  UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        submitPressed()
-        return true
+extension AddNodeViewController {
+    func addNodeViewModel(
+        input: AddNodeViewModelInputs,
+        output: @escaping (AddNodeViewModelOutputs) -> Void
+        )
+    {
+        var viewModelOutput = AddNodeViewModelOutputs(
+            alertErrorMessage: "",
+            alertNeeded: false
+        )
+        
+        let cert = Pem(key: input.certificateTextFieldInput).string
+        let formattedMacaroon = input.macaroonTextFieldInput.replacingOccurrences(of: " ", with: "")
+        guard let data = Data(base64Encoded: formattedMacaroon) else {
+            viewModelOutput.alertNeeded = true
+            viewModelOutput.alertErrorMessage = "Could not use format of Macaroon"
+            output(viewModelOutput)
+            return
+        }
+        let mac = data.hexDescription
+        let rnc = RemoteNodeConnection(
+            uri: input.uriTextFieldInput,
+            certificate: cert,
+            macaroon: mac
+        )
+        remoteNodeConnection = rnc
+        guard let remoteNodeConnection = remoteNodeConnection else {
+            viewModelOutput.alertNeeded = true
+            viewModelOutput.alertErrorMessage = "Remote Node connection could not be made"
+            output(viewModelOutput)
+            return
+        }
+        
+        let resultSavedPost = Current.keychain.save(remoteNodeConnection)
+        switch resultSavedPost {
+        case .success(_):
+            viewModelOutput.alertNeeded = false
+            output(viewModelOutput)
+        case let .failure(error):
+            self.activityIndicator.stopAnimating()
+            viewModelOutput.alertNeeded = true
+            viewModelOutput.alertErrorMessage = error.localizedDescription
+            output(viewModelOutput)
+        }
+        
     }
 }

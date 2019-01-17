@@ -21,17 +21,138 @@ class AddInvoiceViewController: UIViewController {
     @IBOutlet var invoiceLabel: UILabel!
     @IBOutlet var copyButton: UIButton!
     private let activityIndicator = UIActivityIndicatorView(style: .gray)
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        amountTextField.delegate = self
+        memoTextField.delegate = self
+        setupUI()
+    }
+    
+    @IBAction func goBackPressed(_ sender: Any) {
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        
+        activityIndicator.startAnimating()
+        
+        if let memo = self.memoTextField.text,
+            let amount = self.amountTextField.text,
+            !amount.isEmpty,
+            !memo.isEmpty {
+            
+            let input = AddInvoiceViewModelInput(
+                amountTextFieldInput: amount,
+                memoTextFieldInput: memo
+            )
+            addInvoiceViewModel(input: input) { (output) in
+                if !output.alertNeeded {
+                    self.activityIndicator.stopAnimating()
+                    self.invoiceLabel.isHidden = output.invoiceLabelHidden
+                    self.copyButton.isHidden = output.copyButtonHidden
+                    self.invoiceLabel.text = output.invoiceLabel
+                    self.amountTextField.text = output.amountTextFieldOutput
+                    self.memoTextField.text = output.memoTextFieldOutput
+                } else {
+                    self.activityIndicator.stopAnimating()
+                    let alertController = UIAlertController(
+                        title: DataError.fetchInfoFailure.localizedDescription,
+                        message: output.alertErrorMessage,
+                        preferredStyle: .alert
+                    )
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alertController, animated: true)
+                }
+            }
+            
+        } else {
+            self.activityIndicator.stopAnimating()
+            let alertController = UIAlertController(
+                title: DataError.invoiceInfoMissing.localizedDescription,
+                message: "Missing Invoice Info",
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true)
+        }
+        
+    }
+    
+    @IBAction func copyButtonPressed(_ sender: Any) {
+        print("Copy Button Pressed")
+        UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
+    }
+    
+}
+
+extension AddInvoiceViewController:  UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        amountTextField.resignFirstResponder()
+        memoTextField.resignFirstResponder()
+        
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+}
+
+extension AddInvoiceViewController {
+    
+    func addInvoiceViewModel(
+        input: AddInvoiceViewModelInput,
+        output: @escaping (AddInvoiceViewModelOutput) -> Void
+        )
+    {
+        var viewModelOutput = AddInvoiceViewModelOutput(
+            alertErrorMessage: "",
+            alertNeeded: false,
+            amountTextFieldOutput: "",
+            copyButtonHidden: true,
+            invoiceLabel: "",
+            invoiceLabelHidden: true,
+            memoTextFieldOutput: ""
+        )
+        
+        if let value = Int(input.amountTextFieldInput) {
+            let request = InvoiceRequest(memo: input.memoTextFieldInput, value: value)
+            remoteNodeConnection.flatMap {
+                Current.lightningAPIRPC = LightningApiRPC.init(configuration: $0)
+                Current.lightningAPIRPC?.addInvoice(value: request.value, memo: request.memo) { result in
+                    switch result {
+                    case let .success(invoice):
+                        viewModelOutput.invoiceLabelHidden = false
+                        viewModelOutput.copyButtonHidden = false
+                        viewModelOutput.invoiceLabel = invoice
+                        print("Invoice Label: \(viewModelOutput.invoiceLabel)")
+                        viewModelOutput.amountTextFieldOutput = ""
+                        viewModelOutput.memoTextFieldOutput = ""
+                        output(viewModelOutput)
+                    case let .failure(errorMessage):
+                        viewModelOutput.alertNeeded = true
+                        viewModelOutput.alertErrorMessage = errorMessage.localizedDescription
+                        output(viewModelOutput)
+                    }
+                }
+            }
+        } else {
+            viewModelOutput.alertNeeded = true
+            viewModelOutput.alertErrorMessage = "Value for Invoice must be a number"
+            output(viewModelOutput)
+        }
+        
+    }
+    
+}
+
+extension AddInvoiceViewController {
+    func setupUI() {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.center = self.view.center
-        
-        amountTextField.delegate = self
-        memoTextField.delegate = self
         
         self.titleLabel
             |> baseLabelStyleBoldTitle
@@ -59,100 +180,9 @@ class AddInvoiceViewController: UIViewController {
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_purple)
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         self.invoiceLabel
             |> map { $0.isHidden = true }
-        
         self.copyButton
             |> map { $0.isHidden = true }
     }
-    
-    func requestInvoice(invoiceRequest: InvoiceRequest) {
-        activityIndicator.startAnimating()
-        
-        remoteNodeConnection.flatMap {
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: $0)
-            
-            Current.lightningAPIRPC?.addInvoice(
-                value: invoiceRequest.value,
-                memo: invoiceRequest.memo) { [weak self] result in
-                switch result {
-                case let .success(invoice):
-                    DispatchQueue.main.async {
-                        self?.invoiceLabel
-                            |> flatMap { $0.isHidden = false }
-                        self?.copyButton
-                            |> flatMap { $0.isHidden = false }
-                        self?.invoiceLabel
-                            |> flatMap { $0.text = invoice }
-                        self?.amountTextField
-                            |> flatMap { $0.text = "" }
-                        self?.memoTextField
-                            |> flatMap { $0.text = "" }
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-                        self?.activityIndicator.stopAnimating()
-                    }
-                case let .failure(error):
-                    DispatchQueue.main.async {
-                        self?.activityIndicator.stopAnimating()
-                    }
-                    
-                    let alertController = UIAlertController(
-                        title: DataError.fetchInfoFailure.localizedDescription,
-                        message: error.localizedDescription,
-                        preferredStyle: .alert
-                    )
-                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                    self?.present(alertController, animated: true)
-                }
-            }
-        }
-        
-    }
-    
-    @IBAction func goBackPressed(_ sender: Any) {
-        _ = navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func submitButtonPressed(_ sender: Any) {
-        if let memo = self.memoTextField.text,
-            let amount = self.amountTextField.text,
-            let value = Int(amount) {
-            let request = InvoiceRequest(memo: memo, value: value)
-            requestInvoice(invoiceRequest: request)
-        } else {
-            let alertController = UIAlertController(
-                title: DataError.invoiceInfoMissing.localizedDescription,
-                message: "Missing Info",
-                preferredStyle: .alert
-            )
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
-        }
-        
-    }
-    
-    @IBAction func copyButtonPressed(_ sender: Any) {
-        self.invoiceLabel.text.flatMap { print("Copied invoice: \($0)") }
-        UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
-    }
-    
-}
-
-extension AddInvoiceViewController:  UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        amountTextField.resignFirstResponder()
-        memoTextField.resignFirstResponder()
-        
-        return true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
 }

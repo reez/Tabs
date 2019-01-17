@@ -45,7 +45,6 @@ extension KeychainDataStore {
     )
 }
 
-
 // For Unit Tests
 extension KeychainDataStore {
     static let test = KeychainDataStore(load: {

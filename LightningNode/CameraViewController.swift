@@ -18,6 +18,13 @@ public class CameraViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .black
+        
+        let button = UIButton(frame: CGRect(x: 10, y: 60, width: 40, height: 40))
+        button.backgroundColor = .clear
+        button.setTitle("<", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        self.view.addSubview(button)
+
         self.captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -54,13 +61,6 @@ public class CameraViewController: UIViewController {
         self.view.layer.addSublayer(self.previewLayer)
         
         self.captureSession.startRunning()
-        
-        let button = UIButton(frame: CGRect(x: 10, y: 60, width: 40, height: 40))
-        button.backgroundColor = .clear
-        button.setTitle("<", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        
-        self.view.addSubview(button)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -89,7 +89,6 @@ public class CameraViewController: UIViewController {
         self.captureSession = nil
     }
     
-
     func captured(qr: String) {
         
         let url = URL(string: qr)
@@ -118,7 +117,6 @@ public class CameraViewController: UIViewController {
         _ = navigationController?.popViewController(animated: true)
     }
     
-
 }
 
 extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {

@@ -61,9 +61,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
             |> map { $0.text = "Status" }
     
         blockstreamAPIRequest(testnet: info.testnet) { result in
-            
             switch result {
-                
             case let .success(height):
                 let text = """
                 alias:
@@ -81,31 +79,27 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 refreshed:
                 \(Current.date())
                 """
-                
                 DispatchQueue.main.async {
                     self.middleLabel.text = text
                 }
             case .failure(_):
-                self.middleLabel
-                    |> map {
-                        let text = """
-                        alias:
-                        \(info.alias)
-                        
-                        bestHeaderTimestamp:
-                        \(info.bestHeaderTimestamp)
-                        
-                        blockHeight:
-                        \(info.blockHeight)
-                        
-                        refreshed:
-                        \(Current.date())
-                        """
-                        
-                        $0.text = text
+                let text = """
+                alias:
+                \(info.alias)
+                
+                bestHeaderTimestamp:
+                \(info.bestHeaderTimestamp)
+                
+                blockHeight:
+                \(info.blockHeight)
+                
+                refreshed:
+                \(Current.date())
+                """
+                DispatchQueue.main.async {
+                    self.middleLabel.text = text
                 }
             }
-            
         }
         
         info.syncedToChain ?
@@ -162,7 +156,6 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.setTitle("Invoice", for: .normal) }
             <> { $0.layer.borderColor = UIColor.mr_purple.cgColor }
 
-        
     }
     
     func configureDelete(with info: Info) {

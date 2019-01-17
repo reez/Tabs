@@ -32,9 +32,9 @@ func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String>)
         completionHandler: { data, response, error in
             if let data = data,
                 let height = String(data: data, encoding: .utf8) {
-                completion(Result.success(height))
+                completion(.success(height))
             } else {
-                completion(Result.failure(error!))
+                completion(.failure(error!))
             }
     }).resume()
     

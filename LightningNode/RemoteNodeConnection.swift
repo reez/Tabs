@@ -45,6 +45,13 @@ extension String {
         
         return base64
     }
+    
+    func separate(every: Int, with separator: String) -> String {
+        let result = stride(from: 0, to: count, by: every)
+            .map { Array(Array(self)[$0..<min($0 + every, count)]) }
+            .joined(separator: separator)
+        return String(result)
+    }
 }
 
 extension URL {

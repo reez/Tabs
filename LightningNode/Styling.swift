@@ -132,12 +132,3 @@ extension UIColor {
     public static let mr_yellow = UIColor(red: 255/255, green: 240/255, blue: 128/255, alpha: 1)
     public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 }
-
-extension String {
-    func separate(every: Int, with separator: String) -> String {
-        let result = stride(from: 0, to: count, by: every)
-            .map { Array(Array(self)[$0..<min($0 + every, count)]) }
-            .joined(separator: separator)
-        return String(result)
-    }
-}
