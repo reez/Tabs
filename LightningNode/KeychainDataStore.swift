@@ -15,7 +15,7 @@ struct KeychainDataStore {
 }
 
 func loadFromKeychain() -> Result<RemoteNodeConnection> {
-    let keychain = Keychain(service: "com.matthewramsden.Test1")
+    let keychain = Keychain(service: "com.matthewramsden.Tabs")
     guard let data = keychain[data: "remoteNodeConfiguration"] else { return Result.failure(DataError.noRemoteData) }
     guard let remoteNodeConnection = try? JSONDecoder().decode(RemoteNodeConnection.self, from: data) else { return Result.failure(DataError.encodingFailure) }
     return Result.success(remoteNodeConnection)
@@ -23,12 +23,12 @@ func loadFromKeychain() -> Result<RemoteNodeConnection> {
 
 func saveToKeychain(remoteNodeConnection: RemoteNodeConnection) -> Result<String> {
     guard let data = try? JSONEncoder().encode(remoteNodeConnection) else { return Result.failure(DataError.encodingFailure) }
-    let keychain = Keychain(service: "com.matthewramsden.Test1")
+    let keychain = Keychain(service: "com.matthewramsden.Tabs")
     keychain[data: "remoteNodeConfiguration"] = data
     return Result.success("Saved Value to Defaults!")
 }
 
 func deleteFromKeychain() {
-    let keychain = Keychain(service: "com.matthewramsden.Test1")
+    let keychain = Keychain(service: "com.matthewramsden.Tabs")
     try? keychain.remove("remoteNodeConfiguration")
 }
