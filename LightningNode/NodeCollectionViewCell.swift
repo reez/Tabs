@@ -39,11 +39,14 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.layer.cornerRadius = 10 }
             <> { $0.layer.masksToBounds = true }
         
+//        self.topLabel
+//            |> baseLabelStyleSmallTitle
+
         self.hiddenButton
             |> roundedButtonStyle
         
         self.middleLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption //baseLabelStyleSmall // baseLabelStyleBoldCaption
             <> textColorStyle(.white)
         
         self.bottomLabel
@@ -70,14 +73,14 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 bestHeaderTimestamp:
                 \(info.bestHeaderTimestamp)
                 
+                refreshed:
+                \(Current.date())
+                
                 blockHeight:
                 \(info.blockHeight)
                 
-                Blockstream.info:
+                blockstream.info:
                 \(height)
-                
-                refreshed:
-                \(Current.date())
                 """
                 DispatchQueue.main.async {
                     self.middleLabel.text = text
@@ -90,11 +93,11 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 bestHeaderTimestamp:
                 \(info.bestHeaderTimestamp)
                 
-                blockHeight:
-                \(info.blockHeight)
-                
                 refreshed:
                 \(Current.date())
+                
+                blockHeight:
+                \(info.blockHeight)
                 """
                 DispatchQueue.main.async {
                     self.middleLabel.text = text
@@ -172,11 +175,6 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 version:
                 \(info.version)
                 
-                urisArray:
-                \(info.urisArray
-                    .map { $0.absoluteString }
-                    .joined(separator: ", "))
-                
                 chainsArray:
                 \(info.chainsArray
                     .componentsJoined(by: ", "))
@@ -186,12 +184,12 @@ class NodeCollectionViewCell: UICollectionViewCell {
         }
         
         self.bottomLabel
-            |> map { $0.text = "Delete Node" }
+            |> map { $0.text = "Remove Node" }
         
         self.hiddenButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_red)
-            <> { $0.setTitle("Delete", for: .normal) }
+            <> { $0.setTitle("Remove", for: .normal) }
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
         

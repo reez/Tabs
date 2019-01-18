@@ -158,19 +158,19 @@ extension AddInvoiceViewController {
             |> baseLabelStyleBoldTitle
         
         self.amountLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.amountTextField
             |> baseTextFieldStyleBold
         
         self.memoLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.memoTextField
             |> baseTextFieldStyleBold
         
         self.invoiceLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.submitButton
             |> filledButtonStyle

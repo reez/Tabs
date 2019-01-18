@@ -75,8 +75,11 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
     }
 }
 
-let baseLabelStyleSmall: (UILabel) -> Void =
+let baseLabelStyleSmallCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
+
+//let baseLabelStyleSmallTitle: (UILabel) -> Void =
+//    fontStyle(UIFont.preferredFont(forTextStyle: .body).smallCaps)
 
 let baseLabelStyleBoldCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).bolded)
@@ -105,7 +108,7 @@ extension UIFont {
     public var largeCaps: UIFont {
         let upperCaseFeature = [
             UIFontDescriptor.FeatureKey.featureIdentifier : kUpperCaseType,
-            UIFontDescriptor.FeatureKey.typeIdentifier :  kUpperCaseSmallCapsSelector// kDefaultUpperCaseSelector, kUpperCasePetiteCapsSelector, kUpperCaseSmallCapsSelector
+            UIFontDescriptor.FeatureKey.typeIdentifier :  kUpperAndLowerCaseSelector// kDefaultUpperCaseSelector, kUpperCasePetiteCapsSelector, kUpperCaseSmallCapsSelector
         ]
         let lowerCaseFeature = [
             UIFontDescriptor.FeatureKey.featureIdentifier : kLowerCaseType,

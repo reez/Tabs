@@ -71,19 +71,19 @@ extension AddNodeViewController {
             |> baseLabelStyleBoldTitle
         
         self.certificateLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.certificateTextField
             |> baseTextFieldStyleBold
         
         self.macaroonLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.macaroonTextField
             |> baseTextFieldStyleBold
         
         self.uriLabel
-            |> baseLabelStyleSmall
+            |> baseLabelStyleSmallCaption
         
         self.uriTextField
             |> baseTextFieldStyleBold
