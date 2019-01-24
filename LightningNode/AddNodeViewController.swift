@@ -135,6 +135,7 @@ extension AddNodeViewController {
                 }
             }
         } else {
+            self.activityIndicator.stopAnimating()
             let alertController = UIAlertController(
                 title: "Something went wrong in adding node.",
                 message: DataError.remoteNodeInfoMissing.localizedDescription,
@@ -184,7 +185,6 @@ extension AddNodeViewController {
             viewModelOutput.alertNeeded = false
             output(viewModelOutput)
         case let .failure(error):
-            self.activityIndicator.stopAnimating()
             viewModelOutput.alertNeeded = true
             viewModelOutput.alertErrorMessage = error.localizedDescription
             output(viewModelOutput)
