@@ -9,6 +9,8 @@
 #import <RxLibrary/GRXWriter.h>
 #endif
 
+@class AbandonChannelRequest;
+@class AbandonChannelResponse;
 @class AddInvoiceResponse;
 @class ChanInfoRequest;
 @class ChangePasswordRequest;
@@ -54,11 +56,12 @@
 @class ListPaymentsResponse;
 @class ListPeersRequest;
 @class ListPeersResponse;
+@class ListUnspentRequest;
+@class ListUnspentResponse;
 @class NetworkInfo;
 @class NetworkInfoRequest;
 @class NewAddressRequest;
 @class NewAddressResponse;
-@class NewWitnessAddressRequest;
 @class NodeInfo;
 @class NodeInfoRequest;
 @class OpenChannelRequest;
@@ -283,6 +286,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (GRPCProtoCall *)RPCToSendCoinsWithRequest:(SendCoinsRequest *)request handler:(void(^)(SendCoinsResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
+#pragma mark ListUnspent(ListUnspentRequest) returns (ListUnspentResponse)
+
+/**
+ * * lncli: `listunspent`
+ * ListUnspent returns a list of all utxos spendable by the wallet with a
+ * number of confirmations between the specified minimum and maximum.
+ */
+- (void)listUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler;
+
+/**
+ * * lncli: `listunspent`
+ * ListUnspent returns a list of all utxos spendable by the wallet with a
+ * number of confirmations between the specified minimum and maximum.
+ */
+- (GRPCProtoCall *)RPCToListUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler;
+
+
 #pragma mark SubscribeTransactions(GetTransactionsRequest) returns (stream Transaction)
 
 /**
@@ -336,21 +356,6 @@ NS_ASSUME_NONNULL_BEGIN
  * NewAddress creates a new address under control of the local wallet.
  */
 - (GRPCProtoCall *)RPCToNewAddressWithRequest:(NewAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler;
-
-
-#pragma mark NewWitnessAddress(NewWitnessAddressRequest) returns (NewAddressResponse)
-
-/**
- * *
- * NewWitnessAddress creates a new witness address under control of the local wallet.
- */
-- (void)newWitnessAddressWithRequest:(NewWitnessAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler;
-
-/**
- * *
- * NewWitnessAddress creates a new witness address under control of the local wallet.
- */
-- (GRPCProtoCall *)RPCToNewWitnessAddressWithRequest:(NewWitnessAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
 #pragma mark SignMessage(SignMessageRequest) returns (SignMessageResponse)
@@ -595,6 +600,27 @@ NS_ASSUME_NONNULL_BEGIN
 - (GRPCProtoCall *)RPCToCloseChannelWithRequest:(CloseChannelRequest *)request eventHandler:(void(^)(BOOL done, CloseStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler;
 
 
+#pragma mark AbandonChannel(AbandonChannelRequest) returns (AbandonChannelResponse)
+
+/**
+ * * lncli: `abandonchannel`
+ * AbandonChannel removes all channel state from the database except for a
+ * close summary. This method can be used to get rid of permanently unusable
+ * channels due to bugs fixed in newer versions of lnd. Only available
+ * when in debug builds of lnd.
+ */
+- (void)abandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler;
+
+/**
+ * * lncli: `abandonchannel`
+ * AbandonChannel removes all channel state from the database except for a
+ * close summary. This method can be used to get rid of permanently unusable
+ * channels due to bugs fixed in newer versions of lnd. Only available
+ * when in debug builds of lnd.
+ */
+- (GRPCProtoCall *)RPCToAbandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler;
+
+
 #pragma mark SendPayment(stream SendRequest) returns (stream SendResponse)
 
 /**
@@ -699,14 +725,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * * lncli: `listinvoices`
  * ListInvoices returns a list of all the invoices currently stored within the
- * database. Any active debug invoices are ignored.
+ * database. Any active debug invoices are ignored. It has full support for
+ * paginated responses, allowing users to query for specific invoices through
+ * their add_index. This can be done by using either the first_index_offset or
+ * last_index_offset fields included in the response as the index_offset of the
+ * next request. The reversed flag is set by default in order to paginate
+ * backwards. If you wish to paginate forwards, you must explicitly set the
+ * flag to false. If none of the parameters are specified, then the last 100
+ * invoices will be returned.
  */
 - (void)listInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler;
 
 /**
  * * lncli: `listinvoices`
  * ListInvoices returns a list of all the invoices currently stored within the
- * database. Any active debug invoices are ignored.
+ * database. Any active debug invoices are ignored. It has full support for
+ * paginated responses, allowing users to query for specific invoices through
+ * their add_index. This can be done by using either the first_index_offset or
+ * last_index_offset fields included in the response as the index_offset of the
+ * next request. The reversed flag is set by default in order to paginate
+ * backwards. If you wish to paginate forwards, you must explicitly set the
+ * flag to false. If none of the parameters are specified, then the last 100
+ * invoices will be returned.
  */
 - (GRPCProtoCall *)RPCToListInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler;
 
@@ -734,7 +774,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * *
- * SubscribeInvoices returns a uni-directional stream (sever -> client) for
+ * SubscribeInvoices returns a uni-directional stream (server -> client) for
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
@@ -748,7 +788,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * *
- * SubscribeInvoices returns a uni-directional stream (sever -> client) for
+ * SubscribeInvoices returns a uni-directional stream (server -> client) for
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all

@@ -273,6 +273,28 @@
              responseClass:[SendCoinsResponse class]
         responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
 }
+#pragma mark ListUnspent(ListUnspentRequest) returns (ListUnspentResponse)
+
+/**
+ * * lncli: `listunspent`
+ * ListUnspent returns a list of all utxos spendable by the wallet with a
+ * number of confirmations between the specified minimum and maximum.
+ */
+- (void)listUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler{
+  [[self RPCToListUnspentWithRequest:request handler:handler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * * lncli: `listunspent`
+ * ListUnspent returns a list of all utxos spendable by the wallet with a
+ * number of confirmations between the specified minimum and maximum.
+ */
+- (GRPCProtoCall *)RPCToListUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler{
+  return [self RPCToMethod:@"ListUnspent"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[ListUnspentResponse class]
+        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
+}
 #pragma mark SubscribeTransactions(GetTransactionsRequest) returns (stream Transaction)
 
 /**
@@ -339,26 +361,6 @@
  */
 - (GRPCProtoCall *)RPCToNewAddressWithRequest:(NewAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"NewAddress"
-            requestsWriter:[GRXWriter writerWithValue:request]
-             responseClass:[NewAddressResponse class]
-        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
-}
-#pragma mark NewWitnessAddress(NewWitnessAddressRequest) returns (NewAddressResponse)
-
-/**
- * *
- * NewWitnessAddress creates a new witness address under control of the local wallet.
- */
-- (void)newWitnessAddressWithRequest:(NewWitnessAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler{
-  [[self RPCToNewWitnessAddressWithRequest:request handler:handler] start];
-}
-// Returns a not-yet-started RPC object.
-/**
- * *
- * NewWitnessAddress creates a new witness address under control of the local wallet.
- */
-- (GRPCProtoCall *)RPCToNewWitnessAddressWithRequest:(NewWitnessAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler{
-  return [self RPCToMethod:@"NewWitnessAddress"
             requestsWriter:[GRXWriter writerWithValue:request]
              responseClass:[NewAddressResponse class]
         responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
@@ -665,6 +667,32 @@
              responseClass:[CloseStatusUpdate class]
         responsesWriteable:[GRXWriteable writeableWithEventHandler:eventHandler]];
 }
+#pragma mark AbandonChannel(AbandonChannelRequest) returns (AbandonChannelResponse)
+
+/**
+ * * lncli: `abandonchannel`
+ * AbandonChannel removes all channel state from the database except for a
+ * close summary. This method can be used to get rid of permanently unusable
+ * channels due to bugs fixed in newer versions of lnd. Only available
+ * when in debug builds of lnd.
+ */
+- (void)abandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler{
+  [[self RPCToAbandonChannelWithRequest:request handler:handler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * * lncli: `abandonchannel`
+ * AbandonChannel removes all channel state from the database except for a
+ * close summary. This method can be used to get rid of permanently unusable
+ * channels due to bugs fixed in newer versions of lnd. Only available
+ * when in debug builds of lnd.
+ */
+- (GRPCProtoCall *)RPCToAbandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler{
+  return [self RPCToMethod:@"AbandonChannel"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[AbandonChannelResponse class]
+        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
+}
 #pragma mark SendPayment(stream SendRequest) returns (stream SendResponse)
 
 /**
@@ -794,7 +822,14 @@
 /**
  * * lncli: `listinvoices`
  * ListInvoices returns a list of all the invoices currently stored within the
- * database. Any active debug invoices are ignored.
+ * database. Any active debug invoices are ignored. It has full support for
+ * paginated responses, allowing users to query for specific invoices through
+ * their add_index. This can be done by using either the first_index_offset or
+ * last_index_offset fields included in the response as the index_offset of the
+ * next request. The reversed flag is set by default in order to paginate
+ * backwards. If you wish to paginate forwards, you must explicitly set the
+ * flag to false. If none of the parameters are specified, then the last 100
+ * invoices will be returned.
  */
 - (void)listInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListInvoicesWithRequest:request handler:handler] start];
@@ -803,7 +838,14 @@
 /**
  * * lncli: `listinvoices`
  * ListInvoices returns a list of all the invoices currently stored within the
- * database. Any active debug invoices are ignored.
+ * database. Any active debug invoices are ignored. It has full support for
+ * paginated responses, allowing users to query for specific invoices through
+ * their add_index. This can be done by using either the first_index_offset or
+ * last_index_offset fields included in the response as the index_offset of the
+ * next request. The reversed flag is set by default in order to paginate
+ * backwards. If you wish to paginate forwards, you must explicitly set the
+ * flag to false. If none of the parameters are specified, then the last 100
+ * invoices will be returned.
  */
 - (GRPCProtoCall *)RPCToListInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListInvoices"
@@ -839,7 +881,7 @@
 
 /**
  * *
- * SubscribeInvoices returns a uni-directional stream (sever -> client) for
+ * SubscribeInvoices returns a uni-directional stream (server -> client) for
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
@@ -855,7 +897,7 @@
 // Returns a not-yet-started RPC object.
 /**
  * *
- * SubscribeInvoices returns a uni-directional stream (sever -> client) for
+ * SubscribeInvoices returns a uni-directional stream (server -> client) for
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
