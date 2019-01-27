@@ -35,7 +35,7 @@ class AddInvoiceViewController: UIViewController {
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
-        
+        self.view.endEditing(true)
         activityIndicator.startAnimating()
         
         if let memo = self.memoTextField.text,
