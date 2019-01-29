@@ -12,6 +12,14 @@ class NavigationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let imageView : UIImageView = {
+            let iv = UIImageView()
+            iv.image = UIImage(named:"Background.png")
+            iv.contentMode = .scaleAspectFill
+            return iv
+        }()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named:"Background.png")!)
+        
         pushController()
     }
     

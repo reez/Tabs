@@ -20,9 +20,17 @@ class NodeCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         
+        let imageView : UIImageView = {
+            let iv = UIImageView()
+            iv.image = UIImage(named:"Background.png")
+            iv.contentMode = .scaleAspectFit
+            return iv
+        }()
+        self.collectionView?.backgroundView = imageView
+
         self.view.addSubview(activityIndicator)
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.center = self.view.center

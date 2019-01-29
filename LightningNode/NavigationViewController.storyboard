@@ -17,13 +17,27 @@
                     <view key="view" contentMode="scaleToFill" id="gjZ-PR-dWx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="N0B-zt-gRw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="N0B-zt-gRw" firstAttribute="top" secondItem="gjZ-PR-dWx" secondAttribute="top" id="HY2-jU-9VX"/>
+                            <constraint firstItem="N0B-zt-gRw" firstAttribute="bottom" secondItem="Dr3-FT-Cmu" secondAttribute="bottom" id="gTT-0g-Do3"/>
+                            <constraint firstItem="N0B-zt-gRw" firstAttribute="trailing" secondItem="Dr3-FT-Cmu" secondAttribute="trailing" id="kwy-8O-zIU"/>
+                            <constraint firstItem="N0B-zt-gRw" firstAttribute="leading" secondItem="Dr3-FT-Cmu" secondAttribute="leading" id="wAs-0T-1Yw"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Dr3-FT-Cmu"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bht-5P-Bx4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="212" y="1"/>
+            <point key="canvasLocation" x="212" y="0.44977511244377816"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Background" width="1125" height="2436"/>
+    </resources>
 </document>
