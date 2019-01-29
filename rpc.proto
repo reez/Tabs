@@ -3,9 +3,6 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 
 package lnrpc;
-
-option go_package = "github.com/lightningnetwork/lnd/lnrpc";
-
 /**
  * Comments in this file will be directly parsed into the API
  * Documentation as descriptions of the associated method, message, or field.
@@ -25,7 +22,7 @@ option go_package = "github.com/lightningnetwork/lnd/lnrpc";
  * 
  * More information on how exactly the gRPC documentation is generated from
  * this proto file can be found here:
- * https://github.com/lightninglabs/lightning-api
+ * https://github.com/MaxFangX/lightning-api
  */
 
 // The WalletUnlocker service is used to set up a wallet password for
@@ -234,16 +231,6 @@ service Lightning {
         };
     }
 
-    /** lncli: `listunspent`
-    ListUnspent returns a list of all utxos spendable by the wallet with a
-	number of confirmations between the specified minimum and maximum.
-    */
-    rpc ListUnspent (ListUnspentRequest) returns (ListUnspentResponse) {
-        option (google.api.http) = {
-            get: "/v1/utxos"
-        };
-    }
-
     /**
     SubscribeTransactions creates a uni-directional stream from the server to
     the client in which any newly discovered transactions relevant to the
@@ -262,7 +249,12 @@ service Lightning {
     /** lncli: `newaddress`
     NewAddress creates a new address under control of the local wallet.
     */
-    rpc NewAddress (NewAddressRequest) returns (NewAddressResponse) {
+    rpc NewAddress (NewAddressRequest) returns (NewAddressResponse);
+
+    /**
+    NewWitnessAddress creates a new witness address under control of the local wallet.
+    */
+    rpc NewWitnessAddress (NewWitnessAddressRequest) returns (NewAddressResponse) {
         option (google.api.http) = {
             get: "/v1/newaddress"
         };
@@ -273,12 +265,7 @@ service Lightning {
     signature string is `zbase32` encoded and pubkey recoverable, meaning that
     only the message digest and signature are needed for verification.
     */
-    rpc SignMessage (SignMessageRequest) returns (SignMessageResponse) {
-        option (google.api.http) = {
-            post: "/v1/signmessage"
-            body: "*"
-        };
-    }
+    rpc SignMessage (SignMessageRequest) returns (SignMessageResponse);
 
     /** lncli: `verifymessage`
     VerifyMessage verifies a signature over a msg. The signature must be
@@ -286,12 +273,7 @@ service Lightning {
     channel database. In addition to returning the validity of the signature,
     VerifyMessage also returns the recovered pubkey from the signature.
     */
-    rpc VerifyMessage (VerifyMessageRequest) returns (VerifyMessageResponse) {
-        option (google.api.http) = {
-            post: "/v1/verifymessage"
-            body: "*"
-        };
-    }
+    rpc VerifyMessage (VerifyMessageRequest) returns (VerifyMessageResponse);
 
     /** lncli: `connect`
     ConnectPeer attempts to establish a connection to a remote peer. This is at
@@ -407,19 +389,6 @@ service Lightning {
         };
     }
 
-    /** lncli: `abandonchannel`
-    AbandonChannel removes all channel state from the database except for a
-    close summary. This method can be used to get rid of permanently unusable
-    channels due to bugs fixed in newer versions of lnd. Only available
-    when in debug builds of lnd.
-    */
-    rpc AbandonChannel (AbandonChannelRequest) returns (AbandonChannelResponse) {
-        option (google.api.http) = {
-            delete: "/v1/channels/abandon/{channel_point.funding_txid_str}/{channel_point.output_index}"
-        };
-    }
-
-
     /** lncli: `sendpayment`
     SendPayment dispatches a bi-directional streaming RPC for sending payments
     through the Lightning Network. A single RPC invocation creates a persistent
@@ -474,14 +443,7 @@ service Lightning {
 
     /** lncli: `listinvoices`
     ListInvoices returns a list of all the invoices currently stored within the
-    database. Any active debug invoices are ignored. It has full support for
-    paginated responses, allowing users to query for specific invoices through
-    their add_index. This can be done by using either the first_index_offset or
-    last_index_offset fields included in the response as the index_offset of the
-    next request. The reversed flag is set by default in order to paginate
-    backwards. If you wish to paginate forwards, you must explicitly set the
-    flag to false. If none of the parameters are specified, then the last 100
-    invoices will be returned.
+    database. Any active debug invoices are ignored.
     */
     rpc ListInvoices (ListInvoiceRequest) returns (ListInvoiceResponse) {
         option (google.api.http) = {
@@ -501,7 +463,7 @@ service Lightning {
     }
 
     /**
-    SubscribeInvoices returns a uni-directional stream (server -> client) for
+    SubscribeInvoices returns a uni-directional stream (sever -> client) for
     notifying the client of newly added/settled invoices. The caller can
     optionally specify the add_index and/or the settle_index. If the add_index
     is specified, then we'll first start by sending add invoice events for all
@@ -670,33 +632,11 @@ service Lightning {
     };
 }
 
-message Utxo {
-	/// The type of address
-	AddressType type = 1 [json_name = "address_type"];
-
-	/// The address
-	string address = 2 [json_name = "address"];
-
-	/// The value of the unspent coin in satoshis
-	int64 amount_sat = 3 [json_name = "amount_sat"];
-
-	/// The scriptpubkey in hex
-	string script_pubkey = 4 [json_name = "script_pubkey"];
-
-	/// The outpoint in format txid:n
-	/// Note that this reuses the `ChannelPoint` message but
-	/// is not actually a channel related outpoint, of course
-	ChannelPoint outpoint = 5 [json_name = "outpoint"];
-
-	/// The number of confirmations for the Utxo
-	int64 confirmations = 6 [json_name = "confirmations"];
-}
-
 message Transaction {
     /// The transaction hash
     string tx_hash = 1 [ json_name = "tx_hash" ];
 
-    /// The transaction amount, denominated in satoshis
+    /// The transaction ammount, denominated in satoshis
     int64 amount = 2 [ json_name = "amount" ];
 
     /// The number of confirmations
@@ -775,7 +715,6 @@ message SendResponse {
     string payment_error = 1 [json_name = "payment_error"];
     bytes payment_preimage = 2 [json_name = "payment_preimage"];
     Route payment_route = 3 [json_name = "payment_route"];
-    bytes payment_hash = 4 [json_name = "payment_hash"];
 }
 
 message SendToRouteRequest {
@@ -837,30 +776,10 @@ message SendCoinsRequest {
 
     /// A manual fee rate set in sat/byte that should be used when crafting the transaction.
     int64 sat_per_byte = 5;
-
-    /**
-    If set, then the amount field will be ignored, and lnd will attempt to
-    send all the coins under control of the internal wallet to the specified
-    address.
-    */
-    bool send_all = 6; 
 }
 message SendCoinsResponse {
     /// The transaction ID of the transaction
     string txid = 1 [json_name = "txid"];
-}
-
-message ListUnspentRequest {
-	/// The minimum number of confirmations to be included.
-	int32 min_confs = 1;
-
-	/// The maximum number of confirmations to be included.
-	int32 max_confs = 2;
-}
-message ListUnspentResponse {
-	/// A list of utxos
-	repeated Utxo utxos = 1 [json_name = "utxos"];
-
 }
 
 /** 
@@ -868,16 +787,21 @@ message ListUnspentResponse {
 
 - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
 - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
+- `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
 */
-enum AddressType {
+message NewAddressRequest {
+    enum AddressType {
         WITNESS_PUBKEY_HASH = 0;
         NESTED_PUBKEY_HASH = 1;
-}
+    }
 
-message NewAddressRequest {
     /// The address type
     AddressType type = 1;
 }
+
+message NewWitnessAddressRequest {
+}
+
 message NewAddressResponse {
     /// The newly generated wallet address
     string address = 1 [json_name = "address"];
@@ -1010,11 +934,8 @@ message Channel {
     */
     uint32 csv_delay = 16 [json_name = "csv_delay"];
 
-    /// Whether this channel is advertised to the network or not.
+    /// Whether this channel is advertised to the network or not
     bool private = 17 [json_name = "private"];
-
-    /// True if we were the ones that creted the channel.
-    bool initiator = 18 [json_name = "initiator"];
 }
 
 
@@ -1063,7 +984,6 @@ message ChannelCloseSummary {
         REMOTE_FORCE_CLOSE = 2;
         BREACH_CLOSE = 3;
         FUNDING_CANCELED = 4;
-        ABANDONED = 5;
     }
 
     /// Details on how the channel was closed.
@@ -1076,7 +996,6 @@ message ClosedChannelsRequest {
     bool remote_force = 3;
     bool breach = 4;
     bool funding_canceled = 5;
-    bool abandoned = 6;
 }
 
 message ClosedChannelsResponse { 
@@ -1144,13 +1063,11 @@ message GetInfoResponse {
     /// Whether the wallet's view is synced to the main chain
     bool synced_to_chain = 9 [json_name = "synced_to_chain"];
 
-    /** 
-    Whether the current node is connected to testnet. This field is 
-    deprecated and the network field should be used instead 
-    **/
-    bool testnet = 10 [json_name = "testnet", deprecated = true];
+    /// Whether the current node is connected to testnet
+    bool testnet = 10 [json_name = "testnet"];
 
-    reserved 11;
+    /// A list of active chains the node is connected to
+    repeated string chains = 11 [json_name = "chains"];
 
     /// The URIs of the current node.
     repeated string uris = 12 [json_name = "uris"];
@@ -1161,19 +1078,6 @@ message GetInfoResponse {
     /// The version of the LND software that the node is running.
     string version = 14 [ json_name = "version" ];
 
-    /// Number of inactive channels
-    uint32 num_inactive_channels = 15 [json_name = "num_inactive_channels"];
-
-    /// A list of active chains the node is connected to
-    repeated Chain chains = 16 [json_name = "chains"];
-}
-
-message Chain {
-    /// The blockchain the node is on (eg bitcoin, litecoin)
-    string chain = 1 [json_name = "chain"];
-
-    /// The network the node is on (eg regtest, testnet, mainnet)
-    string network = 2 [json_name = "network"];
 }
 
 message ConfirmationUpdate {
@@ -1214,6 +1118,7 @@ message CloseChannelRequest {
 message CloseStatusUpdate {
     oneof update {
         PendingUpdate close_pending = 1 [json_name = "close_pending"];
+        ConfirmationUpdate confirmation = 2 [json_name = "confirmation"];
         ChannelCloseUpdate chan_close = 3 [json_name = "chan_close"];
     }
 }
@@ -1253,13 +1158,11 @@ message OpenChannelRequest {
 
     /// The minimum number of confirmations each one of your outputs used for the funding transaction must satisfy.
     int32 min_confs = 11 [json_name = "min_confs"];
-
-    /// Whether unconfirmed outputs should be used as inputs for the funding transaction.
-    bool spend_unconfirmed = 12 [json_name = "spend_unconfirmed"];
 }
 message OpenStatusUpdate {
     oneof update {
         PendingUpdate chan_pending = 1 [json_name = "chan_pending"];
+        ConfirmationUpdate confirmation = 2 [json_name = "confirmation"];
         ChannelOpenUpdate chan_open = 3 [json_name = "chan_open"];
     }
 }
@@ -1447,12 +1350,6 @@ message Hop {
     uint32 expiry = 5 [json_name = "expiry"];
     int64 amt_to_forward_msat = 6 [json_name = "amt_to_forward_msat"];
     int64 fee_msat = 7 [json_name = "fee_msat"];
-
-    /**
-    An optional public key of the hop. If the public key is given, the payment
-    can be executed without relying on a copy of the channel graph.
-    */
-    string pub_key = 8 [json_name = "pub_key"];
 }
 
 /**
@@ -1579,12 +1476,6 @@ message ChannelEdge {
 }
 
 message ChannelGraphRequest {
-     /**
-     Whether unannounced channels are included in the response or not. If set,
-     unannounced channels are included. Unannounced channels are both private
-     channels, and public channels that are not yet announced to the network.
-     */
-     bool include_unannounced = 1 [json_name = "include_unannounced"];
 }
 
 /// Returns a new instance of the directed channel graph.
@@ -1706,10 +1597,8 @@ message Invoice {
     */
     string memo = 1 [json_name = "memo"];
 
-    /** Deprecated. An optional cryptographic receipt of payment which is not
-    implemented.
-    */
-    bytes receipt = 2 [json_name = "receipt", deprecated = true];
+    /// An optional cryptographic receipt of payment
+    bytes receipt = 2 [json_name = "receipt"];
 
     /**
     The hex-encoded preimage (32 byte) which will allow settling an incoming
@@ -1724,7 +1613,7 @@ message Invoice {
     int64 value = 5 [json_name = "value"];
 
     /// Whether this invoice has been fulfilled
-    bool settled = 6 [json_name = "settled", deprecated = true];
+    bool settled = 6 [json_name = "settled"];
 
     /// When this invoice was created
     int64 creation_date = 7 [json_name = "creation_date"];
@@ -1780,40 +1669,16 @@ message Invoice {
     */
     uint64 settle_index = 17 [json_name = "settle_index"];
 
-    /// Deprecated, use amt_paid_sat or amt_paid_msat.
-    int64 amt_paid = 18 [json_name = "amt_paid", deprecated = true];
-
     /**
-    The amount that was accepted for this invoice, in satoshis. This will ONLY
-    be set if this invoice has been settled. We provide this field as if the
-    invoice was created with a zero value, then we need to record what amount
-    was ultimately accepted. Additionally, it's possible that the sender paid
-    MORE that was specified in the original invoice. So we'll record that here
-    as well.
+    The amount that was accepted for this invoice. This will ONLY be set if
+    this invoice has been settled. We provide this field as if the invoice was
+    created with a zero value, then we need to record what amount was
+    ultimately accepted. Additionally, it's possible that the sender paid MORE
+    that was specified in the original invoice. So we'll record that here as
+    well.
     */
-    int64 amt_paid_sat = 19 [json_name = "amt_paid_sat"];
-
-    /**
-    The amount that was accepted for this invoice, in millisatoshis. This will
-    ONLY be set if this invoice has been settled. We provide this field as if
-    the invoice was created with a zero value, then we need to record what
-    amount was ultimately accepted. Additionally, it's possible that the sender
-    paid MORE that was specified in the original invoice. So we'll record that
-    here as well.
-    */
-    int64 amt_paid_msat = 20 [json_name = "amt_paid_msat"];
-
-    enum InvoiceState {
-        OPEN = 0;
-        SETTLED = 1;
-    }
-
-    /**
-    The state the invoice is in.
-    */
-    InvoiceState state = 21 [json_name = "state"];
+    int64 amt_paid = 18 [json_name = "amt_paid"];
 }
-
 message AddInvoiceResponse {
     bytes r_hash = 1 [json_name = "r_hash"];
 
@@ -1848,19 +1713,14 @@ message ListInvoiceRequest {
     bool pending_only = 1 [json_name = "pending_only"];
 
     /**
-    The index of an invoice that will be used as either the start or end of a
-    query to determine which invoices should be returned in the response.
+    The offset in the time series to start at. As each response can only contain
+    50k invoices, callers can use this to skip around within a packed time
+    series.
     */
-    uint64 index_offset = 4 [json_name = "index_offset"];
+    uint32 index_offset = 4 [json_name = "index_offset"];
 
     /// The max number of invoices to return in the response to this query.
-    uint64 num_max_invoices = 5 [json_name = "num_max_invoices"];
-
-    /**
-    If set, the invoices returned will result from seeking backwards from the
-    specified index offset. This can be used to paginate backwards.
-    */
-    bool reversed = 6 [json_name = "reversed"];
+    uint32 num_max_invoices = 5 [json_name = "num_max_invoices"];
 }
 message ListInvoiceResponse {
     /**
@@ -1870,16 +1730,10 @@ message ListInvoiceResponse {
     repeated Invoice invoices = 1 [json_name = "invoices"];
 
     /**
-    The index of the last item in the set of returned invoices. This can be used
-    to seek further, pagination style.
+    The index of the last time in the set of returned invoices. Can be used to
+    seek further, pagination style.
     */
-    uint64 last_index_offset = 2 [json_name = "last_index_offset"];
-
-    /**
-    The index of the last item in the set of returned invoices. This can be used
-    to seek backwards, pagination style.
-    */
-    uint64 first_index_offset = 3 [json_name = "first_index_offset"];
+    uint32 last_index_offset = 2 [json_name = "last_index_offset"];
 }
 
 message InvoiceSubscription {
@@ -1905,8 +1759,8 @@ message Payment {
     /// The payment hash
     string payment_hash = 1 [json_name = "payment_hash"];
 
-    /// Deprecated, use value_sat or value_msat.
-    int64 value = 2 [json_name = "value", deprecated = true];
+    /// The value of the payment in satoshis
+    int64 value = 2 [json_name = "value"];
 
     /// The date of this payment
     int64 creation_date = 3 [json_name = "creation_date"];
@@ -1919,12 +1773,6 @@ message Payment {
 
     /// The payment preimage
     string payment_preimage = 6 [json_name = "payment_preimage"];
-
-    /// The value of the payment in satoshis
-    int64 value_sat = 7 [json_name = "value_sat"];
-
-    /// The value of the payment in milli-satoshis
-    int64 value_msat = 8 [json_name = "value_msat"];
 }
 
 message ListPaymentsRequest {
@@ -1940,14 +1788,6 @@ message DeleteAllPaymentsRequest {
 
 message DeleteAllPaymentsResponse {
 }
-
-message AbandonChannelRequest {
-    ChannelPoint channel_point = 1;
-}
-
-message AbandonChannelResponse {
-}
-
 
 message DebugLevelRequest {
     bool show = 1;
@@ -2046,17 +1886,14 @@ message ForwardingEvent {
     /// The outgoing channel ID that carried the preimage that completed the circuit.
     uint64 chan_id_out = 4 [json_name = "chan_id_out"];
 
-    /// The total amount (in satoshis) of the incoming HTLC that created half the circuit.
+    /// The total amount of the incoming HTLC that created half the circuit.
     uint64 amt_in = 5 [json_name = "amt_in"];
 
-    /// The total amount (in satoshis) of the outgoing HTLC that created the second half of the circuit.
+    /// The total amount of the outgoign HTLC that created the second half of the circuit.
     uint64 amt_out = 6 [json_name = "amt_out"];
 
-    /// The total fee (in satoshis) that this payment circuit carried.
+    /// The total fee that this payment circuit carried.
     uint64 fee = 7 [json_name = "fee"];
-
-    /// The total fee (in milli-satoshis) that this payment circuit carried.
-    uint64 fee_msat = 8 [json_name = "fee_msat"];
 
     // TODO(roasbeef): add settlement latency?
     //  * use FPE on the chan id?
