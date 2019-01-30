@@ -39,13 +39,12 @@ extension KeychainDataStore {
     static let mock = KeychainDataStore(load: {
         let rnc = RemoteNodeConnection.mock
         return Result.success(rnc)
-    }, save: { _ in //(rnc) -> Result<String> in
+    }, save: { _ in
         return Result.success("Success!")
     }, delete: { }
     )
 }
 
-// For Unit Tests
 extension KeychainDataStore {
     static let test = KeychainDataStore(load: {
         let rnc = RemoteNodeConnection.mock

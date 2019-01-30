@@ -30,5 +30,5 @@ final class LightningViewModel {
         self.callback = callback
         self.callback(lightningNodeInfo)
     }
-
+    
 }

@@ -9,9 +9,9 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let navigationIdentifier = Reusing<NavigationViewController>().identifier()
         let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: NavigationViewController.self))
@@ -22,6 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
 }
 

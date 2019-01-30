@@ -28,10 +28,6 @@ class AddNodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        macaroonTextField.delegate = self
-        certificateTextField.delegate = self
-        uriTextField.delegate = self
         setupUI()
         
         if let lndConnect = remoteNodeConnection {
@@ -40,8 +36,6 @@ class AddNodeViewController: UIViewController {
             self.uriTextField.text = lndConnect.uri
         }
         
-        // This is just to make sure I don't have anything in keychain and its deleted if user pressed delete button
-        print("Load from keychain: \(loadFromKeychain())")
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
@@ -67,6 +61,10 @@ extension AddNodeViewController: UITextFieldDelegate {
 
 extension AddNodeViewController {
     func setupUI() {
+        self.macaroonTextField.delegate = self
+        self.certificateTextField.delegate = self
+        self.uriTextField.delegate = self
+        
         self.titleLabel
             |> baseLabelStyleBoldTitle
         
@@ -101,11 +99,11 @@ extension AddNodeViewController {
 
 extension AddNodeViewController {
     func submitPressed() {
-        activityIndicator.startAnimating()
+        self.activityIndicator.startAnimating()
         
-        if let certificate = certificateTextField.text,
-            let macaroon = macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let uri = uriTextField.text?.trimmingCharacters(in: .whitespaces),
+        if let certificate = self.certificateTextField.text,
+            let macaroon = self.macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let uri = self.uriTextField.text?.trimmingCharacters(in: .whitespaces),
             !certificate.isEmpty,
             !macaroon.isEmpty,
             !uri.isEmpty {
@@ -171,8 +169,8 @@ extension AddNodeViewController {
             certificate: cert,
             macaroon: mac
         )
-        remoteNodeConnection = rnc
-        guard let remoteNodeConnection = remoteNodeConnection else {
+        self.remoteNodeConnection = rnc
+        guard let remoteNodeConnection = self.remoteNodeConnection else {
             viewModelOutput.alertNeeded = true
             viewModelOutput.alertErrorMessage = "Remote Node connection could not be made"
             output(viewModelOutput)

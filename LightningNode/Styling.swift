@@ -78,9 +78,6 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
 let baseLabelStyleSmallCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
 
-//let baseLabelStyleSmallTitle: (UILabel) -> Void =
-//    fontStyle(UIFont.preferredFont(forTextStyle: .body).smallCaps)
-
 let baseLabelStyleBoldCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).bolded)
 
@@ -127,9 +124,8 @@ extension UIFont {
 
 extension UIColor {
     public static let mr_black = UIColor(white: 0.07, alpha: 1)
-//    public static let mr_blue = UIColor(red: 76/255, green: 204/255, blue: 255/255, alpha: 1)
     public static let mr_blue = UIColor(red: 0/255, green: 172/255, blue: 255/255, alpha: 1)
-    public static let mr_gray950 = UIColor(white: 0.95, alpha: 1.0)
+    public static let mr_gray = UIColor(white: 0.95, alpha: 1.0)
     public static let mr_green = UIColor(red: 121/255, green: 242/255, blue: 176/255, alpha: 1)
     public static let mr_purple = UIColor(red: 151/255, green: 77/255, blue: 255/255, alpha: 1)
     public static let mr_red = UIColor(red: 235/255, green: 28/255, blue: 38/255, alpha: 1)

@@ -24,9 +24,6 @@ class AddInvoiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        amountTextField.delegate = self
-        memoTextField.delegate = self
         setupUI()
     }
     
@@ -36,7 +33,7 @@ class AddInvoiceViewController: UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         self.view.endEditing(true)
-        activityIndicator.startAnimating()
+        self.activityIndicator.startAnimating()
         
         if let memo = self.memoTextField.text,
             let amount = self.amountTextField.text,
@@ -81,7 +78,6 @@ class AddInvoiceViewController: UIViewController {
     }
     
     @IBAction func copyButtonPressed(_ sender: Any) {
-        print("Copy Button Pressed")
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
     
@@ -89,8 +85,8 @@ class AddInvoiceViewController: UIViewController {
 
 extension AddInvoiceViewController:  UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        amountTextField.resignFirstResponder()
-        memoTextField.resignFirstResponder()
+        self.amountTextField.resignFirstResponder()
+        self.memoTextField.resignFirstResponder()
         
         return true
     }
@@ -127,7 +123,6 @@ extension AddInvoiceViewController {
                         viewModelOutput.invoiceLabelHidden = false
                         viewModelOutput.copyButtonHidden = false
                         viewModelOutput.invoiceLabel = invoice
-                        print("Invoice Label: \(viewModelOutput.invoiceLabel)")
                         viewModelOutput.amountTextFieldOutput = ""
                         viewModelOutput.memoTextFieldOutput = ""
                         output(viewModelOutput)
@@ -150,6 +145,8 @@ extension AddInvoiceViewController {
 
 extension AddInvoiceViewController {
     func setupUI() {
+        self.amountTextField.delegate = self
+        self.memoTextField.delegate = self
         self.view.addSubview(activityIndicator)
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.center = self.view.center

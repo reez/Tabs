@@ -22,7 +22,6 @@ class NodeCollectionViewCell: UICollectionViewCell {
     @IBOutlet var refreshButton: UIButton!
     @IBOutlet var syncedButton: UIImageView!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         configureCell()
@@ -30,11 +29,8 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     private func configureCell() {
         
-        self.syncedButton.image = nil
-
-        
         self
-            |> { $0.layer.shadowColor = UIColor.black.cgColor }
+            |> { $0.layer.shadowColor = UIColor.mr_black.cgColor }
             <> { $0.layer.masksToBounds = false }
             <> { $0.layer.shadowOpacity = 0.3 }
             <> { $0.layer.shadowOffset = CGSize(width: 0, height: 0) }
@@ -45,19 +41,18 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.layer.cornerRadius = 10 }
             <> { $0.layer.masksToBounds = true }
         
-//        self.topLabel
-//            |> baseLabelStyleSmallTitle
-
         self.hiddenButton
             |> roundedButtonStyle
         
         self.middleLabel
             |> baseLabelStyleSmallCaption //baseLabelStyleSmall // baseLabelStyleBoldCaption
-            <> textColorStyle(.black)
+            <> textColorStyle(.mr_black)
         
         self.bottomLabel
             |> baseLabelStyleBoldCaption
-            <> textColorStyle(.black)
+            <> textColorStyle(.mr_black)
+        
+        self.syncedButton.image = nil
         
     }
     
@@ -70,7 +65,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.topLabel
             |> map { $0.text = "Status" }
-    
+        
         blockstreamAPIRequest(testnet: info.testnet) { result in
             switch result {
             case let .success(height):
@@ -136,7 +131,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
     func configureInvoice(with info: Info) {
         
         self.topButton.image = UIImage(named: "lightning")
-
+        
         self.mainView
             |> backgroundStyle(color: .mr_gold)
         
@@ -174,13 +169,12 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.isHidden = false }
             <> { $0.setTitle("Invoice", for: .normal) }
             <> { $0.layer.borderColor = UIColor.mr_gold.cgColor }
-
+        
     }
     
     func configureDelete(with info: Info) {
         
         self.topButton.image = UIImage(named: "settings")
-
         
         self.mainView
             |> backgroundStyle(color: .mr_red)
@@ -202,7 +196,6 @@ class NodeCollectionViewCell: UICollectionViewCell {
             |> map { $0.text = "Remove Node" }
         
         self.syncedButton.image = nil
-
         
         self.hiddenButton
             |> filledButtonStyle
@@ -218,8 +211,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
 extension NodeCollectionViewCell {
     
     func hide(in collectionView: UICollectionView, frameOfSelectedCell: CGRect) {
-        initialFrame = self.frame
-        
+        self.initialFrame = self.frame
         let currentX = self.frame.origin.x
         let newX: CGFloat
         
@@ -233,35 +225,32 @@ extension NodeCollectionViewCell {
         }
         
         self.frame.origin.x = newX
-        
         layoutIfNeeded()
     }
     
     func show() {
-        self.frame = initialFrame ?? self.frame
-        
-        initialFrame = nil
-        
+        self.frame = self.initialFrame ?? self.frame
+        self.initialFrame = nil
         layoutIfNeeded()
     }
     
     func expand(in collectionView: UICollectionView) {
-        initialFrame = self.frame
-        initialCornerRadius = self.contentView.layer.cornerRadius
-        
+        self.initialFrame = self.frame
+        self.initialCornerRadius = self.contentView.layer.cornerRadius
         self.contentView.layer.cornerRadius = 0
-        self.frame = CGRect(x: collectionView.contentOffset.x, y: 0, width: collectionView.frame.width, height: collectionView.frame.height)
-        
+        self.frame = CGRect(
+            x: collectionView.contentOffset.x,
+            y: 0, width: collectionView.frame.width,
+            height: collectionView.frame.height
+        )
         layoutIfNeeded()
     }
     
     func collapse() {
-        self.contentView.layer.cornerRadius = initialCornerRadius ?? self.contentView.layer.cornerRadius
-        self.frame = initialFrame ?? self.frame
-        
-        initialFrame = nil
-        initialCornerRadius = nil
-        
+        self.contentView.layer.cornerRadius = self.initialCornerRadius ?? self.contentView.layer.cornerRadius
+        self.frame = self.initialFrame ?? self.frame
+        self.initialFrame = nil
+        self.initialCornerRadius = nil
         layoutIfNeeded()
     }
     

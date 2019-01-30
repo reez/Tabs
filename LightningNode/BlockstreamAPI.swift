@@ -18,7 +18,6 @@ enum BlockstreamAPIMainnet: String {
 func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String>) -> Void) {
     
     var request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
-    
     switch testnet {
     case true:
         request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)

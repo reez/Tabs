@@ -12,14 +12,6 @@ class NavigationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let imageView : UIImageView = {
-            let iv = UIImageView()
-            iv.image = UIImage(named:"Background.png")
-            iv.contentMode = .scaleAspectFill
-            return iv
-        }()
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named:"Background.png")!)
-        
         pushController()
     }
     
@@ -28,10 +20,6 @@ class NavigationViewController: UIViewController {
     }
     
     private func pushController() {
-        // * This is just for testing
-        // Current.keychain.delete()
-        // * so I can see Add Node screen
-        
         switch Current.keychain.load() {
         case .success(_):
             let bundle = Bundle(for: NodeCollectionViewController.self)
@@ -41,7 +29,6 @@ class NavigationViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            print("Successfully got saved data and ready to proceed!")
         case .failure(_):
             let bundle = Bundle(for: AddNodeViewController.self)
             let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
@@ -50,7 +37,6 @@ class NavigationViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            print("Did not get saved data or make successful request!")
         }
     }
     

@@ -16,33 +16,19 @@ class NodeCollectionViewController: UICollectionViewController {
     private var viewModel: LightningViewModel!
     private var height: String?
     private let activityIndicator = UIActivityIndicatorView(style: .white)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        
-        let imageView : UIImageView = {
-            let iv = UIImageView()
-            iv.image = UIImage(named:"Background3.png")
-            iv.contentMode = .scaleAspectFill
-            return iv
-        }()
-        self.collectionView?.backgroundView = imageView
-
-        self.view.addSubview(activityIndicator)
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.center = self.view.center
-        
-        viewModel = LightningViewModel { [weak self] _ in
+        self.viewModel = LightningViewModel { [weak self] _ in
             self?.collectionView.reloadData()
         }
         
         switch Current.keychain.load() {
         case let .success(savedConfig):
             remoteNodeConnection = savedConfig
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig) // was using saved config
+            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
             Current.lightningAPIRPC?.info { [weak self] result in
                 result.value
                     |> flatMap {
@@ -60,7 +46,7 @@ class NodeCollectionViewController: UICollectionViewController {
         }
         
     }
-        
+    
     @IBAction func refreshButtonAction(_ sender: Any) {
         refreshButtonPressed()
     }
@@ -113,7 +99,6 @@ extension NodeCollectionViewController {
         if collectionView.contentOffset.x < 0 ||
             collectionView.contentOffset.x >
             collectionView.contentSize.width - collectionView.frame.width { return }
-        
         let dampingRatio: CGFloat = 0.8
         let initialVelocity: CGVector = CGVector.zero
         let springParameters = UISpringTimingParameters(
@@ -123,57 +108,42 @@ extension NodeCollectionViewController {
         let animator = UIViewPropertyAnimator(duration: 0.5, timingParameters: springParameters)
         self.view.isUserInteractionEnabled = false
         
-        if let selectedCell = expandedCell {
-            
+        if let selectedCell = self.expandedCell {
             selectedCell.refreshButton.isHidden = false
-            
             animator.addAnimations {
                 selectedCell.collapse()
-                
                 self.hiddenCells.forEach{ $0.show() }
             }
-            
             animator.addCompletion { _ in
                 collectionView.isScrollEnabled = true
-                
                 self.expandedCell = nil
                 self.hiddenCells.removeAll()
             }
         } else {
-            
             collectionView.isScrollEnabled = false
-            
             let selectedCell = collectionView.cellForItem(at: indexPath)! as! NodeCollectionViewCell
             let frameOfSelectedCell = selectedCell.frame
-            
             selectedCell.refreshButton.isHidden = true
-            
-            expandedCell = selectedCell
-            hiddenCells = collectionView.visibleCells
+            self.expandedCell = selectedCell
+            self.hiddenCells = collectionView.visibleCells
                 .map { $0 as! NodeCollectionViewCell }
                 .filter { $0 != selectedCell }
             
             animator.addAnimations {
                 selectedCell.expand(in: collectionView)
-                
-                self.hiddenCells
-                    .forEach {
-                        $0.hide(
-                            in: collectionView,
-                            frameOfSelectedCell: frameOfSelectedCell
-                        )
+                self.hiddenCells.forEach { $0.hide(
+                    in: collectionView,
+                    frameOfSelectedCell: frameOfSelectedCell
+                    )
                 }
             }
-            
         }
-        
         
         animator.addAnimations {
             self.setNeedsStatusBarAppearanceUpdate()
         }
         
         animator.addCompletion { _ in self.view.isUserInteractionEnabled = true }
-        
         animator.startAnimation()
     }
     
@@ -213,9 +183,7 @@ extension NodeCollectionViewController {
         let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
         let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
         let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
-        print("Remote Node Connection invoice: \(String(describing: remoteNodeConnection))")
-        
-        vc.remoteNodeConnection = remoteNodeConnection //fakeRemoteNodeConnection
+        vc.remoteNodeConnection = remoteNodeConnection
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -244,13 +212,28 @@ extension NodeCollectionViewController {
             UIAlertAction(
                 title: "Cancel",
                 style: .cancel,
-                handler: { (action: UIAlertAction!) in
-                    print("Handle Cancel Logic here")
-            }
+                handler: { _ in }
             )
         )
         
         present(alertController, animated: true, completion: nil)
     }
     
+}
+
+extension NodeCollectionViewController {
+    func setupUI() {
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        let imageView : UIImageView = {
+            let iv = UIImageView()
+            iv.image = UIImage(named:"Background3.png")
+            iv.contentMode = .scaleAspectFill
+            return iv
+        }()
+        self.collectionView?.backgroundView = imageView
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.center = self.view.center
+    }
 }

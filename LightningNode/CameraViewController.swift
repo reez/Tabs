@@ -16,13 +16,11 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupCaptureSession()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if (self.captureSession?.isRunning == false) {
             self.captureSession.startRunning()
         }
@@ -30,7 +28,6 @@ class CameraViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         if (self.captureSession?.isRunning == true) {
             self.captureSession.stopRunning()
         }
@@ -44,12 +41,11 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        captureSession.stopRunning()
+        self.captureSession.stopRunning()
         
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let readableString = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             let url = URL(string: readableString)
             let queryParameters = url!.queryParameters
             let certificate = queryParameters!["cert"]?.base64UrlToBase64()
