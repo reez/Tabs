@@ -193,10 +193,6 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 let text = """
                 "version":
                 \(info.version)
-                
-                "chainsArray":
-                \(info.chainsArray
-                    .componentsJoined(by: ", "))
                 """
                 
                 $0.text = text

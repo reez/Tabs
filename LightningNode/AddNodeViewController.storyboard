@@ -22,8 +22,8 @@
                                 <rect key="frame" x="177" y="323" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="VdR-gI-GAc">
-                                <rect key="frame" x="20" y="40" width="280" height="418.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="VdR-gI-GAc">
+                                <rect key="frame" x="20" y="40" width="280" height="438"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a Node" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQU-PX-ha4">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
@@ -32,17 +32,23 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcG-9Z-Rgk">
-                                        <rect key="frame" x="0.0" y="38.5" width="280" height="40"/>
+                                        <rect key="frame" x="0.0" y="36.5" width="280" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="y7N-1t-sNr"/>
                                         </constraints>
-                                        <state key="normal" title="Scan LND Connect QR Code"/>
+                                        <state key="normal" title="Tap here to scan lndconnect QRCode"/>
                                         <connections>
                                             <action selector="cameraButtonPressed:" destination="lhW-Ur-Inu" eventType="touchUpInside" id="Kkq-OZ-VPH"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or paste info manually below" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LL6-LD-zvP">
+                                        <rect key="frame" x="0.0" y="92.5" width="280" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="4lQ-3g-FQo">
-                                        <rect key="frame" x="0.0" y="96.5" width="280" height="76"/>
+                                        <rect key="frame" x="0.0" y="122" width="280" height="76"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Certificate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wVI-ni-rha">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
@@ -65,7 +71,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="DgO-wV-ZhQ">
-                                        <rect key="frame" x="0.0" y="190.5" width="280" height="76"/>
+                                        <rect key="frame" x="0.0" y="214" width="280" height="76"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Macaroon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N5U-wp-TjS">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
@@ -88,7 +94,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ye5-Qj-l7l">
-                                        <rect key="frame" x="0.0" y="284.5" width="280" height="76"/>
+                                        <rect key="frame" x="0.0" y="306" width="280" height="76"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGi-oO-qTa" userLabel="URI Label">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
@@ -111,7 +117,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJe-SY-iCh">
-                                        <rect key="frame" x="0.0" y="378.5" width="280" height="40"/>
+                                        <rect key="frame" x="0.0" y="398" width="280" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="nRn-oa-ev0"/>
                                         </constraints>
