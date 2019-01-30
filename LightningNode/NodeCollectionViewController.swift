@@ -25,7 +25,7 @@ class NodeCollectionViewController: UICollectionViewController {
         
         let imageView : UIImageView = {
             let iv = UIImageView()
-            iv.image = UIImage(named:"Background.png")
+            iv.image = UIImage(named:"Background3.png")
             iv.contentMode = .scaleAspectFit
             return iv
         }()

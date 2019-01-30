@@ -15,10 +15,13 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var mainView: UIView!
     @IBOutlet var topLabel: UILabel!
+    @IBOutlet var topButton: UIImageView!
     @IBOutlet var middleLabel: UILabel!
     @IBOutlet var bottomLabel: UILabel!
     @IBOutlet var hiddenButton: UIButton!
     @IBOutlet var refreshButton: UIButton!
+    @IBOutlet var syncedButton: UIImageView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,6 +29,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureCell() {
+        
+        self.syncedButton.image = nil
+
         
         self
             |> { $0.layer.shadowColor = UIColor.black.cgColor }
@@ -47,15 +53,17 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.middleLabel
             |> baseLabelStyleSmallCaption //baseLabelStyleSmall // baseLabelStyleBoldCaption
-            <> textColorStyle(.white)
+            <> textColorStyle(.black)
         
         self.bottomLabel
             |> baseLabelStyleBoldCaption
-            <> textColorStyle(.white)
+            <> textColorStyle(.black)
         
     }
     
     func configure(with info: Info) {
+        
+        self.topButton.image = UIImage(named: "status")
         
         self.mainView
             |> backgroundStyle(color: .mr_blue)
@@ -67,19 +75,19 @@ class NodeCollectionViewCell: UICollectionViewCell {
             switch result {
             case let .success(height):
                 let text = """
-                alias:
+                "alias":
                 \(info.alias)
                 
-                bestHeaderTimestamp:
+                "bestHeaderTimestamp":
                 \(info.bestHeaderTimestamp)
                 
-                refreshed:
+                refreshed -
                 \(Current.date())
                 
-                blockHeight:
+                "blockHeight":
                 \(info.blockHeight)
                 
-                blockstream.info:
+                blockstream.info height -
                 \(height)
                 """
                 DispatchQueue.main.async {
@@ -106,8 +114,12 @@ class NodeCollectionViewCell: UICollectionViewCell {
         }
         
         info.syncedToChain ?
-            (self.bottomLabel.text = "Synced: ✅") :
-            (self.bottomLabel.text = "Synced: ❌")
+            (self.bottomLabel.text = "Synced") :
+            (self.bottomLabel.text = "Not Synced")
+        
+        info.syncedToChain ?
+            (self.syncedButton.image = UIImage(named: "synced")) :
+            (self.syncedButton.image = UIImage(named: "close"))
         
         self.hiddenButton
             |> borderButtonStyle
@@ -123,8 +135,10 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     func configureInvoice(with info: Info) {
         
+        self.topButton.image = UIImage(named: "lightning")
+
         self.mainView
-            |> backgroundStyle(color: .mr_purple)
+            |> backgroundStyle(color: .mr_gold)
         
         self.topLabel
             |> map { $0.text = "Invoice" }
@@ -132,16 +146,16 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.middleLabel
             |> map {
                 let text = """
-                identityPubKey:
+                "identityPubKey":
                 \(info.identityPubkey)
                 
-                numActiveChannels:
+                "numActiveChannels":
                 \(info.numActiveChannels)
                 
-                numPendingChannels:
+                "numPendingChannels":
                 \(info.numPendingChannels)
                 
-                numPeers:
+                "numPeers":
                 \(info.numPeers)
                 """
                 
@@ -151,17 +165,22 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.bottomLabel
             .map { $0.text = "Create An Invoice" }
         
+        self.syncedButton.image = nil
+        
         self.hiddenButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .mr_purple)
+            <> backgroundStyle(color: .mr_gold)
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
             <> { $0.setTitle("Invoice", for: .normal) }
-            <> { $0.layer.borderColor = UIColor.mr_purple.cgColor }
+            <> { $0.layer.borderColor = UIColor.mr_gold.cgColor }
 
     }
     
     func configureDelete(with info: Info) {
+        
+        self.topButton.image = UIImage(named: "settings")
+
         
         self.mainView
             |> backgroundStyle(color: .mr_red)
@@ -172,10 +191,10 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.middleLabel
             |> map {
                 let text = """
-                version:
+                "version":
                 \(info.version)
                 
-                chainsArray:
+                "chainsArray":
                 \(info.chainsArray
                     .componentsJoined(by: ", "))
                 """
@@ -185,6 +204,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
         
         self.bottomLabel
             |> map { $0.text = "Remove Node" }
+        
+        self.syncedButton.image = nil
+
         
         self.hiddenButton
             |> filledButtonStyle
