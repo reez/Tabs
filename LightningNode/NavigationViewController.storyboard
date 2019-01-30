@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,17 +15,17 @@
             <objects>
                 <viewController storyboardIdentifier="NavigationViewController" id="jf6-TU-7T9" customClass="NavigationViewController" customModule="LightningNode" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gjZ-PR-dWx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background3" translatesAutoresizingMaskIntoConstraints="NO" id="N0B-zt-gRw">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="N0B-zt-gRw" firstAttribute="top" secondItem="gjZ-PR-dWx" secondAttribute="top" id="HY2-jU-9VX"/>
-                            <constraint firstItem="N0B-zt-gRw" firstAttribute="bottom" secondItem="Dr3-FT-Cmu" secondAttribute="bottom" id="gTT-0g-Do3"/>
+                            <constraint firstItem="N0B-zt-gRw" firstAttribute="bottom" secondItem="Dr3-FT-Cmu" secondAttribute="bottom" constant="34" id="gTT-0g-Do3"/>
                             <constraint firstItem="N0B-zt-gRw" firstAttribute="trailing" secondItem="Dr3-FT-Cmu" secondAttribute="trailing" id="kwy-8O-zIU"/>
                             <constraint firstItem="N0B-zt-gRw" firstAttribute="leading" secondItem="Dr3-FT-Cmu" secondAttribute="leading" id="wAs-0T-1Yw"/>
                         </constraints>
@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bht-5P-Bx4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="212" y="0.44977511244377816"/>
+            <point key="canvasLocation" x="211.59420289855075" y="0.0"/>
         </scene>
     </scenes>
     <resources>

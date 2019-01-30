@@ -26,7 +26,7 @@ class NodeCollectionViewController: UICollectionViewController {
         let imageView : UIImageView = {
             let iv = UIImageView()
             iv.image = UIImage(named:"Background3.png")
-            iv.contentMode = .scaleAspectFit
+            iv.contentMode = .scaleAspectFill
             return iv
         }()
         self.collectionView?.backgroundView = imageView
