@@ -18,27 +18,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-50-Xam" userLabel="Root Stack View">
-                                <rect key="frame" x="20" y="40" width="335" height="359"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-50-Xam" userLabel="Root Stack View">
+                                <rect key="frame" x="20" y="93" width="335" height="365"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHI-qh-5kX">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
-                                        <state key="normal" title="&lt;"/>
-                                        <connections>
-                                            <action selector="goBackPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="LYy-5m-EMx"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an Invoice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Kc-hbV">
-                                        <rect key="frame" x="0.0" y="42" width="335" height="31.5"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="GL8-9Q-kgi" userLabel="Invoice Stack View">
-                                        <rect key="frame" x="0.0" y="85.5" width="335" height="273.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="GL8-9Q-kgi" userLabel="Invoice Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="365"/>
                                         <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="t6F-mS-oQF" userLabel="Title Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="31.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an Invoice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Kc-hbV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="31.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qFp-dN-AZV" userLabel="Amount Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="62.5"/>
+                                                <rect key="frame" x="0.0" y="55.5" width="335" height="62.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1U-wu-Ns5">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
@@ -55,7 +53,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="pb3-CT-VMr" userLabel="Memo Stack View">
-                                                <rect key="frame" x="0.0" y="74.5" width="335" height="62.5"/>
+                                                <rect key="frame" x="0.0" y="142" width="335" height="62.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwY-g5-kTH">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
@@ -72,7 +70,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liw-dG-Hxe">
-                                                <rect key="frame" x="0.0" y="149" width="335" height="40"/>
+                                                <rect key="frame" x="0.0" y="228.5" width="335" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="9lX-G9-XYx"/>
                                                 </constraints>
@@ -82,7 +80,7 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="tBc-Vj-bPq" userLabel="Invoice Response Stack View">
-                                                <rect key="frame" x="0.0" y="201" width="335" height="72.5"/>
+                                                <rect key="frame" x="0.0" y="292.5" width="335" height="72.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzY-Zu-Twf">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
@@ -105,13 +103,32 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="GL8-9Q-kgi" firstAttribute="leading" secondItem="yGf-50-Xam" secondAttribute="leading" id="5pH-kJ-NaC"/>
+                                    <constraint firstAttribute="bottom" secondItem="GL8-9Q-kgi" secondAttribute="bottom" id="BfF-yT-Wvz"/>
+                                    <constraint firstAttribute="trailing" secondItem="GL8-9Q-kgi" secondAttribute="trailing" id="Ght-lA-919"/>
+                                </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHI-qh-5kX">
+                                <rect key="frame" x="20" y="40" width="29" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="YHI-qh-5kX" secondAttribute="height" multiplier="1:1" id="Ajx-UP-OJh"/>
+                                    <constraint firstAttribute="width" constant="29" id="Cxu-nJ-zxi"/>
+                                    <constraint firstAttribute="height" constant="29" id="NA9-xX-6n9"/>
+                                </constraints>
+                                <state key="normal" image="back_fill"/>
+                                <connections>
+                                    <action selector="goBackPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="LYy-5m-EMx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="YHI-qh-5kX" firstAttribute="leading" secondItem="04P-ls-oIi" secondAttribute="leading" constant="20" id="IZj-8i-jyp"/>
                             <constraint firstItem="yGf-50-Xam" firstAttribute="leading" secondItem="04P-ls-oIi" secondAttribute="leading" constant="20" id="a7w-fV-xZc"/>
+                            <constraint firstItem="YHI-qh-5kX" firstAttribute="top" secondItem="04P-ls-oIi" secondAttribute="top" constant="20" id="cH9-tK-RXu"/>
                             <constraint firstItem="04P-ls-oIi" firstAttribute="trailing" secondItem="yGf-50-Xam" secondAttribute="trailing" constant="20" id="hME-vC-XbZ"/>
-                            <constraint firstItem="yGf-50-Xam" firstAttribute="top" secondItem="04P-ls-oIi" secondAttribute="top" constant="20" id="ixY-Kx-1Vd"/>
+                            <constraint firstItem="yGf-50-Xam" firstAttribute="top" secondItem="YHI-qh-5kX" secondAttribute="bottom" constant="24" id="pfS-VI-oEN"/>
                             <constraint firstItem="04P-ls-oIi" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="yGf-50-Xam" secondAttribute="bottom" constant="20" id="u4S-wX-loJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="04P-ls-oIi"/>
@@ -133,4 +150,7 @@
             <point key="canvasLocation" x="108" y="-3.1484257871064472"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="back_fill" width="33" height="32.5"/>
+    </resources>
 </document>
