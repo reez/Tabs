@@ -98,6 +98,7 @@ typedef GPB_ENUM(ChannelCloseSummary_ClosureType) {
   ChannelCloseSummary_ClosureType_RemoteForceClose = 2,
   ChannelCloseSummary_ClosureType_BreachClose = 3,
   ChannelCloseSummary_ClosureType_FundingCanceled = 4,
+  ChannelCloseSummary_ClosureType_Abandoned = 5,
 };
 
 GPBEnumDescriptor *ChannelCloseSummary_ClosureType_EnumDescriptor(void);
@@ -316,7 +317,7 @@ typedef GPB_ENUM(Transaction_FieldNumber) {
 /** / The transaction hash */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *txHash;
 
-/** / The transaction ammount, denominated in satoshis */
+/** / The transaction amount, denominated in satoshis */
 @property(nonatomic, readwrite) int64_t amount;
 
 /** / The number of confirmations */
@@ -630,7 +631,6 @@ typedef GPB_ENUM(NewAddressRequest_FieldNumber) {
  *
  * - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
  * - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
- * - `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
  **/
 @interface NewAddressRequest : GPBMessage
 
@@ -650,12 +650,6 @@ int32_t NewAddressRequest_Type_RawValue(NewAddressRequest *message);
  * was generated.
  **/
 void SetNewAddressRequest_Type_RawValue(NewAddressRequest *message, int32_t value);
-
-#pragma mark - NewWitnessAddressRequest
-
-@interface NewWitnessAddressRequest : GPBMessage
-
-@end
 
 #pragma mark - NewAddressResponse
 
@@ -1020,6 +1014,7 @@ typedef GPB_ENUM(ClosedChannelsRequest_FieldNumber) {
   ClosedChannelsRequest_FieldNumber_RemoteForce = 3,
   ClosedChannelsRequest_FieldNumber_Breach = 4,
   ClosedChannelsRequest_FieldNumber_FundingCanceled = 5,
+  ClosedChannelsRequest_FieldNumber_Abandoned = 6,
 };
 
 @interface ClosedChannelsRequest : GPBMessage
@@ -1033,6 +1028,8 @@ typedef GPB_ENUM(ClosedChannelsRequest_FieldNumber) {
 @property(nonatomic, readwrite) BOOL breach;
 
 @property(nonatomic, readwrite) BOOL fundingCanceled;
+
+@property(nonatomic, readwrite) BOOL abandoned;
 
 @end
 
@@ -1134,6 +1131,7 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
   GetInfoResponse_FieldNumber_UrisArray = 12,
   GetInfoResponse_FieldNumber_BestHeaderTimestamp = 13,
   GetInfoResponse_FieldNumber_Version = 14,
+  GetInfoResponse_FieldNumber_NumInactiveChannels = 15,
 };
 
 @interface GetInfoResponse : GPBMessage
@@ -1180,6 +1178,9 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
 
 /** / The version of the LND software that the node is running. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *version;
+
+/** / Number of inactive channels */
+@property(nonatomic, readwrite) uint32_t numInactiveChannels;
 
 @end
 
@@ -1322,6 +1323,7 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
   OpenChannelRequest_FieldNumber_MinHtlcMsat = 9,
   OpenChannelRequest_FieldNumber_RemoteCsvDelay = 10,
   OpenChannelRequest_FieldNumber_MinConfs = 11,
+  OpenChannelRequest_FieldNumber_SpendUnconfirmed = 12,
 };
 
 @interface OpenChannelRequest : GPBMessage
@@ -1355,6 +1357,9 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
 
 /** / The minimum number of confirmations each one of your outputs used for the funding transaction must satisfy. */
 @property(nonatomic, readwrite) int32_t minConfs;
+
+/** / Whether unconfirmed outputs should be used as inputs for the funding transaction. */
+@property(nonatomic, readwrite) BOOL spendUnconfirmed;
 
 @end
 
@@ -1732,6 +1737,7 @@ typedef GPB_ENUM(Hop_FieldNumber) {
   Hop_FieldNumber_Expiry = 5,
   Hop_FieldNumber_AmtToForwardMsat = 6,
   Hop_FieldNumber_FeeMsat = 7,
+  Hop_FieldNumber_PubKey = 8,
 };
 
 @interface Hop : GPBMessage
@@ -1755,6 +1761,13 @@ typedef GPB_ENUM(Hop_FieldNumber) {
 @property(nonatomic, readwrite) int64_t amtToForwardMsat;
 
 @property(nonatomic, readwrite) int64_t feeMsat;
+
+/**
+ * *
+ * An optional public key of the hop. If the public key is given, the payment
+ * can be executed without relying on a copy of the channel graph.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pubKey;
 
 @end
 
@@ -1993,7 +2006,19 @@ typedef GPB_ENUM(ChannelEdge_FieldNumber) {
 
 #pragma mark - ChannelGraphRequest
 
+typedef GPB_ENUM(ChannelGraphRequest_FieldNumber) {
+  ChannelGraphRequest_FieldNumber_IncludeUnannounced = 1,
+};
+
 @interface ChannelGraphRequest : GPBMessage
+
+/**
+ * *
+ * Whether unannounced channels are included in the response or not. If set,
+ * unannounced channels are included. Unannounced channels are both private
+ * channels, and public channels that are not yet announced to the network.
+ **/
+@property(nonatomic, readwrite) BOOL includeUnannounced;
 
 @end
 
@@ -2285,6 +2310,8 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
   Invoice_FieldNumber_AddIndex = 16,
   Invoice_FieldNumber_SettleIndex = 17,
   Invoice_FieldNumber_AmtPaid = 18,
+  Invoice_FieldNumber_AmtPaidSat = 19,
+  Invoice_FieldNumber_AmtPaidMsat = 20,
 };
 
 @interface Invoice : GPBMessage
@@ -2378,16 +2405,30 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
  **/
 @property(nonatomic, readwrite) uint64_t settleIndex;
 
+/** / Deprecated, use amt_paid_sat or amt_paid_msat. */
+@property(nonatomic, readwrite) int64_t amtPaid DEPRECATED_ATTRIBUTE;
+
 /**
  * *
- * The amount that was accepted for this invoice. This will ONLY be set if
- * this invoice has been settled. We provide this field as if the invoice was
- * created with a zero value, then we need to record what amount was
- * ultimately accepted. Additionally, it's possible that the sender paid MORE
- * that was specified in the original invoice. So we'll record that here as
- * well.
+ * The amount that was accepted for this invoice, in satoshis. This will ONLY
+ * be set if this invoice has been settled. We provide this field as if the
+ * invoice was created with a zero value, then we need to record what amount
+ * was ultimately accepted. Additionally, it's possible that the sender paid
+ * MORE that was specified in the original invoice. So we'll record that here
+ * as well.
  **/
-@property(nonatomic, readwrite) int64_t amtPaid;
+@property(nonatomic, readwrite) int64_t amtPaidSat;
+
+/**
+ * *
+ * The amount that was accepted for this invoice, in millisatoshis. This will
+ * ONLY be set if this invoice has been settled. We provide this field as if
+ * the invoice was created with a zero value, then we need to record what
+ * amount was ultimately accepted. Additionally, it's possible that the sender
+ * paid MORE that was specified in the original invoice. So we'll record that
+ * here as well.
+ **/
+@property(nonatomic, readwrite) int64_t amtPaidMsat;
 
 @end
 
@@ -2449,6 +2490,7 @@ typedef GPB_ENUM(ListInvoiceRequest_FieldNumber) {
   ListInvoiceRequest_FieldNumber_PendingOnly = 1,
   ListInvoiceRequest_FieldNumber_IndexOffset = 4,
   ListInvoiceRequest_FieldNumber_NumMaxInvoices = 5,
+  ListInvoiceRequest_FieldNumber_Reversed = 6,
 };
 
 @interface ListInvoiceRequest : GPBMessage
@@ -2458,14 +2500,20 @@ typedef GPB_ENUM(ListInvoiceRequest_FieldNumber) {
 
 /**
  * *
- * The offset in the time series to start at. As each response can only contain
- * 50k invoices, callers can use this to skip around within a packed time
- * series.
+ * The index of an invoice that will be used as either the start or end of a
+ * query to determine which invoices should be returned in the response.
  **/
-@property(nonatomic, readwrite) uint32_t indexOffset;
+@property(nonatomic, readwrite) uint64_t indexOffset;
 
 /** / The max number of invoices to return in the response to this query. */
-@property(nonatomic, readwrite) uint32_t numMaxInvoices;
+@property(nonatomic, readwrite) uint64_t numMaxInvoices;
+
+/**
+ * *
+ * If set, the invoices returned will result from seeking backwards from the
+ * specified index offset. This can be used to paginate backwards.
+ **/
+@property(nonatomic, readwrite) BOOL reversed;
 
 @end
 
@@ -2474,6 +2522,7 @@ typedef GPB_ENUM(ListInvoiceRequest_FieldNumber) {
 typedef GPB_ENUM(ListInvoiceResponse_FieldNumber) {
   ListInvoiceResponse_FieldNumber_InvoicesArray = 1,
   ListInvoiceResponse_FieldNumber_LastIndexOffset = 2,
+  ListInvoiceResponse_FieldNumber_FirstIndexOffset = 3,
 };
 
 @interface ListInvoiceResponse : GPBMessage
@@ -2489,10 +2538,17 @@ typedef GPB_ENUM(ListInvoiceResponse_FieldNumber) {
 
 /**
  * *
- * The index of the last time in the set of returned invoices. Can be used to
- * seek further, pagination style.
+ * The index of the last item in the set of returned invoices. This can be used
+ * to seek further, pagination style.
  **/
-@property(nonatomic, readwrite) uint32_t lastIndexOffset;
+@property(nonatomic, readwrite) uint64_t lastIndexOffset;
+
+/**
+ * *
+ * The index of the last item in the set of returned invoices. This can be used
+ * to seek backwards, pagination style.
+ **/
+@property(nonatomic, readwrite) uint64_t firstIndexOffset;
 
 @end
 
@@ -2534,6 +2590,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_PathArray = 4,
   Payment_FieldNumber_Fee = 5,
   Payment_FieldNumber_PaymentPreimage = 6,
+  Payment_FieldNumber_ValueSat = 7,
+  Payment_FieldNumber_ValueMsat = 8,
 };
 
 @interface Payment : GPBMessage
@@ -2541,8 +2599,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** / The payment hash */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHash;
 
-/** / The value of the payment in satoshis */
-@property(nonatomic, readwrite) int64_t value;
+/** / Deprecated, use value_sat or value_msat. */
+@property(nonatomic, readwrite) int64_t value DEPRECATED_ATTRIBUTE;
 
 /** / The date of this payment */
 @property(nonatomic, readwrite) int64_t creationDate;
@@ -2557,6 +2615,12 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 
 /** / The payment preimage */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *paymentPreimage;
+
+/** / The value of the payment in satoshis */
+@property(nonatomic, readwrite) int64_t valueSat;
+
+/** / The value of the payment in milli-satoshis */
+@property(nonatomic, readwrite) int64_t valueMsat;
 
 @end
 
@@ -2590,6 +2654,26 @@ typedef GPB_ENUM(ListPaymentsResponse_FieldNumber) {
 #pragma mark - DeleteAllPaymentsResponse
 
 @interface DeleteAllPaymentsResponse : GPBMessage
+
+@end
+
+#pragma mark - AbandonChannelRequest
+
+typedef GPB_ENUM(AbandonChannelRequest_FieldNumber) {
+  AbandonChannelRequest_FieldNumber_ChannelPoint = 1,
+};
+
+@interface AbandonChannelRequest : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) ChannelPoint *channelPoint;
+/** Test to see if @c channelPoint has been set. */
+@property(nonatomic, readwrite) BOOL hasChannelPoint;
+
+@end
+
+#pragma mark - AbandonChannelResponse
+
+@interface AbandonChannelResponse : GPBMessage
 
 @end
 

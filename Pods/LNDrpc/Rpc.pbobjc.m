@@ -1400,36 +1400,6 @@ BOOL NewAddressRequest_AddressType_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - NewWitnessAddressRequest
-
-@implementation NewWitnessAddressRequest
-
-
-typedef struct NewWitnessAddressRequest__storage_ {
-  uint32_t _has_storage_[1];
-} NewWitnessAddressRequest__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[NewWitnessAddressRequest class]
-                                     rootClass:[RpcRoot class]
-                                          file:RpcRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
-                                   storageSize:sizeof(NewWitnessAddressRequest__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
 #pragma mark - NewAddressResponse
 
 @implementation NewAddressResponse
@@ -2390,13 +2360,15 @@ GPBEnumDescriptor *ChannelCloseSummary_ClosureType_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "CooperativeClose\000LocalForceClose\000RemoteF"
-        "orceClose\000BreachClose\000FundingCanceled\000";
+        "orceClose\000BreachClose\000FundingCanceled\000Ab"
+        "andoned\000";
     static const int32_t values[] = {
         ChannelCloseSummary_ClosureType_CooperativeClose,
         ChannelCloseSummary_ClosureType_LocalForceClose,
         ChannelCloseSummary_ClosureType_RemoteForceClose,
         ChannelCloseSummary_ClosureType_BreachClose,
         ChannelCloseSummary_ClosureType_FundingCanceled,
+        ChannelCloseSummary_ClosureType_Abandoned,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(ChannelCloseSummary_ClosureType)
@@ -2419,6 +2391,7 @@ BOOL ChannelCloseSummary_ClosureType_IsValidValue(int32_t value__) {
     case ChannelCloseSummary_ClosureType_RemoteForceClose:
     case ChannelCloseSummary_ClosureType_BreachClose:
     case ChannelCloseSummary_ClosureType_FundingCanceled:
+    case ChannelCloseSummary_ClosureType_Abandoned:
       return YES;
     default:
       return NO;
@@ -2434,6 +2407,7 @@ BOOL ChannelCloseSummary_ClosureType_IsValidValue(int32_t value__) {
 @dynamic remoteForce;
 @dynamic breach;
 @dynamic fundingCanceled;
+@dynamic abandoned;
 
 typedef struct ClosedChannelsRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -2487,6 +2461,15 @@ typedef struct ClosedChannelsRequest__storage_ {
         .number = ClosedChannelsRequest_FieldNumber_FundingCanceled,
         .hasIndex = 8,
         .offset = 9,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "abandoned",
+        .dataTypeSpecific.className = NULL,
+        .number = ClosedChannelsRequest_FieldNumber_Abandoned,
+        .hasIndex = 10,
+        .offset = 11,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -2789,6 +2772,7 @@ typedef struct GetInfoRequest__storage_ {
 @dynamic urisArray, urisArray_Count;
 @dynamic bestHeaderTimestamp;
 @dynamic version;
+@dynamic numInactiveChannels;
 
 typedef struct GetInfoResponse__storage_ {
   uint32_t _has_storage_[1];
@@ -2796,6 +2780,7 @@ typedef struct GetInfoResponse__storage_ {
   uint32_t numActiveChannels;
   uint32_t numPeers;
   uint32_t blockHeight;
+  uint32_t numInactiveChannels;
   NSString *identityPubkey;
   NSString *alias;
   NSString *blockHash;
@@ -2927,6 +2912,15 @@ typedef struct GetInfoResponse__storage_ {
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, version),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "numInactiveChannels",
+        .dataTypeSpecific.className = NULL,
+        .number = GetInfoResponse_FieldNumber_NumInactiveChannels,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(GetInfoResponse__storage_, numInactiveChannels),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3326,6 +3320,7 @@ typedef struct PendingUpdate__storage_ {
 @dynamic minHtlcMsat;
 @dynamic remoteCsvDelay;
 @dynamic minConfs;
+@dynamic spendUnconfirmed;
 
 typedef struct OpenChannelRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -3435,6 +3430,15 @@ typedef struct OpenChannelRequest__storage_ {
         .offset = (uint32_t)offsetof(OpenChannelRequest__storage_, minConfs),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "spendUnconfirmed",
+        .dataTypeSpecific.className = NULL,
+        .number = OpenChannelRequest_FieldNumber_SpendUnconfirmed,
+        .hasIndex = 11,
+        .offset = 12,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -4460,10 +4464,12 @@ typedef struct QueryRoutesResponse__storage_ {
 @dynamic expiry;
 @dynamic amtToForwardMsat;
 @dynamic feeMsat;
+@dynamic pubKey;
 
 typedef struct Hop__storage_ {
   uint32_t _has_storage_[1];
   uint32_t expiry;
+  NSString *pubKey;
   uint64_t chanId;
   int64_t chanCapacity;
   int64_t amtToForward;
@@ -4540,6 +4546,15 @@ typedef struct Hop__storage_ {
         .offset = (uint32_t)offsetof(Hop__storage_, feeMsat),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "pubKey",
+        .dataTypeSpecific.className = NULL,
+        .number = Hop_FieldNumber_PubKey,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(Hop__storage_, pubKey),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -5115,6 +5130,7 @@ typedef struct ChannelEdge__storage_ {
 
 @implementation ChannelGraphRequest
 
+@dynamic includeUnannounced;
 
 typedef struct ChannelGraphRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -5125,12 +5141,23 @@ typedef struct ChannelGraphRequest__storage_ {
 + (GPBDescriptor *)descriptor {
   static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "includeUnannounced",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelGraphRequest_FieldNumber_IncludeUnannounced,
+        .hasIndex = 0,
+        .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ChannelGraphRequest class]
                                      rootClass:[RpcRoot class]
                                           file:RpcRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelGraphRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -5956,6 +5983,8 @@ typedef struct RouteHint__storage_ {
 @dynamic addIndex;
 @dynamic settleIndex;
 @dynamic amtPaid;
+@dynamic amtPaidSat;
+@dynamic amtPaidMsat;
 
 typedef struct Invoice__storage_ {
   uint32_t _has_storage_[1];
@@ -5975,6 +6004,8 @@ typedef struct Invoice__storage_ {
   uint64_t addIndex;
   uint64_t settleIndex;
   int64_t amtPaid;
+  int64_t amtPaidSat;
+  int64_t amtPaidMsat;
 } Invoice__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6145,6 +6176,24 @@ typedef struct Invoice__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "amtPaidSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Invoice_FieldNumber_AmtPaidSat,
+        .hasIndex = 19,
+        .offset = (uint32_t)offsetof(Invoice__storage_, amtPaidSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "amtPaidMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = Invoice_FieldNumber_AmtPaidMsat,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(Invoice__storage_, amtPaidMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Invoice class]
@@ -6288,11 +6337,12 @@ typedef struct PaymentHash__storage_ {
 @dynamic pendingOnly;
 @dynamic indexOffset;
 @dynamic numMaxInvoices;
+@dynamic reversed;
 
 typedef struct ListInvoiceRequest__storage_ {
   uint32_t _has_storage_[1];
-  uint32_t indexOffset;
-  uint32_t numMaxInvoices;
+  uint64_t indexOffset;
+  uint64_t numMaxInvoices;
 } ListInvoiceRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6317,7 +6367,7 @@ typedef struct ListInvoiceRequest__storage_ {
         .hasIndex = 2,
         .offset = (uint32_t)offsetof(ListInvoiceRequest__storage_, indexOffset),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeUInt32,
+        .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "numMaxInvoices",
@@ -6326,7 +6376,16 @@ typedef struct ListInvoiceRequest__storage_ {
         .hasIndex = 3,
         .offset = (uint32_t)offsetof(ListInvoiceRequest__storage_, numMaxInvoices),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeUInt32,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "reversed",
+        .dataTypeSpecific.className = NULL,
+        .number = ListInvoiceRequest_FieldNumber_Reversed,
+        .hasIndex = 4,
+        .offset = 5,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6351,11 +6410,13 @@ typedef struct ListInvoiceRequest__storage_ {
 
 @dynamic invoicesArray, invoicesArray_Count;
 @dynamic lastIndexOffset;
+@dynamic firstIndexOffset;
 
 typedef struct ListInvoiceResponse__storage_ {
   uint32_t _has_storage_[1];
-  uint32_t lastIndexOffset;
   NSMutableArray *invoicesArray;
+  uint64_t lastIndexOffset;
+  uint64_t firstIndexOffset;
 } ListInvoiceResponse__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6380,7 +6441,16 @@ typedef struct ListInvoiceResponse__storage_ {
         .hasIndex = 0,
         .offset = (uint32_t)offsetof(ListInvoiceResponse__storage_, lastIndexOffset),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeUInt32,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "firstIndexOffset",
+        .dataTypeSpecific.className = NULL,
+        .number = ListInvoiceResponse_FieldNumber_FirstIndexOffset,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ListInvoiceResponse__storage_, firstIndexOffset),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6463,6 +6533,8 @@ typedef struct InvoiceSubscription__storage_ {
 @dynamic pathArray, pathArray_Count;
 @dynamic fee;
 @dynamic paymentPreimage;
+@dynamic valueSat;
+@dynamic valueMsat;
 
 typedef struct Payment__storage_ {
   uint32_t _has_storage_[1];
@@ -6472,6 +6544,8 @@ typedef struct Payment__storage_ {
   int64_t value;
   int64_t creationDate;
   int64_t fee;
+  int64_t valueSat;
+  int64_t valueMsat;
 } Payment__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6533,6 +6607,24 @@ typedef struct Payment__storage_ {
         .offset = (uint32_t)offsetof(Payment__storage_, paymentPreimage),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "valueSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Payment_FieldNumber_ValueSat,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(Payment__storage_, valueSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "valueMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = Payment_FieldNumber_ValueMsat,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(Payment__storage_, valueMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6675,6 +6767,79 @@ typedef struct DeleteAllPaymentsResponse__storage_ {
                                         fields:NULL
                                     fieldCount:0
                                    storageSize:sizeof(DeleteAllPaymentsResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - AbandonChannelRequest
+
+@implementation AbandonChannelRequest
+
+@dynamic hasChannelPoint, channelPoint;
+
+typedef struct AbandonChannelRequest__storage_ {
+  uint32_t _has_storage_[1];
+  ChannelPoint *channelPoint;
+} AbandonChannelRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "channelPoint",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = AbandonChannelRequest_FieldNumber_ChannelPoint,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(AbandonChannelRequest__storage_, channelPoint),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[AbandonChannelRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(AbandonChannelRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - AbandonChannelResponse
+
+@implementation AbandonChannelResponse
+
+
+typedef struct AbandonChannelResponse__storage_ {
+  uint32_t _has_storage_[1];
+} AbandonChannelResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[AbandonChannelResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(AbandonChannelResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
