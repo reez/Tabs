@@ -27,6 +27,11 @@ class NodeCollectionViewCell: UICollectionViewCell {
         configureCell()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.hiddenButton.removeTarget(nil, action: nil, for: .allEvents)
+    }
+    
     private func configureCell() {
         
         self
@@ -45,7 +50,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
             |> roundedButtonStyle
         
         self.middleLabel
-            |> baseLabelStyleSmallCaption //baseLabelStyleSmall // baseLabelStyleBoldCaption
+            |> baseLabelStyleSmallCaption
             <> textColorStyle(.mr_black)
         
         self.bottomLabel

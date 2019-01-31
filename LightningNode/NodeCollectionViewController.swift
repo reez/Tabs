@@ -193,7 +193,7 @@ extension NodeCollectionViewController {
             title: "Remove Node",
             message: "Are you sure you want to remove the node?",
             preferredStyle: UIAlertController.Style.alert)
-        
+
         alertController.addAction(
             UIAlertAction(
                 title: "Ok",
@@ -208,7 +208,7 @@ extension NodeCollectionViewController {
             }
             )
         )
-        
+
         alertController.addAction(
             UIAlertAction(
                 title: "Cancel",
@@ -216,7 +216,7 @@ extension NodeCollectionViewController {
                 handler: { _ in }
             )
         )
-        
+
         present(alertController, animated: true, completion: nil)
     }
     
