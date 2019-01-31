@@ -89,7 +89,8 @@ extension NodeCollectionViewController {
             return cell
         }
         else {
-            fatalError()
+            cell.configure(with: viewModel.lightningNodeInfo)
+            return cell
         }
         
     }

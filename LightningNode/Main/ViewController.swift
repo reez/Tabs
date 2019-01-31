@@ -1,5 +1,8 @@
 import UIKit
 
+
+// Remove from Main.storyboard too
+
 //class ViewController: UIViewController {
 //
 //    override func viewDidLoad() {
