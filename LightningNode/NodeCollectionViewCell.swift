@@ -29,7 +29,12 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         self.hiddenButton.removeTarget(nil, action: nil, for: .allEvents)
+        self.hiddenButton.backgroundColor = UIColor.white
+        self.hiddenButton.layer.borderColor = UIColor.white.cgColor
+        self.hiddenButton.setTitle("", for: .normal)
+        self.hiddenButton.setTitleColor(.white, for: .normal)
     }
     
     private func configureCell() {
