@@ -26,10 +26,10 @@ Tabs is using [LND](https://github.com/lightningnetwork/lnd) to make [gRPC API r
 
 ## Thanks
 
-- [Chaincode Labs] (https://github.com/chaincodelabs)
+- [Chaincode Labs](https://github.com/chaincodelabs)
 - [Zap iOS](https://github.com/LN-Zap/zap-iOS)
 - [LND](https://github.com/lightningnetwork/lnd)
-- [Stormotion](https://stormotion.io/blog/)
+- [Stormotion blog](https://stormotion.io/blog/)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
