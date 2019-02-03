@@ -29,22 +29,15 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        self.hiddenButton.removeTarget(nil, action: nil, for: .allEvents)
-        self.hiddenButton.backgroundColor = UIColor.white
-        self.hiddenButton.layer.borderColor = UIColor.white.cgColor
-        self.hiddenButton.setTitle("", for: .normal)
-        self.hiddenButton.setTitleColor(.white, for: .normal)
+
+        self.hiddenButton
+            |> baseButtonReuseStyle
     }
     
     private func configureCell() {
         
         self
-            |> { $0.layer.shadowColor = UIColor.mr_black.cgColor }
-            <> { $0.layer.masksToBounds = false }
-            <> { $0.layer.shadowOpacity = 0.3 }
-            <> { $0.layer.shadowOffset = CGSize(width: 0, height: 0) }
-            <> { $0.layer.shadowRadius = self.contentView.layer.cornerRadius }
+            |> baseCellStyle
         
         self.contentView
             |> backgroundStyle(color: .white)
@@ -68,10 +61,11 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     func configure(with info: Info) {
         
-        self.topButton.image = UIImage(named: "status")
-        
         self.mainView
             |> backgroundStyle(color: .mr_blue)
+        
+        self.topButton
+            |> { $0?.image = UIImage(named: "status") }
         
         self.topLabel
             |> map { $0.text = "Status" }
@@ -121,7 +115,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         info.syncedToChain ?
             (self.bottomLabel.text = "Synced") :
             (self.bottomLabel.text = "Not Synced")
-        
+                
         info.syncedToChain ?
             (self.syncedButton.image = UIImage(named: "synced")) :
             (self.syncedButton.image = UIImage(named: "close"))
@@ -140,10 +134,11 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     func configureInvoice(with info: Info) {
         
-        self.topButton.image = UIImage(named: "lightning")
-        
         self.mainView
             |> backgroundStyle(color: .mr_gold)
+        
+        self.topButton
+            |> { $0?.image = UIImage(named: "lightning") }
         
         self.topLabel
             |> map { $0.text = "Invoice" }
@@ -170,8 +165,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.bottomLabel
             .map { $0.text = "Create An Invoice" }
         
-        self.syncedButton.image = nil
-        
+        self.syncedButton
+            |> { $0?.image = nil }
+
         self.hiddenButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_gold)
@@ -184,11 +180,12 @@ class NodeCollectionViewCell: UICollectionViewCell {
     
     func configureDelete(with info: Info) {
         
-        self.topButton.image = UIImage(named: "settings")
-        
         self.mainView
             |> backgroundStyle(color: .mr_red)
         
+        self.topButton
+            |> { $0?.image = UIImage(named: "settings") }
+
         self.topLabel
             |> map { $0.text = "Settings" }
         
@@ -205,8 +202,9 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.bottomLabel
             |> map { $0.text = "Remove Node" }
         
-        self.syncedButton.image = nil
-        
+        self.syncedButton
+            |> { $0?.image = nil }
+
         self.hiddenButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_red)

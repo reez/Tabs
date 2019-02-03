@@ -13,6 +13,22 @@ func baseButtonStyle(_ button: UIButton) {
     button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
 }
 
+let baseButtonReuseStyle: (UIButton) -> Void = {
+    $0.backgroundColor = .white
+    $0.layer.borderColor = UIColor.white.cgColor
+    $0.setTitle("", for: .normal)
+    $0.setTitleColor(.white, for: .normal)
+    $0.removeTarget(nil, action: nil, for: .allEvents)
+}
+
+let baseCellStyle: (UICollectionViewCell) -> Void = {
+    $0.layer.shadowColor = UIColor.mr_black.cgColor 
+    $0.layer.masksToBounds = false
+    $0.layer.shadowOpacity = 0.3
+    $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+    $0.layer.shadowRadius = $0.contentView.layer.cornerRadius
+}
+
 let roundedStyle: (UIView) -> Void = {
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 6
