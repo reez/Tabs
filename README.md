@@ -32,4 +32,6 @@ Tabs is using [LND](https://github.com/lightningnetwork/lnd) to make [gRPC API r
 - [Stormotion blog](https://stormotion.io/blog/)
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
+[MIT](LICENSE) © Matthew Ramsden
+See [LICENSE](LICENSE) for more information.
