@@ -34,4 +34,5 @@ Tabs is using [LND](https://github.com/lightningnetwork/lnd) to make [gRPC API r
 ## License
 
 [MIT](LICENSE) © Matthew Ramsden
+
 See [LICENSE](LICENSE) for more information.
