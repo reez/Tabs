@@ -228,7 +228,7 @@ extension NodeCollectionViewController {
         self.collectionView.delegate = self
         let imageView : UIImageView = {
             let iv = UIImageView()
-            iv.image = UIImage(named:"Background3.png")
+            iv.image = UIImage(named:"TabsBG.pdf")
             iv.contentMode = .scaleAspectFill
             return iv
         }()
