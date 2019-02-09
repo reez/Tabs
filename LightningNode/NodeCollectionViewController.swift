@@ -64,9 +64,7 @@ extension NodeCollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
         
         if indexPath.row == 0 {
-            print("0: \n \(viewModel.lightningNodeInfo)")
             cell.configure(with: viewModel.lightningNodeInfo)
-            
             return cell
         }
         else if indexPath.row == 1 {
@@ -76,7 +74,6 @@ extension NodeCollectionViewController {
                 action: #selector(invoiceButtonPressed),
                 for: .touchUpInside
             )
-            
             return cell
         }
         else if indexPath.row == 2 {
