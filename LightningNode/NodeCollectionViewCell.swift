@@ -126,6 +126,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> { $0.setTitleColor(.mr_blue, for: .normal) }
             <> { $0.isEnabled = false }
         
+        print("Testnet: \(info.testnet)")
         info.testnet ?
             self.hiddenButton.setTitle("Testnet", for: .normal) :
             self.hiddenButton.setTitle("Mainnet", for: .normal)
