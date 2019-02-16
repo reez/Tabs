@@ -8,7 +8,7 @@
 import Foundation
 import LNDrpc
 
-struct Info {
+struct Info: Equatable {
     let alias: String
     let bestHeaderTimestamp: Date
     let blockHash: String

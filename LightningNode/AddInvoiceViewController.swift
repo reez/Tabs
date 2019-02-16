@@ -9,7 +9,6 @@
 import UIKit
 
 class AddInvoiceViewController: UIViewController {
-    var remoteNodeConnection: RemoteNodeConnection?
     
     @IBOutlet var rootStackView: UIStackView!
     @IBOutlet var titleLabel: UILabel!
@@ -42,7 +41,8 @@ class AddInvoiceViewController: UIViewController {
             
             let input = AddInvoiceViewModelInput(
                 amountTextFieldInput: amount,
-                memoTextFieldInput: memo
+                memoTextFieldInput: memo,
+                submitButtonPressed: ()
             )
             addInvoiceViewModel(input: input) { (output) in
                 if !output.alertNeeded {
@@ -94,53 +94,6 @@ extension AddInvoiceViewController:  UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-}
-
-extension AddInvoiceViewController {
-    
-    func addInvoiceViewModel(
-        input: AddInvoiceViewModelInput,
-        output: @escaping (AddInvoiceViewModelOutput) -> Void
-        )
-    {
-        var viewModelOutput = AddInvoiceViewModelOutput(
-            alertErrorMessage: "",
-            alertNeeded: false,
-            amountTextFieldOutput: "",
-            copyButtonHidden: true,
-            invoiceLabel: "",
-            invoiceLabelHidden: true,
-            memoTextFieldOutput: ""
-        )
-        
-        if let value = Int(input.amountTextFieldInput) {
-            let request = InvoiceRequest(memo: input.memoTextFieldInput, value: value)
-            remoteNodeConnection.flatMap {
-                Current.lightningAPIRPC = LightningApiRPC.init(configuration: $0)
-                Current.lightningAPIRPC?.addInvoice(value: request.value, memo: request.memo) { result in
-                    switch result {
-                    case let .success(invoice):
-                        viewModelOutput.invoiceLabelHidden = false
-                        viewModelOutput.copyButtonHidden = false
-                        viewModelOutput.invoiceLabel = invoice
-                        viewModelOutput.amountTextFieldOutput = ""
-                        viewModelOutput.memoTextFieldOutput = ""
-                        output(viewModelOutput)
-                    case let .failure(errorMessage):
-                        viewModelOutput.alertNeeded = true
-                        viewModelOutput.alertErrorMessage = errorMessage.localizedDescription
-                        output(viewModelOutput)
-                    }
-                }
-            }
-        } else {
-            viewModelOutput.alertNeeded = true
-            viewModelOutput.alertErrorMessage = "Value for Invoice must be a number"
-            output(viewModelOutput)
-        }
-        
-    }
-    
 }
 
 extension AddInvoiceViewController {

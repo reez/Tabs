@@ -7,10 +7,11 @@
 
 import Foundation
 
-enum DataError: Error {
+enum DataError: Error, Equatable {
     case encodingFailure
     case fetchInfoFailure
     case invoiceInfoMissing
+    case invoiceFailure
     case macaroonFormatting
     case noRemoteData
     case noSavedData
@@ -24,6 +25,8 @@ extension DataError: LocalizedError {
             return NSLocalizedString("Encoding Failure", comment: "Failed to encode data and save")
         case .fetchInfoFailure:
             return NSLocalizedString("Fetch Info Failure", comment: "Received failure when fetching data")
+        case .invoiceFailure:
+            return NSLocalizedString("Invoice Failure", comment: "Invoice Failed")
         case .invoiceInfoMissing:
             return NSLocalizedString("Invoice Info Missing", comment: "Could not submit, missing Invoice data")
         case .macaroonFormatting:
@@ -34,6 +37,7 @@ extension DataError: LocalizedError {
             return NSLocalizedString("No Saved Data", comment: "Could not get saved Node data")
         case .remoteNodeInfoMissing:
             return NSLocalizedString("Remote Node Info Missing", comment: "Incorrect Remote Info")
+
         }
     }
 }

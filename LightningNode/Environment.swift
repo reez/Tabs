@@ -9,21 +9,28 @@ import Foundation
 
 struct Environment {
     var date: () -> Date = Date.init
-    var lightningAPIRPC: LightningApiRPC?
+    var lightningAPIRPC = LightningApiRPC()
     var keychain = KeychainDataStore()
+    var remoteNodeConnection: RemoteNodeConnection?
 }
 
 var Current = Environment()
-
-extension RemoteNodeConnection {
-    static let mock = RemoteNodeConnection.init(uri: "0.0.0.0:10009", certificate: "BEGINCERT-ENDCERT", macaroon: "002")
-}
 
 extension Environment {
     static let mock = Environment(
         date: { .mock },
         lightningAPIRPC: .mock,
-        keychain: .mock
+        keychain: .mock,
+        remoteNodeConnection: .mock
+    )
+}
+
+extension Environment {
+    static let test = Environment(
+        date: { .mock },
+        lightningAPIRPC: .test,
+        keychain: .test,
+        remoteNodeConnection: .mock
     )
 }
 
@@ -32,7 +39,24 @@ extension Date {
 }
 
 extension LightningApiRPC {
-    static let mock = LightningApiRPC.init(configuration: .mock)
+    static let mock = LightningApiRPC.init(addInvoice: { (value, memo, callback) in
+        let call = callback
+        call(Result.success("mockInvoice"))
+    }, canConnect: { (callback) in
+        callback(true)
+    }) { (callback) in
+        callback(Result.success(Info.mock))
+    }
+}
+
+extension LightningApiRPC {
+    static let test = LightningApiRPC.init(addInvoice: { (_, _, callback) in
+        callback(Result.failure(DataError.invoiceFailure))
+    }, canConnect: { (callback) in
+        callback(false)
+    }) { (callback) in
+        callback(Result.failure(DataError.noRemoteData))
+    }
 }
 
 extension KeychainDataStore {
@@ -47,18 +71,31 @@ extension KeychainDataStore {
 
 extension KeychainDataStore {
     static let test = KeychainDataStore(load: {
-        let rnc = RemoteNodeConnection.mock
-        return Result.failure(DataError.fetchInfoFailure)// Result.success(rnc)
-    }, save: { _ in //(rnc) -> Result<String> in
-        return Result.success("Failure!")
+        return Result.failure(DataError.fetchInfoFailure)
+    }, save: { _ in
+        return Result.failure(DataError.encodingFailure)
     }, delete: { }
     )
 }
 
-extension Environment {
-    static let test = Environment(
-        date: { .mock },
-        lightningAPIRPC: .mock,
-        keychain: .test
-    )
+extension Info {
+    static let mock = Info.init(
+        alias: "No alias",
+        bestHeaderTimestamp: Current.date(),
+        blockHash: "No blockHash",
+        blockHeight: 0,
+        chainsArray: [],
+        identityPubkey: "No identityPubkey",
+        numActiveChannels: 0,
+        numPeers: 0,
+        numPendingChannels: 0,
+        syncedToChain: false,
+        testnet: true,
+        urisArray: [],
+        version: "No version")
 }
+
+extension RemoteNodeConnection {
+    static let mock = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
+}
+

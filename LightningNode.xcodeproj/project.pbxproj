@@ -16,7 +16,6 @@
 		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
 		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
-		AE15720321C4927E0055D5BD /* LightningNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15720221C4927E0055D5BD /* LightningNodeTests.swift */; };
 		AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721121C4943F0055D5BD /* LightningAPI.swift */; };
 		AE15721421C494EB0055D5BD /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721321C494EB0055D5BD /* NavigationViewController.swift */; };
 		AE15721621C494FC0055D5BD /* NavigationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */; };
@@ -37,6 +36,11 @@
 		AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */; };
 		AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */; };
 		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
+		AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */; };
+		AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */; };
+		AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */; };
+		AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */; };
+		AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */; };
 		AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8BB8B021E9967B001513DD /* CameraViewController.swift */; };
 		AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */; };
 		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
@@ -69,7 +73,6 @@
 		AE1571F721C4927E0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE1571F921C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE1571FE21C4927E0055D5BD /* LightningNodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightningNodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE15720221C4927E0055D5BD /* LightningNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningNodeTests.swift; sourceTree = "<group>"; };
 		AE15720421C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE15721121C4943F0055D5BD /* LightningAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPI.swift; sourceTree = "<group>"; };
 		AE15721321C494EB0055D5BD /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +94,11 @@
 		AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NodeCollectionViewController.storyboard; sourceTree = "<group>"; };
 		AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
+		AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModelTests.swift; sourceTree = "<group>"; };
+		AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModelTests.swift; sourceTree = "<group>"; };
+		AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPITests.swift; sourceTree = "<group>"; };
+		AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStoreTests.swift; sourceTree = "<group>"; };
+		AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModelTests.swift; sourceTree = "<group>"; };
 		AE8BB8B021E9967B001513DD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraViewController.storyboard; sourceTree = "<group>"; };
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
@@ -148,10 +156,10 @@
 				AE1571ED21C4927D0055D5BD /* AppDelegate.swift */,
 				AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */,
 				AE15721721C495C10055D5BD /* Environment.swift */,
-				AE434C5521C5A54900D0E1B9 /* Info.swift */,
-				AE434C5121C5A2B200D0E1B9 /* Invoice.swift */,
 				AE15722121C4B0740055D5BD /* Errors.swift */,
 				AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */,
+				AE434C5521C5A54900D0E1B9 /* Info.swift */,
+				AE434C5121C5A2B200D0E1B9 /* Invoice.swift */,
 				AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */,
 				AE15721121C4943F0055D5BD /* LightningAPI.swift */,
 				AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */,
@@ -184,7 +192,11 @@
 		AE15720121C4927E0055D5BD /* LightningNodeTests */ = {
 			isa = PBXGroup;
 			children = (
-				AE15720221C4927E0055D5BD /* LightningNodeTests.swift */,
+				AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */,
+				AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */,
+				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
+				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
+				AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */,
 				AE15720421C4927E0055D5BD /* Info.plist */,
 			);
 			path = LightningNodeTests;
@@ -481,7 +493,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE15720321C4927E0055D5BD /* LightningNodeTests.swift in Sources */,
+				AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */,
+				AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */,
+				AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */,
+				AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */,
+				AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,6 @@ class NodeCollectionViewController: UICollectionViewController {
     
     private var hiddenCells: [NodeCollectionViewCell] = []
     private var expandedCell: NodeCollectionViewCell?
-    private var remoteNodeConnection: RemoteNodeConnection?
     private var viewModel: LightningViewModel!
     private var height: String?
     private let activityIndicator = UIActivityIndicatorView(style: .white)
@@ -27,9 +26,8 @@ class NodeCollectionViewController: UICollectionViewController {
         
         switch Current.keychain.load() {
         case let .success(savedConfig):
-            remoteNodeConnection = savedConfig
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
-            Current.lightningAPIRPC?.info { [weak self] result in
+            Current.remoteNodeConnection = savedConfig
+            Current.lightningAPIRPC.info { [weak self] result in
                 result.value
                     |> flatMap {
                         self?.viewModel.lightningNodeInfo = $0
@@ -155,8 +153,8 @@ extension NodeCollectionViewController {
         
         switch Current.keychain.load() {
         case let .success(savedConfig):
-            Current.lightningAPIRPC = LightningApiRPC.init(configuration: savedConfig)
-            Current.lightningAPIRPC?.info { [weak self] result in
+            Current.remoteNodeConnection = savedConfig
+            Current.lightningAPIRPC.info { [weak self] result in
                 result.value.flatMap {
                     self?.viewModel.lightningNodeInfo = $0
                     self?.collectionView.reloadData()
@@ -182,7 +180,6 @@ extension NodeCollectionViewController {
         let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
         let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
         let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
-        vc.remoteNodeConnection = remoteNodeConnection
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

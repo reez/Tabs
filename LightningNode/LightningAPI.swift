@@ -8,41 +8,52 @@
 import Foundation
 import LNDrpc
 
-final class LightningApiRPC {
-    private let lnd: Lightning
-    private let macaroon: String
-    
-    init(configuration: RemoteNodeConnection) {
-        let host = configuration.uri
-        lnd = Lightning(host: host)
-        try? GRPCCall.setTLSPEMRootCerts(configuration.certificate, forHost: host)
-        macaroon = configuration.macaroon
-    }
-    
-    func addInvoice(value: Int, memo: String, completion: @escaping (Result<String>) -> Void) {
-        let invoice = Invoice(value: value, memo: memo)
-        lnd.rpcToAddInvoice(withRequest: invoice) { (response, _) in
-            response?.paymentRequest.flatMap {
-                completion(Result.success($0))
-            }
-            }.runWithMacaroon(macaroon)
-    }
-    
-    func canConnect(completion: @escaping (Bool) -> Void) {
-        lnd.rpcToGetInfo(with: GetInfoRequest()) { (response, _) in
-            completion(response != nil)
-            }.runWithMacaroon(macaroon)
-    }
-    
-    func info(completion: @escaping (Result<Info>) -> Void) {
-        lnd.rpcToGetInfo(with: GetInfoRequest()) { (response, _) in
-            _ = response.flatMap {
-                let info = Info.init(getInfoResponse: $0)
-                completion(Result.success(info))
-            }
-            }.runWithMacaroon(macaroon)
-    }
-    
+struct LightningApiRPC {
+    var addInvoice = addInvoice(value: memo: completion:)
+    var canConnect = canConnect(completion:)
+    var info = info(completion:)
+}
+
+func addInvoice(value: Int, memo: String, completion: @escaping (Result<String>) -> Void) {
+    guard let rnc = Current.remoteNodeConnection else { return }
+    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let lnd = Lightning(host: host)
+
+    try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
+
+    let invoice = Invoice(value: value, memo: memo)
+    lnd.rpcToAddInvoice(withRequest: invoice) { (response, _) in
+        response?.paymentRequest.flatMap {
+            completion(Result.success($0))
+        }
+        }.runWithMacaroon(rnc.macaroon)
+}
+
+func canConnect(completion: @escaping (Bool) -> Void) {
+    guard let rnc = Current.remoteNodeConnection else { return }
+    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let lnd = Lightning(host: host)
+
+    try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
+
+    lnd.rpcToGetInfo(with: GetInfoRequest()) { (response, _) in
+        completion(response != nil)
+        }.runWithMacaroon(rnc.macaroon)
+}
+
+func info(completion: @escaping (Result<Info>) -> Void) {
+    guard let rnc = Current.remoteNodeConnection else { return }
+    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let lnd = Lightning(host: host)
+
+    try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
+
+    lnd.rpcToGetInfo(with: GetInfoRequest()) { (response, _) in
+        _ = response.flatMap {
+            let info = Info.init(getInfoResponse: $0)
+            completion(Result.success(info))
+        }
+        }.runWithMacaroon(rnc.macaroon)
 }
 
 extension PayReqString {

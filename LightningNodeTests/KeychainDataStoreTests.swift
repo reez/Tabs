@@ -1,25 +1,24 @@
 //
-//  LightningNodeTests.swift
+//  KeychainDataStoreTests.swift
 //  LightningNodeTests
 //
-//  Created by Matthew Ramsden on 1/1/19.
+//  Created by Matthew Ramsden on 2/16/19.
 //  Copyright © 2019 Matthew Ramsden. All rights reserved.
 //
 
 import XCTest
 @testable import LightningNode
 
-class LightningNodeTests: XCTestCase {
-    
-    // Keychain
-    
+class KeychainDataStoreTests: XCTestCase {
+
     func testLoadCertificateSuccess() {
         Current = .mock
         
         let rnc = RemoteNodeConnection.init(
-            uri: "0.0.0.0:10009",
-            certificate: "BEGINCERT-ENDCERT",
-            macaroon: "002")
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
         
         let mockRNC = Current.keychain.load()
         
@@ -30,9 +29,10 @@ class LightningNodeTests: XCTestCase {
         Current = .mock
         
         let rnc = RemoteNodeConnection.init(
-            uri: "0.0.0.0:10009",
-            certificate: "BEGINCERT-ENDCERT",
-            macaroon: "002")
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
         
         let mockRNC = Current.keychain.load()
         
@@ -43,9 +43,10 @@ class LightningNodeTests: XCTestCase {
         Current = .mock
         
         let rnc = RemoteNodeConnection.init(
-            uri: "0.0.0.0:10009",
-            certificate: "BEGINCERT-ENDCERT",
-            macaroon: "002")
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
         
         let mockRNC = Current.keychain.load()
         
@@ -57,12 +58,13 @@ class LightningNodeTests: XCTestCase {
         Current = .mock
         
         let rnc = RemoteNodeConnection.init(
-            uri: "0.0.0.0:10009",
-            certificate: "BEGINCERT-ENDCERT",
-            macaroon: "002")
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
         
         let mockRNC = Current.keychain.save(rnc)
-
+        
         XCTAssertEqual(mockRNC.value, "Success!")
     }
     
@@ -70,13 +72,15 @@ class LightningNodeTests: XCTestCase {
         Current = .test
         
         let rnc = RemoteNodeConnection.init(
-            uri: "0.0.0.0:10009",
-            certificate: "BEGINCERT-ENDCERT",
-            macaroon: "002")
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
         
         let mockRNC = Current.keychain.save(rnc)
         
-        XCTAssertEqual(mockRNC.value, "Failure!")
+        XCTAssertEqual(mockRNC.error?.localizedDescription, "\(DataError.encodingFailure.localizedDescription)")
     }
     
+
 }
