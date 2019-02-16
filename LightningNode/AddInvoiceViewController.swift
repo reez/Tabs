@@ -171,11 +171,11 @@ extension AddInvoiceViewController {
         
         self.submitButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .mr_purple)
+            <> backgroundStyle(color: .mr_gold)
         
         self.copyButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .mr_purple)
+            <> backgroundStyle(color: .mr_gold)
         
         self.invoiceLabel
             |> map { $0.isHidden = true }
