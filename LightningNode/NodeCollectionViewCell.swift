@@ -195,7 +195,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 "version":
                 \(info.version)
                 
-                tabs version:
+                tabs version-
                 0.5.2-beta
                 """
                 
