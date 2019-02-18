@@ -71,18 +71,6 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-Jv-Y1g">
-                                                    <rect key="frame" x="247" y="24" width="29" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="Pto-Jv-Y1g" secondAttribute="height" multiplier="1:1" id="8db-Xm-DwC"/>
-                                                        <constraint firstAttribute="height" constant="29" id="Wdw-Eq-lcv"/>
-                                                        <constraint firstAttribute="width" constant="29" id="au2-ha-Pvc"/>
-                                                    </constraints>
-                                                    <state key="normal" image="refresh_fill"/>
-                                                    <connections>
-                                                        <action selector="refreshButtonAction:" destination="Qfs-Du-d15" eventType="touchUpInside" id="Gys-7T-zo9"/>
-                                                    </connections>
-                                                </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PzF-O2-6Vm">
                                                     <rect key="frame" x="48" y="392" width="29" height="29"/>
                                                     <constraints>
@@ -104,9 +92,7 @@
                                                 <constraint firstItem="7g7-MY-jtE" firstAttribute="top" secondItem="96H-BB-J4r" secondAttribute="top" constant="24" id="KQz-sB-3HX"/>
                                                 <constraint firstAttribute="bottom" secondItem="KDV-8e-qjP" secondAttribute="bottom" constant="24" id="OCa-dY-OxX"/>
                                                 <constraint firstAttribute="trailing" secondItem="mhJ-Gt-3sN" secondAttribute="trailing" constant="-5" id="Pzg-KB-1Pr"/>
-                                                <constraint firstAttribute="trailing" secondItem="Pto-Jv-Y1g" secondAttribute="trailing" constant="24" id="RUD-zi-qYJ"/>
                                                 <constraint firstItem="Pzv-MD-iRC" firstAttribute="top" secondItem="9JD-Ew-ad9" secondAttribute="bottom" constant="20" id="iVr-mM-X9f"/>
-                                                <constraint firstItem="Pto-Jv-Y1g" firstAttribute="top" secondItem="96H-BB-J4r" secondAttribute="top" constant="24" id="rg2-k8-auU"/>
                                                 <constraint firstItem="7g7-MY-jtE" firstAttribute="leading" secondItem="96H-BB-J4r" secondAttribute="leading" constant="24" id="s9K-3y-32A"/>
                                                 <constraint firstItem="9JD-Ew-ad9" firstAttribute="top" secondItem="96H-BB-J4r" secondAttribute="top" constant="24" id="vnK-lY-vdG"/>
                                                 <constraint firstItem="mhJ-Gt-3sN" firstAttribute="leading" secondItem="96H-BB-J4r" secondAttribute="leading" constant="-20" id="yfu-nT-zsQ"/>
@@ -134,7 +120,6 @@
                                     <outlet property="hiddenButton" destination="MfE-Na-Ym9" id="gQ6-P7-zDJ"/>
                                     <outlet property="mainView" destination="96H-BB-J4r" id="YtB-hx-lOK"/>
                                     <outlet property="middleLabel" destination="Pzv-MD-iRC" id="7Sa-Rf-KPa"/>
-                                    <outlet property="refreshButton" destination="Pto-Jv-Y1g" id="Dqu-EA-yhC"/>
                                     <outlet property="syncedButton" destination="PzF-O2-6Vm" id="PRY-wI-kyb"/>
                                     <outlet property="topButton" destination="7g7-MY-jtE" id="K3D-Qt-TSS"/>
                                     <outlet property="topLabel" destination="9JD-Ew-ad9" id="chp-2n-XUM"/>
@@ -153,7 +138,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="refresh_fill" width="33" height="32.5"/>
         <image name="status" width="36" height="35.5"/>
     </resources>
 </document>

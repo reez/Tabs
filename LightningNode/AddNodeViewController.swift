@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class AddNodeViewController: UIViewController {
     
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    private var nvActivityIndicator: NVActivityIndicatorView?
     @IBOutlet var certificateStackView: UIStackView!
     @IBOutlet var macaroonStackView: UIStackView!
     @IBOutlet var uriStackView: UIStackView!
@@ -64,6 +65,20 @@ extension AddNodeViewController {
         self.certificateTextField.delegate = self
         self.uriTextField.delegate = self
         
+        let nvActivityIndicatorframe = CGRect(
+            x: (UIScreen.main.bounds.size.width / 2 - 40),
+            y: (UIScreen.main.bounds.size.height / 2 - 40),
+            width: 80,
+            height: 80
+        )
+        self.nvActivityIndicator = NVActivityIndicatorView(
+            frame: nvActivityIndicatorframe,
+            type: NVActivityIndicatorType.ballClipRotate,
+            color: UIColor.mr_black,
+            padding: nil
+        )
+        self.view.addSubview(self.nvActivityIndicator!)
+        
         self.titleLabel
             |> baseLabelStyleBoldTitle
         
@@ -98,7 +113,7 @@ extension AddNodeViewController {
 
 extension AddNodeViewController {
     func submitPressed() {
-        self.activityIndicator.startAnimating()
+        self.nvActivityIndicator?.startAnimating()
         
         if let certificate = self.certificateTextField.text,
             let macaroon = self.macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -115,14 +130,14 @@ extension AddNodeViewController {
             
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-                    self.activityIndicator.stopAnimating()
+                    self.nvActivityIndicator?.stopAnimating()
                     let bundle = Bundle(for: NodeCollectionViewController.self)
                     let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
                     let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
                     let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    self.activityIndicator.stopAnimating()
+                    self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
                         title: "Something went wrong Adding Node",
                         message: output.alertErrorMessage,
@@ -132,7 +147,7 @@ extension AddNodeViewController {
                 }
             }
         } else {
-            self.activityIndicator.stopAnimating()
+            self.nvActivityIndicator?.stopAnimating()
             let alertController = UIAlertController(
                 title: "Something went wrong in adding node.",
                 message: DataError.remoteNodeInfoMissing.localizedDescription,

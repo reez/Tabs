@@ -52,11 +52,3 @@ public func set<Root, Value>(
     -> (Root) -> Root {
         return over(keyPath) { _ in value }
 }
-
-public func set<Root, Value>(
-    _ keyPath: ReferenceWritableKeyPath<Root, Value>,
-    _ value: Value
-    )
-    -> (Root) -> Root {
-        return over(keyPath) { _ in value }
-}

@@ -148,3 +148,85 @@ extension UIColor {
     public static let mr_yellow = UIColor(red: 255/255, green: 240/255, blue: 128/255, alpha: 1)
     public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 }
+
+class ScrollTriggeredControl: UIControl {
+    private let dragThreshold: CGFloat = 80
+    
+    private var previousFraction: CGFloat = 0
+    private var shouldTrigger = false
+    private var offsetObservation: NSKeyValueObservation?
+    
+    private let imageView = UIImageView()
+    private let impactGenerator = UIImpactFeedbackGenerator(style: .medium)
+    
+    private lazy var widthConstraint: NSLayoutConstraint = widthAnchor.constraint(equalToConstant: 0)
+    
+    init(image: UIImage?) {
+        super.init(frame: .zero)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = false
+        
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = image
+        
+        let centerConstraint = imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
+        centerConstraint.priority = .defaultHigh
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 40),
+            imageView.heightAnchor.constraint(equalToConstant: 40),
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            centerConstraint, widthConstraint
+            ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func didMoveToSuperview() {
+        (superview as? UIScrollView).flatMap(observe)
+    }
+    
+    private func observe(scrollView: UIScrollView) {
+        offsetObservation = scrollView.observe(\.contentOffset) { [weak self] scrollView, _ in
+            self?.updateOffset(for: scrollView)
+        }
+    }
+    
+    private func updateOffset(for scrollView: UIScrollView) {
+        let offset = -scrollView.adjustedContentOffset.x
+        let fraction = min(offset / dragThreshold, 1)
+        widthConstraint.constant = max(offset, 0)
+        imageView.alpha = fraction == 1 ? 1 : 0.5 * fraction
+        
+        if shouldTrigger, !scrollView.isTracking {
+            sendActions(for: .primaryActionTriggered)
+            shouldTrigger = false
+        }
+        
+        if fraction < 1 {
+            impactGenerator.prepare()
+            shouldTrigger = false
+        }
+        
+        if fraction == 1, previousFraction < 1, scrollView.isTracking {
+            impactGenerator.impactOccurred()
+            shouldTrigger = true
+        }
+        
+        previousFraction = fraction
+    }
+}
+
+extension UIScrollView {
+    var adjustedContentOffset: CGPoint {
+        var offset = contentOffset
+        offset.x += adjustedContentInset.left
+        offset.y += adjustedContentInset.top
+        return offset
+    }
+}

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class NodeCollectionViewController: UICollectionViewController {
     
@@ -14,12 +15,12 @@ class NodeCollectionViewController: UICollectionViewController {
     private var expandedCell: NodeCollectionViewCell?
     private var viewModel: LightningViewModel!
     private var height: String?
-    private let activityIndicator = UIActivityIndicatorView(style: .white)
+    private var nvActivityIndicator: NVActivityIndicatorView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
+
         self.viewModel = LightningViewModel { [weak self] _ in
             self?.collectionView.reloadData()
         }
@@ -106,7 +107,6 @@ extension NodeCollectionViewController {
         self.view.isUserInteractionEnabled = false
         
         if let selectedCell = self.expandedCell {
-            selectedCell.refreshButton.isHidden = false
             animator.addAnimations {
                 selectedCell.collapse()
                 self.hiddenCells.forEach{ $0.show() }
@@ -120,7 +120,6 @@ extension NodeCollectionViewController {
             collectionView.isScrollEnabled = false
             let selectedCell = collectionView.cellForItem(at: indexPath)! as! NodeCollectionViewCell
             let frameOfSelectedCell = selectedCell.frame
-            selectedCell.refreshButton.isHidden = true
             self.expandedCell = selectedCell
             self.hiddenCells = collectionView.visibleCells
                 .map { $0 as! NodeCollectionViewCell }
@@ -149,7 +148,7 @@ extension NodeCollectionViewController {
 extension NodeCollectionViewController {
     
     @objc private func refreshButtonPressed() {
-        self.activityIndicator.startAnimating()
+        self.nvActivityIndicator?.startAnimating()
         
         switch Current.keychain.load() {
         case let .success(savedConfig):
@@ -160,11 +159,12 @@ extension NodeCollectionViewController {
                     self?.collectionView.reloadData()
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-                self.activityIndicator.stopAnimating()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                self.nvActivityIndicator?.stopAnimating()
             }
         case .failure(_):
-            self.activityIndicator.stopAnimating()
+            self.nvActivityIndicator?.stopAnimating()
+
             let alertController = UIAlertController(
                 title: DataError.fetchInfoFailure.localizedDescription,
                 message: DataError.fetchInfoFailure.errorDescription,
@@ -211,7 +211,6 @@ extension NodeCollectionViewController {
                 handler: { _ in }
             )
         )
-
         present(alertController, animated: true, completion: nil)
     }
     
@@ -222,14 +221,41 @@ extension NodeCollectionViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         let imageView : UIImageView = {
-            let iv = UIImageView()
-            iv.image = UIImage(named:"TabsBG.pdf")
-            iv.contentMode = .scaleAspectFill
-            return iv
+            let imageView = UIImageView()
+            imageView.image = UIImage(named:"TabsBG.pdf")
+            imageView.contentMode = .scaleAspectFill
+            return imageView
         }()
         self.collectionView?.backgroundView = imageView
-        self.view.addSubview(activityIndicator)
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.center = self.view.center
+        
+        let menuControl = ScrollTriggeredControl(image: UIImage(named: "chevron-right-filled-50"))
+        menuControl.addTarget(self, action: #selector(refreshButtonAction), for: .primaryActionTriggered)
+        menuControl.tintColor = .white
+        collectionView.addSubview(menuControl)
+        NSLayoutConstraint.activate([
+            menuControl.centerYAnchor.constraint(
+                equalTo: collectionView.contentLayoutGuide.centerYAnchor
+            ),
+            menuControl.trailingAnchor.constraint(
+                equalTo: collectionView.contentLayoutGuide.leadingAnchor
+            ),
+            menuControl.centerYAnchor.constraint(
+                equalTo: self.view.centerYAnchor
+            )
+            ])
+        
+        let nvActivityIndicatorframe = CGRect(
+            x: (UIScreen.main.bounds.size.width / 2 - 40),
+            y: (UIScreen.main.bounds.size.height / 2 - 40),
+            width: 80,
+            height: 80
+        )
+        self.nvActivityIndicator = NVActivityIndicatorView(
+            frame: nvActivityIndicatorframe,
+            type: NVActivityIndicatorType.ballClipRotate,
+            color: UIColor.white,
+            padding: nil
+        )
+        self.view.addSubview(self.nvActivityIndicator!)
     }
 }

@@ -48,11 +48,15 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - NVActivityIndicatorView (4.6.1):
+    - NVActivityIndicatorView/Presenter (= 4.6.1)
+  - NVActivityIndicatorView/Presenter (4.6.1)
   - Protobuf (3.6.1)
 
 DEPENDENCIES:
   - KeychainAccess
   - LNDrpc (from `.`)
+  - NVActivityIndicatorView
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -65,6 +69,7 @@ SPEC REPOS:
     - gRPC-RxLibrary
     - KeychainAccess
     - nanopb
+    - NVActivityIndicatorView
     - Protobuf
 
 EXTERNAL SOURCES:
@@ -82,8 +87,9 @@ SPEC CHECKSUMS:
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   LNDrpc: e45048fcb5c08cc819fb6ff39733450bfe7a41b7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
 
-PODFILE CHECKSUM: 20a60f5b59b69a019761a141612a04c92d89f5cb
+PODFILE CHECKSUM: 55572fd589cc65f1d52a7217537e34602d48554b
 
 COCOAPODS: 1.6.0.beta.2

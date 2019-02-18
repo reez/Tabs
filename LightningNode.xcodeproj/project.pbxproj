@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		63DC10AC96852BEE395C11C8 /* Pods_LightningNode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */; };
 		AB4A01DB7BEBF87F1A15894C /* Pods_LightningNodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */; };
+		AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
+		AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
 		AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */; };
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
@@ -63,6 +65,7 @@
 		289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.release.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.release.xcconfig"; sourceTree = "<group>"; };
 		80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.debug.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.debug.xcconfig"; sourceTree = "<group>"; };
+		AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +200,7 @@
 				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
 				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
 				AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */,
+				AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */,
 				AE15720421C4927E0055D5BD /* Info.plist */,
 			);
 			path = LightningNodeTests;
@@ -371,6 +375,7 @@
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/LNDrpc/LNDrpc.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -385,6 +390,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LNDrpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -483,6 +489,7 @@
 				AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */,
 				AE6C321321D040EF00FF8E09 /* NodeCollectionViewController.swift in Sources */,
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
+				AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 				AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */,
 				AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */,
 				AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */,
@@ -498,6 +505,7 @@
 				AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */,
 				AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */,
 				AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */,
+				AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

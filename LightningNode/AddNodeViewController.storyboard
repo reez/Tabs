@@ -18,10 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="T0N-wr-cdx">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="VdR-gI-GAc">
                                 <rect key="frame" x="20" y="40" width="280" height="438"/>
                                 <subviews>
@@ -139,7 +135,6 @@
                         <viewLayoutGuide key="safeArea" id="gjf-mP-tXG"/>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="T0N-wr-cdx" id="iBO-eU-6NQ"/>
                         <outlet property="certificateLabel" destination="wVI-ni-rha" id="QqO-Yf-RmM"/>
                         <outlet property="certificateStackView" destination="4lQ-3g-FQo" id="nlP-nl-RC2"/>
                         <outlet property="certificateTextField" destination="9Fy-4F-S69" id="9tM-Z2-Utc"/>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class AddInvoiceViewController: UIViewController {
     
@@ -19,8 +20,9 @@ class AddInvoiceViewController: UIViewController {
     @IBOutlet var submitButton: UIButton!
     @IBOutlet var invoiceLabel: UILabel!
     @IBOutlet var copyButton: UIButton!
-    private let activityIndicator = UIActivityIndicatorView(style: .gray)
-    
+//    private let activityIndicator = UIActivityIndicatorView(style: .gray)
+    private var nvActivityIndicator: NVActivityIndicatorView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -32,8 +34,9 @@ class AddInvoiceViewController: UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         self.view.endEditing(true)
-        self.activityIndicator.startAnimating()
-        
+//        self.activityIndicator.startAnimating()
+        self.nvActivityIndicator?.startAnimating()
+
         if let memo = self.memoTextField.text,
             let amount = self.amountTextField.text,
             !amount.isEmpty,
@@ -46,14 +49,21 @@ class AddInvoiceViewController: UIViewController {
             )
             addInvoiceViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-                    self.activityIndicator.stopAnimating()
+//                    self.activityIndicator.stopAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                        self.nvActivityIndicator?.stopAnimating()
+                    }
+                    
+                    
                     self.invoiceLabel.isHidden = output.invoiceLabelHidden
                     self.copyButton.isHidden = output.copyButtonHidden
                     self.invoiceLabel.text = output.invoiceLabel
                     self.amountTextField.text = output.amountTextFieldOutput
                     self.memoTextField.text = output.memoTextFieldOutput
                 } else {
-                    self.activityIndicator.stopAnimating()
+//                    self.activityIndicator.stopAnimating()
+                    self.nvActivityIndicator?.stopAnimating()
+
                     let alertController = UIAlertController(
                         title: DataError.fetchInfoFailure.localizedDescription,
                         message: output.alertErrorMessage,
@@ -65,7 +75,9 @@ class AddInvoiceViewController: UIViewController {
             }
             
         } else {
-            self.activityIndicator.stopAnimating()
+//            self.activityIndicator.stopAnimating()
+            self.nvActivityIndicator?.stopAnimating()
+
             let alertController = UIAlertController(
                 title: DataError.invoiceInfoMissing.localizedDescription,
                 message: "Missing Invoice Info",
@@ -100,9 +112,23 @@ extension AddInvoiceViewController {
     func setupUI() {
         self.amountTextField.delegate = self
         self.memoTextField.delegate = self
-        self.view.addSubview(activityIndicator)
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.center = self.view.center
+//        self.view.addSubview(activityIndicator)
+//        self.activityIndicator.hidesWhenStopped = true
+//        self.activityIndicator.center = self.view.center
+        
+        let nvActivityIndicatorframe = CGRect(
+            x: (UIScreen.main.bounds.size.width / 2 - 40),
+            y: (UIScreen.main.bounds.size.height / 2 - 40),
+            width: 80,
+            height: 80
+        )
+        self.nvActivityIndicator = NVActivityIndicatorView(
+            frame: nvActivityIndicatorframe,
+            type: NVActivityIndicatorType.ballClipRotate,
+            color: UIColor.mr_black,
+            padding: nil
+        )
+        self.view.addSubview(self.nvActivityIndicator!)
         
         self.titleLabel
             |> baseLabelStyleBoldTitle

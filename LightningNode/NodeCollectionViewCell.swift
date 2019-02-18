@@ -19,7 +19,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
     @IBOutlet var middleLabel: UILabel!
     @IBOutlet var bottomLabel: UILabel!
     @IBOutlet var hiddenButton: UIButton!
-    @IBOutlet var refreshButton: UIButton!
+//    @IBOutlet var refreshButton: UIButton!
     @IBOutlet var syncedButton: UIImageView!
     
     override func awakeFromNib() {
@@ -100,7 +100,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
                 bestHeaderTimestamp:
                 \(info.bestHeaderTimestamp)
                 
-                refreshed:
+                refreshed -
                 \(Current.date())
                 
                 blockHeight:
