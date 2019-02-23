@@ -11,6 +11,7 @@ import NVActivityIndicatorView
 
 class AddInvoiceViewController: UIViewController {
     
+    private var nvActivityIndicator: NVActivityIndicatorView?
     @IBOutlet var rootStackView: UIStackView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var amountLabel: UILabel!
@@ -20,21 +21,28 @@ class AddInvoiceViewController: UIViewController {
     @IBOutlet var submitButton: UIButton!
     @IBOutlet var invoiceLabel: UILabel!
     @IBOutlet var copyButton: UIButton!
-//    private let activityIndicator = UIActivityIndicatorView(style: .gray)
-    private var nvActivityIndicator: NVActivityIndicatorView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
-    @IBAction func goBackPressed(_ sender: Any) {
+    @IBAction func goBackPressed(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func submitButtonPressed(_ sender: Any) {
+    @IBAction func submitButtonPressed(_ sender: UIButton) {
+        UIButton.animate(
+            withDuration: 0.0,
+            animations: { sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.975) }
+        ) { _ in
+            UIButton.animate(
+                withDuration: 0.1,
+                animations: { sender.transform = CGAffineTransform.identity }
+            )
+        }
+        
         self.view.endEditing(true)
-//        self.activityIndicator.startAnimating()
         self.nvActivityIndicator?.startAnimating()
 
         if let memo = self.memoTextField.text,
@@ -49,21 +57,16 @@ class AddInvoiceViewController: UIViewController {
             )
             addInvoiceViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-//                    self.activityIndicator.stopAnimating()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                         self.nvActivityIndicator?.stopAnimating()
                     }
-                    
-                    
                     self.invoiceLabel.isHidden = output.invoiceLabelHidden
                     self.copyButton.isHidden = output.copyButtonHidden
                     self.invoiceLabel.text = output.invoiceLabel
                     self.amountTextField.text = output.amountTextFieldOutput
                     self.memoTextField.text = output.memoTextFieldOutput
                 } else {
-//                    self.activityIndicator.stopAnimating()
                     self.nvActivityIndicator?.stopAnimating()
-
                     let alertController = UIAlertController(
                         title: DataError.fetchInfoFailure.localizedDescription,
                         message: output.alertErrorMessage,
@@ -75,9 +78,7 @@ class AddInvoiceViewController: UIViewController {
             }
             
         } else {
-//            self.activityIndicator.stopAnimating()
             self.nvActivityIndicator?.stopAnimating()
-
             let alertController = UIAlertController(
                 title: DataError.invoiceInfoMissing.localizedDescription,
                 message: "Missing Invoice Info",
@@ -89,7 +90,17 @@ class AddInvoiceViewController: UIViewController {
         
     }
     
-    @IBAction func copyButtonPressed(_ sender: Any) {
+    @IBAction func copyButtonPressed(_ sender: UIButton) {
+        UIButton.animate(
+            withDuration: 0.0,
+            animations: { sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.975) }
+        ) { _ in
+            UIButton.animate(
+                withDuration: 0.1,
+                animations: { sender.transform = CGAffineTransform.identity }
+            )
+        }
+        
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
     
@@ -112,10 +123,7 @@ extension AddInvoiceViewController {
     func setupUI() {
         self.amountTextField.delegate = self
         self.memoTextField.delegate = self
-//        self.view.addSubview(activityIndicator)
-//        self.activityIndicator.hidesWhenStopped = true
-//        self.activityIndicator.center = self.view.center
-        
+
         let nvActivityIndicatorframe = CGRect(
             x: (UIScreen.main.bounds.size.width / 2 - 40),
             y: (UIScreen.main.bounds.size.height / 2 - 40),

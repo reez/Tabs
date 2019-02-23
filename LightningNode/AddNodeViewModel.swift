@@ -45,9 +45,8 @@ func addNodeViewModel(
         certificate: cert,
         macaroon: mac
     )
-    Current.remoteNodeConnection = rnc
-
     
+    Current.remoteNodeConnection = rnc
     let resultSavedPost = Current.keychain.save(rnc)
     switch resultSavedPost {
     case .success(_):

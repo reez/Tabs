@@ -16,7 +16,7 @@ struct LightningApiRPC {
 
 func addInvoice(value: Int, memo: String, completion: @escaping (Result<String>) -> Void) {
     guard let rnc = Current.remoteNodeConnection else { return }
-    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let host = rnc.uri
     let lnd = Lightning(host: host)
 
     try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
@@ -31,7 +31,7 @@ func addInvoice(value: Int, memo: String, completion: @escaping (Result<String>)
 
 func canConnect(completion: @escaping (Bool) -> Void) {
     guard let rnc = Current.remoteNodeConnection else { return }
-    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let host = rnc.uri
     let lnd = Lightning(host: host)
 
     try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
@@ -43,7 +43,7 @@ func canConnect(completion: @escaping (Bool) -> Void) {
 
 func info(completion: @escaping (Result<Info>) -> Void) {
     guard let rnc = Current.remoteNodeConnection else { return }
-    let host = rnc.uri//Current.remoteNodeConnection?.uri else { return }
+    let host = rnc.uri
     let lnd = Lightning(host: host)
 
     try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)

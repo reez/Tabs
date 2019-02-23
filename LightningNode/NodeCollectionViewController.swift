@@ -46,10 +46,6 @@ class NodeCollectionViewController: UICollectionViewController {
         
     }
     
-    @IBAction func refreshButtonAction(_ sender: Any) {
-        refreshButtonPressed()
-    }
-    
 }
 
 extension NodeCollectionViewController {
@@ -229,7 +225,7 @@ extension NodeCollectionViewController {
         self.collectionView?.backgroundView = imageView
         
         let menuControl = ScrollTriggeredControl(image: UIImage(named: "chevron-right-filled-50"))
-        menuControl.addTarget(self, action: #selector(refreshButtonAction), for: .primaryActionTriggered)
+        menuControl.addTarget(self, action: #selector(refreshButtonPressed), for: .primaryActionTriggered)
         menuControl.tintColor = .white
         collectionView.addSubview(menuControl)
         NSLayoutConstraint.activate([
