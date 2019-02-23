@@ -171,8 +171,7 @@
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
 				AEDA9EE721EBE617008E88A3 /* Reusing.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
-				AE15721321C494EB0055D5BD /* NavigationViewController.swift */,
-				AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */,
+				AEDF173B222201F500C59D0E /* Unused */,
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
@@ -213,6 +212,15 @@
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		AEDF173B222201F500C59D0E /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				AE15721321C494EB0055D5BD /* NavigationViewController.swift */,
+				AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */,
+			);
+			path = Unused;
 			sourceTree = "<group>";
 		};
 		B7CEF8F914E4A4EC92C738E3 /* Frameworks */ = {

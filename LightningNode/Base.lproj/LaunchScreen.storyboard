@@ -18,16 +18,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background3" translatesAutoresizingMaskIntoConstraints="NO" id="fRs-1d-c7Y">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1lh-xB-Zhn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TabsBG" translatesAutoresizingMaskIntoConstraints="NO" id="oCt-p1-G11">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="oCt-p1-G11" secondAttribute="bottom" id="Lcl-d9-6CZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="oCt-p1-G11" secondAttribute="trailing" id="P2L-JO-amC"/>
+                                    <constraint firstItem="oCt-p1-G11" firstAttribute="leading" secondItem="1lh-xB-Zhn" secondAttribute="leading" id="eGq-no-6Bp"/>
+                                    <constraint firstItem="oCt-p1-G11" firstAttribute="top" secondItem="1lh-xB-Zhn" secondAttribute="top" id="wAA-1D-1hn"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="fRs-1d-c7Y" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="34" id="1KM-9T-FJW"/>
-                            <constraint firstItem="fRs-1d-c7Y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Cnz-5k-pBw"/>
-                            <constraint firstItem="fRs-1d-c7Y" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="d2R-hj-8g2"/>
-                            <constraint firstItem="fRs-1d-c7Y" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ejK-EQ-UOI"/>
+                            <constraint firstItem="1lh-xB-Zhn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CGn-Xs-9e3"/>
+                            <constraint firstItem="1lh-xB-Zhn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="PDm-uf-ipy"/>
+                            <constraint firstAttribute="bottom" secondItem="1lh-xB-Zhn" secondAttribute="bottom" id="YZU-dr-oix"/>
+                            <constraint firstItem="1lh-xB-Zhn" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="e7c-7N-rX5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -38,6 +50,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Background3" width="1125" height="2436"/>
+        <image name="TabsBG" width="612" height="792"/>
     </resources>
 </document>

@@ -19,31 +19,35 @@ class NodeCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-
-        self.viewModel = LightningViewModel { [weak self] _ in
-            self?.collectionView.reloadData()
-        }
         
         switch Current.keychain.load() {
         case let .success(savedConfig):
-            Current.remoteNodeConnection = savedConfig
-            Current.lightningAPIRPC.info { [weak self] result in
-                result.value
-                    |> flatMap {
-                        self?.viewModel.lightningNodeInfo = $0
-                        self?.collectionView.reloadData()
-                }
+            setupUI()
+            
+            self.viewModel = LightningViewModel { [weak self] _ in
+                self?.collectionView.reloadData()
+            }
+
+                Current.remoteNodeConnection = savedConfig
+                Current.lightningAPIRPC.info { [weak self] result in
+                    result.value
+                        |> flatMap {
+                            self?.viewModel.lightningNodeInfo = $0
+                            self?.collectionView.reloadData()
+                    }
             }
         case .failure(_):
-            let alertController = UIAlertController(
-                title: DataError.fetchInfoFailure.localizedDescription,
-                message: DataError.fetchInfoFailure.errorDescription,
-                preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
+            let bundle = Bundle(for: AddNodeViewController.self)
+            let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+            let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+            let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
+                self.navigationController?.pushViewController(vc, animated: true)
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
 }
@@ -58,32 +62,36 @@ extension NodeCollectionViewController {
         let nodeCellIdentifier = Reusing<NodeCollectionViewCell>().identifier()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nodeCellIdentifier, for: indexPath) as! NodeCollectionViewCell
         
-        if indexPath.row == 0 {
-            cell.configure(with: viewModel.lightningNodeInfo)
+        if viewModel == nil {
             return cell
-        }
-        else if indexPath.row == 1 {
-            cell.configureInvoice(with: viewModel.lightningNodeInfo)
-            cell.hiddenButton.addTarget(
-                self,
-                action: #selector(invoiceButtonPressed),
-                for: .touchUpInside
-            )
-            return cell
-        }
-        else if indexPath.row == 2 {
-            cell.configureDelete(with: viewModel.lightningNodeInfo)
-            cell.hiddenButton.addTarget(
-                self,
-                action: #selector(deleteButtonPressed),
-                for: .touchUpInside
-            )
-            
-            return cell
-        }
-        else {
-            cell.configure(with: viewModel.lightningNodeInfo)
-            return cell
+        } else {
+            if indexPath.row == 0 {
+                cell.configure(with: viewModel.lightningNodeInfo)
+                return cell
+            }
+            else if indexPath.row == 1 {
+                cell.configureInvoice(with: viewModel.lightningNodeInfo)
+                cell.hiddenButton.addTarget(
+                    self,
+                    action: #selector(invoiceButtonPressed),
+                    for: .touchUpInside
+                )
+                return cell
+            }
+            else if indexPath.row == 2 {
+                cell.configureDelete(with: viewModel.lightningNodeInfo)
+                cell.hiddenButton.addTarget(
+                    self,
+                    action: #selector(deleteButtonPressed),
+                    for: .touchUpInside
+                )
+                
+                return cell
+            }
+            else {
+                cell.configure(with: viewModel.lightningNodeInfo)
+                return cell
+            }
         }
         
     }
