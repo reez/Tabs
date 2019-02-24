@@ -25,10 +25,31 @@ class AddInvoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        
+//        let slideDown = UISwipeGestureRecognizer(
+//            target: self,
+//            action: #selector(dismissView(gesture:))
+//        )
+//            slideDown.direction = .down
+//            view.addGestureRecognizer(slideDown)
+
     }
     
+
+    
+    
+//
+//    @objc func dismissView(gesture: UISwipeGestureRecognizer) {
+//        UIView.animate(withDuration: 0.4) {
+//            if let theWindow = UIApplication.shared.keyWindow {
+//                gesture.view?.frame = CGRect(x:theWindow.frame.width - 15 , y: theWindow.frame.height - 15, width: 10 , height: 10)
+//            }
+//        }
+//    }
+    
     @IBAction func goBackPressed(_ sender: UIButton) {
-        _ = navigationController?.popViewController(animated: true)
+//        _ = navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func submitButtonPressed(_ sender: UIButton) {

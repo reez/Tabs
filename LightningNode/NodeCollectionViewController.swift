@@ -184,7 +184,13 @@ extension NodeCollectionViewController {
         let addInvoiceIdentifier = Reusing<AddInvoiceViewController>().identifier()
         let storyboard = UIStoryboard(name: addInvoiceIdentifier, bundle: bundle)
         let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        self.navigationController?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        
+//        self.navigationController?.pushViewController(vc, animated: true)
+//        self.navigationController?.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
+//        self.navigationController?.show(vc, sender: nil)
     }
     
     @objc private func deleteButtonPressed() {
@@ -224,10 +230,11 @@ extension NodeCollectionViewController {
     func setupUI() {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+
         let imageView : UIImageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named:"TabsBG.pdf")
-            imageView.contentMode = .scaleAspectFill
+            imageView.image = UIImage(named:"mr_background")
+            imageView.contentMode = UIView.ContentMode.scaleAspectFill
             return imageView
         }()
         self.collectionView?.backgroundView = imageView

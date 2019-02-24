@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-50-Xam" userLabel="Root Stack View">
-                                <rect key="frame" x="20" y="93" width="335" height="365"/>
+                                <rect key="frame" x="20" y="108" width="335" height="365"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="GL8-9Q-kgi" userLabel="Invoice Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="365"/>
@@ -27,7 +27,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="t6F-mS-oQF" userLabel="Title Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="31.5"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an Invoice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Kc-hbV">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an Invoice" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Kc-hbV">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="31.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                         <nil key="textColor"/>
@@ -110,13 +110,13 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHI-qh-5kX">
-                                <rect key="frame" x="20" y="40" width="29" height="29"/>
+                                <rect key="frame" x="20" y="40" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YHI-qh-5kX" secondAttribute="height" multiplier="1:1" id="Ajx-UP-OJh"/>
-                                    <constraint firstAttribute="width" constant="29" id="Cxu-nJ-zxi"/>
-                                    <constraint firstAttribute="height" constant="29" id="NA9-xX-6n9"/>
+                                    <constraint firstAttribute="width" constant="44" id="Cxu-nJ-zxi"/>
+                                    <constraint firstAttribute="height" constant="44" id="NA9-xX-6n9"/>
                                 </constraints>
-                                <state key="normal" image="back_fill"/>
+                                <state key="normal" image="back"/>
                                 <connections>
                                     <action selector="goBackPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="LYy-5m-EMx"/>
                                 </connections>
@@ -151,6 +151,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back_fill" width="33" height="32.5"/>
+        <image name="back" width="35.5" height="35.5"/>
     </resources>
 </document>
