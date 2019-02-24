@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-50-Xam" userLabel="Root Stack View">
-                                <rect key="frame" x="20" y="108" width="335" height="365"/>
+                                <rect key="frame" x="20" y="120" width="335" height="365"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="GL8-9Q-kgi" userLabel="Invoice Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="365"/>
@@ -110,13 +110,13 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHI-qh-5kX">
-                                <rect key="frame" x="20" y="40" width="44" height="44"/>
+                                <rect key="frame" x="20" y="40" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YHI-qh-5kX" secondAttribute="height" multiplier="1:1" id="Ajx-UP-OJh"/>
-                                    <constraint firstAttribute="width" constant="44" id="Cxu-nJ-zxi"/>
-                                    <constraint firstAttribute="height" constant="44" id="NA9-xX-6n9"/>
+                                    <constraint firstAttribute="width" constant="20" id="Cxu-nJ-zxi"/>
+                                    <constraint firstAttribute="height" constant="20" id="NA9-xX-6n9"/>
                                 </constraints>
-                                <state key="normal" image="back"/>
+                                <state key="normal" image="x"/>
                                 <connections>
                                     <action selector="goBackPressed:" destination="vXz-Iy-sZ1" eventType="touchUpInside" id="LYy-5m-EMx"/>
                                 </connections>
@@ -128,7 +128,7 @@
                             <constraint firstItem="yGf-50-Xam" firstAttribute="leading" secondItem="04P-ls-oIi" secondAttribute="leading" constant="20" id="a7w-fV-xZc"/>
                             <constraint firstItem="YHI-qh-5kX" firstAttribute="top" secondItem="04P-ls-oIi" secondAttribute="top" constant="20" id="cH9-tK-RXu"/>
                             <constraint firstItem="04P-ls-oIi" firstAttribute="trailing" secondItem="yGf-50-Xam" secondAttribute="trailing" constant="20" id="hME-vC-XbZ"/>
-                            <constraint firstItem="yGf-50-Xam" firstAttribute="top" secondItem="YHI-qh-5kX" secondAttribute="bottom" constant="24" id="pfS-VI-oEN"/>
+                            <constraint firstItem="yGf-50-Xam" firstAttribute="top" secondItem="YHI-qh-5kX" secondAttribute="bottom" constant="60" id="pfS-VI-oEN"/>
                             <constraint firstItem="04P-ls-oIi" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="yGf-50-Xam" secondAttribute="bottom" constant="20" id="u4S-wX-loJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="04P-ls-oIi"/>
@@ -151,6 +151,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back" width="35.5" height="35.5"/>
+        <image name="x" width="384" height="384"/>
     </resources>
 </document>
