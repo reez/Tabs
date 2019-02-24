@@ -27,6 +27,12 @@ class AddInvoiceViewController: UIViewController {
         setupUI()
     }
     
+    @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == UISwipeGestureRecognizer.Direction.down {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func goBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -123,6 +129,10 @@ extension AddInvoiceViewController {
     func setupUI() {
         self.amountTextField.delegate = self
         self.memoTextField.delegate = self
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
         
         let nvActivityIndicatorframe = CGRect(
             x: (UIScreen.main.bounds.size.width / 2 - 40),
