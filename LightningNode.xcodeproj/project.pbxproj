@@ -19,8 +19,6 @@
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
 		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
 		AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721121C4943F0055D5BD /* LightningAPI.swift */; };
-		AE15721421C494EB0055D5BD /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721321C494EB0055D5BD /* NavigationViewController.swift */; };
-		AE15721621C494FC0055D5BD /* NavigationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */; };
 		AE15721821C495C10055D5BD /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721721C495C10055D5BD /* Environment.swift */; };
 		AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721921C49E070055D5BD /* AddNodeViewController.swift */; };
 		AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */; };
@@ -78,8 +76,6 @@
 		AE1571FE21C4927E0055D5BD /* LightningNodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightningNodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE15720421C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE15721121C4943F0055D5BD /* LightningAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPI.swift; sourceTree = "<group>"; };
-		AE15721321C494EB0055D5BD /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
-		AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NavigationViewController.storyboard; sourceTree = "<group>"; };
 		AE15721721C495C10055D5BD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		AE15721921C49E070055D5BD /* AddNodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewController.swift; sourceTree = "<group>"; };
 		AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddNodeViewController.storyboard; sourceTree = "<group>"; };
@@ -171,7 +167,6 @@
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
 				AEDA9EE721EBE617008E88A3 /* Reusing.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
-				AEDF173B222201F500C59D0E /* Unused */,
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
@@ -212,15 +207,6 @@
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		AEDF173B222201F500C59D0E /* Unused */ = {
-			isa = PBXGroup;
-			children = (
-				AE15721321C494EB0055D5BD /* NavigationViewController.swift */,
-				AE15721521C494FC0055D5BD /* NavigationViewController.storyboard */,
-			);
-			path = Unused;
 			sourceTree = "<group>";
 		};
 		B7CEF8F914E4A4EC92C738E3 /* Frameworks */ = {
@@ -329,7 +315,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
-				AE15721621C494FC0055D5BD /* NavigationViewController.storyboard in Resources */,
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
 				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
 				AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */,
@@ -477,7 +462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */,
-				AE15721421C494EB0055D5BD /* NavigationViewController.swift in Sources */,
 				AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */,
 				AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */,
 				AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */,
