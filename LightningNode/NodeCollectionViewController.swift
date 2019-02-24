@@ -27,21 +27,21 @@ class NodeCollectionViewController: UICollectionViewController {
             self.viewModel = LightningViewModel { [weak self] _ in
                 self?.collectionView.reloadData()
             }
-
-                Current.remoteNodeConnection = savedConfig
-                Current.lightningAPIRPC.info { [weak self] result in
-                    result.value
-                        |> flatMap {
-                            self?.viewModel.lightningNodeInfo = $0
-                            self?.collectionView.reloadData()
-                    }
+            
+            Current.remoteNodeConnection = savedConfig
+            Current.lightningAPIRPC.info { [weak self] result in
+                result.value
+                    |> flatMap {
+                        self?.viewModel.lightningNodeInfo = $0
+                        self?.collectionView.reloadData()
+                }
             }
         case .failure(_):
             let bundle = Bundle(for: AddNodeViewController.self)
             let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
             let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
             let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
-                self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
     }
@@ -168,7 +168,7 @@ extension NodeCollectionViewController {
             }
         case .failure(_):
             self.nvActivityIndicator?.stopAnimating()
-
+            
             let alertController = UIAlertController(
                 title: DataError.fetchInfoFailure.localizedDescription,
                 message: DataError.fetchInfoFailure.errorDescription,
@@ -186,11 +186,7 @@ extension NodeCollectionViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: addInvoiceIdentifier) as! AddInvoiceViewController
         
         self.navigationController?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        
-//        self.navigationController?.pushViewController(vc, animated: true)
-//        self.navigationController?.present(vc, animated: true, completion: nil)
         self.present(vc, animated: true, completion: nil)
-//        self.navigationController?.show(vc, sender: nil)
     }
     
     @objc private func deleteButtonPressed() {
@@ -198,7 +194,7 @@ extension NodeCollectionViewController {
             title: "Remove Node",
             message: "Are you sure you want to remove the node?",
             preferredStyle: UIAlertController.Style.alert)
-
+        
         alertController.addAction(
             UIAlertAction(
                 title: "Ok",
@@ -213,7 +209,7 @@ extension NodeCollectionViewController {
             }
             )
         )
-
+        
         alertController.addAction(
             UIAlertAction(
                 title: "Cancel",
@@ -230,7 +226,7 @@ extension NodeCollectionViewController {
     func setupUI() {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-
+        
         let imageView : UIImageView = {
             let imageView = UIImageView()
             imageView.image = UIImage(named:"mr_background")
