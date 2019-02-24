@@ -47,7 +47,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
             |> roundedButtonStyle
         
         self.middleLabel
-            |> baseLabelStyleSmallCaption
+            |> baseLabelStyleSmallSubheadline
             <> textColorStyle(.mr_black)
         
         self.bottomLabel
@@ -172,7 +172,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
             <> backgroundStyle(color: .mr_gold)
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
-            <> { $0.setTitle("Invoice", for: .normal) }
+            <> { $0.setTitle("Create Invoice", for: .normal) }
             <> { $0.layer.borderColor = UIColor.mr_gold.cgColor }
         
     }
@@ -210,7 +210,7 @@ class NodeCollectionViewCell: UICollectionViewCell {
         self.hiddenButton
             |> filledButtonStyle
             <> backgroundStyle(color: .mr_red)
-            <> { $0.setTitle("Remove", for: .normal) }
+            <> { $0.setTitle("Remove Node", for: .normal) }
             <> { $0.isEnabled = true }
             <> { $0.isHidden = false }
         

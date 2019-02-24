@@ -155,13 +155,13 @@ extension AddInvoiceViewController {
             |> baseLabelStyleSmallCaption
         
         self.amountTextField
-            |> baseTextFieldStyleBold
+            |> baseTextFieldStyleBoldBody
         
         self.memoLabel
             |> baseLabelStyleSmallCaption
         
         self.memoTextField
-            |> baseTextFieldStyleBold
+            |> baseTextFieldStyleBoldBody
         
         self.invoiceLabel
             |> baseLabelStyleSmallCaption

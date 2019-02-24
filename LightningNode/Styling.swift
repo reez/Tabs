@@ -94,13 +94,16 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
 let baseLabelStyleSmallCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
 
+let baseLabelStyleSmallSubheadline: (UILabel) -> Void =
+    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline).smallCaps)
+
 let baseLabelStyleBoldCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).bolded)
 
 let baseLabelStyleBoldTitle: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .title1).bolded)
 
-let baseTextFieldStyleBold: (UITextField) -> Void =
+let baseTextFieldStyleBoldBody: (UITextField) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .body).bolded)
 
 extension UIFont {

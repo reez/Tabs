@@ -86,19 +86,19 @@ extension AddNodeViewController {
             |> baseLabelStyleSmallCaption
         
         self.certificateTextField
-            |> baseTextFieldStyleBold
+            |> baseTextFieldStyleBoldBody
         
         self.macaroonLabel
             |> baseLabelStyleSmallCaption
         
         self.macaroonTextField
-            |> baseTextFieldStyleBold
+            |> baseTextFieldStyleBoldBody
         
         self.uriLabel
             |> baseLabelStyleSmallCaption
         
         self.uriTextField
-            |> baseTextFieldStyleBold
+            |> baseTextFieldStyleBoldBody
         
         self.lndConnectButton
             |> filledButtonStyle
