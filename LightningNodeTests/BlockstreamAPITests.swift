@@ -18,7 +18,7 @@ class BlockstreamAPITests: XCTestCase {
         blockstreamAPIRequest(testnet: true) { (result) in
             switch result {
             case let .success(height):
-                XCTAssertEqual(height, "1457470")
+                XCTAssertEqual(height, "1481213")
             case let .failure(error):
                 XCTAssertThrowsError(error)
             }
@@ -35,7 +35,7 @@ class BlockstreamAPITests: XCTestCase {
         blockstreamAPIRequest(testnet: false) { (result) in
             switch result {
             case let .success(height):
-                XCTAssertEqual(height, "563456")
+                XCTAssertEqual(height, "564479")
             case let .failure(error):
                 XCTAssertThrowsError(error)
             }
