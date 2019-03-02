@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/reez/LightningNode.svg?branch=master)
+
 # Tabs
 
 Tabs is an iOS app for keeping up with your Lightning Node.
