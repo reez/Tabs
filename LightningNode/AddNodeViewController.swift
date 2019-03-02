@@ -55,6 +55,7 @@ class AddNodeViewController: UIViewController {
 extension AddNodeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         submitPressed()
+        
         return true
     }
 }
