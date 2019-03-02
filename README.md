@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/reez/LightningNode.svg?branch=master)](https://travis-ci.com/reez/LightningNode)
+[![Build Status](https://travis-ci.com/reez/LightningNode.svg?branch=master)](https://travis-ci.com/reez/LightningNode)
 [![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-iOS.svg)](LICENSE)
 
 # Tabs
