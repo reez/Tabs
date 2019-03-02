@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.com/reez/LightningNode.svg?branch=master)](https://travis-ci.com/reez/LightningNode)
+[![Build Status](https://travis-ci.org/reez/Tabs.svg?branch=master)](https://travis-ci.org/reez/Tabs)
 [![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-iOS.svg)](LICENSE)
-[![codecov](https://codecov.io/gh/reez/LightningNode.svg/branch/master/graph/badge.svg)](https://codecov.io/gh/reez/LightningNode.svg)
+[![codecov](https://codecov.io/gh/reez/Tabs/branch/master/graph/badge.svg)](https://codecov.io/gh/reez/Tabs)
 
 # Tabs
 
