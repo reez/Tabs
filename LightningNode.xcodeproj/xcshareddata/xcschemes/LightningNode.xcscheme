@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EA7B407F406D533931F8ADED54A3A89"
+               BlueprintIdentifier = "F649E3474EA363292452274F99284B95"
                BuildableName = "openssl_grpc.framework"
                BlueprintName = "BoringSSL-GRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1630C0AC0CCE2704C3F517D1DFD56586"
+               BlueprintIdentifier = "3F895CBA524B654D3F837F25BFBE2262"
                BuildableName = "KeychainAccess.framework"
                BlueprintName = "KeychainAccess"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "856DC424FCA07DAE7DC9EA6ABACF7C61"
+               BlueprintIdentifier = "139FB2486B399C750DD33FC336B3E28C"
                BuildableName = "LNDrpc.framework"
                BlueprintName = "LNDrpc"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -70,7 +70,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "666D06A5C023D7FE806F970BF6FEBA77"
+               BlueprintIdentifier = "54B1439EA0C8737E1BAF1F8CEF27B62C"
                BuildableName = "NVActivityIndicatorView.framework"
                BlueprintName = "NVActivityIndicatorView"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -84,7 +84,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "73D3BB53EDA36BDF1801431575DA78D1"
+               BlueprintIdentifier = "A4EB0486A0C9442793DD73569BE36F57"
                BuildableName = "Pods_LightningNode.framework"
                BlueprintName = "Pods-LightningNode"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B12BDF4D087C2FABF47557F7D9B8512"
+               BlueprintIdentifier = "65EF03BCB63AA818D1A367C976FEA0E3"
                BuildableName = "Pods_LightningNodeTests.framework"
                BlueprintName = "Pods-LightningNodeTests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -112,7 +112,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FC2158E29C8914FBFE60B03BE058B85F"
+               BlueprintIdentifier = "AF5BE3CC3FCAFD67708D54A2C2F522B8"
                BuildableName = "Protobuf.framework"
                BlueprintName = "Protobuf"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "05F2163D04FDB5E705D790FF6565F83D"
+               BlueprintIdentifier = "520B1E7F268E4AD1C6679FAC582E7B62"
                BuildableName = "GRPCClient.framework"
                BlueprintName = "gRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -140,7 +140,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "072BF0AB4A76273EB5724FE84CCC3B9B"
+               BlueprintIdentifier = "F11508D1DD2CE8BDFC248AED4DD6362E"
                BuildableName = "grpc.framework"
                BlueprintName = "gRPC-Core"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -154,7 +154,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6076BF6474CFFC368B6801677796D8B1"
+               BlueprintIdentifier = "FC177566CC4A5FC1FED99F1933BA1FBC"
                BuildableName = "ProtoRPC.framework"
                BlueprintName = "gRPC-ProtoRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -168,7 +168,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "863CE9B8100AC359AF56D3588EE70E5B"
+               BlueprintIdentifier = "13C5776CDDF2310CD38088C42E5CB2D6"
                BuildableName = "RxLibrary.framework"
                BlueprintName = "gRPC-RxLibrary"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -182,7 +182,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "510FD85A090C64930F174E1E12AF592A"
+               BlueprintIdentifier = "5DC27B5B655AB2D9C6A20DB1AF0ADE7C"
                BuildableName = "nanopb.framework"
                BlueprintName = "nanopb"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
