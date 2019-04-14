@@ -30,7 +30,7 @@ class NodeCollectionViewController: UICollectionViewController {
             
             Current.remoteNodeConnection = savedConfig
             Current.lightningAPIRPC.info { [weak self] result in
-                result.value
+                try? result.get()
                     |> flatMap {
                         self?.viewModel.lightningNodeInfo = $0
                         self?.collectionView.reloadData()
@@ -158,10 +158,9 @@ extension NodeCollectionViewController {
         case let .success(savedConfig):
             Current.remoteNodeConnection = savedConfig
             Current.lightningAPIRPC.info { [weak self] result in
-                result.value.flatMap {
-                    self?.viewModel.lightningNodeInfo = $0
-                    self?.collectionView.reloadData()
-                }
+                guard let new = try? result.get() else { return }
+                self?.viewModel.lightningNodeInfo = new
+                self?.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                 self.nvActivityIndicator?.stopAnimating()
