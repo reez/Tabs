@@ -14,14 +14,14 @@ struct KeychainDataStore {
     var delete = deleteFromKeychain
 }
 
-func loadFromKeychain() -> Result<RemoteNodeConnection> {
+func loadFromKeychain() -> Result<RemoteNodeConnection, DataError> {
     let keychain = Keychain(service: "com.matthewramsden.Tabs")
     guard let data = keychain[data: "remoteNodeConfiguration"] else { return Result.failure(DataError.noRemoteData) }
     guard let remoteNodeConnection = try? JSONDecoder().decode(RemoteNodeConnection.self, from: data) else { return Result.failure(DataError.encodingFailure) }
     return Result.success(remoteNodeConnection)
 }
 
-func saveToKeychain(remoteNodeConnection: RemoteNodeConnection) -> Result<String> {
+func saveToKeychain(remoteNodeConnection: RemoteNodeConnection) -> Result<String, DataError> {
     guard let data = try? JSONEncoder().encode(remoteNodeConnection) else { return Result.failure(DataError.encodingFailure) }
     let keychain = Keychain(service: "com.matthewramsden.Tabs")
     keychain[data: "remoteNodeConfiguration"] = data

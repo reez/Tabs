@@ -272,9 +272,11 @@
 				TargetAttributes = {
 					AE1571E921C4927D0055D5BD = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					AE1571FD21C4927E0055D5BD = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = AE1571E921C4927D0055D5BD;
 					};
 				};
@@ -577,6 +579,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -631,6 +634,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -649,7 +653,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -668,7 +672,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -689,7 +693,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNodeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightningNode.app/LightningNode";
 			};
@@ -711,7 +715,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNodeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightningNode.app/LightningNode";
 			};

@@ -15,7 +15,7 @@ enum BlockstreamAPIMainnet: String {
     case height = "https://blockstream.info/api/blocks/tip/height"
 }
 
-func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String>) -> Void) {
+func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String, Error>) -> Void) {
     
     var request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
     switch testnet {

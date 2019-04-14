@@ -21,8 +21,10 @@ class KeychainDataStoreTests: XCTestCase {
         )
         
         let mockRNC = Current.keychain.load()
-        
-        XCTAssertEqual(mockRNC.value?.certificate, rnc.certificate)
+        let mockCertificate = try? mockRNC.get().certificate
+
+        XCTAssertEqual(mockCertificate!, rnc.certificate)
+
     }
     
     func testLoadMacaroonSuccess() {
@@ -35,8 +37,9 @@ class KeychainDataStoreTests: XCTestCase {
         )
         
         let mockRNC = Current.keychain.load()
-        
-        XCTAssertEqual(mockRNC.value?.macaroon, rnc.macaroon)
+        let mockMacaroon = try? mockRNC.get().macaroon
+
+        XCTAssertEqual(mockMacaroon!, rnc.macaroon)
     }
     
     func testLoadURISuccess() {
@@ -49,8 +52,9 @@ class KeychainDataStoreTests: XCTestCase {
         )
         
         let mockRNC = Current.keychain.load()
-        
-        XCTAssertEqual(mockRNC.value?.uri, rnc.uri)
+        let mockURI = try? mockRNC.get().uri
+
+        XCTAssertEqual(mockURI!, rnc.uri)
     }
     
     
@@ -64,8 +68,9 @@ class KeychainDataStoreTests: XCTestCase {
         )
         
         let mockRNC = Current.keychain.save(rnc)
+        let mockSave = try? mockRNC.get()
         
-        XCTAssertEqual(mockRNC.value, "Success!")
+        XCTAssertEqual(mockSave!, "Success!")
     }
     
     func testSaveFailure() {
@@ -78,7 +83,7 @@ class KeychainDataStoreTests: XCTestCase {
         )
         
         let mockRNC = Current.keychain.save(rnc)
-        
+
         XCTAssertEqual(mockRNC.error?.localizedDescription, "\(DataError.encodingFailure.localizedDescription)")
     }
     

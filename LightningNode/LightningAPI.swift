@@ -14,7 +14,7 @@ struct LightningApiRPC {
     var info = info(completion:)
 }
 
-func addInvoice(value: Int, memo: String, completion: @escaping (Result<String>) -> Void) {
+func addInvoice(value: Int, memo: String, completion: @escaping (Result<String, DataError>) -> Void) {
     guard let rnc = Current.remoteNodeConnection else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
@@ -41,7 +41,7 @@ func canConnect(completion: @escaping (Bool) -> Void) {
         }.runWithMacaroon(rnc.macaroon)
 }
 
-func info(completion: @escaping (Result<Info>) -> Void) {
+func info(completion: @escaping (Result<Info, DataError>) -> Void) {
     guard let rnc = Current.remoteNodeConnection else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
