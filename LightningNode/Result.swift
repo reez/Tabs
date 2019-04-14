@@ -30,3 +30,16 @@ import Foundation
 //    }
 //    
 //}
+
+extension Result {
+    
+    var error: Error? {
+        switch self {
+        case .success:
+            return nil
+        case let .failure(error):
+            return error
+        }
+    }
+    
+}
