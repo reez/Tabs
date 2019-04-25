@@ -13,7 +13,6 @@
 		AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
 		AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */; };
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
-		AE122F172271303600FBEFED /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE122F162271303600FBEFED /* SnapshotTests.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
 		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
@@ -66,7 +65,6 @@
 		AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
-		AE122F162271303600FBEFED /* SnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1571F221C4927D0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -194,7 +192,6 @@
 				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
 				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
 				AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */,
-				AE122F162271303600FBEFED /* SnapshotTests.swift */,
 				AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */,
 				AE15720421C4927E0055D5BD /* Info.plist */,
 			);
@@ -491,7 +488,6 @@
 				AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */,
 				AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */,
 				AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */,
-				AE122F172271303600FBEFED /* SnapshotTests.swift in Sources */,
 				AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */,
 				AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 			);
