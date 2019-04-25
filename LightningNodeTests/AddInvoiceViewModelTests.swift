@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import SnapshotTesting
 @testable import LightningNode
 
 class AddInvoiceViewModelTests: XCTestCase {
@@ -22,6 +23,21 @@ class AddInvoiceViewModelTests: XCTestCase {
             XCTAssertEqual(output.invoiceLabel, "")
             XCTAssertEqual(output.invoiceLabelHidden, true)
             XCTAssertEqual(output.memoTextFieldOutput, "")
+        }
+        
+    }
+    
+    func testAddInvoiceViewModelIntegerSuccessSnapshot() {
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "+", memoTextFieldInput: "memo", submitButtonPressed: ())
+        
+        addInvoiceViewModel(input: input) { (output) in
+            assertSnapshot(matching: output.alertErrorMessage, as: .dump)
+            assertSnapshot(matching: output.alertNeeded, as: .dump)
+            assertSnapshot(matching: output.amountTextFieldOutput, as: .dump)
+            assertSnapshot(matching: output.copyButtonHidden, as: .dump)
+            assertSnapshot(matching: output.invoiceLabel, as: .dump)
+            assertSnapshot(matching: output.invoiceLabelHidden, as: .dump)
+            assertSnapshot(matching: output.memoTextFieldOutput, as: .dump)
         }
         
     }
@@ -44,6 +60,24 @@ class AddInvoiceViewModelTests: XCTestCase {
 
     }
     
+    func testAddInvoiceViewModelRemoteNodeConnectionSuccessSnapshot() {
+        
+        Current = .mock
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "1", memoTextFieldInput: "memo", submitButtonPressed: ())
+        
+        addInvoiceViewModel(input: input) { (output) in
+            assertSnapshot(matching: output.alertErrorMessage, as: .dump)
+            assertSnapshot(matching: output.alertNeeded, as: .dump)
+            assertSnapshot(matching: output.amountTextFieldOutput, as: .dump)
+            assertSnapshot(matching: output.copyButtonHidden, as: .dump)
+            assertSnapshot(matching: output.invoiceLabel, as: .dump)
+            assertSnapshot(matching: output.invoiceLabelHidden, as: .dump)
+            assertSnapshot(matching: output.memoTextFieldOutput, as: .dump)
+        }
+        
+    }
+    
     func testAddInvoiceViewModelSuccess() {
         
         Current = .mock
@@ -57,6 +91,24 @@ class AddInvoiceViewModelTests: XCTestCase {
             XCTAssertEqual(output.memoTextFieldOutput, "")
             XCTAssertEqual(output.invoiceLabel, "mockInvoice")
             XCTAssertEqual(output.invoiceLabelHidden, false)
+        }
+        
+    }
+    
+    func testAddInvoiceViewModelSuccessSnapshot() {
+        
+        Current = .mock
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "1", memoTextFieldInput: "success", submitButtonPressed: ())
+        
+        addInvoiceViewModel(input: input) { (output) in
+            assertSnapshot(matching: output.alertErrorMessage, as: .dump)
+            assertSnapshot(matching: output.alertNeeded, as: .dump)
+            assertSnapshot(matching: output.amountTextFieldOutput, as: .dump)
+            assertSnapshot(matching: output.copyButtonHidden, as: .dump)
+            assertSnapshot(matching: output.invoiceLabel, as: .dump)
+            assertSnapshot(matching: output.invoiceLabelHidden, as: .dump)
+            assertSnapshot(matching: output.memoTextFieldOutput, as: .dump)
         }
         
     }
@@ -77,5 +129,23 @@ class AddInvoiceViewModelTests: XCTestCase {
         }
         
     }
+    
+    func testAddInvoiceViewModelFailureSnapshot() {
+        Current = .test
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "1", memoTextFieldInput: "failure", submitButtonPressed: ())
+        
+        addInvoiceViewModel(input: input) { (output) in
+            assertSnapshot(matching: output.alertErrorMessage, as: .dump)
+            assertSnapshot(matching: output.alertNeeded, as: .dump)
+            assertSnapshot(matching: output.amountTextFieldOutput, as: .dump)
+            assertSnapshot(matching: output.copyButtonHidden, as: .dump)
+            assertSnapshot(matching: output.invoiceLabel, as: .dump)
+            assertSnapshot(matching: output.invoiceLabelHidden, as: .dump)
+            assertSnapshot(matching: output.memoTextFieldOutput, as: .dump)
+        }
+        
+    }
+
     
 }
