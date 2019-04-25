@@ -40,5 +40,18 @@ class SnapshotTests: XCTestCase {
         
         assertSnapshot(matching: vc, as: .image)
     }
+    
+    func testAddNodeViewModelInvalidMacaroon() {
+        
+        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: "badMacaroonFormat", uriTextFieldInput: lndURI)
+        
+        addNodeViewModel(input: input) { (outputs) in
+            //XCTAssertEqual(outputs.alertNeeded, true)
+            assertSnapshot(matching: outputs.alertNeeded, as: .dump)
+            //XCTAssertEqual(outputs.alertErrorMessage, "Could not use format of Macaroon")
+            assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
+        }
+        
+    }
 
 }
