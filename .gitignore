@@ -33,7 +33,7 @@ timeline.xctimeline
 playground.xcworkspace
 
 ## Snapshot Testing
-LightningNodeTests/__Snapshots__/
+## LightningNodeTests/__Snapshots__/
 
 # Swift Package Manager
 #
