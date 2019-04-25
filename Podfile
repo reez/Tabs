@@ -14,7 +14,7 @@ target 'LightningNode' do
     inherit! :search_paths
     # Pods for testing
     pod 'LNDrpc', :path => '.'
-
+    pod 'SnapshotTesting', '~> 1.5'
   end
 
 end

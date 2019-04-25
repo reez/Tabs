@@ -52,11 +52,13 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.7.0)
   - NVActivityIndicatorView/Presenter (4.7.0)
   - Protobuf (3.7.0)
+  - SnapshotTesting (1.5.0)
 
 DEPENDENCIES:
   - KeychainAccess
   - LNDrpc (from `.`)
   - NVActivityIndicatorView
+  - SnapshotTesting (~> 1.5)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -71,6 +73,7 @@ SPEC REPOS:
     - nanopb
     - NVActivityIndicatorView
     - Protobuf
+    - SnapshotTesting
 
 EXTERNAL SOURCES:
   LNDrpc:
@@ -89,7 +92,8 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  SnapshotTesting: 9ca1d80f6322509a035856170c11d0571b1f7171
 
-PODFILE CHECKSUM: 55572fd589cc65f1d52a7217537e34602d48554b
+PODFILE CHECKSUM: af20001d64f7fff3e69dbc67eb0f97002531163c
 
 COCOAPODS: 1.6.1
