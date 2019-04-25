@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import SnapshotTesting
 @testable import LightningNode
 
 class AddNodeViewModelTests: XCTestCase {
@@ -22,6 +23,17 @@ class AddNodeViewModelTests: XCTestCase {
         
     }
     
+    func testAddNodeViewModelInvalidMacaroonSnapshot() {
+        
+        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: "badMacaroonFormat", uriTextFieldInput: lndURI)
+        
+        addNodeViewModel(input: input) { (outputs) in
+            assertSnapshot(matching: outputs.alertNeeded, as: .dump)
+            assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
+        }
+        
+    }
+    
     func testAddNodeViewModelValidMacaroon() {
         
         let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
@@ -29,6 +41,17 @@ class AddNodeViewModelTests: XCTestCase {
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, false)
             XCTAssertEqual(outputs.alertErrorMessage, "Unexpected Error")
+        }
+        
+    }
+    
+    func testAddNodeViewModelValidMacaroonSnapshot() {
+        
+        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        
+        addNodeViewModel(input: input) { (outputs) in
+            assertSnapshot(matching: outputs.alertNeeded, as: .dump)
+            assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
         }
         
     }
@@ -46,6 +69,19 @@ class AddNodeViewModelTests: XCTestCase {
         
     }
     
+    func testAddNodeViewModelValidRemoteNodeConnectionSnapshot() {
+        
+        Current = .mock
+        
+        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        
+        addNodeViewModel(input: input) { (outputs) in
+            assertSnapshot(matching: outputs.alertNeeded, as: .dump)
+            assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
+        }
+        
+    }
+    
     func testAddNodeViewModelValidRemoteNodeConnectionTest() {
         
         Current = .test
@@ -55,6 +91,19 @@ class AddNodeViewModelTests: XCTestCase {
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, true)
             XCTAssertEqual(outputs.alertErrorMessage, "Encoding Failure")
+        }
+        
+    }
+    
+    func testAddNodeViewModelValidRemoteNodeConnectionTestSnapshot() {
+        
+        Current = .test
+        
+        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        
+        addNodeViewModel(input: input) { (outputs) in
+            assertSnapshot(matching: outputs.alertNeeded, as: .dump)
+            assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
         }
         
     }
