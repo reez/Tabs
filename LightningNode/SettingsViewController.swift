@@ -1,0 +1,187 @@
+//
+//  SettingsViewController.swift
+//  LightningNode
+//
+//  Created by Matthew Ramsden on 4/27/19.
+//  Copyright © 2019 Matthew Ramsden. All rights reserved.
+//
+
+import UIKit
+
+class SettingsViewController: UIViewController {
+    
+//    @IBOutlet var yoLabel: UILabel!
+//    @IBOutlet var removeButton: UIButton!
+    private var viewModel: LightningViewModel!
+    
+    private let rootStackView = UIStackView()
+    private let removeNodeButton = UIButton()
+    private let lndVersionLabel = UILabel()
+    private let tabsVersionLabel = UILabel()
+    private let aliasLabel = UILabel()
+    private let buttonStackView = UIStackView()
+    private let textStackView = UIStackView()
+    
+    private let blockHashLabel = UILabel()
+    private let identityPubkeyLabel = UILabel()
+    private let bestHeaderTimestampLabel = UILabel()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupUI()
+        self.tabsVersionLabel.text = "(Tabs LND Version: 0.5.2-beta)"
+        
+        self.removeNodeButton.setTitle("Remove Node", for: .normal)
+        self.removeNodeButton
+            |> filledButtonStyle
+        
+        removeNodeButton.backgroundColor = .mr_red
+        
+        self.removeNodeButton.addTarget(
+            self,
+            action: #selector(deleteButtonPressed),
+            for: .touchUpInside
+        )
+        
+        switch Current.keychain.load() {
+        case let .success(savedConfig):
+            
+            self.viewModel = LightningViewModel { [weak self] _ in
+                self?.lndVersionLabel.text = "Getting LND Version..."
+                self?.aliasLabel.text = "Getting Node Alias..."
+                self?.identityPubkeyLabel.text = "Getting Pubkey..."
+//                self?.bestHeaderTimestampLabel.text = "Getting Best Header Timestamp..."
+//                self?.blockHashLabel.text = "Getting Block Hash..."
+            }
+            
+            Current.remoteNodeConnectionFormatted = savedConfig
+            Current.lightningAPIRPC.info { [weak self] result in
+                try? result.get()
+                    |> flatMap {
+                        self?.viewModel.lightningNodeInfo = $0
+                        
+                        self?.lndVersionLabel.text = "LND Version: \($0.version)"
+                        self?.aliasLabel.text = "Alias: \($0.alias)"
+                        self?.identityPubkeyLabel.text = "Identity Pubkey: \($0.identityPubkey)"
+//                        self?.bestHeaderTimestampLabel.text = "Best Header Timestamp: \($0.bestHeaderTimestamp)"
+//                        self?.blockHashLabel.text = "Blockhash: \($0.blockHash)"
+                }
+            }
+        case .failure(_):
+            let bundle = Bundle(for: AddNodeViewController.self)
+            let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+            let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+            let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    @objc private func deleteButtonPressed() {
+        let alertController = UIAlertController(
+            title: "Remove Node",
+            message: "Are you sure you want to remove the node?",
+            preferredStyle: UIAlertController.Style.alert)
+        
+        alertController.addAction(
+            UIAlertAction(
+                title: "Ok",
+                style: .default,
+                handler: { (action: UIAlertAction!) in
+                    deleteFromKeychain()
+                    let bundle = Bundle(for: AddNodeViewController.self)
+                    let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
+                    let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
+                    let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
+                    self.navigationController?.pushViewController(vc, animated: true)
+            }
+            )
+        )
+        
+        alertController.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel,
+                handler: { _ in }
+            )
+        )
+        present(alertController, animated: true, completion: nil)
+    }
+
+}
+
+extension SettingsViewController {
+    func setupUI() {
+        self.rootStackView.layoutMargins.top = .mr_grid(12)
+        self.rootStackView.layoutMargins.left = .mr_grid(6)
+        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
+        self.rootStackView.layoutMargins.right = .mr_grid(6)
+        
+        self.rootStackView.spacing = .mr_grid(12)
+        self.rootStackView.axis = .vertical
+        self.rootStackView.isLayoutMarginsRelativeArrangement = true
+        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.buttonStackView.spacing = .mr_grid(6)
+        self.buttonStackView.axis = .vertical
+        self.buttonStackView.isLayoutMarginsRelativeArrangement = true
+        self.buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.textStackView.spacing = .mr_grid(3)
+        self.textStackView.axis = .vertical
+        self.textStackView.isLayoutMarginsRelativeArrangement = true
+        self.textStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        self.lndVersionLabel.numberOfLines = 0
+        self.aliasLabel.numberOfLines = 0
+        self.tabsVersionLabel.numberOfLines = 0
+        self.blockHashLabel.numberOfLines = 0
+        self.identityPubkeyLabel.numberOfLines = 0
+        self.bestHeaderTimestampLabel.numberOfLines = 0
+        
+        //        blockHashLabel.lineBreakMode = .byWordWrapping
+        //        identityPubkeyLabel.lineBreakMode = .byWordWrapping
+        //        blockHashLabel.lineBreakMode = .byCharWrapping
+        //        identityPubkeyLabel.lineBreakMode = .byWordWrapping
+        
+        self.lndVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+        self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+        self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
+        self.blockHashLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        self.bestHeaderTimestampLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        
+        
+        
+        self.textStackView.addArrangedSubview(aliasLabel)
+        //        self.textStackView.addArrangedSubview(bestHeaderTimestampLabel)
+        self.textStackView.addArrangedSubview(identityPubkeyLabel)
+        //        self.textStackView.addArrangedSubview(blockHashLabel)
+        self.textStackView.addArrangedSubview(lndVersionLabel)
+        self.textStackView.addArrangedSubview(tabsVersionLabel)
+        self.buttonStackView.addArrangedSubview(removeNodeButton)
+        self.rootStackView.addArrangedSubview(textStackView)
+        self.rootStackView.addArrangedSubview(buttonStackView)
+        
+        self.view.addSubview(rootStackView)
+        
+        NSLayoutConstraint.activate([
+            self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
+            //            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
+            self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+            //
+            rootStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0),
+            
+            //            rootStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            //            rootStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            ])
+        
+    }}

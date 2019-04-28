@@ -14,12 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let navigationIdentifier = Reusing<NodeCollectionViewController>().identifier()
-        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: NodeCollectionViewController.self))
+//        let navigationIdentifier = Reusing<NodeCollectionViewController>().identifier()
+//        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: NodeCollectionViewController.self))
+//        let vc = storyboard.instantiateViewController(withIdentifier: navigationIdentifier)
+//        let navigationController = UINavigationController(rootViewController: vc)
+        
+        let navigationIdentifier = Reusing<TabBarViewController>().identifier()
+        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: TabBarViewController.self))
         let vc = storyboard.instantiateViewController(withIdentifier: navigationIdentifier)
         let navigationController = UINavigationController(rootViewController: vc)
         
         self.window?.rootViewController = navigationController
+
+        
+        //self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
         return true

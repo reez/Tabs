@@ -12,6 +12,7 @@ struct Environment {
     var lightningAPIRPC = LightningApiRPC()
     var keychain = KeychainDataStore()
     var remoteNodeConnection: RemoteNodeConnection?
+    var remoteNodeConnectionFormatted: RemoteNodeConnection?
 }
 
 var Current = Environment()
@@ -21,7 +22,8 @@ extension Environment {
         date: { .mock },
         lightningAPIRPC: .mock,
         keychain: .mock,
-        remoteNodeConnection: .mock
+        remoteNodeConnection: .mock,
+        remoteNodeConnectionFormatted: .mockFormatted
     )
 }
 
@@ -30,7 +32,8 @@ extension Environment {
         date: { .mock },
         lightningAPIRPC: .test,
         keychain: .test,
-        remoteNodeConnection: .mock
+        remoteNodeConnection: .mock,
+        remoteNodeConnectionFormatted: .mockFormatted
     )
 }
 
@@ -97,5 +100,7 @@ extension Info {
 
 extension RemoteNodeConnection {
     static let mock = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
+    static let mockFormatted = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
+
 }
 

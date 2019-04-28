@@ -8,7 +8,23 @@
 
 import UIKit
 import NVActivityIndicatorView
-
+//import PanModal
+//
+//extension AddInvoiceViewController: PanModalPresentable {
+//    
+//    var panScrollable: UIScrollView? {
+//        return nil
+//    }
+//    
+//    //    var shortFormHeight: PanModalHeight {
+//    //        return .contentHeight(300)
+//    //    }
+//    //
+//    //    var longFormHeight: PanModalHeight {
+//    //        return .maxHeightWithTopInset(40)
+//    //    }
+//    
+//}
 class AddInvoiceViewController: UIViewController {
     
     private var nvActivityIndicator: NVActivityIndicatorView?
@@ -33,9 +49,9 @@ class AddInvoiceViewController: UIViewController {
         }
     }
     
-    @IBAction func goBackPressed(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func goBackPressed(_ sender: UIButton) {
+//        self.dismiss(animated: true, completion: nil)
+//    }
     
     @IBAction func submitButtonPressed(_ sender: UIButton) {
         UIButton.animate(

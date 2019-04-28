@@ -233,3 +233,23 @@ extension UIScrollView {
         return offset
     }
 }
+
+extension CGFloat {
+    static func mr_grid(_ n: Int) -> CGFloat {
+        return CGFloat(n) * 4
+    }
+}
+
+public var refreshedDateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE MMM d, yyyy HH:mm:ss"
+    formatter.timeZone = .current
+    return formatter
+}
+
+public var monthDateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE MMM d, yyyy"
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return formatter
+}

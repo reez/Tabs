@@ -13,6 +13,14 @@ extension Invoice {
         self.init()
         self.memo = memo
         self.value = Int64(value)
+//        self.settled = settled
+    }
+}
+
+extension ListInvoiceRequest {
+    convenience init(reversed: Bool) {
+        self.init()
+        self.reversed = reversed
     }
 }
 
