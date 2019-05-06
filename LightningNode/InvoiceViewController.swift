@@ -165,9 +165,9 @@ extension InvoiceViewController {
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.titleLabel.textAlignment = .center
-        self.titleStackView.addArrangedSubview(titleLabel)
-        self.rootStackView.addArrangedSubview(titleStackView)
+//        self.titleLabel.textAlignment = .center
+//        self.titleStackView.addArrangedSubview(titleLabel)
+//        self.rootStackView.addArrangedSubview(titleStackView)
         
         self.amountTextStackView.addArrangedSubview(amountImageView)
         self.amountTextStackView.addArrangedSubview(amountLabel)
@@ -330,7 +330,7 @@ extension InvoiceViewController: PanModalPresentable {
     }
     
     var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(100)
+        return .maxHeightWithTopInset(200)
     }
     
     var anchorModalToLongForm: Bool {

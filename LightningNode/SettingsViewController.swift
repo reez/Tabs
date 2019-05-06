@@ -25,6 +25,9 @@ class SettingsViewController: UIViewController {
     private let blockHashLabel = UILabel()
     private let identityPubkeyLabel = UILabel()
     private let bestHeaderTimestampLabel = UILabel()
+    
+    private let identityStackView = UIStackView()
+    private let versionStackView = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +84,7 @@ class SettingsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        
     }
     
     @objc private func deleteButtonPressed() {
@@ -133,10 +137,20 @@ extension SettingsViewController {
         self.buttonStackView.isLayoutMarginsRelativeArrangement = true
         self.buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.textStackView.spacing = .mr_grid(3)
+        self.textStackView.spacing = .mr_grid(4)
         self.textStackView.axis = .vertical
         self.textStackView.isLayoutMarginsRelativeArrangement = true
         self.textStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.identityStackView.spacing = .mr_grid(1)
+        self.identityStackView.axis = .vertical
+        self.identityStackView.isLayoutMarginsRelativeArrangement = true
+        self.identityStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.versionStackView.spacing = .mr_grid(1)
+        self.versionStackView.axis = .vertical
+        self.versionStackView.isLayoutMarginsRelativeArrangement = true
+        self.versionStackView.translatesAutoresizingMaskIntoConstraints = false
         
         
         self.lndVersionLabel.numberOfLines = 0
@@ -160,12 +174,17 @@ extension SettingsViewController {
         
         
         
-        self.textStackView.addArrangedSubview(aliasLabel)
+        self.identityStackView.addArrangedSubview(aliasLabel)
         //        self.textStackView.addArrangedSubview(bestHeaderTimestampLabel)
-        self.textStackView.addArrangedSubview(identityPubkeyLabel)
+        self.identityStackView.addArrangedSubview(identityPubkeyLabel)
         //        self.textStackView.addArrangedSubview(blockHashLabel)
-        self.textStackView.addArrangedSubview(lndVersionLabel)
-        self.textStackView.addArrangedSubview(tabsVersionLabel)
+        self.textStackView.addArrangedSubview(identityStackView)
+
+        
+        self.versionStackView.addArrangedSubview(lndVersionLabel)
+        self.versionStackView.addArrangedSubview(tabsVersionLabel)
+        self.textStackView.addArrangedSubview(versionStackView)
+
         self.buttonStackView.addArrangedSubview(removeNodeButton)
         self.rootStackView.addArrangedSubview(textStackView)
         self.rootStackView.addArrangedSubview(buttonStackView)
@@ -176,11 +195,10 @@ extension SettingsViewController {
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             //            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            //
-            rootStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0),
+//            rootStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0),
             
-            //            rootStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //            rootStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                        rootStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//                        rootStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             ])
         
