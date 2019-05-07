@@ -252,7 +252,8 @@ final class InvoiceInfoCell: UITableViewCell {
         self.amountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         self.titleLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
         self.amountLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        
+        self.sequenceAndDateLabel.numberOfLines = 0
+
         self.contentView.addSubview(self.rootStackView)
         
         NSLayoutConstraint.activate([
@@ -277,8 +278,8 @@ final class InvoiceInfoCell: UITableViewCell {
         let creationDate = episode.creationDate
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
-        let formattedDate = monthDateFormatter.string(from: dr)
-        self.sequenceAndDateLabel.text = "\(formattedDate) • Invoice settled: \(episode.settled)"
+        let formattedDate = monthDateHourAMPMFormatter.string(from: dr)
+        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice expiry: \(episode.expiry) • Invoice settled: \(episode.settled)"
         
         // Do I want to make the call for invoices here?
     }

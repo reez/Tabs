@@ -28,12 +28,24 @@ class SettingsViewController: UIViewController {
     
     private let identityStackView = UIStackView()
     private let versionStackView = UIStackView()
+    
+    private let staticAliasLabel = UILabel()
+    private let staticIdentityLabel = UILabel()
+    
+    private let pubkeyStackView = UIStackView()
+    private let aliasStackView = UIStackView()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
         self.tabsVersionLabel.text = "(Tabs LND Version: 0.5.2-beta)"
+        self.staticAliasLabel.text = "Alias"
+        self.staticIdentityLabel.text = "Identity Pubkey"
+        self.staticIdentityLabel.textColor = .gray
+        self.staticAliasLabel.textColor = .gray
+
         
         self.removeNodeButton.setTitle("Remove Node", for: .normal)
         self.removeNodeButton
@@ -65,8 +77,8 @@ class SettingsViewController: UIViewController {
                         self?.viewModel.lightningNodeInfo = $0
                         
                         self?.lndVersionLabel.text = "LND Version: \($0.version)"
-                        self?.aliasLabel.text = "Alias: \($0.alias)"
-                        self?.identityPubkeyLabel.text = "Identity Pubkey: \($0.identityPubkey)"
+                        self?.aliasLabel.text = "\($0.alias)"
+                        self?.identityPubkeyLabel.text = "\($0.identityPubkey)"
 //                        self?.bestHeaderTimestampLabel.text = "Best Header Timestamp: \($0.bestHeaderTimestamp)"
 //                        self?.blockHashLabel.text = "Blockhash: \($0.blockHash)"
                 }
@@ -123,9 +135,9 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController {
     func setupUI() {
         self.rootStackView.layoutMargins.top = .mr_grid(12)
-        self.rootStackView.layoutMargins.left = .mr_grid(6)
+        self.rootStackView.layoutMargins.left = .mr_grid(12)
         self.rootStackView.layoutMargins.bottom = .mr_grid(6)
-        self.rootStackView.layoutMargins.right = .mr_grid(6)
+        self.rootStackView.layoutMargins.right = .mr_grid(12)
         
         self.rootStackView.spacing = .mr_grid(48)
         self.rootStackView.axis = .vertical
@@ -144,7 +156,7 @@ extension SettingsViewController {
         self.textStackView.isLayoutMarginsRelativeArrangement = true
         self.textStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.identityStackView.spacing = .mr_grid(2)
+        self.identityStackView.spacing = .mr_grid(4)
         self.identityStackView.axis = .vertical
         self.identityStackView.isLayoutMarginsRelativeArrangement = true
         self.identityStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +165,18 @@ extension SettingsViewController {
         self.versionStackView.axis = .vertical
         self.versionStackView.isLayoutMarginsRelativeArrangement = true
         self.versionStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.pubkeyStackView.spacing = .mr_grid(2)
+        self.pubkeyStackView.axis = .vertical
+        self.pubkeyStackView.isLayoutMarginsRelativeArrangement = true
+        self.pubkeyStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        
+        self.aliasStackView.spacing = .mr_grid(2)
+        self.aliasStackView.axis = .vertical
+        self.aliasStackView.isLayoutMarginsRelativeArrangement = true
+        self.aliasStackView.translatesAutoresizingMaskIntoConstraints = false
+
         
         self.lndVersionLabel.numberOfLines = 0
         self.aliasLabel.numberOfLines = 0
@@ -170,13 +194,26 @@ extension SettingsViewController {
         self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
         self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
         self.blockHashLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
-        self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
         self.bestHeaderTimestampLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
         
         
+        self.aliasLabel.textAlignment = .center
+        self.staticAliasLabel.textAlignment = .center
+        self.identityPubkeyLabel.textAlignment = .center
+        self.staticIdentityLabel.textAlignment = .center
         
-        self.identityStackView.addArrangedSubview(aliasLabel)
-        self.identityStackView.addArrangedSubview(identityPubkeyLabel)
+        self.lndVersionLabel.textAlignment = .center
+        self.tabsVersionLabel.textAlignment = .center
+
+
+        self.aliasStackView.addArrangedSubview(staticAliasLabel)
+        self.aliasStackView.addArrangedSubview(aliasLabel)
+        self.identityStackView.addArrangedSubview(aliasStackView)
+        self.pubkeyStackView.addArrangedSubview(staticIdentityLabel)
+        self.pubkeyStackView.addArrangedSubview(identityPubkeyLabel)
+        self.identityStackView.addArrangedSubview(pubkeyStackView)
+
         self.textStackView.addArrangedSubview(identityStackView)
         self.versionStackView.addArrangedSubview(lndVersionLabel)
         self.versionStackView.addArrangedSubview(tabsVersionLabel)

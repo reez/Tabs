@@ -46,7 +46,7 @@ class StatusViewController: UIViewController {
                         self?.viewModel.lightningNodeInfo = $0
                         
                         let creationDate = Current.date()
-                        let formattedDate = refreshedDateFormatter.string(from: creationDate)
+                        let formattedDate = monthDateHourAMPMFormatter.string(from: creationDate)
                         
                         self?.refreshedLabel.text = "Refreshed: \(formattedDate)"
                         
@@ -119,7 +119,7 @@ extension StatusViewController {
             action: #selector(modalButtonPressed),
             for: .touchUpInside
         )
-        self.infoButton.setTitle("See more Info", for: .normal)
+        self.infoButton.setTitle("Get Info", for: .normal)
         self.infoButton
             |> unfilledButtonStyle
 //            <> backgroundStyle(color: .mr_gold)

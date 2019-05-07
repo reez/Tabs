@@ -216,7 +216,7 @@ extension InvoiceViewController {
         self.memoLabel.text = "Memo"
         self.invoiceLabel.text = "Invoice"
         self.submitButton.setTitle("Add Invoice", for: .normal)
-        self.copyButton.setTitle("Copy", for: .normal)
+        self.copyButton.setTitle("Copy Invoice", for: .normal)
         
         self.amountTextField.borderStyle = .roundedRect
         self.memoTextField.borderStyle = .roundedRect

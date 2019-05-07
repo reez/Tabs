@@ -269,3 +269,13 @@ public var monthDateFormatter: DateFormatter {
     formatter.timeZone = TimeZone(secondsFromGMT: 0)
     return formatter
 }
+
+public var monthDateHourAMPMFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE MMM d, yyyy h:mm:ss a"
+//    formatter.timeZone = .current
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.amSymbol = "AM"
+    formatter.pmSymbol = "PM"
+    return formatter
+}
