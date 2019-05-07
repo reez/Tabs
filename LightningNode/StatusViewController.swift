@@ -62,6 +62,14 @@ class StatusViewController: UIViewController {
                             (self?.infoLabel.text = "Synced") :
                             (self?.infoLabel.text = "Not Synced")
                         
+//                        checkbox.setCheckState(.unchecked, animated: true)
+//                        checkbox.animationDuration = 0.50
+//                        checkbox.tintColor = .mr_green
+//                        checkbox.secondaryTintColor = .mr_gray
+//                        checkbox.checkmarkLineWidth = 6.0
+//                        checkbox.boxLineWidth = 3.0
+//                        checkbox.boxType = .circle
+                        
                 }
             }
         case .failure(_):

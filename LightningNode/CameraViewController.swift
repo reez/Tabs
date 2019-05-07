@@ -99,13 +99,7 @@ extension CameraViewController {
         self.previewLayer.frame = view.layer.bounds
         self.previewLayer.videoGravity = .resizeAspectFill
         self.view.layer.addSublayer(self.previewLayer)
-        
-        let buttonImage = UIImage(named: "back")
-        let button = UIButton(frame: CGRect(x: 10, y: 60, width: 40, height: 40))
-        button.setImage(buttonImage, for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        self.view.addSubview(button)
-        
+                
         self.captureSession.startRunning()
     }
     

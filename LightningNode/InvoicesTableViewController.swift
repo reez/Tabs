@@ -279,7 +279,8 @@ final class InvoiceInfoCell: UITableViewCell {
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
         let formattedDate = monthDateHourAMPMFormatter.string(from: dr)
-        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice expiry: \(episode.expiry) • Invoice settled: \(episode.settled)"
+        
+        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice settled: \(episode.settled)"
         
         // Do I want to make the call for invoices here?
     }
