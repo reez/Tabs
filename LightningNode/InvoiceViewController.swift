@@ -41,6 +41,14 @@ class InvoiceViewController: UIViewController {
         setupView()
         self.view.backgroundColor = .white
         
+        self.amountTextField.placeholder = "Value"
+        self.memoTextField.placeholder = "Memo"
+        
+        self.amountTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        self.memoTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        self.amountTextField.keyboardType = UIKeyboardType.numbersAndPunctuation
+
+        
         self.copyButton.addTarget(
             self,
             action: #selector(copyButtonPressed),
@@ -160,7 +168,7 @@ extension InvoiceViewController {
         self.rootStackView.layoutMargins.bottom = .mr_grid(6)
         self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(12)
+        self.rootStackView.spacing = .mr_grid(6)
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -169,14 +177,14 @@ extension InvoiceViewController {
 //        self.titleStackView.addArrangedSubview(titleLabel)
 //        self.rootStackView.addArrangedSubview(titleStackView)
         
-        self.amountTextStackView.addArrangedSubview(amountImageView)
-        self.amountTextStackView.addArrangedSubview(amountLabel)
-        self.memoTextStackView.addArrangedSubview(memoImageView)
-        self.memoTextStackView.addArrangedSubview(memoLabel)
+//        self.amountTextStackView.addArrangedSubview(amountImageView)
+//        self.amountTextStackView.addArrangedSubview(amountLabel)
+//        self.memoTextStackView.addArrangedSubview(memoImageView)
+//        self.memoTextStackView.addArrangedSubview(memoLabel)
         
-        self.amountStackView.addArrangedSubview(amountTextStackView)
+//        self.amountStackView.addArrangedSubview(amountTextStackView)
         self.amountStackView.addArrangedSubview(amountTextField)
-        self.memoStackView.addArrangedSubview(memoTextStackView)
+//        self.memoStackView.addArrangedSubview(memoTextStackView)
         self.memoStackView.addArrangedSubview(memoTextField)
         self.textStackView.addArrangedSubview(memoStackView)
         self.textStackView.addArrangedSubview(amountStackView)
@@ -207,7 +215,7 @@ extension InvoiceViewController {
         self.amountLabel.text = "Amount"
         self.memoLabel.text = "Memo"
         self.invoiceLabel.text = "Invoice"
-        self.submitButton.setTitle("Submit", for: .normal)
+        self.submitButton.setTitle("Add Invoice", for: .normal)
         self.copyButton.setTitle("Copy", for: .normal)
         
         self.amountTextField.borderStyle = .roundedRect
@@ -273,15 +281,16 @@ extension InvoiceViewController  {
             |> baseLabelStyleSmallCaption
         
         self.submitButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .mr_gold)
+            |> unfilledButtonStyle
+//            <> backgroundStyle(color: .mr_gold)
         
         self.copyButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .mr_gold)
+            |> unfilledButtonStyle
+//            <> backgroundStyle(color: .mr_gold)
         
         self.invoiceLabel
             |> map { $0.isHidden = true }
+        
         self.copyButton
             |> map { $0.isHidden = true }
     }

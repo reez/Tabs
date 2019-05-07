@@ -124,7 +124,7 @@ final class CreateInvoiceCell: UITableViewCell {
         )
         
         self.selectionStyle = .none
-        self.contentView.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+        self.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
         
         self.bodyLabel.text = """
         🌩
@@ -134,7 +134,7 @@ final class CreateInvoiceCell: UITableViewCell {
         """
         
         self.bodyLabel.numberOfLines = 0
-        self.bodyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        self.bodyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
         self.bodyLabel.textAlignment = .center
         
         self.rootStackView.alignment = .center
@@ -148,15 +148,15 @@ final class CreateInvoiceCell: UITableViewCell {
         
         self.contentView.addSubview(self.rootStackView)
         
-        self.rootStackView.spacing = .mr_grid(3)
+        self.rootStackView.spacing = .mr_grid(12)
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
         self.addInvoiceButton
-            |> filledButtonStyle
-        addInvoiceButton.backgroundColor = .mr_gold
+            |> unfilledButtonStyle
+//        addInvoiceButton.backgroundColor = .mr_gold
         
         self.buttonsStackView.spacing = .mr_grid(2)
         self.buttonsStackView.addArrangedSubview(self.addInvoiceButton)

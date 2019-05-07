@@ -22,6 +22,7 @@ class StatusViewController: UIViewController {
     private let syncedStackView = UIStackView()
     private let moreInfoStackView = UIStackView()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,7 +88,7 @@ extension StatusViewController {
         self.rootStackView.layoutMargins.bottom = .mr_grid(12)
         self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(18) //
+        self.rootStackView.spacing = .mr_grid(48) //
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +103,11 @@ extension StatusViewController {
         self.infoLabel.textAlignment = .center
         self.infoLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         
+        self.moreInfoStackView.spacing = .mr_grid(6)
+        self.moreInfoStackView.axis = .vertical
+        self.moreInfoStackView.isLayoutMarginsRelativeArrangement = true
+        self.moreInfoStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         self.refreshedLabel.text = "Refreshing..."
         self.refreshedLabel.numberOfLines = 0
         self.refreshedLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
@@ -115,33 +121,33 @@ extension StatusViewController {
         )
         self.infoButton.setTitle("See more Info", for: .normal)
         self.infoButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .mr_gold)
-        
-        
+            |> unfilledButtonStyle
+//            <> backgroundStyle(color: .mr_gold)
         
         checkbox.setCheckState(.unchecked, animated: true)
         checkbox.animationDuration = 0.50
         checkbox.tintColor = .mr_green
         checkbox.secondaryTintColor = .mr_gray
-        checkbox.checkmarkLineWidth = 4.0
-        checkbox.boxLineWidth = 2.0
+        checkbox.checkmarkLineWidth = 6.0
+        checkbox.boxLineWidth = 3.0
         checkbox.boxType = .circle
         
         self.syncedStackView.addArrangedSubview(infoLabel)
         self.syncedStackView.addArrangedSubview(refreshedLabel)
         self.syncedStackView.addArrangedSubview(checkbox)
         
+        self.moreInfoStackView.addArrangedSubview(infoButton)
+
         self.rootStackView.addArrangedSubview(syncedStackView)
-        self.rootStackView.addArrangedSubview(infoButton)
+        self.rootStackView.addArrangedSubview(moreInfoStackView)
         
         self.view.addSubview(self.rootStackView)
         self.view.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+            self.rootStackView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor, constant: -0),
             self.checkbox.heightAnchor.constraint(equalToConstant: 150.0),
             self.checkbox.widthAnchor.constraint(equalToConstant: 150.0),
             ])

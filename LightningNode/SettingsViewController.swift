@@ -37,9 +37,9 @@ class SettingsViewController: UIViewController {
         
         self.removeNodeButton.setTitle("Remove Node", for: .normal)
         self.removeNodeButton
-            |> filledButtonStyle
-        
-        removeNodeButton.backgroundColor = .mr_red
+            |> removeButtonStyle
+
+//        removeNodeButton.backgroundColor = .mr_red
         
         self.removeNodeButton.addTarget(
             self,
@@ -127,31 +127,32 @@ extension SettingsViewController {
         self.rootStackView.layoutMargins.bottom = .mr_grid(6)
         self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(12)
+        self.rootStackView.spacing = .mr_grid(48)
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.rootStackView.distribution = .fill
         
         self.buttonStackView.spacing = .mr_grid(6)
         self.buttonStackView.axis = .vertical
         self.buttonStackView.isLayoutMarginsRelativeArrangement = true
         self.buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.textStackView.spacing = .mr_grid(4)
+        self.textStackView.spacing = .mr_grid(8)
         self.textStackView.axis = .vertical
         self.textStackView.isLayoutMarginsRelativeArrangement = true
         self.textStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.identityStackView.spacing = .mr_grid(1)
+        self.identityStackView.spacing = .mr_grid(2)
         self.identityStackView.axis = .vertical
         self.identityStackView.isLayoutMarginsRelativeArrangement = true
         self.identityStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.versionStackView.spacing = .mr_grid(1)
+        self.versionStackView.spacing = .mr_grid(2)
         self.versionStackView.axis = .vertical
         self.versionStackView.isLayoutMarginsRelativeArrangement = true
         self.versionStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         self.lndVersionLabel.numberOfLines = 0
         self.aliasLabel.numberOfLines = 0
@@ -167,7 +168,7 @@ extension SettingsViewController {
         
         self.lndVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
         self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
+        self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
         self.blockHashLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
         self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
         self.bestHeaderTimestampLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
@@ -175,17 +176,14 @@ extension SettingsViewController {
         
         
         self.identityStackView.addArrangedSubview(aliasLabel)
-        //        self.textStackView.addArrangedSubview(bestHeaderTimestampLabel)
         self.identityStackView.addArrangedSubview(identityPubkeyLabel)
-        //        self.textStackView.addArrangedSubview(blockHashLabel)
         self.textStackView.addArrangedSubview(identityStackView)
-
-        
         self.versionStackView.addArrangedSubview(lndVersionLabel)
         self.versionStackView.addArrangedSubview(tabsVersionLabel)
         self.textStackView.addArrangedSubview(versionStackView)
 
         self.buttonStackView.addArrangedSubview(removeNodeButton)
+    
         self.rootStackView.addArrangedSubview(textStackView)
         self.rootStackView.addArrangedSubview(buttonStackView)
         
@@ -193,13 +191,8 @@ extension SettingsViewController {
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-            //            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-//            rootStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0),
-            
-                        rootStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//                        rootStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
+            self.rootStackView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor, constant: -45),
             ])
         
     }}

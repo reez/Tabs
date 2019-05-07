@@ -59,6 +59,22 @@ let filledButtonStyle =
             $0.setTitleColor(.white, for: .normal)
 }
 
+let unfilledButtonStyle =
+    roundedButtonStyle
+        <> {
+            $0.backgroundColor = .white
+            $0.tintColor = .white
+            $0.setTitleColor(.mr_gold, for: .normal)
+}
+
+let removeButtonStyle =
+    roundedButtonStyle
+        <> {
+            $0.backgroundColor = .white
+            $0.tintColor = .white
+            $0.setTitleColor(.mr_red, for: .normal)
+}
+
 let borderButtonStyle  =
     roundedButtonStyle
         <> borderStyle(color: .mr_blue, width: 2)
