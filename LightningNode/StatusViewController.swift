@@ -93,10 +93,10 @@ extension StatusViewController {
     func setupUI() {
         self.rootStackView.layoutMargins.top = .mr_grid(12)
         self.rootStackView.layoutMargins.left = .mr_grid(6)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(12)
+        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
         self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(48) //
+        self.rootStackView.spacing = .mr_grid(32) //
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false

@@ -134,12 +134,12 @@ class SettingsViewController: UIViewController {
 
 extension SettingsViewController {
     func setupUI() {
-        self.rootStackView.layoutMargins.top = .mr_grid(12)
+        self.rootStackView.layoutMargins.top = .mr_grid(6)
         self.rootStackView.layoutMargins.left = .mr_grid(12)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
+        self.rootStackView.layoutMargins.bottom = .mr_grid(0)
         self.rootStackView.layoutMargins.right = .mr_grid(12)
         
-        self.rootStackView.spacing = .mr_grid(48)
+        self.rootStackView.spacing = .mr_grid(32)
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -151,17 +151,17 @@ extension SettingsViewController {
         self.buttonStackView.isLayoutMarginsRelativeArrangement = true
         self.buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.textStackView.spacing = .mr_grid(8)
+        self.textStackView.spacing = .mr_grid(4)
         self.textStackView.axis = .vertical
         self.textStackView.isLayoutMarginsRelativeArrangement = true
         self.textStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.identityStackView.spacing = .mr_grid(4)
+        self.identityStackView.spacing = .mr_grid(2)
         self.identityStackView.axis = .vertical
         self.identityStackView.isLayoutMarginsRelativeArrangement = true
         self.identityStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.versionStackView.spacing = .mr_grid(2)
+        self.versionStackView.spacing = .mr_grid(1)
         self.versionStackView.axis = .vertical
         self.versionStackView.isLayoutMarginsRelativeArrangement = true
         self.versionStackView.translatesAutoresizingMaskIntoConstraints = false
