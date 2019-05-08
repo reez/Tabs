@@ -96,8 +96,12 @@ extension StatusDetailViewController: PanModalPresentable {
     //    }
     
     var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(400)
+        return .contentHeight(300)
     }
+    
+//    var longFormHeight: PanModalHeight {
+//        return .maxHeightWithTopInset(400)
+//    }
     
     var anchorModalToLongForm: Bool {
         return false

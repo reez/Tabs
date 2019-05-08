@@ -338,8 +338,12 @@ extension InvoiceViewController: PanModalPresentable {
         return nil
     }
     
+//    var longFormHeight: PanModalHeight {
+//        return .maxHeightWithTopInset(200)
+//    }
+    
     var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(200)
+        return .contentHeight(525)
     }
     
     var anchorModalToLongForm: Bool {
