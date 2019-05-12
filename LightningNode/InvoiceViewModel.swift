@@ -1,8 +1,8 @@
 //
-//  AddInvoiceViewModel.swift
+//  InvoiceViewModel.swift
 //  LightningNode
 //
-//  Created by Matthew Ramsden on 1/17/19.
+//  Created by Matthew Ramsden on 5/12/19.
 //  Copyright © 2019 Matthew Ramsden. All rights reserved.
 //
 
@@ -41,22 +41,22 @@ func addInvoiceViewModel(
     
     if let value = Int(input.amountTextFieldInput) {
         let request = InvoiceRequest(memo: input.memoTextFieldInput, value: value)
-            Current.lightningAPIRPC.addInvoice(request.value, request.memo) { result in
-                switch result {
-                case let .success(invoice):
-                    viewModelOutput.invoiceLabelHidden = false
-                    viewModelOutput.copyButtonHidden = false
-                    viewModelOutput.invoiceLabel = invoice
-                    viewModelOutput.amountTextFieldOutput = ""
-                    viewModelOutput.memoTextFieldOutput = ""
-                    viewModelOutput.alertNeeded = false
-                    output(viewModelOutput)
-                case let .failure(errorMessage):
-                    viewModelOutput.alertNeeded = true
-                    viewModelOutput.alertErrorMessage = errorMessage.localizedDescription
-                    output(viewModelOutput)
-                }
+        Current.lightningAPIRPC.addInvoice(request.value, request.memo) { result in
+            switch result {
+            case let .success(invoice):
+                viewModelOutput.invoiceLabelHidden = false
+                viewModelOutput.copyButtonHidden = false
+                viewModelOutput.invoiceLabel = invoice
+                viewModelOutput.amountTextFieldOutput = ""
+                viewModelOutput.memoTextFieldOutput = ""
+                viewModelOutput.alertNeeded = false
+                output(viewModelOutput)
+            case let .failure(errorMessage):
+                viewModelOutput.alertNeeded = true
+                viewModelOutput.alertErrorMessage = errorMessage.localizedDescription
+                output(viewModelOutput)
             }
+        }
     } else {
         viewModelOutput.alertNeeded = true
         viewModelOutput.alertErrorMessage = "Value for Invoice must be a number"
