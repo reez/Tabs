@@ -37,18 +37,9 @@ class InvoiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUInvoice()
-        setupView()
-        self.view.backgroundColor = .white
-        
-        self.amountTextField.placeholder = "Value"
-        self.memoTextField.placeholder = "Memo"
-        
-        self.amountTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.memoTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.amountTextField.keyboardType = UIKeyboardType.numbersAndPunctuation
+//        setupUInvoice()
+        setupUI()
 
-        
         self.copyButton.addTarget(
             self,
             action: #selector(copyButtonPressed),
@@ -131,86 +122,221 @@ extension InvoiceViewController {
 
 
 extension InvoiceViewController {
-    func setupView() {
+    func setupUI() {
         
-        self.amountTextStackView.spacing = .mr_grid(1)
-        self.amountTextStackView.isLayoutMarginsRelativeArrangement = true
-        self.amountTextStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.amountTextStackView.axis = .horizontal
+//        self.amountTextField.delegate = self
+//        self.memoTextField.delegate = self
         
-        self.memoTextStackView.spacing = .mr_grid(1)
-        self.memoTextStackView.isLayoutMarginsRelativeArrangement = true
-        self.memoTextStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.memoTextStackView.axis = .horizontal
+        let textFieldStyle: (UITextField) -> Void = {
+            $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            $0.borderStyle = .roundedRect
+        }
         
-        self.amountStackView.spacing = .mr_grid(3)
-        self.amountStackView.axis = .vertical
-        self.amountStackView.isLayoutMarginsRelativeArrangement = true
-        self.amountStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.amountTextField
+            |> textFieldStyle
+            <> { $0.placeholder = "Value"}
+            <> { $0.keyboardType = UIKeyboardType.numbersAndPunctuation }
+            <> { $0.delegate = self }
+
+        self.memoTextField
+            |> textFieldStyle
+            <> { $0.placeholder = "Memo"}
+            <> { $0.delegate = self }
+
+//        self.amountTextField.placeholder = "Value"
+//        self.amountTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+//        self.amountTextField.keyboardType = UIKeyboardType.numbersAndPunctuation
+//        self.amountTextField.borderStyle = .roundedRect
+
+//        self.memoTextField.placeholder = "Memo"
+//        self.memoTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+//        self.memoTextField.borderStyle = .roundedRect
         
-        self.memoStackView.spacing = .mr_grid(3)
-        self.memoStackView.axis = .vertical
-        self.memoStackView.isLayoutMarginsRelativeArrangement = true
-        self.memoStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.responseStackView.spacing = .mr_grid(6)
-        self.responseStackView.axis = .vertical
-        self.responseStackView.isLayoutMarginsRelativeArrangement = true
-        self.responseStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.titleLabel
+            |> baseLabelStyleBoldTitle
+            <> { $0.text = "Add an Invoice" }
+        
+        self.amountLabel
+            |> baseLabelStyleSmallCaption
+            <> { $0.text = "Amount" }
+
+        self.amountTextField
+            |> baseTextFieldStyleBoldBody
+        
+        self.memoLabel
+            |> baseLabelStyleSmallCaption
+            <> { $0.text = "Memo" }
+
+        self.memoTextField
+            |> baseTextFieldStyleBoldBody
+        
+        self.invoiceLabel
+            |> baseLabelStyleSmallCaption
+            <> { $0.text = "Invoice" }
+
+        self.submitButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Add Invoice", for: .normal) }
+
+        self.copyButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Copy Invoice", for: .normal) }
+
+        self.invoiceLabel
+            |> map { $0.isHidden = true }
+        
+        self.copyButton
+            |> map { $0.isHidden = true }
+
+//        self.titleLabel.text = "Add an Invoice"
+//        self.amountLabel.text = "Amount"
+//        self.memoLabel.text = "Memo"
+//        self.invoiceLabel.text = "Invoice"
+//        self.submitButton.setTitle("Add Invoice", for: .normal)
+//        self.copyButton.setTitle("Copy Invoice", for: .normal)
+        self.invoiceLabel.numberOfLines = 0
+        
+        
+        func autolayoutStyle(_ view: UIView) -> Void {
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        let baseLayoutMargins: (UIView) -> Void = {
+            $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+        }
+        
+        let rootStackViewStyle: (UIStackView) -> Void =
+            autolayoutStyle
+                <> {
+//                    $0.axis = .vertical
+                    $0.isLayoutMarginsRelativeArrangement = true
+                    //$0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+                    $0.spacing = .mr_grid(6)
+        }
+        
+        self.amountTextStackView
+            |> rootStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
+            <> { $0.axis = .horizontal }
+//            <> baseLayoutMargins
+        
+//        self.amountTextStackView.spacing = .mr_grid(1)
+//        self.amountTextStackView.isLayoutMarginsRelativeArrangement = true
+//        self.amountTextStackView.translatesAutoresizingMaskIntoConstraints = false
+//        self.amountTextStackView.axis = .horizontal
+        
+        self.memoTextStackView
+            |> rootStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
+            <> { $0.axis = .horizontal }
+        
+//        self.memoTextStackView.spacing = .mr_grid(1)
+//        self.memoTextStackView.isLayoutMarginsRelativeArrangement = true
+//        self.memoTextStackView.translatesAutoresizingMaskIntoConstraints = false
+//        self.memoTextStackView.axis = .horizontal
+        
+        self.amountStackView
+            |> rootStackViewStyle
+            <> { $0.spacing = .mr_grid(3) }
+            <> { $0.axis = .vertical }
+        
+//        self.amountStackView.spacing = .mr_grid(3)
+//        self.amountStackView.axis = .vertical
+//        self.amountStackView.isLayoutMarginsRelativeArrangement = true
+//        self.amountStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.memoStackView
+            |> rootStackViewStyle
+            <> { $0.spacing = .mr_grid(3) }
+            <> { $0.axis = .vertical }
+        
+//        self.memoStackView.spacing = .mr_grid(3)
+//        self.memoStackView.axis = .vertical
+//        self.memoStackView.isLayoutMarginsRelativeArrangement = true
+//        self.memoStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.responseStackView
+            |> rootStackViewStyle
+            <> { $0.axis = .vertical }
+        
+//        self.responseStackView.spacing = .mr_grid(6)
+//        self.responseStackView.axis = .vertical
+//        self.responseStackView.isLayoutMarginsRelativeArrangement = true
+//        self.responseStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.textStackView
+            |> rootStackViewStyle
+            <> { $0.axis = .vertical }
         
         self.textStackView.spacing = .mr_grid(6)
         self.textStackView.axis = .vertical
         self.textStackView.isLayoutMarginsRelativeArrangement = true
         self.textStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.rootStackView.layoutMargins.top = .mr_grid(12)
-        self.rootStackView.layoutMargins.left = .mr_grid(6)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
-        self.rootStackView.layoutMargins.right = .mr_grid(6)
+        self.rootStackView
+            |> rootStackViewStyle
+            <> { $0.axis = .vertical }
+            <> baseLayoutMargins
+
+//        self.rootStackView.layoutMargins.top = .mr_grid(12)
+//        self.rootStackView.layoutMargins.left = .mr_grid(6)
+//        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
+//        self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(6)
-        self.rootStackView.axis = .vertical
-        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
+//        self.rootStackView.spacing = .mr_grid(6)
+//        self.rootStackView.axis = .vertical
+//        self.rootStackView.isLayoutMarginsRelativeArrangement = true
+//        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.amountStackView.addArrangedSubview(amountTextField)
-        self.memoStackView.addArrangedSubview(memoTextField)
-        self.textStackView.addArrangedSubview(memoStackView)
-        self.textStackView.addArrangedSubview(amountStackView)
-        self.textStackView.addArrangedSubview(submitButton)
-        self.rootStackView.addArrangedSubview(textStackView)
+        self.amountStackView
+            |> { $0.addArrangedSubview(self.amountTextField) }
         
-        self.responseStackView.addArrangedSubview(invoiceLabel)
-        self.responseStackView.addArrangedSubview(copyButton)
-        self.rootStackView.addArrangedSubview(responseStackView)
+        self.memoStackView
+            |> { $0.addArrangedSubview(self.memoTextField) }
         
-        self.view.addSubview(rootStackView)
+        self.textStackView
+            |> { $0.addArrangedSubview(self.memoStackView) }
+            <> { $0.addArrangedSubview(self.amountStackView) }
+            <> { $0.addArrangedSubview(self.submitButton) }
         
+        self.responseStackView
+            |> { $0.addArrangedSubview(self.invoiceLabel) }
+            <> { $0.addArrangedSubview(self.copyButton) }
+        
+        self.rootStackView
+            |> { $0.addArrangedSubview(self.textStackView) }
+            <> { $0.addArrangedSubview(self.responseStackView) }
+        
+//        self.amountStackView.addArrangedSubview(amountTextField)
+//        self.memoStackView.addArrangedSubview(memoTextField)
+//        self.textStackView.addArrangedSubview(memoStackView)
+//        self.textStackView.addArrangedSubview(amountStackView)
+//        self.textStackView.addArrangedSubview(submitButton)
+//        self.rootStackView.addArrangedSubview(textStackView)
+        
+//        self.responseStackView.addArrangedSubview(invoiceLabel)
+//        self.responseStackView.addArrangedSubview(copyButton)
+//        self.rootStackView.addArrangedSubview(responseStackView)
+        
+//        self.view.addSubview(rootStackView)
+//        self.view.backgroundColor = .white
+//
+        self.view
+            |> { $0.addSubview(self.rootStackView) }
+            <> { $0.backgroundColor = .white }
+
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            
             self.memoTextField.heightAnchor.constraint(equalToConstant: 40.0),
             self.amountTextField.heightAnchor.constraint(equalToConstant: 40.0),
-            
             self.memoImageView.heightAnchor.constraint(equalToConstant: 16.0),
             self.memoImageView.widthAnchor.constraint(equalToConstant: 16.0),
             self.amountImageView.heightAnchor.constraint(equalToConstant: 16.0),
             self.amountImageView.widthAnchor.constraint(equalToConstant: 16.0),
             ])
-        
-        self.titleLabel.text = "Add an Invoice"
-        self.amountLabel.text = "Amount"
-        self.memoLabel.text = "Memo"
-        self.invoiceLabel.text = "Invoice"
-        self.submitButton.setTitle("Add Invoice", for: .normal)
-        self.copyButton.setTitle("Copy Invoice", for: .normal)
-        
-        self.amountTextField.borderStyle = .roundedRect
-        self.memoTextField.borderStyle = .roundedRect
-        
-        self.invoiceLabel.numberOfLines = 0
         
     }
 }
@@ -230,8 +356,8 @@ extension InvoiceViewController: UITextFieldDelegate {
 
 extension InvoiceViewController  {
     func setupUInvoice() {
-        self.amountTextField.delegate = self
-        self.memoTextField.delegate = self
+//        self.amountTextField.delegate = self
+//        self.memoTextField.delegate = self
         
         //        let nvActivityIndicatorframe = CGRect(
         //            x: (UIScreen.main.bounds.size.width / 2 - 40),
@@ -247,35 +373,35 @@ extension InvoiceViewController  {
         //        )
         //        self.view.addSubview(self.nvActivityIndicator!)
         
-        self.titleLabel
-            |> baseLabelStyleBoldTitle
-        
-        self.amountLabel
-            |> baseLabelStyleSmallCaption
-        
-        self.amountTextField
-            |> baseTextFieldStyleBoldBody
-        
-        self.memoLabel
-            |> baseLabelStyleSmallCaption
-        
-        self.memoTextField
-            |> baseTextFieldStyleBoldBody
-        
-        self.invoiceLabel
-            |> baseLabelStyleSmallCaption
-        
-        self.submitButton
-            |> unfilledButtonStyle
-        
-        self.copyButton
-            |> unfilledButtonStyle
-        
-        self.invoiceLabel
-            |> map { $0.isHidden = true }
-        
-        self.copyButton
-            |> map { $0.isHidden = true }
+//        self.titleLabel
+//            |> baseLabelStyleBoldTitle
+//
+//        self.amountLabel
+//            |> baseLabelStyleSmallCaption
+//
+//        self.amountTextField
+//            |> baseTextFieldStyleBoldBody
+//
+//        self.memoLabel
+//            |> baseLabelStyleSmallCaption
+//
+//        self.memoTextField
+//            |> baseTextFieldStyleBoldBody
+//
+//        self.invoiceLabel
+//            |> baseLabelStyleSmallCaption
+//
+//        self.submitButton
+//            |> unfilledButtonStyle
+//
+//        self.copyButton
+//            |> unfilledButtonStyle
+//
+//        self.invoiceLabel
+//            |> map { $0.isHidden = true }
+//
+//        self.copyButton
+//            |> map { $0.isHidden = true }
     }
 }
 
