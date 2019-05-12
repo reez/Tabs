@@ -19,38 +19,52 @@ class InvoicesTableViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        tableView.refreshControl = refreshControl
-        
-        invoices { [weak self] (result) in
-            switch result {
-            case let .success(invoices):
-                self?.invoicesArray = invoices
-                self?.tableView.reloadData()
-            case .failure(_):
-                print("Nope")
-            }
-        }
-        
+        setupUI()
+        loadList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        loadList()
+    }
+    
+}
+
+extension InvoicesTableViewController {
+    
+    func setupUI() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        tableView.refreshControl = refreshControl
+    }
+    
+    // This is my workaround for refreshing after modal dismissed
+    @objc func loadList(){
         invoices { [weak self] (result) in
+            print("Result: \(result)")
             switch result {
             case let .success(invoices):
+                print("Load dat")
                 self?.invoicesArray = invoices
                 self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
             case .failure(_):
+                self?.tableView.refreshControl?.endRefreshing()
                 print("Nope")
             }
         }
         
     }
     
+    @objc func tappedInvoiceCreate() {
+        print("tappedInvoiceCreate")
+    }
+    
+}
+
+extension InvoicesTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
@@ -79,31 +93,7 @@ class InvoicesTableViewController: UITableViewController {
         return invoicesArray.count + 1
     }
     
-    @objc func tappedInvoiceCreate() {
-        print("tappedInvoiceCreate")
-    }
-    
-    // This is my workaround for refreshing after modal dismissed
-    // prob should use this function in vdl and vda
-    @objc func loadList(){
-        invoices { [weak self] (result) in
-            print("Result: \(result)")
-            switch result {
-            case let .success(invoices):
-                print("Load dat")
-                self?.invoicesArray = invoices
-                self?.tableView.reloadData()
-                self?.tableView.refreshControl?.endRefreshing()
-            case .failure(_):
-                self?.tableView.refreshControl?.endRefreshing()
-                print("Nope")
-            }
-        }
-        
-    }
-    
 }
-
 
 final class CreateInvoiceCell: UITableViewCell {
     private let bodyLabel = UILabel()
