@@ -30,7 +30,7 @@ class AddNodeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
-        print(Current.remoteNodeConnection)
+        print(Current.remoteNodeConnection ?? "No current remote node connection")
         
         if let lndConnect = Current.remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
