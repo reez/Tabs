@@ -41,8 +41,6 @@ Tabs is using [LND](https://github.com/lightningnetwork/lnd) to make [gRPC API r
 - [Chaincode Labs](https://github.com/chaincodelabs)
 - [Zap iOS](https://github.com/LN-Zap/zap-iOS)
 - [LND](https://github.com/lightningnetwork/lnd)
-- [Stormotion blog](https://stormotion.io/blog/)
-- [Cypher](https://mobile.twitter.com/cypherwordgame)
 
 ## License
 
