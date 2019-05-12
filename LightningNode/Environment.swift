@@ -101,6 +101,5 @@ extension Info {
 extension RemoteNodeConnection {
     static let mock = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
     static let mockFormatted = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
-
 }
 

@@ -13,7 +13,6 @@ extension Invoice {
         self.init()
         self.memo = memo
         self.value = Int64(value)
-//        self.settled = settled
     }
 }
 

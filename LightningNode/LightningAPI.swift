@@ -38,8 +38,6 @@ func invoices(completion: @escaping (Result<[Invoice], DataError>) -> Void) { //
     try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
     
     let invoices = ListInvoiceRequest()
-//    let requestTrue = ListInvoiceRequest(reversed: true)
-//    let requestFalse = ListInvoiceRequest(reversed: false)
 
     lnd.rpcToListInvoices(with: invoices) { (response, _) in
         // does this need to be compactmap?
