@@ -22,6 +22,8 @@ let baseCellStyle: (UICollectionViewCell) -> Void = {
     $0.layer.shadowRadius = $0.contentView.layer.cornerRadius
 }
 
+
+
 func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
     return {
         $0.layer.borderColor = color.cgColor
