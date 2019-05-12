@@ -12,23 +12,43 @@ import PanModal
 class StatusDetailViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .mr_black
-        label.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let nameLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        setupUI()
+        loadStatusDetailVC()
+    }
+    
+}
+
+extension StatusDetailViewController {
+    
+    func setupUI() {
         
-        self.view.backgroundColor = .white
-        self.nameLabel.numberOfLines = 0
-        self.view.addSubview(nameLabel)
+        let nameStyle: (UILabel) -> Void = {
+            $0.textColor = .mr_black
+            $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.numberOfLines = 0
+        }
         
-        setupConstraints()
+        self.nameLabel
+            |> nameStyle
         
+        self.view
+            |> { $0.addSubview(self.nameLabel) }
+            <> { $0.backgroundColor = .white }
+        
+        NSLayoutConstraint.activate([
+            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0)
+            ])
+        
+    }
+    
+    func loadStatusDetailVC() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -68,13 +88,6 @@ class StatusDetailViewController: UIViewController {
             let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        
-    }
-    
-    func setupConstraints() {
-        // This should just go in layoutConstraints
-        nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0).isActive = true
     }
     
 }
