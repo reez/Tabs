@@ -173,18 +173,7 @@ extension InvoiceViewController {
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
-//        self.titleLabel.textAlignment = .center
-//        self.titleStackView.addArrangedSubview(titleLabel)
-//        self.rootStackView.addArrangedSubview(titleStackView)
-        
-//        self.amountTextStackView.addArrangedSubview(amountImageView)
-//        self.amountTextStackView.addArrangedSubview(amountLabel)
-//        self.memoTextStackView.addArrangedSubview(memoImageView)
-//        self.memoTextStackView.addArrangedSubview(memoLabel)
-        
-//        self.amountStackView.addArrangedSubview(amountTextStackView)
         self.amountStackView.addArrangedSubview(amountTextField)
-//        self.memoStackView.addArrangedSubview(memoTextStackView)
         self.memoStackView.addArrangedSubview(memoTextField)
         self.textStackView.addArrangedSubview(memoStackView)
         self.textStackView.addArrangedSubview(amountStackView)
@@ -244,10 +233,6 @@ extension InvoiceViewController  {
         self.amountTextField.delegate = self
         self.memoTextField.delegate = self
         
-        //        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
-        //        swipeDown.direction = .down
-        //        self.view.addGestureRecognizer(swipeDown)
-        
         //        let nvActivityIndicatorframe = CGRect(
         //            x: (UIScreen.main.bounds.size.width / 2 - 40),
         //            y: (UIScreen.main.bounds.size.height / 2 - 40),
@@ -282,11 +267,9 @@ extension InvoiceViewController  {
         
         self.submitButton
             |> unfilledButtonStyle
-//            <> backgroundStyle(color: .mr_gold)
         
         self.copyButton
             |> unfilledButtonStyle
-//            <> backgroundStyle(color: .mr_gold)
         
         self.invoiceLabel
             |> map { $0.isHidden = true }
@@ -313,22 +296,6 @@ extension InvoiceViewController {
     }
 }
 
-//extension InvoiceViewController: PanModalPresentable {
-//
-//    var panScrollable: UIScrollView? {
-//        return nil
-//    }
-//
-//    var shortFormHeight: PanModalHeight {
-//        return .contentHeight(400) //300
-//    }
-//
-//    var longFormHeight: PanModalHeight {
-//        return .maxHeightWithTopInset(100) // 40
-//    }
-//
-//}
-
 extension InvoiceViewController: PanModalPresentable {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -337,10 +304,6 @@ extension InvoiceViewController: PanModalPresentable {
     var panScrollable: UIScrollView? {
         return nil
     }
-    
-//    var longFormHeight: PanModalHeight {
-//        return .maxHeightWithTopInset(200)
-//    }
     
     var longFormHeight: PanModalHeight {
         return .contentHeight(525)

@@ -16,8 +16,6 @@ class InvoicesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        self.tableView.estimatedRowHeight = 400
-        //        self.tableView.rowHeight = UITableView.automaticDimension
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
         
@@ -156,7 +154,6 @@ final class CreateInvoiceCell: UITableViewCell {
         self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
         self.addInvoiceButton
             |> unfilledButtonStyle
-//        addInvoiceButton.backgroundColor = .mr_gold
         
         self.buttonsStackView.spacing = .mr_grid(2)
         self.buttonsStackView.addArrangedSubview(self.addInvoiceButton)

@@ -32,9 +32,7 @@ class StatusDetailViewController: UIViewController {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
-            self.viewModel = LightningViewModel { [weak self] _ in
-                //self?.infoLabel.text = "..."
-            }
+            self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info { [weak self] result in
@@ -87,21 +85,9 @@ extension StatusDetailViewController: PanModalPresentable {
         return nil
     }
     
-    //    var shortFormHeight: PanModalHeight {
-    //        return .contentHeight(400) //300
-    //    }
-    //
-    //    var longFormHeight: PanModalHeight {
-    //        return .maxHeightWithTopInset(50) // 40
-    //    }
-    
     var longFormHeight: PanModalHeight {
         return .contentHeight(300)
     }
-    
-//    var longFormHeight: PanModalHeight {
-//        return .maxHeightWithTopInset(400)
-//    }
     
     var anchorModalToLongForm: Bool {
         return false

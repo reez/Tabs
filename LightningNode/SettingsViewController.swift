@@ -10,10 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-//    @IBOutlet var yoLabel: UILabel!
-//    @IBOutlet var removeButton: UIButton!
     private var viewModel: LightningViewModel!
-    
     private let rootStackView = UIStackView()
     private let removeNodeButton = UIButton()
     private let lndVersionLabel = UILabel()
@@ -21,17 +18,11 @@ class SettingsViewController: UIViewController {
     private let aliasLabel = UILabel()
     private let buttonStackView = UIStackView()
     private let textStackView = UIStackView()
-    
-    private let blockHashLabel = UILabel()
     private let identityPubkeyLabel = UILabel()
-    private let bestHeaderTimestampLabel = UILabel()
-    
     private let identityStackView = UIStackView()
     private let versionStackView = UIStackView()
-    
     private let staticAliasLabel = UILabel()
     private let staticIdentityLabel = UILabel()
-    
     private let pubkeyStackView = UIStackView()
     private let aliasStackView = UIStackView()
 
@@ -50,8 +41,6 @@ class SettingsViewController: UIViewController {
         self.removeNodeButton.setTitle("Remove Node", for: .normal)
         self.removeNodeButton
             |> removeButtonStyle
-
-//        removeNodeButton.backgroundColor = .mr_red
         
         self.removeNodeButton.addTarget(
             self,
@@ -66,8 +55,6 @@ class SettingsViewController: UIViewController {
                 self?.lndVersionLabel.text = "Getting LND Version..."
                 self?.aliasLabel.text = "Getting Node Alias..."
                 self?.identityPubkeyLabel.text = "Getting Pubkey..."
-//                self?.bestHeaderTimestampLabel.text = "Getting Best Header Timestamp..."
-//                self?.blockHashLabel.text = "Getting Block Hash..."
             }
             
             Current.remoteNodeConnectionFormatted = savedConfig
@@ -79,8 +66,6 @@ class SettingsViewController: UIViewController {
                         self?.lndVersionLabel.text = "LND Version: \($0.version)"
                         self?.aliasLabel.text = "\($0.alias)"
                         self?.identityPubkeyLabel.text = "\($0.identityPubkey)"
-//                        self?.bestHeaderTimestampLabel.text = "Best Header Timestamp: \($0.bestHeaderTimestamp)"
-//                        self?.blockHashLabel.text = "Blockhash: \($0.blockHash)"
                 }
             }
         case .failure(_):
@@ -144,8 +129,6 @@ extension SettingsViewController {
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
-//        self.rootStackView.distribution = .fill
-        
         self.buttonStackView.spacing = .mr_grid(6)
         self.buttonStackView.axis = .vertical
         self.buttonStackView.isLayoutMarginsRelativeArrangement = true
@@ -171,32 +154,20 @@ extension SettingsViewController {
         self.pubkeyStackView.isLayoutMarginsRelativeArrangement = true
         self.pubkeyStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        
         self.aliasStackView.spacing = .mr_grid(2)
         self.aliasStackView.axis = .vertical
         self.aliasStackView.isLayoutMarginsRelativeArrangement = true
         self.aliasStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        
         self.lndVersionLabel.numberOfLines = 0
         self.aliasLabel.numberOfLines = 0
         self.tabsVersionLabel.numberOfLines = 0
-        self.blockHashLabel.numberOfLines = 0
         self.identityPubkeyLabel.numberOfLines = 0
-        self.bestHeaderTimestampLabel.numberOfLines = 0
-        
-        //        blockHashLabel.lineBreakMode = .byWordWrapping
-        //        identityPubkeyLabel.lineBreakMode = .byWordWrapping
-        //        blockHashLabel.lineBreakMode = .byCharWrapping
-        //        identityPubkeyLabel.lineBreakMode = .byWordWrapping
         
         self.lndVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
         self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
         self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-        self.blockHashLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
         self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-        self.bestHeaderTimestampLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
-        
         
         self.aliasLabel.textAlignment = .center
         self.staticAliasLabel.textAlignment = .center
@@ -205,8 +176,7 @@ extension SettingsViewController {
         
         self.lndVersionLabel.textAlignment = .center
         self.tabsVersionLabel.textAlignment = .center
-
-
+        
         self.aliasStackView.addArrangedSubview(staticAliasLabel)
         self.aliasStackView.addArrangedSubview(aliasLabel)
         self.identityStackView.addArrangedSubview(aliasStackView)

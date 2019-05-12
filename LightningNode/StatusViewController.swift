@@ -22,7 +22,6 @@ class StatusViewController: UIViewController {
     private let syncedStackView = UIStackView()
     private let moreInfoStackView = UIStackView()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,9 +34,7 @@ class StatusViewController: UIViewController {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
-            self.viewModel = LightningViewModel { [weak self] _ in
-                
-            }
+            self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info { [weak self] result in
@@ -61,15 +58,6 @@ class StatusViewController: UIViewController {
                         $0.syncedToChain ?
                             (self?.infoLabel.text = "Synced") :
                             (self?.infoLabel.text = "Not Synced")
-                        
-//                        checkbox.setCheckState(.unchecked, animated: true)
-//                        checkbox.animationDuration = 0.50
-//                        checkbox.tintColor = .mr_green
-//                        checkbox.secondaryTintColor = .mr_gray
-//                        checkbox.checkmarkLineWidth = 6.0
-//                        checkbox.boxLineWidth = 3.0
-//                        checkbox.boxType = .circle
-                        
                 }
             }
         case .failure(_):
@@ -96,7 +84,7 @@ extension StatusViewController {
         self.rootStackView.layoutMargins.bottom = .mr_grid(6)
         self.rootStackView.layoutMargins.right = .mr_grid(6)
         
-        self.rootStackView.spacing = .mr_grid(32) //
+        self.rootStackView.spacing = .mr_grid(32)
         self.rootStackView.axis = .vertical
         self.rootStackView.isLayoutMarginsRelativeArrangement = true
         self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,7 +118,6 @@ extension StatusViewController {
         self.infoButton.setTitle("Get Info", for: .normal)
         self.infoButton
             |> unfilledButtonStyle
-//            <> backgroundStyle(color: .mr_gold)
         
         checkbox.setCheckState(.unchecked, animated: true)
         checkbox.animationDuration = 0.50
