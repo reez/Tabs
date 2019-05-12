@@ -43,7 +43,7 @@ class StatusViewController: UIViewController {
                         self?.viewModel.lightningNodeInfo = $0
                         
                         let creationDate = Current.date()
-                        let formattedDate = monthDateHourAMPMFormatter.string(from: creationDate)
+                        let formattedDate = mrDateFormatter.string(from: creationDate)
                         
                         self?.refreshedLabel.text = "Refreshed: \(formattedDate)"
                         

@@ -275,7 +275,7 @@ final class InvoiceInfoCell: UITableViewCell {
         let creationDate = episode.creationDate
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
-        let formattedDate = monthDateHourAMPMFormatter.string(from: dr)
+        let formattedDate = mrDateFormatter.string(from: dr)
         
         self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice settled: \(episode.settled)"
         
