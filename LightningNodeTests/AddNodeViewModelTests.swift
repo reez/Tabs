@@ -121,8 +121,6 @@ class AddNodeViewModelTests: XCTestCase {
             XCTAssertEqual(output.alertErrorMessage, DataError.remoteNodeInfoMissing.localizedDescription)
         }
         
-        
-        
     }
     
 }

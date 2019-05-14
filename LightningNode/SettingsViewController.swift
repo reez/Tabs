@@ -26,7 +26,6 @@ class SettingsViewController: UIViewController {
     private let pubkeyStackView = UIStackView()
     private let aliasStackView = UIStackView()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

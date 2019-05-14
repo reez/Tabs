@@ -63,5 +63,4 @@ class LightningViewModelTests: XCTestCase {
         assertSnapshot(matching: vm, as: .dump)
     }
     
-
 }

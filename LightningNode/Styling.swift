@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 import M13Checkbox
 
-
-
-// Status VC
-
 func autolayoutStyle(_ view: UIView) -> Void {
     view.translatesAutoresizingMaskIntoConstraints = false
 }
@@ -52,7 +48,6 @@ let rootStackViewStyle: (UIStackView) -> Void =
             $0.spacing = .mr_grid(6)
 }
 
-
 let centerStyle: (UILabel) -> Void = {
     $0.textAlignment = .center
 }
@@ -74,7 +69,6 @@ let finePrintStyle: (UILabel) -> Void =
         <> baseTextStyle
         <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
 
-
 let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50
     $0.setCheckState(.unchecked, animated: true)
@@ -85,23 +79,17 @@ let checkboxStyle: (M13Checkbox) -> Void = {
     $0.boxType = .circle
 }
 
-
-
-
-// Status Detail VC
 let nameStyle: (UILabel) -> Void = {
     $0.textColor = .mr_black
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 0
 }
-            
-            
+
 let textFieldStyle: (UITextField) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     $0.borderStyle = .roundedRect
 }
-
 
 let baseButtonStyle: (UIButton) -> Void = {
     $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
@@ -177,7 +165,6 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
         $0.textColor = color
     }
 }
-
 
 let baseLabelStyleTitle: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .title3))

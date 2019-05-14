@@ -173,6 +173,4 @@ class KeychainDataStoreTests: XCTestCase {
         XCTAssertEqual(mockRNC.error?.localizedDescription, DataError.noSavedData.localizedDescription)
     }
     
-    
-
 }

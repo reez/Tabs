@@ -22,18 +22,15 @@ class InvoiceViewController: UIViewController {
     private let submitButton = UIButton()
     private let invoiceLabel = UILabel()
     private let copyButton = UIButton()
-    
     private let textStackView = UIStackView()
     private let responseStackView = UIStackView()
     private let amountStackView = UIStackView()
     private let memoStackView = UIStackView()
     private let titleStackView = UIStackView()
-    
     private let amountTextStackView = UIStackView()
     private let memoTextStackView = UIStackView()
     private let amountImageView = UIImageView(image: UIImage(named: "lightning"))
     private let memoImageView = UIImageView(image: UIImage(named: "message"))
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -254,58 +251,6 @@ extension InvoiceViewController: UITextFieldDelegate {
         self.view.endEditing(true)
     }
 }
-
-extension InvoiceViewController  {
-    func setupUInvoice() {
-//        self.amountTextField.delegate = self
-//        self.memoTextField.delegate = self
-        
-        //        let nvActivityIndicatorframe = CGRect(
-        //            x: (UIScreen.main.bounds.size.width / 2 - 40),
-        //            y: (UIScreen.main.bounds.size.height / 2 - 40),
-        //            width: 80,
-        //            height: 80
-        //        )
-        //        self.nvActivityIndicator = NVActivityIndicatorView(
-        //            frame: nvActivityIndicatorframe,
-        //            type: NVActivityIndicatorType.ballClipRotate,
-        //            color: UIColor.mr_black,
-        //            padding: nil
-        //        )
-        //        self.view.addSubview(self.nvActivityIndicator!)
-        
-//        self.titleLabel
-//            |> baseLabelStyleBoldTitle
-//
-//        self.amountLabel
-//            |> baseLabelStyleSmallCaption
-//
-//        self.amountTextField
-//            |> baseTextFieldStyleBoldBody
-//
-//        self.memoLabel
-//            |> baseLabelStyleSmallCaption
-//
-//        self.memoTextField
-//            |> baseTextFieldStyleBoldBody
-//
-//        self.invoiceLabel
-//            |> baseLabelStyleSmallCaption
-//
-//        self.submitButton
-//            |> unfilledButtonStyle
-//
-//        self.copyButton
-//            |> unfilledButtonStyle
-//
-//        self.invoiceLabel
-//            |> map { $0.isHidden = true }
-//
-//        self.copyButton
-//            |> map { $0.isHidden = true }
-    }
-}
-
 
 extension InvoiceViewController {
     @objc func copyButtonPressed(_ sender: UIButton) {

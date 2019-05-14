@@ -38,11 +38,11 @@ extension Environment {
 }
 
 extension Date {
-    static let mock = Date(timeIntervalSinceReferenceDate: 547152021)//Date() // { Date(timeIntervalSinceReferenceDate: 557152051) }
+    static let mock = Date(timeIntervalSinceReferenceDate: 547152021)
 }
 
 extension Date {
-    static let test = Date(timeIntervalSinceReferenceDate: 547152021)//Date()
+    static let test = Date(timeIntervalSinceReferenceDate: 547152021)
 }
 
 extension LightningApiRPC {
