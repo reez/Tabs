@@ -84,96 +84,26 @@ class StatusViewController: UIViewController {
 extension StatusViewController {
     func setupUI() {
         
-        func autolayoutStyle(_ view: UIView) -> Void {
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        let baseLayoutMargins: (UIView) -> Void = {
-            $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-        }
-        
-        let rootStackViewStyle: (UIStackView) -> Void =
-            autolayoutStyle
-                <> {
-                    $0.axis = .vertical
-                    $0.isLayoutMarginsRelativeArrangement = true
-                    //$0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-                    $0.spacing = .mr_grid(32)
-        }
-        
         self.rootStackView
-            |> rootStackViewStyle
+            |> statusRootStackViewStyle
             <> baseLayoutMargins
         
-//        self.rootStackView.layoutMargins.top = .mr_grid(12)
-//        self.rootStackView.layoutMargins.left = .mr_grid(6)
-//        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
-//        self.rootStackView.layoutMargins.right = .mr_grid(6)
-        
-//        self.rootStackView.spacing = .mr_grid(32)
-//        self.rootStackView.axis = .vertical
-//        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-//        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.syncedStackView
-            |> rootStackViewStyle
+            |> statusRootStackViewStyle
             <> { $0.spacing = .mr_grid(6) }
             <> { $0.alignment = .center }
 
-//        self.syncedStackView.spacing = .mr_grid(6)
-//        self.syncedStackView.axis = .vertical
-//        self.syncedStackView.isLayoutMarginsRelativeArrangement = true
-//        self.syncedStackView.translatesAutoresizingMaskIntoConstraints = false
-//        self.syncedStackView.alignment = .center
-        
-//        self.moreInfoStackView.spacing = .mr_grid(6)
-//        self.moreInfoStackView.axis = .vertical
-//        self.moreInfoStackView.isLayoutMarginsRelativeArrangement = true
-//        self.moreInfoStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.moreInfoStackView
-            |> rootStackViewStyle
+            |> statusRootStackViewStyle
             <> { $0.spacing = .mr_grid(6) }
-        
-        let centerStyle: (UILabel) -> Void = {
-            $0.textAlignment = .center
-        }
-        
-        let smallCapsText: (UILabel) -> Void = {
-            $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        }
-        let baseTextStyle: (UILabel) -> Void = {
-            $0.numberOfLines = 0
-        }
-        
-        let finePrintStyle: (UILabel) -> Void =
-            centerStyle
-                <> baseTextStyle
-//                <> fontStyle(ofSize: 14, weight: .medium)
-//                <> textColorStyle(UIColor(white: 0.5, alpha: 1))
-                <> {
-                    $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)//.systemFont(ofSize: 11, weight: .light)
-//                    $0.numberOfLines = 0
-        }
-        
-//        self.infoLabel.numberOfLines = 0
-//        self.infoLabel.textAlignment = .center
-//        self.infoLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         
         self.infoLabel
             |> finePrintStyle
-        
-//        self.refreshedLabel.text = "Refreshing..."
-//        self.refreshedLabel.numberOfLines = 0
-//        self.refreshedLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
         
         self.refreshedLabel
             |> baseTextStyle
             <> smallCapsText
             <> { $0.text = "Refreshing..." }
-        
-        
-//        self.imageView.image = nil
         
         self.imageView
             |> { $0.image = nil }
@@ -184,65 +114,29 @@ extension StatusViewController {
             for: .touchUpInside
         )
         
-//        self.infoButton.setTitle("Get Info", for: .normal)
         self.infoButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Get Info", for: .normal) }
         
-        
-        
-        let checkboxStyle: (M13Checkbox) -> Void = {
-            $0.animationDuration = 0.50
-            $0.setCheckState(.unchecked, animated: true)
-            $0.tintColor = .mr_green
-            $0.secondaryTintColor = .mr_gray
-            $0.checkmarkLineWidth = 6.0
-            $0.boxLineWidth = 3.0
-            $0.boxType = .circle
-        }
-        
-//        checkbox.setCheckState(.unchecked, animated: true)
-//        checkbox.animationDuration = 0.50
-//        checkbox.tintColor = .mr_green
-//        checkbox.secondaryTintColor = .mr_gray
-//        checkbox.checkmarkLineWidth = 6.0
-//        checkbox.boxLineWidth = 3.0
-//        checkbox.boxType = .circle
-
         self.checkbox
             |> checkboxStyle
         
- 
         self.syncedStackView
             |> { $0.addArrangedSubview(self.infoLabel) }
             <> { $0.addArrangedSubview(self.refreshedLabel) }
             <> { $0.addArrangedSubview(self.checkbox) }
 
-//        self.syncedStackView.addArrangedSubview(infoLabel)
-//        self.syncedStackView.addArrangedSubview(refreshedLabel)
-//        self.syncedStackView.addArrangedSubview(checkbox)
-        
-//        self.moreInfoStackView.addArrangedSubview(infoButton)
-        
         self.moreInfoStackView
             |> { $0.addArrangedSubview(infoButton) }
-
 
         self.rootStackView
             |> { $0.addArrangedSubview(self.syncedStackView) }
             <> { $0.addArrangedSubview(self.moreInfoStackView) }
         
-//        self.rootStackView.addArrangedSubview(syncedStackView)
-//        self.rootStackView.addArrangedSubview(moreInfoStackView)
-        
         self.view
             |> { $0.addSubview(self.rootStackView) }
             <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
 
-        
-//        self.view.addSubview(self.rootStackView)
-//        self.view.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-        
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),

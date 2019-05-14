@@ -7,34 +7,68 @@
 
 import Foundation
 import UIKit
+import M13Checkbox
 
-func baseButtonStyle(_ button: UIButton) {
-    button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-    button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+
+
+// Status VC
+
+func autolayoutStyle(_ view: UIView) -> Void {
+    view.translatesAutoresizingMaskIntoConstraints = false
 }
 
-// Re do this for new Invoice Cells
-let baseCellStyle: (UICollectionViewCell) -> Void = {
-    $0.layer.shadowColor = UIColor.mr_black.cgColor 
-    $0.layer.masksToBounds = false
-    $0.layer.shadowOpacity = 0.3
-    $0.layer.shadowOffset = CGSize(width: 0, height: 0)
-    $0.layer.shadowRadius = $0.contentView.layer.cornerRadius
+let baseLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+}
+
+let statusRootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.axis = .vertical
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(32)
+}
+
+
+let centerStyle: (UILabel) -> Void = {
+    $0.textAlignment = .center
+}
+
+let smallCapsText: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+}
+let baseTextStyle: (UILabel) -> Void = {
+    $0.numberOfLines = 0
+}
+
+let finePrintStyle: (UILabel) -> Void =
+    centerStyle
+        <> baseTextStyle
+        <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+
+
+let checkboxStyle: (M13Checkbox) -> Void = {
+    $0.animationDuration = 0.50
+    $0.setCheckState(.unchecked, animated: true)
+    $0.tintColor = .mr_green
+    $0.secondaryTintColor = .mr_gray
+    $0.checkmarkLineWidth = 6.0
+    $0.boxLineWidth = 3.0
+    $0.boxType = .circle
 }
 
 
 
-func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
-    return {
-        $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = width
-    }
-}
 
-func backgroundStyle(color: UIColor) -> (UIView) -> Void {
-    return {
-        $0.backgroundColor = color
-    }
+            
+            
+            
+            
+
+
+let baseButtonStyle: (UIButton) -> Void = {
+    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
 }
 
 let roundedStyle: (UIView) -> Void = {
@@ -68,6 +102,19 @@ let removeButtonStyle =
             $0.backgroundColor = .white
             $0.tintColor = .white
             $0.setTitleColor(.mr_red, for: .normal)
+}
+
+func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
+    return {
+        $0.layer.borderColor = color.cgColor
+        $0.layer.borderWidth = width
+    }
+}
+
+func backgroundStyle(color: UIColor) -> (UIView) -> Void {
+    return {
+        $0.backgroundColor = color
+    }
 }
 
 func fontStyle(ofSize size: CGFloat, weight: UIFont.Weight) -> (UILabel) -> Void {
