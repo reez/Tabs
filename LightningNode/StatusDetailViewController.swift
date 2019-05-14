@@ -27,13 +27,6 @@ extension StatusDetailViewController {
     
     func setupUI() {
         
-        let nameStyle: (UILabel) -> Void = {
-            $0.textColor = .mr_black
-            $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.numberOfLines = 0
-        }
-        
         self.nameLabel
             |> nameStyle
         
