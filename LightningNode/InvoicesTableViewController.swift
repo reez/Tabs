@@ -18,7 +18,6 @@ class InvoicesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
-        
         setupUI()
         loadList()
     }
@@ -33,46 +32,11 @@ class InvoicesTableViewController: UITableViewController {
 
 extension InvoicesTableViewController {
     
-    func setupUI() {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        tableView.refreshControl = refreshControl
-    }
-    
-    // This is my workaround for refreshing after modal dismissed
-    @objc func loadList(){
-        invoices { [weak self] (result) in
-            print("Result: \(result)")
-            switch result {
-            case let .success(invoices):
-                print("Load dat")
-                self?.invoicesArray = invoices
-                self?.tableView.reloadData()
-                self?.tableView.refreshControl?.endRefreshing()
-            case .failure(_):
-                self?.tableView.refreshControl?.endRefreshing()
-                print("Nope")
-            }
-        }
-        
-    }
-    
-    @objc func tappedInvoiceCreate() {
-        print("tappedInvoiceCreate")
-    }
-    
-}
-
-extension InvoicesTableViewController {
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = CreateInvoiceCell(style: .default, reuseIdentifier: nil)
             
             cell.tapAction = { [weak self] cell in
-                print("Tap action!")
-                
                 let vc = InvoiceViewController()
                 self?.presentPanModal(vc)
             }
@@ -95,6 +59,32 @@ extension InvoicesTableViewController {
     
 }
 
+extension InvoicesTableViewController {
+    
+    func setupUI() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        tableView.refreshControl = refreshControl
+    }
+    
+    // This is my workaround for refreshing after modal dismissed
+    @objc func loadList(){
+        invoices { [weak self] (result) in
+            switch result {
+            case let .success(invoices):
+                self?.invoicesArray = invoices
+                self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
+            case .failure(_):
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+        }
+        
+    }
+    
+}
+
 final class CreateInvoiceCell: UITableViewCell {
     private let bodyLabel = UILabel()
     private let buttonsStackView = UIStackView()
@@ -111,43 +101,44 @@ final class CreateInvoiceCell: UITableViewCell {
             for: .touchUpInside
         )
         
-        self.selectionStyle = .none
-        self.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+        self
+            |> { $0.selectionStyle = .none }
+            <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
         
-        self.bodyLabel.text = """
+        let bodyText = """
         🌩
         Check out your Lightning Invoices
         - or -
         Add a new Lightning Invoice
         """
         
-        self.bodyLabel.numberOfLines = 0
-        self.bodyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-        self.bodyLabel.textAlignment = .center
+        self.bodyLabel
+            |> baseTextStyle
+            <> title3Text
+            <> { $0.textAlignment = .center }
+            <> { $0.text = bodyText }
         
-        self.rootStackView.alignment = .center
-        self.rootStackView.addArrangedSubview(self.bodyLabel)
-        self.rootStackView.addArrangedSubview(self.buttonsStackView)
+        self.rootStackView
+            |> { $0.addArrangedSubview(self.bodyLabel) }
+            <> { $0.addArrangedSubview(self.buttonsStackView) }
+            <> { $0.alignment = .center }
+
+        self.rootStackView
+            |> invoiceLayoutMargins
+            <> invoiceRootStackViewStyle
         
-        self.rootStackView.layoutMargins.top = .mr_grid(6)
-        self.rootStackView.layoutMargins.left = .mr_grid(6)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
-        self.rootStackView.layoutMargins.right = .mr_grid(6)
-        
-        self.contentView.addSubview(self.rootStackView)
-        
-        self.rootStackView.spacing = .mr_grid(12)
-        self.rootStackView.axis = .vertical
-        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
         self.addInvoiceButton
             |> unfilledButtonStyle
         
-        self.buttonsStackView.spacing = .mr_grid(2)
-        self.buttonsStackView.addArrangedSubview(self.addInvoiceButton)
+        self.buttonsStackView
+            |> { $0.addArrangedSubview(self.addInvoiceButton) }
+            <> { $0.spacing = .mr_grid(2) }
         
+        self.contentView
+            |> { $0.addSubview(self.rootStackView) }
+
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
@@ -158,7 +149,6 @@ final class CreateInvoiceCell: UITableViewCell {
     }
     
     @objc func tappedInvoiceCreate() {
-        print("tappedInvoiceCreate")
         tapAction?(self)
     }
     

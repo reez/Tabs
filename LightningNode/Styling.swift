@@ -21,12 +21,24 @@ let baseLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
+let invoiceLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+}
+
 let statusRootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
         <> {
             $0.axis = .vertical
             $0.isLayoutMarginsRelativeArrangement = true
             $0.spacing = .mr_grid(32)
+}
+
+let invoiceRootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.axis = .vertical
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(12)
 }
 
 
@@ -37,6 +49,11 @@ let centerStyle: (UILabel) -> Void = {
 let smallCapsText: (UILabel) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
 }
+
+let title3Text: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
+}
+
 let baseTextStyle: (UILabel) -> Void = {
     $0.numberOfLines = 0
 }
