@@ -37,7 +37,6 @@ class InvoiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUInvoice()
         setupUI()
 
         self.copyButton.addTarget(
@@ -124,14 +123,6 @@ extension InvoiceViewController {
 extension InvoiceViewController {
     func setupUI() {
         
-//        self.amountTextField.delegate = self
-//        self.memoTextField.delegate = self
-        
-        let textFieldStyle: (UITextField) -> Void = {
-            $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
-            $0.borderStyle = .roundedRect
-        }
-        
         self.amountTextField
             |> textFieldStyle
             <> { $0.placeholder = "Value"}
@@ -142,16 +133,6 @@ extension InvoiceViewController {
             |> textFieldStyle
             <> { $0.placeholder = "Memo"}
             <> { $0.delegate = self }
-
-//        self.amountTextField.placeholder = "Value"
-//        self.amountTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-//        self.amountTextField.keyboardType = UIKeyboardType.numbersAndPunctuation
-//        self.amountTextField.borderStyle = .roundedRect
-
-//        self.memoTextField.placeholder = "Memo"
-//        self.memoTextField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-//        self.memoTextField.borderStyle = .roundedRect
-        
         
         self.titleLabel
             |> baseLabelStyleBoldTitle
@@ -174,6 +155,7 @@ extension InvoiceViewController {
         self.invoiceLabel
             |> baseLabelStyleSmallCaption
             <> { $0.text = "Invoice" }
+            <> { $0.numberOfLines = 0 }
 
         self.submitButton
             |> unfilledButtonStyle
@@ -188,107 +170,40 @@ extension InvoiceViewController {
         
         self.copyButton
             |> map { $0.isHidden = true }
-
-//        self.titleLabel.text = "Add an Invoice"
-//        self.amountLabel.text = "Amount"
-//        self.memoLabel.text = "Memo"
-//        self.invoiceLabel.text = "Invoice"
-//        self.submitButton.setTitle("Add Invoice", for: .normal)
-//        self.copyButton.setTitle("Copy Invoice", for: .normal)
-        self.invoiceLabel.numberOfLines = 0
-        
-        
-        func autolayoutStyle(_ view: UIView) -> Void {
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        let baseLayoutMargins: (UIView) -> Void = {
-            $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-        }
-        
-        let rootStackViewStyle: (UIStackView) -> Void =
-            autolayoutStyle
-                <> {
-//                    $0.axis = .vertical
-                    $0.isLayoutMarginsRelativeArrangement = true
-                    //$0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-                    $0.spacing = .mr_grid(6)
-        }
         
         self.amountTextStackView
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
             <> { $0.axis = .horizontal }
-//            <> baseLayoutMargins
-        
-//        self.amountTextStackView.spacing = .mr_grid(1)
-//        self.amountTextStackView.isLayoutMarginsRelativeArrangement = true
-//        self.amountTextStackView.translatesAutoresizingMaskIntoConstraints = false
-//        self.amountTextStackView.axis = .horizontal
-        
+
         self.memoTextStackView
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
             <> { $0.axis = .horizontal }
-        
-//        self.memoTextStackView.spacing = .mr_grid(1)
-//        self.memoTextStackView.isLayoutMarginsRelativeArrangement = true
-//        self.memoTextStackView.translatesAutoresizingMaskIntoConstraints = false
-//        self.memoTextStackView.axis = .horizontal
         
         self.amountStackView
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(3) }
             <> { $0.axis = .vertical }
         
-//        self.amountStackView.spacing = .mr_grid(3)
-//        self.amountStackView.axis = .vertical
-//        self.amountStackView.isLayoutMarginsRelativeArrangement = true
-//        self.amountStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.memoStackView
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(3) }
             <> { $0.axis = .vertical }
         
-//        self.memoStackView.spacing = .mr_grid(3)
-//        self.memoStackView.axis = .vertical
-//        self.memoStackView.isLayoutMarginsRelativeArrangement = true
-//        self.memoStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.responseStackView
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
         
-//        self.responseStackView.spacing = .mr_grid(6)
-//        self.responseStackView.axis = .vertical
-//        self.responseStackView.isLayoutMarginsRelativeArrangement = true
-//        self.responseStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.textStackView
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
-        
-        self.textStackView.spacing = .mr_grid(6)
-        self.textStackView.axis = .vertical
-        self.textStackView.isLayoutMarginsRelativeArrangement = true
-        self.textStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.rootStackView
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
             <> baseLayoutMargins
 
-//        self.rootStackView.layoutMargins.top = .mr_grid(12)
-//        self.rootStackView.layoutMargins.left = .mr_grid(6)
-//        self.rootStackView.layoutMargins.bottom = .mr_grid(6)
-//        self.rootStackView.layoutMargins.right = .mr_grid(6)
-        
-//        self.rootStackView.spacing = .mr_grid(6)
-//        self.rootStackView.axis = .vertical
-//        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-//        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.amountStackView
             |> { $0.addArrangedSubview(self.amountTextField) }
         
@@ -308,20 +223,6 @@ extension InvoiceViewController {
             |> { $0.addArrangedSubview(self.textStackView) }
             <> { $0.addArrangedSubview(self.responseStackView) }
         
-//        self.amountStackView.addArrangedSubview(amountTextField)
-//        self.memoStackView.addArrangedSubview(memoTextField)
-//        self.textStackView.addArrangedSubview(memoStackView)
-//        self.textStackView.addArrangedSubview(amountStackView)
-//        self.textStackView.addArrangedSubview(submitButton)
-//        self.rootStackView.addArrangedSubview(textStackView)
-        
-//        self.responseStackView.addArrangedSubview(invoiceLabel)
-//        self.responseStackView.addArrangedSubview(copyButton)
-//        self.rootStackView.addArrangedSubview(responseStackView)
-        
-//        self.view.addSubview(rootStackView)
-//        self.view.backgroundColor = .white
-//
         self.view
             |> { $0.addSubview(self.rootStackView) }
             <> { $0.backgroundColor = .white }

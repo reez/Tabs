@@ -209,13 +209,22 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.spacing = .mr_grid(2) }
             <> { $0.addArrangedSubview(self.contentStackView) }
         
-        self.sequenceAndDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        self.sequenceAndDateLabel.numberOfLines = 0
-        self.titleLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        self.titleLabel.numberOfLines = 0
-        self.amountLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.amountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        self.sequenceAndDateLabel
+            |> smallCapsText
+            <> { $0.numberOfLines = 0 }
+        
+        self.titleLabelStatic
+            |> baseLabelStyleSubheadline
+        
+        self.titleLabel
+            |> baseLabelStyleTitle
+            <> { $0.numberOfLines = 0 }
+        
+        self.amountLabel
+            |> baseLabelStyleSubheadline
+
+        self.amountLabelStatic
+            |> baseLabelStyleSubheadline
         
         self.contentView
             |> { $0.addSubview(self.rootStackView) }

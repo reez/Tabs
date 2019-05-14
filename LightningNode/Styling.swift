@@ -45,6 +45,13 @@ let invoiceRootStackViewStyle: (UIStackView) -> Void =
             $0.spacing = .mr_grid(12)
 }
 
+let rootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(6)
+}
+
 
 let centerStyle: (UILabel) -> Void = {
     $0.textAlignment = .center
@@ -90,7 +97,10 @@ let nameStyle: (UILabel) -> Void = {
 }
             
             
-            
+let textFieldStyle: (UITextField) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    $0.borderStyle = .roundedRect
+}
 
 
 let baseButtonStyle: (UIButton) -> Void = {
@@ -167,6 +177,13 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
         $0.textColor = color
     }
 }
+
+
+let baseLabelStyleTitle: (UILabel) -> Void =
+    fontStyle(UIFont.preferredFont(forTextStyle: .title3))
+
+let baseLabelStyleSubheadline: (UILabel) -> Void =
+    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline))
 
 let baseLabelStyleSmallCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
