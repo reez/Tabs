@@ -35,7 +35,8 @@ class AddNodeViewModelTests: XCTestCase {
     }
     
     func testAddNodeViewModelValidMacaroon() {
-        
+        Current = .mock
+
         let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
         
         addNodeViewModel(input: input) { (outputs) in
@@ -105,6 +106,22 @@ class AddNodeViewModelTests: XCTestCase {
             assertSnapshot(matching: outputs.alertNeeded, as: .dump)
             assertSnapshot(matching: outputs.alertErrorMessage, as: .dump)
         }
+        
+    }
+    
+    func testAddNodeViewModelFailureRemoteNodeInfoMissingTestSnapshot() {
+        
+        Current = .test
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "", memoTextFieldInput: "", submitButtonPressed: ())
+        
+        let output = AddInvoiceViewModelOutput(alertErrorMessage: "Remote Node Info Missing", alertNeeded: true, amountTextFieldOutput: "", copyButtonHidden: false, invoiceLabel: "", invoiceLabelHidden: false, memoTextFieldOutput: "")
+        
+        if input.memoTextFieldInput.isEmpty {
+            XCTAssertEqual(output.alertErrorMessage, DataError.remoteNodeInfoMissing.localizedDescription)
+        }
+        
+        
         
     }
     

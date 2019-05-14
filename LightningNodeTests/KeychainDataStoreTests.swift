@@ -165,5 +165,14 @@ class KeychainDataStoreTests: XCTestCase {
         assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
     }
     
+    func testLoadFailure() {
+        Current = .test
+        
+        let mockRNC = Current.keychain.load()
+        
+        XCTAssertEqual(mockRNC.error?.localizedDescription, DataError.noSavedData.localizedDescription)
+    }
+    
+    
 
 }

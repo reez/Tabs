@@ -16,7 +16,7 @@ struct KeychainDataStore {
 
 func loadFromKeychain() -> Result<RemoteNodeConnection, DataError> {
     let keychain = Keychain(service: "com.matthewramsden.Tabs")
-    guard let data = keychain[data: "remoteNodeConfiguration"] else { return Result.failure(DataError.noRemoteData) }
+    guard let data = keychain[data: "remoteNodeConfiguration"] else { return Result.failure(DataError.noSavedData) }
     guard let remoteNodeConnection = try? JSONDecoder().decode(RemoteNodeConnection.self, from: data) else { return Result.failure(DataError.encodingFailure) }
     return Result.success(remoteNodeConnection)
 }

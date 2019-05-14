@@ -29,7 +29,7 @@ extension Environment {
 
 extension Environment {
     static let test = Environment(
-        date: { .mock },
+        date: { .test },
         lightningAPIRPC: .test,
         keychain: .test,
         remoteNodeConnection: .mock,
@@ -38,7 +38,11 @@ extension Environment {
 }
 
 extension Date {
-    static let mock = Date()
+    static let mock = Date(timeIntervalSinceReferenceDate: 547152021)//Date() // { Date(timeIntervalSinceReferenceDate: 557152051) }
+}
+
+extension Date {
+    static let test = Date(timeIntervalSinceReferenceDate: 547152021)//Date()
 }
 
 extension LightningApiRPC {
@@ -58,7 +62,7 @@ extension LightningApiRPC {
     }, canConnect: { (callback) in
         callback(false)
     }) { (callback) in
-        callback(Result.failure(DataError.noRemoteData))
+        callback(Result.failure(DataError.noSavedData))
     }
 }
 
@@ -74,7 +78,7 @@ extension KeychainDataStore {
 
 extension KeychainDataStore {
     static let test = KeychainDataStore(load: {
-        return Result.failure(DataError.fetchInfoFailure)
+        return Result.failure(DataError.noSavedData)
     }, save: { _ in
         return Result.failure(DataError.encodingFailure)
     }, delete: { }

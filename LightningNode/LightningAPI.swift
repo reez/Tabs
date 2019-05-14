@@ -30,7 +30,7 @@ func addInvoice(value: Int, memo: String, completion: @escaping (Result<String, 
         }.runWithMacaroon(rnc.macaroon)
 }
 
-func invoices(completion: @escaping (Result<[Invoice], DataError>) -> Void) { // Handler<[Invoice]>
+func invoices(completion: @escaping (Result<[Invoice], DataError>) -> Void) {
     guard let rnc = Current.remoteNodeConnectionFormatted else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
