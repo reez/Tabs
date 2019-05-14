@@ -25,6 +25,10 @@ let invoiceLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
+let invoiceSmallLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
+}
+
 let statusRootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
         <> {

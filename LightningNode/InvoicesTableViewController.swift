@@ -122,9 +122,7 @@ final class CreateInvoiceCell: UITableViewCell {
             |> { $0.addArrangedSubview(self.bodyLabel) }
             <> { $0.addArrangedSubview(self.buttonsStackView) }
             <> { $0.alignment = .center }
-
-        self.rootStackView
-            |> invoiceLayoutMargins
+            <> invoiceLayoutMargins
             <> invoiceRootStackViewStyle
         
         
@@ -163,7 +161,7 @@ final class InvoiceInfoCell: UITableViewCell {
     private let rootStackView = UIStackView()
     private let sequenceAndDateLabel = UILabel()
     private let titleLabel = UILabel()
-    private let lightningImageView = UIImageView()
+    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
     private let lightningStackView = UIStackView()
     
     private let amountLabelStatic = UILabel()
@@ -173,66 +171,55 @@ final class InvoiceInfoCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
         
-        self.lightningImageView.image = UIImage(named: "lightning")
+        self
+            |> { $0.selectionStyle = .none }
+
+        self.contentStackView
+            |> invoiceLayoutMargins
+            <> invoiceRootStackViewStyle
+            <> { $0.addArrangedSubview(self.lightningStackView) }
+            <> { $0.addArrangedSubview(self.titleStackView) }
+            <> { $0.addArrangedSubview(self.amountStackView) }
+            <> { $0.alignment = .leading }
+            <> { $0.spacing = .mr_grid(2) }
+
+        self.lightningStackView
+            |> invoiceRootStackViewStyle
+            <> { $0.spacing = .mr_grid(2) }
+            <> { $0.axis = .horizontal }
+            <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
         
-        self.contentStackView.layoutMargins.top = .mr_grid(6)
-        self.contentStackView.layoutMargins.left = .mr_grid(6)
-        self.contentStackView.layoutMargins.bottom = .mr_grid(6)
-        self.contentStackView.layoutMargins.right = .mr_grid(6)
+        self.amountStackView
+            |> invoiceRootStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
+            <> { $0.axis = .horizontal }
+            <> { $0.addArrangedSubview(self.lightningImageView) }
+            <> { $0.addArrangedSubview(self.amountLabel) }
         
-        self.contentStackView.spacing = .mr_grid(2)
-        self.contentStackView.axis = .vertical
-        self.contentStackView.isLayoutMarginsRelativeArrangement = true
-        self.contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.lightningStackView.spacing = .mr_grid(2)
-        self.lightningStackView.isLayoutMarginsRelativeArrangement = true
-        self.lightningStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.lightningStackView.axis = .horizontal
-        self.lightningStackView.addArrangedSubview(sequenceAndDateLabel)
-        
-        self.amountStackView.spacing = .mr_grid(1)
-        self.amountStackView.isLayoutMarginsRelativeArrangement = true
-        self.amountStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.amountStackView.axis = .horizontal
-        self.amountStackView.addArrangedSubview(lightningImageView)
-        self.amountStackView.addArrangedSubview(amountLabel)
-        
-        self.titleStackView.spacing = .mr_grid(1)
-        self.titleStackView.isLayoutMarginsRelativeArrangement = true
-        self.titleStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.titleStackView.axis = .horizontal
-        self.titleStackView.addArrangedSubview(titleLabel)
-        
-        self.contentStackView.alignment = .leading
-        self.contentStackView.addArrangedSubview(lightningStackView)
-        self.contentStackView.addArrangedSubview(self.titleStackView)
-        self.contentStackView.addArrangedSubview(self.amountStackView)
-        
-        self.rootStackView.layoutMargins.top = .mr_grid(2)
-        self.rootStackView.layoutMargins.left = .mr_grid(2)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(2)
-        self.rootStackView.layoutMargins.right = .mr_grid(2)
-        
-        self.rootStackView.spacing = .mr_grid(2)
-        self.rootStackView.axis = .vertical
-        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.rootStackView.addArrangedSubview(self.contentStackView)
+        self.titleStackView
+            |> invoiceRootStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
+            <> { $0.axis = .horizontal }
+            <> { $0.addArrangedSubview(self.titleLabel) }
+
+        self.rootStackView
+            |> invoiceSmallLayoutMargins
+            <> invoiceRootStackViewStyle
+            <> { $0.spacing = .mr_grid(2) }
+            <> { $0.addArrangedSubview(self.contentStackView) }
         
         self.sequenceAndDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        
+        self.sequenceAndDateLabel.numberOfLines = 0
+        self.titleLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
         self.titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         self.titleLabel.numberOfLines = 0
-        self.amountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.titleLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
         self.amountLabelStatic.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        self.sequenceAndDateLabel.numberOfLines = 0
-
-        self.contentView.addSubview(self.rootStackView)
+        self.amountLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
+        self.contentView
+            |> { $0.addSubview(self.rootStackView) }
+
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
@@ -240,7 +227,6 @@ final class InvoiceInfoCell: UITableViewCell {
             self.rootStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             self.lightningImageView.heightAnchor.constraint(equalToConstant: 16.0),
             self.lightningImageView.widthAnchor.constraint(equalToConstant: 16.0),
-            
             ])
     }
     
@@ -248,16 +234,16 @@ final class InvoiceInfoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with episode: Invoice) {
-        self.titleLabel.text = "\(episode.memo ?? "")"//episode.title
-        self.amountLabel.text = "\(episode.value)"//episode.blurb
+    func configure(with invoice: Invoice) {
+        self.titleLabel.text = "\(invoice.memo ?? "")"
+        self.amountLabel.text = "\(invoice.value)"
         
-        let creationDate = episode.creationDate
+        let creationDate = invoice.creationDate
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
         let formattedDate = mrDateFormatter.string(from: dr)
         
-        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice settled: \(episode.settled)"
+        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice settled: \(invoice.settled)"
         
         // Do I want to make the call for invoices here?
     }
