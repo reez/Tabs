@@ -15,13 +15,14 @@ struct LightningApiRPC {
 }
 
 func addInvoice(value: Int, memo: String, completion: @escaping (Result<String, DataError>) -> Void) {
-    guard let rnc = Current.remoteNodeConnection else { return }
+    guard let rnc = Current.remoteNodeConnectionFormatted else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
 
     try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
 
     let invoice = Invoice(value: value, memo: memo)
+    
     lnd.rpcToAddInvoice(withRequest: invoice) { (response, _) in
         response?.paymentRequest.flatMap {
             completion(Result.success($0))
@@ -29,8 +30,27 @@ func addInvoice(value: Int, memo: String, completion: @escaping (Result<String, 
         }.runWithMacaroon(rnc.macaroon)
 }
 
+func invoices(completion: @escaping (Result<[Invoice], DataError>) -> Void) {
+    guard let rnc = Current.remoteNodeConnectionFormatted else { return }
+    let host = rnc.uri
+    let lnd = Lightning(host: host)
+    
+    try? GRPCCall.setTLSPEMRootCerts(rnc.certificate, forHost: host)
+    
+    let invoices = ListInvoiceRequest()
+
+    lnd.rpcToListInvoices(with: invoices) { (response, _) in
+        // does this need to be compactmap?
+        response?.invoicesArray.flatMap {
+            let invoice = $0 as? [Invoice]
+            completion(Result.success(invoice!)) // Need to not bang this invoice
+        }
+        }.runWithMacaroon(rnc.macaroon)
+
+}
+
 func canConnect(completion: @escaping (Bool) -> Void) {
-    guard let rnc = Current.remoteNodeConnection else { return }
+    guard let rnc = Current.remoteNodeConnectionFormatted else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
 
@@ -42,7 +62,7 @@ func canConnect(completion: @escaping (Bool) -> Void) {
 }
 
 func info(completion: @escaping (Result<Info, DataError>) -> Void) {
-    guard let rnc = Current.remoteNodeConnection else { return }
+    guard let rnc = Current.remoteNodeConnectionFormatted else { return }
     let host = rnc.uri
     let lnd = Lightning(host: host)
 

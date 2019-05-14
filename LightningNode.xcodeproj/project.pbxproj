@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		63DC10AC96852BEE395C11C8 /* Pods_LightningNode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */; };
 		AB4A01DB7BEBF87F1A15894C /* Pods_LightningNodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */; };
+		AE0226FB227662D600C4378A /* InvoicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */; };
 		AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
 		AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
-		AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */; };
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
+		AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
 		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
@@ -28,12 +29,8 @@
 		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
 		AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */; };
 		AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */; };
-		AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */; };
-		AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */; };
+		AE5E7FBF22888E9D0090FD00 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */; };
 		AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */; };
-		AE6C321321D040EF00FF8E09 /* NodeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */; };
-		AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */; };
-		AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */; };
 		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
 		AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */; };
 		AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */; };
@@ -44,7 +41,12 @@
 		AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */; };
 		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
+		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
+		AE9511172274BCED00271DC0 /* TabBarViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */; };
+		AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511182274BD7700271DC0 /* StatusViewController.swift */; };
 		AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDA9EE721EBE617008E88A3 /* Reusing.swift */; };
+		AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE18C42274CA8000416B49 /* SettingsViewController.swift */; };
+		AEFFAB4B2278E03400B7080C /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,9 +64,10 @@
 		289536D5C2851166EBC8CC05 /* Pods-LightningNode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.release.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.release.xcconfig"; sourceTree = "<group>"; };
 		80A3B3C1FEF32204C92FD849 /* Pods_LightningNode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4770A51B4B9D9442616329E /* Pods-LightningNode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNode.debug.xcconfig"; path = "Target Support Files/Pods-LightningNode/Pods-LightningNode.debug.xcconfig"; sourceTree = "<group>"; };
+		AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicesTableViewController.swift; sourceTree = "<group>"; };
 		AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
-		AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
+		AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailViewController.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1571F221C4927D0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -84,12 +87,8 @@
 		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnection.swift; sourceTree = "<group>"; };
 		AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModel.swift; sourceTree = "<group>"; };
-		AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewController.swift; sourceTree = "<group>"; };
-		AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddInvoiceViewController.storyboard; sourceTree = "<group>"; };
+		AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctions.swift; sourceTree = "<group>"; };
-		AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewController.swift; sourceTree = "<group>"; };
-		AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NodeCollectionViewController.storyboard; sourceTree = "<group>"; };
-		AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
 		AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModelTests.swift; sourceTree = "<group>"; };
 		AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModelTests.swift; sourceTree = "<group>"; };
@@ -100,8 +99,13 @@
 		AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraViewController.storyboard; sourceTree = "<group>"; };
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarViewController.storyboard; sourceTree = "<group>"; };
+		AE9511182274BD7700271DC0 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AEDA9EE721EBE617008E88A3 /* Reusing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusing.swift; sourceTree = "<group>"; };
+		AEFE18C42274CA8000416B49 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewController.swift; sourceTree = "<group>"; };
 		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1EBA9A6EE7F1635969FCFA2 /* Pods-LightningNodeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningNodeTests.debug.xcconfig"; path = "Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,13 +174,15 @@
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
 				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
-				AE6C321621D0415B00FF8E09 /* NodeCollectionViewCell.swift */,
-				AE6C321221D040EF00FF8E09 /* NodeCollectionViewController.swift */,
-				AE6C321421D0410900FF8E09 /* NodeCollectionViewController.storyboard */,
-				AE434C5F21C5CA9C00D0E1B9 /* AddInvoiceViewController.swift */,
-				AE0A93B221F11FD2003EB324 /* AddInvoiceViewModel.swift */,
-				AE434C6121C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard */,
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
+				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
+				AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */,
+				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
+				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
+				AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */,
+				AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */,
+				AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */,
+				AEFE18C42274CA8000416B49 /* SettingsViewController.swift */,
 				AE1571F421C4927E0055D5BD /* Assets.xcassets */,
 				AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */,
 				AE1571F921C4927E0055D5BD /* Info.plist */,
@@ -306,12 +312,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
+				AE9511172274BCED00271DC0 /* TabBarViewController.storyboard in Resources */,
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
 				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
-				AE434C6221C5CAAA00D0E1B9 /* AddInvoiceViewController.storyboard in Resources */,
 				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
 				AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */,
-				AE6C321521D0410900FF8E09 /* NodeCollectionViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +364,9 @@
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/LNDrpc/LNDrpc.framework",
+				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -374,7 +381,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LNDrpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PanModal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -460,23 +469,26 @@
 				AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */,
 				AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */,
 				AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */,
+				AE5E7FBF22888E9D0090FD00 /* InvoiceViewModel.swift in Sources */,
 				AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */,
 				AE15721821C495C10055D5BD /* Environment.swift in Sources */,
 				AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */,
+				AEFFAB4B2278E03400B7080C /* InvoiceViewController.swift in Sources */,
+				AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */,
 				AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */,
 				AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */,
 				AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */,
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
+				AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
 				AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */,
+				AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */,
 				AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */,
-				AE6C321321D040EF00FF8E09 /* NodeCollectionViewController.swift in Sources */,
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
 				AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
-				AE434C6021C5CA9C00D0E1B9 /* AddInvoiceViewController.swift in Sources */,
-				AE6C321721D0415B00FF8E09 /* NodeCollectionViewCell.swift in Sources */,
-				AE0A93B321F11FD2003EB324 /* AddInvoiceViewModel.swift in Sources */,
+				AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */,
+				AE0226FB227662D600C4378A /* InvoicesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

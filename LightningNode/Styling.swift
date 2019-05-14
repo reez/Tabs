@@ -7,44 +7,98 @@
 
 import Foundation
 import UIKit
+import M13Checkbox
 
-func baseButtonStyle(_ button: UIButton) {
-    button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-    button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+func autolayoutStyle(_ view: UIView) -> Void {
+    view.translatesAutoresizingMaskIntoConstraints = false
 }
 
-let baseButtonReuseStyle: (UIButton) -> Void = {
-    $0.backgroundColor = .white
-    $0.layer.borderColor = UIColor.white.cgColor
-    $0.setTitle("", for: .normal)
-    $0.setTitleColor(.white, for: .normal)
-    $0.removeTarget(nil, action: nil, for: .allEvents)
+let baseLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
-let baseCellStyle: (UICollectionViewCell) -> Void = {
-    $0.layer.shadowColor = UIColor.mr_black.cgColor 
-    $0.layer.masksToBounds = false
-    $0.layer.shadowOpacity = 0.3
-    $0.layer.shadowOffset = CGSize(width: 0, height: 0)
-    $0.layer.shadowRadius = $0.contentView.layer.cornerRadius
+let invoiceLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+}
+
+let invoiceSmallLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
+}
+
+let statusRootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.axis = .vertical
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(32)
+}
+
+let invoiceRootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.axis = .vertical
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(12)
+}
+
+let rootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(6)
+}
+
+let centerStyle: (UILabel) -> Void = {
+    $0.textAlignment = .center
+}
+
+let smallCapsText: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+}
+
+let title3Text: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
+}
+
+let baseTextStyle: (UILabel) -> Void = {
+    $0.numberOfLines = 0
+}
+
+let finePrintStyle: (UILabel) -> Void =
+    centerStyle
+        <> baseTextStyle
+        <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+
+let checkboxStyle: (M13Checkbox) -> Void = {
+    $0.animationDuration = 0.50
+    $0.setCheckState(.unchecked, animated: true)
+    $0.tintColor = .mr_green
+    $0.secondaryTintColor = .mr_gray
+    $0.checkmarkLineWidth = 6.0
+    $0.boxLineWidth = 3.0
+    $0.boxType = .circle
+}
+
+let nameStyle: (UILabel) -> Void = {
+    $0.textColor = .mr_black
+    $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.numberOfLines = 0
+}
+
+let textFieldStyle: (UITextField) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    $0.borderStyle = .roundedRect
+}
+
+let baseButtonStyle: (UIButton) -> Void = {
+    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
 }
 
 let roundedStyle: (UIView) -> Void = {
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 6
-}
-
-func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
-    return {
-        $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = width
-    }
-}
-
-func backgroundStyle(color: UIColor) -> (UIView) -> Void {
-    return {
-        $0.backgroundColor = color
-    }
 }
 
 let roundedButtonStyle =
@@ -59,13 +113,34 @@ let filledButtonStyle =
             $0.setTitleColor(.white, for: .normal)
 }
 
-let borderButtonStyle  =
+let unfilledButtonStyle =
     roundedButtonStyle
-        <> borderStyle(color: .mr_blue, width: 2)
+        <> {
+            $0.backgroundColor = .white
+            $0.tintColor = .white
+            $0.setTitleColor(.mr_gold, for: .normal)
+}
 
-let invoiceButtonStyle =
-    filledButtonStyle
-        <> { $0.backgroundColor = .mr_purple }
+let removeButtonStyle =
+    roundedButtonStyle
+        <> {
+            $0.backgroundColor = .white
+            $0.tintColor = .white
+            $0.setTitleColor(.mr_red, for: .normal)
+}
+
+func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
+    return {
+        $0.layer.borderColor = color.cgColor
+        $0.layer.borderWidth = width
+    }
+}
+
+func backgroundStyle(color: UIColor) -> (UIView) -> Void {
+    return {
+        $0.backgroundColor = color
+    }
+}
 
 func fontStyle(ofSize size: CGFloat, weight: UIFont.Weight) -> (UILabel) -> Void {
     return {
@@ -91,14 +166,14 @@ func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
     }
 }
 
+let baseLabelStyleTitle: (UILabel) -> Void =
+    fontStyle(UIFont.preferredFont(forTextStyle: .title3))
+
+let baseLabelStyleSubheadline: (UILabel) -> Void =
+    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline))
+
 let baseLabelStyleSmallCaption: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
-
-let baseLabelStyleSmallSubheadline: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline).smallCaps)
-
-let baseLabelStyleBoldCaption: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .caption1).bolded)
 
 let baseLabelStyleBoldTitle: (UILabel) -> Void =
     fontStyle(UIFont.preferredFont(forTextStyle: .title1).bolded)
@@ -152,84 +227,17 @@ extension UIColor {
     public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 }
 
-class ScrollTriggeredControl: UIControl {
-    private let dragThreshold: CGFloat = 80
-    
-    private var previousFraction: CGFloat = 0
-    private var shouldTrigger = false
-    private var offsetObservation: NSKeyValueObservation?
-    
-    private let imageView = UIImageView()
-    private let impactGenerator = UIImpactFeedbackGenerator(style: .medium)
-    
-    private lazy var widthConstraint: NSLayoutConstraint = widthAnchor.constraint(equalToConstant: 0)
-    
-    init(image: UIImage?) {
-        super.init(frame: .zero)
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        clipsToBounds = false
-        
-        addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = image
-        
-        let centerConstraint = imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
-        centerConstraint.priority = .defaultHigh
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 40),
-            imageView.heightAnchor.constraint(equalToConstant: 40),
-            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            imageView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
-            centerConstraint, widthConstraint
-            ])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func didMoveToSuperview() {
-        (superview as? UIScrollView).flatMap(observe)
-    }
-    
-    private func observe(scrollView: UIScrollView) {
-        offsetObservation = scrollView.observe(\.contentOffset) { [weak self] scrollView, _ in
-            self?.updateOffset(for: scrollView)
-        }
-    }
-    
-    private func updateOffset(for scrollView: UIScrollView) {
-        let offset = -scrollView.adjustedContentOffset.x
-        let fraction = min(offset / dragThreshold, 1)
-        widthConstraint.constant = max(offset, 0)
-        imageView.alpha = fraction == 1 ? 1 : 0.5 * fraction
-        
-        if shouldTrigger, !scrollView.isTracking {
-            sendActions(for: .primaryActionTriggered)
-            shouldTrigger = false
-        }
-        
-        if fraction < 1 {
-            impactGenerator.prepare()
-            shouldTrigger = false
-        }
-        
-        if fraction == 1, previousFraction < 1, scrollView.isTracking {
-            impactGenerator.impactOccurred()
-            shouldTrigger = true
-        }
-        
-        previousFraction = fraction
+extension CGFloat {
+    static func mr_grid(_ n: Int) -> CGFloat {
+        return CGFloat(n) * 4
     }
 }
 
-extension UIScrollView {
-    var adjustedContentOffset: CGPoint {
-        var offset = contentOffset
-        offset.x += adjustedContentInset.left
-        offset.y += adjustedContentInset.top
-        return offset
-    }
+public var mrDateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE MMM d, yyyy h:mm:ss a"
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.amSymbol = "AM"
+    formatter.pmSymbol = "PM"
+    return formatter
 }

@@ -30,10 +30,15 @@ class AddNodeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
+        print(Current.remoteNodeConnection ?? "No current remote node connection")
+        
         if let lndConnect = Current.remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
+            
+        } else {
+            print("what happened")
         }
         
     }
@@ -132,10 +137,10 @@ extension AddNodeViewController {
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
-                    let bundle = Bundle(for: NodeCollectionViewController.self)
-                    let nodeIdentifier = Reusing<NodeCollectionViewController>().identifier()
+                    let bundle = Bundle(for: TabBarViewController.self)
+                    let nodeIdentifier = Reusing<TabBarViewController>().identifier()
                     let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
-                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! NodeCollectionViewController
+                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! TabBarViewController
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.nvActivityIndicator?.stopAnimating()

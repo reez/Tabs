@@ -12,8 +12,6 @@ enum DataError: Error, Equatable {
     case fetchInfoFailure
     case invoiceInfoMissing
     case invoiceFailure
-    case macaroonFormatting
-    case noRemoteData
     case noSavedData
     case remoteNodeInfoMissing
 }
@@ -29,10 +27,6 @@ extension DataError: LocalizedError {
             return NSLocalizedString("Invoice Failure", comment: "Invoice Failed")
         case .invoiceInfoMissing:
             return NSLocalizedString("Invoice Info Missing", comment: "Could not submit, missing Invoice data")
-        case .macaroonFormatting:
-            return NSLocalizedString("Macaroon failure", comment: "Could not format Macaroon")
-        case .noRemoteData:
-            return NSLocalizedString("No Remote Data", comment: "Could not get remote Node data")
         case .noSavedData:
             return NSLocalizedString("No Saved Data", comment: "Could not get saved Node data")
         case .remoteNodeInfoMissing:

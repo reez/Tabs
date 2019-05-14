@@ -13,9 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        let navigationIdentifier = Reusing<NodeCollectionViewController>().identifier()
-        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: NodeCollectionViewController.self))
+        
+        let navigationIdentifier = Reusing<TabBarViewController>().identifier()
+        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: TabBarViewController.self))
         let vc = storyboard.instantiateViewController(withIdentifier: navigationIdentifier)
         let navigationController = UINavigationController(rootViewController: vc)
         
@@ -26,4 +26,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 }
-

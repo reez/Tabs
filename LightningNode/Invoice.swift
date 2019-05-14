@@ -16,6 +16,13 @@ extension Invoice {
     }
 }
 
+extension ListInvoiceRequest {
+    convenience init(reversed: Bool) {
+        self.init()
+        self.reversed = reversed
+    }
+}
+
 struct InvoiceRequest {
     let memo: String
     let value: Int

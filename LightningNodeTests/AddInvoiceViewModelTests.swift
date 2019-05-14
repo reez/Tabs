@@ -146,6 +146,29 @@ class AddInvoiceViewModelTests: XCTestCase {
         }
         
     }
-
+    
+    func testAddInvoiceViewModelOutputFetchInfoFailure() {
+        Current = .test
+        
+        let output = AddInvoiceViewModelOutput(alertErrorMessage: "Fetch Info Failure", alertNeeded: true, amountTextFieldOutput: "", copyButtonHidden: false, invoiceLabel: "", invoiceLabelHidden: false, memoTextFieldOutput: "")
+        
+        if output.alertNeeded {
+            XCTAssertEqual(output.alertErrorMessage, DataError.fetchInfoFailure.localizedDescription)
+        }
+        
+    }
+    
+    func testAddInvoiceViewModelInputInvoiceInfoMissingFailure() {
+        Current = .test
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "1", memoTextFieldInput: "", submitButtonPressed: ())
+        
+        let output = AddInvoiceViewModelOutput(alertErrorMessage: "Invoice Info Missing", alertNeeded: true, amountTextFieldOutput: "", copyButtonHidden: false, invoiceLabel: "", invoiceLabelHidden: false, memoTextFieldOutput: "")
+        
+        if input.memoTextFieldInput.isEmpty {
+            XCTAssertEqual(output.alertErrorMessage, DataError.invoiceInfoMissing.localizedDescription)
+        }
+        
+    }
     
 }

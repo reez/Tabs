@@ -46,7 +46,7 @@ func addNodeViewModel(
         macaroon: mac
     )
     
-    Current.remoteNodeConnection = rnc
+    Current.remoteNodeConnectionFormatted = rnc
     let resultSavedPost = Current.keychain.save(rnc)
     switch resultSavedPost {
     case .success(_):
