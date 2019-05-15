@@ -126,39 +126,19 @@ extension SettingsViewController {
             |> settingsStackViewStyle
             <> { $0.spacing = .mr_grid(2)}
         
-//        self.tabsVersionLabel.text = "(Tabs LND Version: 0.5.2-beta)"
-        
-//        self.staticAliasLabel.text = "Alias"
-//        self.staticAliasLabel.textColor = .mr_gray
-//        self.staticAliasLabel.textAlignment = .center
-        
         self.staticAliasLabel
             |> { $0.text = "Alias" }
             <> { $0.textAlignment = .center }
             <> { $0.textColor = .mr_gray }
 
-//        self.staticIdentityLabel.text = "Identity Pubkey"
-//        self.staticIdentityLabel.textColor = .mr_gray
-//        self.staticIdentityLabel.textAlignment = .center
-
         self.staticIdentityLabel
             |> { $0.text = "Identity Pubkey" }
             <> { $0.textAlignment = .center }
             <> { $0.textColor = .mr_gray }
-
-//        self.lndVersionLabel.numberOfLines = 0
-//        self.lndVersionLabel.textAlignment = .center
         
         self.lndVersionLabel
             |> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
-
-//        self.tabsVersionLabel.numberOfLines = 0
-        
-//        self.lndVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-//
-//        self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-//        self.tabsVersionLabel.textAlignment = .center
 
         self.tabsVersionLabel
             |> smallCapsText
@@ -167,18 +147,10 @@ extension SettingsViewController {
         self.lndVersionLabel
             |> smallCapsText
         
-//        self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-//        self.aliasLabel.textAlignment = .center
-        //        self.aliasLabel.numberOfLines = 0
-
         self.aliasLabel
             |> title3Text
             <> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
-
-//        self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-        //        self.identityPubkeyLabel.numberOfLines = 0
-        //        self.identityPubkeyLabel.textAlignment = .center
 
         self.identityPubkeyLabel
             |> title3Text
@@ -189,9 +161,7 @@ extension SettingsViewController {
             |> baseLabelStyleSmallCaption
             <> { $0.text = "(Tabs LND Version: 0.5.2-beta)" }
             <> { $0.numberOfLines = 0 }
-        
-        
-//        self.removeNodeButton.setTitle("Remove Node", for: .normal)
+
         self.removeNodeButton
             |> removeButtonStyle
             <> { $0.setTitle("Remove Node", for: .normal) }
@@ -201,28 +171,38 @@ extension SettingsViewController {
             action: #selector(deleteButtonPressed),
             for: .touchUpInside
         )
-
         
-
+        self.aliasStackView
+            |> { $0.addArrangedSubview(self.staticAliasLabel) }
+            <> { $0.addArrangedSubview(self.aliasLabel) }
         
-        self.aliasStackView.addArrangedSubview(staticAliasLabel)
-        self.aliasStackView.addArrangedSubview(aliasLabel)
-        self.identityStackView.addArrangedSubview(aliasStackView)
-        self.pubkeyStackView.addArrangedSubview(staticIdentityLabel)
-        self.pubkeyStackView.addArrangedSubview(identityPubkeyLabel)
-        self.identityStackView.addArrangedSubview(pubkeyStackView)
-
-        self.textStackView.addArrangedSubview(identityStackView)
-        self.versionStackView.addArrangedSubview(lndVersionLabel)
-        self.versionStackView.addArrangedSubview(tabsVersionLabel)
-        self.textStackView.addArrangedSubview(versionStackView)
-
-        self.buttonStackView.addArrangedSubview(removeNodeButton)
-    
-        self.rootStackView.addArrangedSubview(textStackView)
-        self.rootStackView.addArrangedSubview(buttonStackView)
+        self.identityStackView
+            |> { $0.addArrangedSubview(self.aliasStackView) }
         
-        self.view.addSubview(rootStackView)
+        self.pubkeyStackView
+            |> { $0.addArrangedSubview(self.staticIdentityLabel) }
+            <> { $0.addArrangedSubview(self.identityPubkeyLabel) }
+        
+        self.identityStackView
+            |> { $0.addArrangedSubview(self.pubkeyStackView) }
+
+        self.textStackView
+            |> { $0.addArrangedSubview(self.identityStackView) }
+            <> { $0.addArrangedSubview(self.versionStackView) }
+        
+        self.versionStackView
+            |> { $0.addArrangedSubview(self.lndVersionLabel) }
+            <> { $0.addArrangedSubview(self.tabsVersionLabel) }
+        
+        self.buttonStackView
+            |> { $0.addArrangedSubview(self.removeNodeButton) }
+        
+        self.rootStackView
+            |> { $0.addArrangedSubview(self.textStackView) }
+            <> { $0.addArrangedSubview(self.buttonStackView) }
+
+        self.view
+            |> { $0.addSubview(self.rootStackView) }
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
