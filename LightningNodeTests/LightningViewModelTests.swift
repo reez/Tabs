@@ -40,13 +40,12 @@ class LightningViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.lightningNodeInfo, Info.mock)
         assertSnapshot(matching: viewModel.lightningNodeInfo, as: .dump)
         assertSnapshot(matching: Info.mock, as: .dump)
-
     }
     
     func testInfoInitMock() {
         Current = .mock
         
-        let vm = LightningViewModel { (info) in
+        let vm = LightningViewModel { info in
             XCTAssertEqual(info, Info.mock)
         }
 
@@ -66,9 +65,8 @@ class LightningViewModelTests: XCTestCase {
     func testLightningAPIRPCAddInvoiceSuccess() {
         Current = .mock
         
-        Current.lightningAPIRPC.addInvoice(2, "memo"){ result in
+        Current.lightningAPIRPC.addInvoice(2, "memo") { result in
             switch result {
-                
             case let .success(value):
                 XCTAssertEqual(value, "mockInvoice")
                 assertSnapshot(matching: value, as: .dump)
@@ -76,16 +74,15 @@ class LightningViewModelTests: XCTestCase {
                 XCTAssertEqual(error, DataError.invoiceFailure)
                 assertSnapshot(matching: error, as: .dump)
             }
-            
         }
+        
     }
     
     func testLightningAPIRPCAddInvoiceFailure() {
         Current = .test
         
-        Current.lightningAPIRPC.addInvoice(2, "memo"){ result in
+        Current.lightningAPIRPC.addInvoice(2, "memo") { result in
             switch result {
-                
             case let .success(value):
                 XCTAssertEqual(value, "mockInvoice")
                 assertSnapshot(matching: value, as: .dump)
@@ -93,8 +90,8 @@ class LightningViewModelTests: XCTestCase {
                 XCTAssertEqual(error, DataError.invoiceFailure)
                 assertSnapshot(matching: error, as: .dump)
             }
-            
         }
+        
     }
     
     func testLightningAPIRPCCanConnectSuccess() {
@@ -142,5 +139,28 @@ class LightningViewModelTests: XCTestCase {
         }
         
     }
+    
+    func testBase64String() {
+        let str = "String"
+        let base = str.base64UrlToBase64()
+        
+        XCTAssertEqual(base, "String==")
+    }
+    
+    func testSeparateString() {
+        let str = "String"
+        let separate = str.separate(every: 3, with: "*")
+        
+        XCTAssertEqual(separate, "Str*ing")
+
+    }
+    
+    func testQueryString() {
+        let url = URL(string: "readableString")
+        let query = url?.queryParameters
+        
+        XCTAssertEqual(query, nil)
+    }
+    
     
 }
