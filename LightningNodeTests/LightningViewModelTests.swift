@@ -63,4 +63,84 @@ class LightningViewModelTests: XCTestCase {
         assertSnapshot(matching: vm, as: .dump)
     }
     
+    func testLightningAPIRPCAddInvoiceSuccess() {
+        Current = .mock
+        
+        Current.lightningAPIRPC.addInvoice(2, "memo"){ result in
+            switch result {
+                
+            case let .success(value):
+                XCTAssertEqual(value, "mockInvoice")
+                assertSnapshot(matching: value, as: .dump)
+            case let .failure(error):
+                XCTAssertEqual(error, DataError.invoiceFailure)
+                assertSnapshot(matching: error, as: .dump)
+            }
+            
+        }
+    }
+    
+    func testLightningAPIRPCAddInvoiceFailure() {
+        Current = .test
+        
+        Current.lightningAPIRPC.addInvoice(2, "memo"){ result in
+            switch result {
+                
+            case let .success(value):
+                XCTAssertEqual(value, "mockInvoice")
+                assertSnapshot(matching: value, as: .dump)
+            case let .failure(error):
+                XCTAssertEqual(error, DataError.invoiceFailure)
+                assertSnapshot(matching: error, as: .dump)
+            }
+            
+        }
+    }
+    
+    func testLightningAPIRPCCanConnectSuccess() {
+        Current = .mock
+        
+        Current.lightningAPIRPC.canConnect { bool in
+            XCTAssertTrue(bool, "True")
+        }
+        
+    }
+    
+    func testLightningAPIRPCCanConnectFailure() {
+        Current = .test
+        
+        Current.lightningAPIRPC.canConnect { bool in
+            XCTAssertFalse(bool, "False")
+        }
+        
+    }
+    
+    func testLightningAPIRPCInfoSuccess() {
+        Current = .mock
+        
+        Current.lightningAPIRPC.info { result in
+            switch result {
+            case let .success(value):
+                XCTAssertEqual(value.blockHeight, 0)
+            case let .failure(error):
+                XCTAssertEqual(error, DataError.fetchInfoFailure)
+            }
+        }
+        
+    }
+    
+    func testLightningAPIRPCInfoFailure() {
+        Current = .test
+        
+        Current.lightningAPIRPC.info { result in
+            switch result {
+            case let .success(value):
+                XCTAssertEqual(value.blockHeight, 1)
+            case let .failure(error):
+                XCTAssertEqual(error, DataError.noSavedData)
+            }
+        }
+        
+    }
+    
 }
