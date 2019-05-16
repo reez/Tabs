@@ -25,6 +25,10 @@ let invoiceSmallLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
 }
 
+let settingsLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(12), bottom: .mr_grid(0), right: .mr_grid(12))
+}
+
 let statusRootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
         <> {
@@ -44,6 +48,14 @@ let invoiceRootStackViewStyle: (UIStackView) -> Void =
 let rootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
         <> {
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(6)
+}
+
+let settingsStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.axis = .vertical
             $0.isLayoutMarginsRelativeArrangement = true
             $0.spacing = .mr_grid(6)
 }
@@ -73,7 +85,7 @@ let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50
     $0.setCheckState(.unchecked, animated: true)
     $0.tintColor = .mr_green
-    $0.secondaryTintColor = .mr_gray
+    $0.secondaryTintColor = .mr_lightGray
     $0.checkmarkLineWidth = 6.0
     $0.boxLineWidth = 3.0
     $0.boxType = .circle
@@ -219,7 +231,8 @@ extension UIFont {
 extension UIColor {
     public static let mr_black = UIColor(white: 0.07, alpha: 1)
     public static let mr_blue = UIColor(red: 0/255, green: 172/255, blue: 255/255, alpha: 1)
-    public static let mr_gray = UIColor(white: 0.95, alpha: 1.0)
+    public static let mr_gray = UIColor(white: 0.5, alpha: 1.0)
+    public static let mr_lightGray = UIColor(white: 0.95, alpha: 1.0)
     public static let mr_green = UIColor(red: 121/255, green: 242/255, blue: 176/255, alpha: 1)
     public static let mr_purple = UIColor(red: 151/255, green: 77/255, blue: 255/255, alpha: 1)
     public static let mr_red = UIColor(red: 235/255, green: 28/255, blue: 38/255, alpha: 1)

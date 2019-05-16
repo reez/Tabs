@@ -30,23 +30,10 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-        self.tabsVersionLabel.text = "(Tabs LND Version: 0.5.2-beta)"
-        self.staticAliasLabel.text = "Alias"
-        self.staticIdentityLabel.text = "Identity Pubkey"
-        self.staticIdentityLabel.textColor = .gray
-        self.staticAliasLabel.textColor = .gray
-
-        
-        self.removeNodeButton.setTitle("Remove Node", for: .normal)
-        self.removeNodeButton
-            |> removeButtonStyle
-        
-        self.removeNodeButton.addTarget(
-            self,
-            action: #selector(deleteButtonPressed),
-            for: .touchUpInside
-        )
-        
+        loadSettingsVC()
+    }
+    
+    func loadSettingsVC() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -74,13 +61,6 @@ class SettingsViewController: UIViewController {
             let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
     }
     
     @objc private func deleteButtonPressed() {
@@ -118,82 +98,111 @@ class SettingsViewController: UIViewController {
 
 extension SettingsViewController {
     func setupUI() {
-        self.rootStackView.layoutMargins.top = .mr_grid(6)
-        self.rootStackView.layoutMargins.left = .mr_grid(12)
-        self.rootStackView.layoutMargins.bottom = .mr_grid(0)
-        self.rootStackView.layoutMargins.right = .mr_grid(12)
         
-        self.rootStackView.spacing = .mr_grid(32)
-        self.rootStackView.axis = .vertical
-        self.rootStackView.isLayoutMarginsRelativeArrangement = true
-        self.rootStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.rootStackView
+            |> settingsLayoutMargins
+            <> statusRootStackViewStyle
         
-        self.buttonStackView.spacing = .mr_grid(6)
-        self.buttonStackView.axis = .vertical
-        self.buttonStackView.isLayoutMarginsRelativeArrangement = true
-        self.buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.buttonStackView
+            |> settingsStackViewStyle
         
-        self.textStackView.spacing = .mr_grid(4)
-        self.textStackView.axis = .vertical
-        self.textStackView.isLayoutMarginsRelativeArrangement = true
-        self.textStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.identityStackView.spacing = .mr_grid(2)
-        self.identityStackView.axis = .vertical
-        self.identityStackView.isLayoutMarginsRelativeArrangement = true
-        self.identityStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.versionStackView.spacing = .mr_grid(1)
-        self.versionStackView.axis = .vertical
-        self.versionStackView.isLayoutMarginsRelativeArrangement = true
-        self.versionStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.pubkeyStackView.spacing = .mr_grid(2)
-        self.pubkeyStackView.axis = .vertical
-        self.pubkeyStackView.isLayoutMarginsRelativeArrangement = true
-        self.pubkeyStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.textStackView
+            |> settingsStackViewStyle
+            <> { $0.spacing = .mr_grid(4)}
 
-        self.aliasStackView.spacing = .mr_grid(2)
-        self.aliasStackView.axis = .vertical
-        self.aliasStackView.isLayoutMarginsRelativeArrangement = true
-        self.aliasStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.identityStackView
+            |> settingsStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
 
-        self.lndVersionLabel.numberOfLines = 0
-        self.aliasLabel.numberOfLines = 0
-        self.tabsVersionLabel.numberOfLines = 0
-        self.identityPubkeyLabel.numberOfLines = 0
+        self.versionStackView
+            |> settingsStackViewStyle
+            <> { $0.spacing = .mr_grid(1)}
         
-        self.lndVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        self.tabsVersionLabel.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-        self.aliasLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
-        self.identityPubkeyLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
+        self.pubkeyStackView
+            |> settingsStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
         
-        self.aliasLabel.textAlignment = .center
-        self.staticAliasLabel.textAlignment = .center
-        self.identityPubkeyLabel.textAlignment = .center
-        self.staticIdentityLabel.textAlignment = .center
+        self.aliasStackView
+            |> settingsStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
         
-        self.lndVersionLabel.textAlignment = .center
-        self.tabsVersionLabel.textAlignment = .center
-        
-        self.aliasStackView.addArrangedSubview(staticAliasLabel)
-        self.aliasStackView.addArrangedSubview(aliasLabel)
-        self.identityStackView.addArrangedSubview(aliasStackView)
-        self.pubkeyStackView.addArrangedSubview(staticIdentityLabel)
-        self.pubkeyStackView.addArrangedSubview(identityPubkeyLabel)
-        self.identityStackView.addArrangedSubview(pubkeyStackView)
+        self.staticAliasLabel
+            |> { $0.text = "Alias" }
+            <> { $0.textAlignment = .center }
+            <> { $0.textColor = .mr_gray }
 
-        self.textStackView.addArrangedSubview(identityStackView)
-        self.versionStackView.addArrangedSubview(lndVersionLabel)
-        self.versionStackView.addArrangedSubview(tabsVersionLabel)
-        self.textStackView.addArrangedSubview(versionStackView)
-
-        self.buttonStackView.addArrangedSubview(removeNodeButton)
-    
-        self.rootStackView.addArrangedSubview(textStackView)
-        self.rootStackView.addArrangedSubview(buttonStackView)
+        self.staticIdentityLabel
+            |> { $0.text = "Identity Pubkey" }
+            <> { $0.textAlignment = .center }
+            <> { $0.textColor = .mr_gray }
         
-        self.view.addSubview(rootStackView)
+        self.lndVersionLabel
+            |> { $0.textAlignment = .center }
+            <> { $0.numberOfLines = 0 }
+
+        self.tabsVersionLabel
+            |> smallCapsText
+            <> { $0.textAlignment = .center }
+
+        self.lndVersionLabel
+            |> smallCapsText
+        
+        self.aliasLabel
+            |> title3Text
+            <> { $0.textAlignment = .center }
+            <> { $0.numberOfLines = 0 }
+
+        self.identityPubkeyLabel
+            |> title3Text
+            <> { $0.numberOfLines = 0 }
+            <> { $0.textAlignment = .center }
+
+        self.tabsVersionLabel
+            |> baseLabelStyleSmallCaption
+            <> { $0.text = "(Tabs LND Version: 0.5.2-beta)" }
+            <> { $0.numberOfLines = 0 }
+
+        self.removeNodeButton
+            |> removeButtonStyle
+            <> { $0.setTitle("Remove Node", for: .normal) }
+        
+        self.removeNodeButton.addTarget(
+            self,
+            action: #selector(deleteButtonPressed),
+            for: .touchUpInside
+        )
+        
+        self.aliasStackView
+            |> { $0.addArrangedSubview(self.staticAliasLabel) }
+            <> { $0.addArrangedSubview(self.aliasLabel) }
+        
+        self.identityStackView
+            |> { $0.addArrangedSubview(self.aliasStackView) }
+        
+        self.pubkeyStackView
+            |> { $0.addArrangedSubview(self.staticIdentityLabel) }
+            <> { $0.addArrangedSubview(self.identityPubkeyLabel) }
+        
+        self.identityStackView
+            |> { $0.addArrangedSubview(self.pubkeyStackView) }
+
+        self.textStackView
+            |> { $0.addArrangedSubview(self.identityStackView) }
+            <> { $0.addArrangedSubview(self.versionStackView) }
+        
+        self.versionStackView
+            |> { $0.addArrangedSubview(self.lndVersionLabel) }
+            <> { $0.addArrangedSubview(self.tabsVersionLabel) }
+        
+        self.buttonStackView
+            |> { $0.addArrangedSubview(self.removeNodeButton) }
+        
+        self.rootStackView
+            |> { $0.addArrangedSubview(self.textStackView) }
+            <> { $0.addArrangedSubview(self.buttonStackView) }
+
+        self.view
+            |> { $0.addSubview(self.rootStackView) }
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
