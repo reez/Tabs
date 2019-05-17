@@ -39,12 +39,12 @@ class AddInvoiceViewModelTests: XCTestCase {
 
         addInvoiceViewModel(input: input) { (output) in
             XCTAssertEqual(output.alertErrorMessage, "Unexpected Error")
-            XCTAssertEqual(output.copyButtonHidden, false)
             XCTAssertEqual(output.alertNeeded, false)
             XCTAssertEqual(output.amountTextFieldOutput, "")
-            XCTAssertEqual(output.memoTextFieldOutput, "")
+            XCTAssertEqual(output.copyButtonHidden, false)
             XCTAssertEqual(output.invoiceLabel, "mockInvoice")
             XCTAssertEqual(output.invoiceLabelHidden, false)
+            XCTAssertEqual(output.memoTextFieldOutput, "")
             assertSnapshot(matching: output, as: .dump)
         }
         
@@ -69,7 +69,7 @@ class AddInvoiceViewModelTests: XCTestCase {
         
     }
     
-    func testAddInvoiceInputInvoiceInfoMissingFailure() {
+    func testInputInvoiceMemoMissingFailure() {
         
         Current = .test
         
@@ -83,7 +83,21 @@ class AddInvoiceViewModelTests: XCTestCase {
         
     }
     
-    func testAddInvoiceOutputFetchInfoFailure() {
+    func testInputInvoiceAmountMissingFailure() {
+        
+        Current = .test
+        
+        let input = AddInvoiceViewModelInput(amountTextFieldInput: "", memoTextFieldInput: "memo", submitButtonPressed: ())
+        
+        let output = AddInvoiceViewModelOutput(alertErrorMessage: "Invoice Info Missing", alertNeeded: true, amountTextFieldOutput: "", copyButtonHidden: false, invoiceLabel: "", invoiceLabelHidden: false, memoTextFieldOutput: "")
+        
+        if input.memoTextFieldInput.isEmpty {
+            XCTAssertEqual(output.alertErrorMessage, DataError.invoiceInfoMissing.localizedDescription)
+        }
+        
+    }
+    
+    func testOutputFetchInfoFailure() {
         
         Current = .test
         
