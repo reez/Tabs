@@ -27,7 +27,13 @@ class StatusViewController: UIViewController {
         setupUI()
     }
     
-    func loadStatusVC() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        loadStatus()
+    }
+    
+    func loadStatus() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -61,13 +67,6 @@ class StatusViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        loadStatusVC()
-        
-    }
-    
     @objc private func modalButtonPressed() {
         let vc = StatusDetailViewController()
         presentPanModal(vc)
@@ -76,6 +75,7 @@ class StatusViewController: UIViewController {
 }
 
 extension StatusViewController {
+    
     func setupUI() {
         
         self.syncedLabel
@@ -130,4 +130,5 @@ extension StatusViewController {
             ])
         
     }
+    
 }
