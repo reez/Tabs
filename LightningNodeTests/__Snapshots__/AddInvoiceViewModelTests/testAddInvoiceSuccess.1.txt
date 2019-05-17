@@ -1,0 +1,8 @@
+▿ AddInvoiceViewModelOutput
+  - alertErrorMessage: "Unexpected Error"
+  - alertNeeded: false
+  - amountTextFieldOutput: ""
+  - copyButtonHidden: false
+  - invoiceLabel: "mockInvoice"
+  - invoiceLabelHidden: false
+  - memoTextFieldOutput: ""

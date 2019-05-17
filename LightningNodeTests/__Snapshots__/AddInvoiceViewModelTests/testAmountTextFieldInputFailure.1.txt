@@ -1,0 +1,8 @@
+▿ AddInvoiceViewModelOutput
+  - alertErrorMessage: "Value for Invoice must be a number"
+  - alertNeeded: true
+  - amountTextFieldOutput: ""
+  - copyButtonHidden: true
+  - invoiceLabel: ""
+  - invoiceLabelHidden: true
+  - memoTextFieldOutput: ""

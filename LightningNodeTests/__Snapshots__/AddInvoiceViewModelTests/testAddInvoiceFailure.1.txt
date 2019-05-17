@@ -1,0 +1,8 @@
+▿ AddInvoiceViewModelOutput
+  - alertErrorMessage: "Invoice Failure"
+  - alertNeeded: true
+  - amountTextFieldOutput: ""
+  - copyButtonHidden: true
+  - invoiceLabel: ""
+  - invoiceLabelHidden: true
+  - memoTextFieldOutput: ""
