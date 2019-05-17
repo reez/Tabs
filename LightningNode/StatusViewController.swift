@@ -91,11 +91,10 @@ extension StatusViewController {
         
         self.syncedStackView
             |> verticalStackViewStyle
-            <> centerStackViewStyle //{ $0.alignment = .center }
+            <> centerStackViewStyle
 
         self.moreInfoStackView
             |> verticalStackViewStyle
-//            <> { $0.spacing = .mr_grid(6) }
         
         self.infoLabel
             |> finePrintStyle

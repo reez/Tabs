@@ -119,11 +119,12 @@ final class CreateInvoiceCell: UITableViewCell {
             <> { $0.text = bodyText }
         
         self.rootStackView
-            |> { $0.addArrangedSubview(self.bodyLabel) }
-            <> { $0.addArrangedSubview(self.buttonsStackView) }
-            <> { $0.alignment = .center }
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(12) }
             <> baseLayoutMargins
-            <> invoiceRootStackViewStyle
+            <> centerStackViewStyle
+            <> { $0.addArrangedSubview(self.bodyLabel) }
+            <> { $0.addArrangedSubview(self.buttonsStackView) }
         
         
         self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
@@ -131,8 +132,8 @@ final class CreateInvoiceCell: UITableViewCell {
             |> unfilledButtonStyle
         
         self.buttonsStackView
-            |> { $0.addArrangedSubview(self.addInvoiceButton) }
-            <> { $0.spacing = .mr_grid(2) }
+            |> { $0.spacing = .mr_grid(2) }
+            <> { $0.addArrangedSubview(self.addInvoiceButton) }
         
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
@@ -174,39 +175,36 @@ final class InvoiceInfoCell: UITableViewCell {
         
         self
             |> { $0.selectionStyle = .none }
-
+        
         self.contentStackView
-            |> baseLayoutMargins
-            <> invoiceRootStackViewStyle
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(2) }
+            <> { $0.alignment = .leading }
+            <> baseLayoutMargins
             <> { $0.addArrangedSubview(self.lightningStackView) }
             <> { $0.addArrangedSubview(self.titleStackView) }
             <> { $0.addArrangedSubview(self.amountStackView) }
-            <> { $0.alignment = .leading }
-            <> { $0.spacing = .mr_grid(2) }
-
-        self.lightningStackView
-            |> invoiceRootStackViewStyle
-            <> { $0.spacing = .mr_grid(2) }
-            <> { $0.axis = .horizontal }
-            <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
         
+        self.lightningStackView
+            |> horizontalStackViewStyle
+            <> { $0.spacing = .mr_grid(2) }
+            <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
+
         self.amountStackView
-            |> invoiceRootStackViewStyle
+            |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
-            <> { $0.axis = .horizontal }
             <> { $0.addArrangedSubview(self.lightningImageView) }
             <> { $0.addArrangedSubview(self.amountLabel) }
         
         self.titleStackView
-            |> invoiceRootStackViewStyle
+            |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
-            <> { $0.axis = .horizontal }
             <> { $0.addArrangedSubview(self.titleLabel) }
-
+        
         self.rootStackView
-            |> smallLayoutMargins
-            <> invoiceRootStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
+            <> smallLayoutMargins
             <> { $0.addArrangedSubview(self.contentStackView) }
         
         self.sequenceAndDateLabel
