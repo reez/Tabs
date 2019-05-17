@@ -13,14 +13,13 @@ import M13Checkbox
 class StatusViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
-    private let imageView = UIImageView()
-    private let infoButton = UIButton()
-    private let infoLabel = UILabel()
+    private let syncedLabel = UILabel()
     private let refreshedLabel = UILabel()
-    private let rootStackView = UIStackView()
     private let checkbox = M13Checkbox()
     private let syncedStackView = UIStackView()
-    private let moreInfoStackView = UIStackView()
+    private let infoButton = UIButton()
+    private let infoStackView = UIStackView()
+    private let rootStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,20 +41,15 @@ class StatusViewController: UIViewController {
                         
                         let creationDate = Current.date()
                         let formattedDate = mrDateFormatter.string(from: creationDate)
-                        
                         self?.refreshedLabel.text = "Refreshed: \(formattedDate)"
-                        
-                        $0.syncedToChain ?
-                            (self?.imageView.image = UIImage(named: "synced")) :
-                            (self?.imageView.image = UIImage(named: "close"))
                         
                         $0.syncedToChain ?
                             (self?.checkbox.setCheckState(.checked, animated: true)) :
                             (self?.checkbox.setCheckState(.unchecked, animated: true))
                         
                         $0.syncedToChain ?
-                            (self?.infoLabel.text = "Synced") :
-                            (self?.infoLabel.text = "Not Synced")
+                            (self?.syncedLabel.text = "Synced") :
+                            (self?.syncedLabel.text = "Not Synced")
                 }
             }
         case .failure(_):
@@ -84,19 +78,7 @@ class StatusViewController: UIViewController {
 extension StatusViewController {
     func setupUI() {
         
-        self.rootStackView
-            |> verticalStackViewStyle
-            <> { $0.spacing = .mr_grid(32) }
-            <> topLayoutMargins
-        
-        self.syncedStackView
-            |> verticalStackViewStyle
-            <> centerStackViewStyle
-
-        self.moreInfoStackView
-            |> verticalStackViewStyle
-        
-        self.infoLabel
+        self.syncedLabel
             |> finePrintStyle
         
         self.refreshedLabel
@@ -104,8 +86,19 @@ extension StatusViewController {
             <> smallCapsText
             <> { $0.text = "Refreshing..." }
         
-        self.imageView
-            |> { $0.image = nil }
+        self.checkbox
+            |> checkboxStyle
+        
+        self.syncedStackView
+            |> verticalStackViewStyle
+            <> centerStackViewStyle
+            <> { $0.addArrangedSubview(self.syncedLabel) }
+            <> { $0.addArrangedSubview(self.refreshedLabel) }
+            <> { $0.addArrangedSubview(self.checkbox) }
+        
+        self.infoButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Get Info", for: .normal) }
         
         self.infoButton.addTarget(
             self,
@@ -113,24 +106,16 @@ extension StatusViewController {
             for: .touchUpInside
         )
         
-        self.infoButton
-            |> unfilledButtonStyle
-            <> { $0.setTitle("Get Info", for: .normal) }
+        self.infoStackView
+            |> verticalStackViewStyle
+            <> { $0.addArrangedSubview(self.infoButton) }
         
-        self.checkbox
-            |> checkboxStyle
-        
-        self.syncedStackView
-            |> { $0.addArrangedSubview(self.infoLabel) }
-            <> { $0.addArrangedSubview(self.refreshedLabel) }
-            <> { $0.addArrangedSubview(self.checkbox) }
-
-        self.moreInfoStackView
-            |> { $0.addArrangedSubview(infoButton) }
-
         self.rootStackView
-            |> { $0.addArrangedSubview(self.syncedStackView) }
-            <> { $0.addArrangedSubview(self.moreInfoStackView) }
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(32) }
+            <> topLayoutMargins
+            <> { $0.addArrangedSubview(self.syncedStackView) }
+            <> { $0.addArrangedSubview(self.infoStackView) }
         
         self.view
             |> { $0.addSubview(self.rootStackView) }
