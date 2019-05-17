@@ -141,57 +141,51 @@ let removeButtonStyle =
             $0.setTitleColor(.mr_red, for: .normal)
 }
 
-func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
+let borderStyle: (UIColor, CGFloat) -> (UIView) -> Void = { (color, width) in
     return {
         $0.layer.borderColor = color.cgColor
         $0.layer.borderWidth = width
     }
 }
 
-func backgroundStyle(color: UIColor) -> (UIView) -> Void {
+let backgroundStyle: (UIColor) -> (UIView) -> Void = { color in
     return {
         $0.backgroundColor = color
     }
 }
 
-func fontStyle(ofSize size: CGFloat, weight: UIFont.Weight) -> (UILabel) -> Void {
+let fontStyleSizeWeight: (CGFloat, UIFont.Weight) -> (UILabel) -> Void = { (size, weight) in
     return {
         $0.font = .systemFont(ofSize: size, weight: weight)
     }
 }
 
-func fontStyle(_ myFont: UIFont) -> (UILabel) -> Void {
+let fontStyleLabel: (UIFont) -> (UILabel) -> Void = { myFont in
     return {
         $0.font = myFont
     }
 }
 
-func fontStyle(_ myFont: UIFont) -> (UITextField) -> Void {
+let fontStyleTextField: (UIFont) -> (UITextField) -> Void = { myFont in
     return {
         $0.font = myFont
-    }
-}
-
-func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
-    return {
-        $0.textColor = color
     }
 }
 
 let baseLabelStyleTitle: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .title3))
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .title3))
 
 let baseLabelStyleSubheadline: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline))
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .subheadline))
 
 let baseLabelStyleSmallCaption: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
 
 let baseLabelStyleBoldTitle: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .title1).bolded)
+    fontStyleLabel((UIFont.preferredFont(forTextStyle: .title1).bolded))
 
 let baseTextFieldStyleBoldBody: (UITextField) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .body).bolded)
+    fontStyleTextField(UIFont.preferredFont(forTextStyle: .body).bolded)
 
 extension UIFont {
     public var smallCaps: UIFont {

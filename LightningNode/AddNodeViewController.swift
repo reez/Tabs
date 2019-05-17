@@ -108,12 +108,12 @@ extension AddNodeViewController {
         
         self.lndConnectButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .white)
+            <> backgroundStyle(.white)
             <> { $0.setTitleColor(.mr_gold, for: .normal) }
         
         self.submitButton
             |> filledButtonStyle
-            <> backgroundStyle(color: .mr_black)
+            <> backgroundStyle(.mr_black)
     }
 }
 
