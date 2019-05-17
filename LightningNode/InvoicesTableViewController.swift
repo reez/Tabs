@@ -17,15 +17,15 @@ class InvoicesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadInvoices), name: NSNotification.Name(rawValue: "load"), object: nil)
         setupUI()
-        loadList()
+        loadInvoices()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        loadList()
+        loadInvoices()
     }
     
 }
@@ -63,13 +63,13 @@ extension InvoicesTableViewController {
     
     func setupUI() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(loadInvoices), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         tableView.refreshControl = refreshControl
     }
     
     // This is my workaround for refreshing after modal dismissed
-    @objc func loadList(){
+    @objc func loadInvoices(){
         invoices { [weak self] (result) in
             switch result {
             case let .success(invoices):
@@ -87,23 +87,12 @@ extension InvoicesTableViewController {
 
 final class CreateInvoiceCell: UITableViewCell {
     private let bodyLabel = UILabel()
-    private let buttonsStackView = UIStackView()
     private let addInvoiceButton = UIButton()
     private let rootStackView = UIStackView()
     var tapAction: ((UITableViewCell) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        self.addInvoiceButton.addTarget(
-            self,
-            action: #selector(tappedInvoiceCreate),
-            for: .touchUpInside
-        )
-        
-        self
-            |> { $0.selectionStyle = .none }
-            <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
         
         let bodyText = """
         🌩
@@ -118,25 +107,30 @@ final class CreateInvoiceCell: UITableViewCell {
             <> { $0.textAlignment = .center }
             <> { $0.text = bodyText }
         
+        self.addInvoiceButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Add an Invoice", for: .normal) }
+        
+        self.addInvoiceButton.addTarget(
+            self,
+            action: #selector(tappedInvoiceCreate),
+            for: .touchUpInside
+        )
+        
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(12) }
             <> baseLayoutMargins
             <> centerStackViewStyle
             <> { $0.addArrangedSubview(self.bodyLabel) }
-            <> { $0.addArrangedSubview(self.buttonsStackView) }
-        
-        
-        self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
-        self.addInvoiceButton
-            |> unfilledButtonStyle
-        
-        self.buttonsStackView
-            |> { $0.spacing = .mr_grid(2) }
             <> { $0.addArrangedSubview(self.addInvoiceButton) }
-        
+
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
+
+        self
+            |> { $0.selectionStyle = .none }
+            <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
 
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
