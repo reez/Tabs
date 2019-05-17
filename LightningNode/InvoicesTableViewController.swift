@@ -122,7 +122,7 @@ final class CreateInvoiceCell: UITableViewCell {
             |> { $0.addArrangedSubview(self.bodyLabel) }
             <> { $0.addArrangedSubview(self.buttonsStackView) }
             <> { $0.alignment = .center }
-            <> invoiceLayoutMargins
+            <> baseLayoutMargins
             <> invoiceRootStackViewStyle
         
         
@@ -176,7 +176,7 @@ final class InvoiceInfoCell: UITableViewCell {
             |> { $0.selectionStyle = .none }
 
         self.contentStackView
-            |> invoiceLayoutMargins
+            |> baseLayoutMargins
             <> invoiceRootStackViewStyle
             <> { $0.addArrangedSubview(self.lightningStackView) }
             <> { $0.addArrangedSubview(self.titleStackView) }
@@ -204,7 +204,7 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.addArrangedSubview(self.titleLabel) }
 
         self.rootStackView
-            |> invoiceSmallLayoutMargins
+            |> smallLayoutMargins
             <> invoiceRootStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
             <> { $0.addArrangedSubview(self.contentStackView) }

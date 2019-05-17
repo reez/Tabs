@@ -9,25 +9,30 @@ import Foundation
 import UIKit
 import M13Checkbox
 
-func autolayoutStyle(_ view: UIView) -> Void {
-    view.translatesAutoresizingMaskIntoConstraints = false
+
+/// UIView
+
+let autolayoutStyle: (UIView) -> Void = {
+    $0.translatesAutoresizingMaskIntoConstraints = false
 }
 
-let baseLayoutMargins: (UIView) -> Void = {
-    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-}
-
-let invoiceLayoutMargins: (UIView) -> Void = {
-    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
-}
-
-let invoiceSmallLayoutMargins: (UIView) -> Void = {
+let smallLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
 }
 
-let settingsLayoutMargins: (UIView) -> Void = {
+let baseLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+}
+
+let topLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+}
+
+let leftLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(12), bottom: .mr_grid(0), right: .mr_grid(12))
 }
+
+/// UIStackView
 
 let statusRootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
@@ -45,12 +50,7 @@ let invoiceRootStackViewStyle: (UIStackView) -> Void =
             $0.spacing = .mr_grid(12)
 }
 
-let rootStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(6)
-}
+
 
 let settingsStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
@@ -59,6 +59,38 @@ let settingsStackViewStyle: (UIStackView) -> Void =
             $0.isLayoutMarginsRelativeArrangement = true
             $0.spacing = .mr_grid(6)
 }
+
+let settingsStackViewStyle2: (UIStackView) -> Void =
+    autolayoutStyle
+        <> statusRootStackViewStyle
+        <> {
+            $0.axis = .vertical
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(6)
+}
+
+// New Base
+
+let rootStackViewStyle: (UIStackView) -> Void =
+    autolayoutStyle
+        <> {
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.spacing = .mr_grid(6)
+}
+
+let verticalStackViewStyle: (UIStackView) -> Void =
+    rootStackViewStyle
+        <> {
+            $0.axis = .vertical
+}
+
+let horizontalStackViewStyle: (UIStackView) -> Void =
+    rootStackViewStyle
+        <> {
+            $0.axis = .horizontal
+}
+
+/// UILabel
 
 let centerStyle: (UILabel) -> Void = {
     $0.textAlignment = .center
@@ -80,6 +112,10 @@ let finePrintStyle: (UILabel) -> Void =
     centerStyle
         <> baseTextStyle
         <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+
+
+
+/// M13Checkbox
 
 let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50

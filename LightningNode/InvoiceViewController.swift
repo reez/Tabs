@@ -199,7 +199,7 @@ extension InvoiceViewController {
         self.rootStackView
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
-            <> baseLayoutMargins
+            <> topLayoutMargins
 
         self.amountStackView
             |> { $0.addArrangedSubview(self.amountTextField) }

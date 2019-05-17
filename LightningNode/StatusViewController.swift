@@ -86,7 +86,7 @@ extension StatusViewController {
         
         self.rootStackView
             |> statusRootStackViewStyle
-            <> baseLayoutMargins
+            <> topLayoutMargins
         
         self.syncedStackView
             |> statusRootStackViewStyle
