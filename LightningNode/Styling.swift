@@ -34,13 +34,13 @@ let leftLayoutMargins: (UIView) -> Void = {
 
 /// UIStackView
 
-let statusRootStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(32)
-}
+//let statusRootStackViewStyle: (UIStackView) -> Void =
+//    autolayoutStyle
+//        <> {
+//            $0.axis = .vertical
+//            $0.isLayoutMarginsRelativeArrangement = true
+//            $0.spacing = .mr_grid(32)
+//}
 
 let invoiceRootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
@@ -60,14 +60,14 @@ let settingsStackViewStyle: (UIStackView) -> Void =
             $0.spacing = .mr_grid(6)
 }
 
-let settingsStackViewStyle2: (UIStackView) -> Void =
-    autolayoutStyle
-        <> statusRootStackViewStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(6)
-}
+//let settingsStackViewStyle2: (UIStackView) -> Void =
+//    autolayoutStyle
+//        <> statusRootStackViewStyle
+//        <> {
+//            $0.axis = .vertical
+//            $0.isLayoutMarginsRelativeArrangement = true
+//            $0.spacing = .mr_grid(6)
+//}
 
 // New Base
 
@@ -89,6 +89,11 @@ let horizontalStackViewStyle: (UIStackView) -> Void =
         <> {
             $0.axis = .horizontal
 }
+
+let centerStackViewStyle: (UIStackView) -> Void = {
+    $0.alignment = .center
+}
+
 
 /// UILabel
 

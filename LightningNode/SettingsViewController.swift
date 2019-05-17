@@ -100,8 +100,9 @@ extension SettingsViewController {
     func setupUI() {
         
         self.rootStackView
-            |> leftLayoutMargins
-            <> statusRootStackViewStyle
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(32) }
+            <> leftLayoutMargins
         
         self.buttonStackView
             |> settingsStackViewStyle

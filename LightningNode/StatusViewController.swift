@@ -85,17 +85,17 @@ extension StatusViewController {
     func setupUI() {
         
         self.rootStackView
-            |> statusRootStackViewStyle
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(32) }
             <> topLayoutMargins
         
         self.syncedStackView
-            |> statusRootStackViewStyle
-            <> { $0.spacing = .mr_grid(6) }
-            <> { $0.alignment = .center }
+            |> verticalStackViewStyle
+            <> centerStackViewStyle //{ $0.alignment = .center }
 
         self.moreInfoStackView
-            |> statusRootStackViewStyle
-            <> { $0.spacing = .mr_grid(6) }
+            |> verticalStackViewStyle
+//            <> { $0.spacing = .mr_grid(6) }
         
         self.infoLabel
             |> finePrintStyle
