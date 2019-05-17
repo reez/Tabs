@@ -1,0 +1,2 @@
+▿ Result<String, DataError>
+  - failure: DataError.encodingFailure

@@ -29,6 +29,9 @@
 		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
 		AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */; };
 		AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */; };
+		AE59D42E228E1B7800C75022 /* InfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D42D228E1B7800C75022 /* InfoTests.swift */; };
+		AE59D430228E1BD900C75022 /* LightningAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D42F228E1BD900C75022 /* LightningAPITests.swift */; };
+		AE59D432228E224700C75022 /* RemoteNodeConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D431228E224700C75022 /* RemoteNodeConnectionTests.swift */; };
 		AE5E7FBF22888E9D0090FD00 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */; };
 		AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */; };
 		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
@@ -87,6 +90,9 @@
 		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnection.swift; sourceTree = "<group>"; };
 		AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModel.swift; sourceTree = "<group>"; };
+		AE59D42D228E1B7800C75022 /* InfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTests.swift; sourceTree = "<group>"; };
+		AE59D42F228E1BD900C75022 /* LightningAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPITests.swift; sourceTree = "<group>"; };
+		AE59D431228E224700C75022 /* RemoteNodeConnectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnectionTests.swift; sourceTree = "<group>"; };
 		AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctions.swift; sourceTree = "<group>"; };
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
@@ -193,11 +199,14 @@
 		AE15720121C4927E0055D5BD /* LightningNodeTests */ = {
 			isa = PBXGroup;
 			children = (
+				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
+				AE59D42D228E1B7800C75022 /* InfoTests.swift */,
+				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
+				AE59D42F228E1BD900C75022 /* LightningAPITests.swift */,
+				AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */,
+				AE59D431228E224700C75022 /* RemoteNodeConnectionTests.swift */,
 				AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */,
 				AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */,
-				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
-				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
-				AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */,
 				AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */,
 				AE15720421C4927E0055D5BD /* Info.plist */,
 			);
@@ -498,10 +507,13 @@
 			files = (
 				AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */,
 				AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */,
+				AE59D432228E224700C75022 /* RemoteNodeConnectionTests.swift in Sources */,
 				AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */,
+				AE59D430228E1BD900C75022 /* LightningAPITests.swift in Sources */,
 				AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */,
 				AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */,
 				AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
+				AE59D42E228E1B7800C75022 /* InfoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

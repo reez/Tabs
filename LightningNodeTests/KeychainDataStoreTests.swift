@@ -11,8 +11,8 @@ import SnapshotTesting
 @testable import LightningNode
 
 class KeychainDataStoreTests: XCTestCase {
-
-    func testLoadCertificateSuccess() {
+    
+    func testLoadSuccess() {
         Current = .mock
         
         let rnc = RemoteNodeConnection.init(
@@ -23,88 +23,29 @@ class KeychainDataStoreTests: XCTestCase {
         
         let mockRNC = Current.keychain.load()
         let mockCertificate = try? mockRNC.get().certificate
+        let mockMacaroon = try? mockRNC.get().macaroon
+        let mockURI = try? mockRNC.get().uri
 
         XCTAssertEqual(mockCertificate!, rnc.certificate)
+        XCTAssertEqual(mockMacaroon!, rnc.macaroon)
+        XCTAssertEqual(mockURI!, rnc.uri)
 
-    }
-    
-    func testLoadCertificateSuccessSnapshot() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.load()
-        let mockCertificate = try? mockRNC.get().certificate
-        
         assertSnapshot(matching: mockCertificate!, as: .dump)
         assertSnapshot(matching: rnc.certificate, as: .dump)
-
-    }
-    
-    func testLoadMacaroonSuccess() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.load()
-        let mockMacaroon = try? mockRNC.get().macaroon
-
-        XCTAssertEqual(mockMacaroon!, rnc.macaroon)
-    }
-    
-    func testLoadMacaroonSuccessSnapshot() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.load()
-        let mockMacaroon = try? mockRNC.get().macaroon
-        
         assertSnapshot(matching: mockMacaroon!, as: .dump)
         assertSnapshot(matching: rnc.macaroon, as: .dump)
-    }
-    
-    func testLoadURISuccess() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.load()
-        let mockURI = try? mockRNC.get().uri
-
-        XCTAssertEqual(mockURI!, rnc.uri)
-    }
-    
-    func testLoadURISuccessSnapshot() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.load()
-        let mockURI = try? mockRNC.get().uri
-        
         assertSnapshot(matching: mockURI!, as: .dump)
         assertSnapshot(matching: rnc.uri, as: .dump)
+    }
+    
+    func testLoadFailure() {
+        Current = .test
+        
+        let mockRNC = Current.keychain.load()
+        
+        XCTAssertEqual(mockRNC.error?.localizedDescription, DataError.noSavedData.localizedDescription)
+        assertSnapshot(matching: mockRNC, as: .dump)
+        assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
     }
     
     func testSaveSuccess() {
@@ -120,21 +61,8 @@ class KeychainDataStoreTests: XCTestCase {
         let mockSave = try? mockRNC.get()
         
         XCTAssertEqual(mockSave!, "Success!")
-    }
-    
-    func testSaveSuccessSnapshot() {
-        Current = .mock
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.save(rnc)
-        let mockSave = try? mockRNC.get()
-        
         assertSnapshot(matching: mockSave!, as: .dump)
+        assertSnapshot(matching: mockRNC, as: .dump)
     }
     
     func testSaveFailure() {
@@ -149,28 +77,8 @@ class KeychainDataStoreTests: XCTestCase {
         let mockRNC = Current.keychain.save(rnc)
 
         XCTAssertEqual(mockRNC.error?.localizedDescription, "\(DataError.encodingFailure.localizedDescription)")
-    }
-    
-    func testSaveFailureSnapshot() {
-        Current = .test
-        
-        let rnc = RemoteNodeConnection.init(
-            uri: lndURI,
-            certificate: lndCertificate,
-            macaroon: lndMacaroon
-        )
-        
-        let mockRNC = Current.keychain.save(rnc)
-        
+        assertSnapshot(matching: mockRNC, as: .dump)
         assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
-    }
-    
-    func testLoadFailure() {
-        Current = .test
-        
-        let mockRNC = Current.keychain.load()
-        
-        XCTAssertEqual(mockRNC.error?.localizedDescription, DataError.noSavedData.localizedDescription)
     }
     
 }

@@ -12,7 +12,7 @@ import SnapshotTesting
 
 class BlockstreamAPITests: XCTestCase {
     
-    func testBlockstreamAPITestnet() {
+    func testBlockstreamAPIRequestTestnet() {
         
         let testExpectation = expectation(description: "https://blockstream.info/testnet/api/blocks/tip/height")
 
@@ -29,7 +29,7 @@ class BlockstreamAPITests: XCTestCase {
         
     }
     
-    func testBlockstreamAPIMainnet() {
+    func testBlockstreamAPIRequestTestnetMainnet() {
         
         let testExpectation = expectation(description: "https://blockstream.info/api/blocks/tip/height")
         
