@@ -9,41 +9,31 @@ import Foundation
 import UIKit
 import M13Checkbox
 
-func autolayoutStyle(_ view: UIView) -> Void {
-    view.translatesAutoresizingMaskIntoConstraints = false
+
+/// UIView
+
+let autolayoutStyle: (UIView) -> Void = {
+    $0.translatesAutoresizingMaskIntoConstraints = false
 }
 
-let baseLayoutMargins: (UIView) -> Void = {
-    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
+let mediumLayoutMarginsStyle: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(8), left: .mr_grid(8), bottom: .mr_grid(8), right: .mr_grid(8))
 }
 
-let invoiceLayoutMargins: (UIView) -> Void = {
+let baseLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
-let invoiceSmallLayoutMargins: (UIView) -> Void = {
-    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
+let topLayoutMarginsStyle: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
-let settingsLayoutMargins: (UIView) -> Void = {
+let leftLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(12), bottom: .mr_grid(0), right: .mr_grid(12))
 }
 
-let statusRootStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(32)
-}
 
-let invoiceRootStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(12)
-}
+/// UIStackView
 
 let rootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
@@ -52,23 +42,42 @@ let rootStackViewStyle: (UIStackView) -> Void =
             $0.spacing = .mr_grid(6)
 }
 
-let settingsStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
+let verticalStackViewStyle: (UIStackView) -> Void =
+    rootStackViewStyle
         <> {
             $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(6)
 }
 
-let centerStyle: (UILabel) -> Void = {
+let horizontalStackViewStyle: (UIStackView) -> Void =
+    rootStackViewStyle
+        <> {
+            $0.axis = .horizontal
+}
+
+let centerStackViewStyle: (UIStackView) -> Void = {
+    $0.alignment = .center
+}
+
+
+/// UILabel
+
+let centerTextStyle: (UILabel) -> Void = {
     $0.textAlignment = .center
 }
 
-let smallCapsText: (UILabel) -> Void = {
+let smallCapsTextStyle: (UILabel) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
 }
 
-let title3Text: (UILabel) -> Void = {
+let subheadlineTextStyle: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+}
+
+let title1BoldTextStyle: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1).bolded
+}
+
+let title3TextStyle: (UILabel) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
 }
 
@@ -76,10 +85,48 @@ let baseTextStyle: (UILabel) -> Void = {
     $0.numberOfLines = 0
 }
 
+let infoTextStyle: (UILabel) -> Void = {
+    $0.textColor = .mr_black
+    $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.numberOfLines = 0
+}
+
 let finePrintStyle: (UILabel) -> Void =
-    centerStyle
+    centerTextStyle
         <> baseTextStyle
         <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+
+
+/// UITextField
+
+let baseTextFieldStyle: (UITextField) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    $0.borderStyle = .roundedRect
+}
+
+let bodyBoldTextFieldStyle: (UITextField) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body).bolded
+}
+
+
+/// UIButton
+
+let baseButtonStyle: (UIButton) -> Void = {
+    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+}
+
+let unfilledButtonStyle =
+    baseButtonStyle
+        <> {
+            $0.backgroundColor = .white
+            $0.tintColor = .white
+            $0.setTitleColor(.mr_blue, for: .normal)
+}
+
+
+/// M13Checkbox
 
 let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50
@@ -91,107 +138,8 @@ let checkboxStyle: (M13Checkbox) -> Void = {
     $0.boxType = .circle
 }
 
-let nameStyle: (UILabel) -> Void = {
-    $0.textColor = .mr_black
-    $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.numberOfLines = 0
-}
 
-let textFieldStyle: (UITextField) -> Void = {
-    $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
-    $0.borderStyle = .roundedRect
-}
-
-let baseButtonStyle: (UIButton) -> Void = {
-    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-    $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-}
-
-let roundedStyle: (UIView) -> Void = {
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = 6
-}
-
-let roundedButtonStyle =
-    baseButtonStyle
-        <> roundedStyle
-
-let filledButtonStyle =
-    roundedButtonStyle
-        <> {
-            $0.backgroundColor = .mr_black
-            $0.tintColor = .white
-            $0.setTitleColor(.white, for: .normal)
-}
-
-let unfilledButtonStyle =
-    roundedButtonStyle
-        <> {
-            $0.backgroundColor = .white
-            $0.tintColor = .white
-            $0.setTitleColor(.mr_gold, for: .normal)
-}
-
-let removeButtonStyle =
-    roundedButtonStyle
-        <> {
-            $0.backgroundColor = .white
-            $0.tintColor = .white
-            $0.setTitleColor(.mr_red, for: .normal)
-}
-
-func borderStyle(color: UIColor, width: CGFloat) -> (UIView) -> Void {
-    return {
-        $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = width
-    }
-}
-
-func backgroundStyle(color: UIColor) -> (UIView) -> Void {
-    return {
-        $0.backgroundColor = color
-    }
-}
-
-func fontStyle(ofSize size: CGFloat, weight: UIFont.Weight) -> (UILabel) -> Void {
-    return {
-        $0.font = .systemFont(ofSize: size, weight: weight)
-    }
-}
-
-func fontStyle(_ myFont: UIFont) -> (UILabel) -> Void {
-    return {
-        $0.font = myFont
-    }
-}
-
-func fontStyle(_ myFont: UIFont) -> (UITextField) -> Void {
-    return {
-        $0.font = myFont
-    }
-}
-
-func textColorStyle(_ color: UIColor) -> (UILabel) -> Void {
-    return {
-        $0.textColor = color
-    }
-}
-
-let baseLabelStyleTitle: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .title3))
-
-let baseLabelStyleSubheadline: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .subheadline))
-
-let baseLabelStyleSmallCaption: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
-
-let baseLabelStyleBoldTitle: (UILabel) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .title1).bolded)
-
-let baseTextFieldStyleBoldBody: (UITextField) -> Void =
-    fontStyle(UIFont.preferredFont(forTextStyle: .body).bolded)
+/// Extensions
 
 extension UIFont {
     public var smallCaps: UIFont {
@@ -245,6 +193,9 @@ extension CGFloat {
         return CGFloat(n) * 4
     }
 }
+
+
+/// Date Formatters
 
 public var mrDateFormatter: DateFormatter {
     let formatter = DateFormatter()

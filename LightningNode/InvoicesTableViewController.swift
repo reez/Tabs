@@ -17,15 +17,15 @@ class InvoicesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadInvoices), name: NSNotification.Name(rawValue: "load"), object: nil)
         setupUI()
-        loadList()
+        loadInvoices()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        loadList()
+        loadInvoices()
     }
     
 }
@@ -63,13 +63,13 @@ extension InvoicesTableViewController {
     
     func setupUI() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(loadList), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(loadInvoices), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         tableView.refreshControl = refreshControl
     }
     
     // This is my workaround for refreshing after modal dismissed
-    @objc func loadList(){
+    @objc func loadInvoices(){
         invoices { [weak self] (result) in
             switch result {
             case let .success(invoices):
@@ -87,23 +87,12 @@ extension InvoicesTableViewController {
 
 final class CreateInvoiceCell: UITableViewCell {
     private let bodyLabel = UILabel()
-    private let buttonsStackView = UIStackView()
     private let addInvoiceButton = UIButton()
     private let rootStackView = UIStackView()
     var tapAction: ((UITableViewCell) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        self.addInvoiceButton.addTarget(
-            self,
-            action: #selector(tappedInvoiceCreate),
-            for: .touchUpInside
-        )
-        
-        self
-            |> { $0.selectionStyle = .none }
-            <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
         
         let bodyText = """
         🌩
@@ -114,28 +103,34 @@ final class CreateInvoiceCell: UITableViewCell {
         
         self.bodyLabel
             |> baseTextStyle
-            <> title3Text
+            <> title3TextStyle
             <> { $0.textAlignment = .center }
             <> { $0.text = bodyText }
         
-        self.rootStackView
-            |> { $0.addArrangedSubview(self.bodyLabel) }
-            <> { $0.addArrangedSubview(self.buttonsStackView) }
-            <> { $0.alignment = .center }
-            <> invoiceLayoutMargins
-            <> invoiceRootStackViewStyle
-        
-        
-        self.addInvoiceButton.setTitle("Add an Invoice", for: .normal)
         self.addInvoiceButton
             |> unfilledButtonStyle
+            <> { $0.setTitle("Add an Invoice", for: .normal) }
         
-        self.buttonsStackView
-            |> { $0.addArrangedSubview(self.addInvoiceButton) }
-            <> { $0.spacing = .mr_grid(2) }
+        self.addInvoiceButton.addTarget(
+            self,
+            action: #selector(tappedInvoiceCreate),
+            for: .touchUpInside
+        )
         
+        self.rootStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(12) }
+            <> baseLayoutMarginsStyle
+            <> centerStackViewStyle
+            <> { $0.addArrangedSubview(self.bodyLabel) }
+            <> { $0.addArrangedSubview(self.addInvoiceButton) }
+
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
+
+        self
+            |> { $0.selectionStyle = .none }
+            <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
 
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
@@ -156,78 +151,59 @@ final class CreateInvoiceCell: UITableViewCell {
 }
 
 final class InvoiceInfoCell: UITableViewCell {
-    private let amountLabel = UILabel()
-    private let contentStackView = UIStackView()
-    private let rootStackView = UIStackView()
     private let sequenceAndDateLabel = UILabel()
-    private let titleLabel = UILabel()
-    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
-    private let lightningStackView = UIStackView()
-    
-    private let amountLabelStatic = UILabel()
-    private let titleLabelStatic = UILabel()
+    private let sequenceAndDateStackView = UIStackView()
+    private let memoLabel = UILabel()
+    private let memoStackView = UIStackView()
+    private let amountLabel = UILabel()
     private let amountStackView = UIStackView()
-    private let titleStackView = UIStackView()
+    private let rootStackView = UIStackView()
+    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self
-            |> { $0.selectionStyle = .none }
-
-        self.contentStackView
-            |> invoiceLayoutMargins
-            <> invoiceRootStackViewStyle
-            <> { $0.addArrangedSubview(self.lightningStackView) }
-            <> { $0.addArrangedSubview(self.titleStackView) }
-            <> { $0.addArrangedSubview(self.amountStackView) }
-            <> { $0.alignment = .leading }
+        self.sequenceAndDateLabel
+            |> smallCapsTextStyle
+            <> { $0.numberOfLines = 0 }
+        
+        self.sequenceAndDateStackView
+            |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
-
-        self.lightningStackView
-            |> invoiceRootStackViewStyle
-            <> { $0.spacing = .mr_grid(2) }
-            <> { $0.axis = .horizontal }
             <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
         
-        self.amountStackView
-            |> invoiceRootStackViewStyle
+        self.memoLabel
+            |> title3TextStyle
+            <> { $0.numberOfLines = 0 }
+        
+        self.memoStackView
+            |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
-            <> { $0.axis = .horizontal }
+            <> { $0.addArrangedSubview(self.memoLabel) }
+        
+        self.amountLabel
+            |> subheadlineTextStyle
+
+        self.amountStackView
+            |> horizontalStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
             <> { $0.addArrangedSubview(self.lightningImageView) }
             <> { $0.addArrangedSubview(self.amountLabel) }
         
-        self.titleStackView
-            |> invoiceRootStackViewStyle
-            <> { $0.spacing = .mr_grid(1) }
-            <> { $0.axis = .horizontal }
-            <> { $0.addArrangedSubview(self.titleLabel) }
-
         self.rootStackView
-            |> invoiceSmallLayoutMargins
-            <> invoiceRootStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
-            <> { $0.addArrangedSubview(self.contentStackView) }
-        
-        self.sequenceAndDateLabel
-            |> smallCapsText
-            <> { $0.numberOfLines = 0 }
-        
-        self.titleLabelStatic
-            |> baseLabelStyleSubheadline
-        
-        self.titleLabel
-            |> baseLabelStyleTitle
-            <> { $0.numberOfLines = 0 }
-        
-        self.amountLabel
-            |> baseLabelStyleSubheadline
+            <> { $0.alignment = .leading }
+            <> mediumLayoutMarginsStyle
+            <> { $0.addArrangedSubview(self.sequenceAndDateStackView) }
+            <> { $0.addArrangedSubview(self.memoStackView) }
+            <> { $0.addArrangedSubview(self.amountStackView) }
 
-        self.amountLabelStatic
-            |> baseLabelStyleSubheadline
-        
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
+        
+        self
+            |> { $0.selectionStyle = .none }
 
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -244,7 +220,7 @@ final class InvoiceInfoCell: UITableViewCell {
     }
     
     func configure(with invoice: Invoice) {
-        self.titleLabel.text = "\(invoice.memo ?? "")"
+        self.memoLabel.text = "\(invoice.memo ?? "")"
         self.amountLabel.text = "\(invoice.value)"
         
         let creationDate = invoice.creationDate

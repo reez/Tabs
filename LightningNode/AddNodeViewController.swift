@@ -86,34 +86,31 @@ extension AddNodeViewController {
         self.view.addSubview(self.nvActivityIndicator!)
         
         self.titleLabel
-            |> baseLabelStyleBoldTitle
+            |> title1BoldTextStyle
         
         self.certificateLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
         
         self.certificateTextField
-            |> baseTextFieldStyleBoldBody
+            |> bodyBoldTextFieldStyle
         
         self.macaroonLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
         
         self.macaroonTextField
-            |> baseTextFieldStyleBoldBody
+            |> bodyBoldTextFieldStyle
         
         self.uriLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
         
         self.uriTextField
-            |> baseTextFieldStyleBoldBody
+            |> bodyBoldTextFieldStyle
         
         self.lndConnectButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .white)
-            <> { $0.setTitleColor(.mr_gold, for: .normal) }
+            |> unfilledButtonStyle
         
         self.submitButton
-            |> filledButtonStyle
-            <> backgroundStyle(color: .mr_black)
+            |> unfilledButtonStyle
     }
 }
 

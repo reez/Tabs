@@ -12,13 +12,13 @@ import PanModal
 class StatusDetailViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
-    let nameLabel = UILabel()
+    let infoLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         setupUI()
-        loadStatusDetailVC()
+        loadStatusDetail()
     }
     
 }
@@ -27,21 +27,21 @@ extension StatusDetailViewController {
     
     func setupUI() {
         
-        self.nameLabel
-            |> nameStyle
+        self.infoLabel
+            |> infoTextStyle
         
         self.view
-            |> { $0.addSubview(self.nameLabel) }
+            |> { $0.addSubview(self.infoLabel) }
             <> { $0.backgroundColor = .white }
         
         NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0)
+            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0)
             ])
         
     }
     
-    func loadStatusDetailVC() {
+    func loadStatusDetail() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -71,7 +71,7 @@ extension StatusDetailViewController {
                         "testnet": \($0.testnet)
                         """
                         
-                        self?.nameLabel.text = text
+                        self?.infoLabel.text = text
                 }
             }
         case .failure(_):

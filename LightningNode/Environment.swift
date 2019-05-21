@@ -45,25 +45,21 @@ extension Date {
     static let test = Date(timeIntervalSinceReferenceDate: 547152021)
 }
 
-extension LightningApiRPC {
-    static let mock = LightningApiRPC.init(addInvoice: { (value, memo, callback) in
-        let call = callback
-        call(Result.success("mockInvoice"))
-    }, canConnect: { (callback) in
-        callback(true)
-    }) { (callback) in
-        callback(Result.success(Info.mock))
-    }
-}
-
-extension LightningApiRPC {
-    static let test = LightningApiRPC.init(addInvoice: { (_, _, callback) in
-        callback(Result.failure(DataError.invoiceFailure))
-    }, canConnect: { (callback) in
-        callback(false)
-    }) { (callback) in
-        callback(Result.failure(DataError.noSavedData))
-    }
+extension Info {
+    static let mock = Info.init(
+        alias: "No alias",
+        bestHeaderTimestamp: Current.date(),
+        blockHash: "No blockHash",
+        blockHeight: 0,
+        chainsArray: [],
+        identityPubkey: "No identityPubkey",
+        numActiveChannels: 0,
+        numPeers: 0,
+        numPendingChannels: 0,
+        syncedToChain: false,
+        testnet: true,
+        urisArray: [],
+        version: "No version")
 }
 
 extension KeychainDataStore {
@@ -85,25 +81,28 @@ extension KeychainDataStore {
     )
 }
 
-extension Info {
-    static let mock = Info.init(
-        alias: "No alias",
-        bestHeaderTimestamp: Current.date(),
-        blockHash: "No blockHash",
-        blockHeight: 0,
-        chainsArray: [],
-        identityPubkey: "No identityPubkey",
-        numActiveChannels: 0,
-        numPeers: 0,
-        numPendingChannels: 0,
-        syncedToChain: false,
-        testnet: true,
-        urisArray: [],
-        version: "No version")
+extension LightningApiRPC {
+    static let mock = LightningApiRPC.init(addInvoice: { (value, memo, callback) in
+        let call = callback
+        call(Result.success("mockInvoice"))
+    }, canConnect: { (callback) in
+        callback(true)
+    }) { (callback) in
+        callback(Result.success(Info.mock))
+    }
+}
+
+extension LightningApiRPC {
+    static let test = LightningApiRPC.init(addInvoice: { (_, _, callback) in
+        callback(Result.failure(DataError.invoiceFailure))
+    }, canConnect: { (callback) in
+        callback(false)
+    }) { (callback) in
+        callback(Result.failure(DataError.noSavedData))
+    }
 }
 
 extension RemoteNodeConnection {
     static let mock = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
     static let mockFormatted = RemoteNodeConnection.init(uri: lndURI, certificate: lndCertificate, macaroon: lndMacaroon)
 }
-

@@ -11,20 +11,20 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
-    private let rootStackView = UIStackView()
-    private let removeNodeButton = UIButton()
+    private let staticAliasLabel = UILabel()
+    private let aliasLabel = UILabel()
+    private let aliasStackView = UIStackView()
+    private let staticIdentityPubkeyLabel = UILabel()
+    private let identityPubkeyLabel = UILabel()
+    private let identityPubkeyStackView = UIStackView()
+    private let identityStackView = UIStackView()
     private let lndVersionLabel = UILabel()
     private let tabsVersionLabel = UILabel()
-    private let aliasLabel = UILabel()
-    private let buttonStackView = UIStackView()
-    private let textStackView = UIStackView()
-    private let identityPubkeyLabel = UILabel()
-    private let identityStackView = UIStackView()
     private let versionStackView = UIStackView()
-    private let staticAliasLabel = UILabel()
-    private let staticIdentityLabel = UILabel()
-    private let pubkeyStackView = UIStackView()
-    private let aliasStackView = UIStackView()
+    private let textStackView = UIStackView()
+    private let removeNodeButton = UIButton()
+    private let buttonStackView = UIStackView()
+    private let rootStackView = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +38,9 @@ class SettingsViewController: UIViewController {
         case let .success(savedConfig):
             
             self.viewModel = LightningViewModel { [weak self] _ in
-                self?.lndVersionLabel.text = "Getting LND Version..."
                 self?.aliasLabel.text = "Getting Node Alias..."
                 self?.identityPubkeyLabel.text = "Getting Pubkey..."
+                self?.lndVersionLabel.text = "Getting LND Version..."
             }
             
             Current.remoteNodeConnectionFormatted = savedConfig
@@ -48,10 +48,9 @@ class SettingsViewController: UIViewController {
                 try? result.get()
                     |> flatMap {
                         self?.viewModel.lightningNodeInfo = $0
-                        
-                        self?.lndVersionLabel.text = "LND Version: \($0.version)"
                         self?.aliasLabel.text = "\($0.alias)"
                         self?.identityPubkeyLabel.text = "\($0.identityPubkey)"
+                        self?.lndVersionLabel.text = "LND Version: \($0.version)"
                 }
             }
         case .failure(_):
@@ -99,72 +98,71 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController {
     func setupUI() {
         
-        self.rootStackView
-            |> settingsLayoutMargins
-            <> statusRootStackViewStyle
-        
-        self.buttonStackView
-            |> settingsStackViewStyle
-        
-        self.textStackView
-            |> settingsStackViewStyle
-            <> { $0.spacing = .mr_grid(4)}
-
-        self.identityStackView
-            |> settingsStackViewStyle
-            <> { $0.spacing = .mr_grid(2)}
-
-        self.versionStackView
-            |> settingsStackViewStyle
-            <> { $0.spacing = .mr_grid(1)}
-        
-        self.pubkeyStackView
-            |> settingsStackViewStyle
-            <> { $0.spacing = .mr_grid(2)}
-        
-        self.aliasStackView
-            |> settingsStackViewStyle
-            <> { $0.spacing = .mr_grid(2)}
-        
         self.staticAliasLabel
             |> { $0.text = "Alias" }
             <> { $0.textAlignment = .center }
             <> { $0.textColor = .mr_gray }
-
-        self.staticIdentityLabel
+        
+        self.aliasLabel
+            |> title3TextStyle
+            <> { $0.textAlignment = .center }
+            <> { $0.numberOfLines = 0 }
+        
+        self.aliasStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
+            <> { $0.addArrangedSubview(self.staticAliasLabel) }
+            <> { $0.addArrangedSubview(self.aliasLabel) }
+        
+        self.staticIdentityPubkeyLabel
             |> { $0.text = "Identity Pubkey" }
             <> { $0.textAlignment = .center }
             <> { $0.textColor = .mr_gray }
         
+        self.identityPubkeyLabel
+            |> title3TextStyle
+            <> { $0.numberOfLines = 0 }
+            <> { $0.textAlignment = .center }
+        
+        self.identityPubkeyStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
+            <> { $0.addArrangedSubview(self.staticIdentityPubkeyLabel) }
+            <> { $0.addArrangedSubview(self.identityPubkeyLabel) }
+        
+        self.identityStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(2)}
+            <> { $0.addArrangedSubview(self.aliasStackView) }
+            <> { $0.addArrangedSubview(self.identityPubkeyStackView) }
+        
         self.lndVersionLabel
             |> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
+            <> smallCapsTextStyle
 
         self.tabsVersionLabel
-            |> smallCapsText
-            <> { $0.textAlignment = .center }
-
-        self.lndVersionLabel
-            |> smallCapsText
-        
-        self.aliasLabel
-            |> title3Text
-            <> { $0.textAlignment = .center }
+            |> { $0.textAlignment = .center }
+            <> { $0.text = "(Tabs LND Target Version: 0.5.2-beta)" }
             <> { $0.numberOfLines = 0 }
+            <> smallCapsTextStyle
 
-        self.identityPubkeyLabel
-            |> title3Text
-            <> { $0.numberOfLines = 0 }
-            <> { $0.textAlignment = .center }
-
-        self.tabsVersionLabel
-            |> baseLabelStyleSmallCaption
-            <> { $0.text = "(Tabs LND Version: 0.5.2-beta)" }
-            <> { $0.numberOfLines = 0 }
+        self.versionStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(1)}
+            <> { $0.addArrangedSubview(self.lndVersionLabel) }
+            <> { $0.addArrangedSubview(self.tabsVersionLabel) }
+ 
+        self.textStackView
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(4)}
+            <> { $0.addArrangedSubview(self.identityStackView) }
+            <> { $0.addArrangedSubview(self.versionStackView) }
 
         self.removeNodeButton
-            |> removeButtonStyle
+            |> unfilledButtonStyle
             <> { $0.setTitle("Remove Node", for: .normal) }
+            <> { $0.setTitleColor(.mr_red, for: .normal) }
         
         self.removeNodeButton.addTarget(
             self,
@@ -172,33 +170,16 @@ extension SettingsViewController {
             for: .touchUpInside
         )
         
-        self.aliasStackView
-            |> { $0.addArrangedSubview(self.staticAliasLabel) }
-            <> { $0.addArrangedSubview(self.aliasLabel) }
-        
-        self.identityStackView
-            |> { $0.addArrangedSubview(self.aliasStackView) }
-        
-        self.pubkeyStackView
-            |> { $0.addArrangedSubview(self.staticIdentityLabel) }
-            <> { $0.addArrangedSubview(self.identityPubkeyLabel) }
-        
-        self.identityStackView
-            |> { $0.addArrangedSubview(self.pubkeyStackView) }
-
-        self.textStackView
-            |> { $0.addArrangedSubview(self.identityStackView) }
-            <> { $0.addArrangedSubview(self.versionStackView) }
-        
-        self.versionStackView
-            |> { $0.addArrangedSubview(self.lndVersionLabel) }
-            <> { $0.addArrangedSubview(self.tabsVersionLabel) }
-        
         self.buttonStackView
-            |> { $0.addArrangedSubview(self.removeNodeButton) }
-        
+            |> verticalStackViewStyle
+            <> { $0.addArrangedSubview(self.removeNodeButton) }
+
+
         self.rootStackView
-            |> { $0.addArrangedSubview(self.textStackView) }
+            |> verticalStackViewStyle
+            <> { $0.spacing = .mr_grid(32) }
+            <> leftLayoutMarginsStyle
+            <> { $0.addArrangedSubview(self.textStackView) }
             <> { $0.addArrangedSubview(self.buttonStackView) }
 
         self.view
@@ -210,4 +191,6 @@ extension SettingsViewController {
             self.rootStackView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor, constant: -45),
             ])
         
-    }}
+    }
+    
+}
