@@ -42,23 +42,23 @@ let leftLayoutMargins: (UIView) -> Void = {
 //            $0.spacing = .mr_grid(32)
 //}
 
-let invoiceRootStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(12)
-}
+//let invoiceRootStackViewStyle: (UIStackView) -> Void =
+//    autolayoutStyle
+//        <> {
+//            $0.axis = .vertical
+//            $0.isLayoutMarginsRelativeArrangement = true
+//            $0.spacing = .mr_grid(12)
+//}
 
 
 
-let settingsStackViewStyle: (UIStackView) -> Void =
-    autolayoutStyle
-        <> {
-            $0.axis = .vertical
-            $0.isLayoutMarginsRelativeArrangement = true
-            $0.spacing = .mr_grid(6)
-}
+//let settingsStackViewStyle: (UIStackView) -> Void =
+//    autolayoutStyle
+//        <> {
+//            $0.axis = .vertical
+//            $0.isLayoutMarginsRelativeArrangement = true
+//            $0.spacing = .mr_grid(6)
+//}
 
 //let settingsStackViewStyle2: (UIStackView) -> Void =
 //    autolayoutStyle
@@ -113,24 +113,17 @@ let baseTextStyle: (UILabel) -> Void = {
     $0.numberOfLines = 0
 }
 
-let finePrintStyle: (UILabel) -> Void =
-    centerStyle
-        <> baseTextStyle
-        <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+let baseLabelStyleTitle: (UILabel) -> Void =
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .title3))
 
+let baseLabelStyleSubheadline: (UILabel) -> Void =
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .subheadline))
 
+let baseLabelStyleSmallCaption: (UILabel) -> Void =
+    fontStyleLabel(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
 
-/// M13Checkbox
-
-let checkboxStyle: (M13Checkbox) -> Void = {
-    $0.animationDuration = 0.50
-    $0.setCheckState(.unchecked, animated: true)
-    $0.tintColor = .mr_green
-    $0.secondaryTintColor = .mr_lightGray
-    $0.checkmarkLineWidth = 6.0
-    $0.boxLineWidth = 3.0
-    $0.boxType = .circle
-}
+let baseLabelStyleBoldTitle: (UILabel) -> Void =
+    fontStyleLabel((UIFont.preferredFont(forTextStyle: .title1).bolded))
 
 let nameStyle: (UILabel) -> Void = {
     $0.textColor = .mr_black
@@ -139,19 +132,27 @@ let nameStyle: (UILabel) -> Void = {
     $0.numberOfLines = 0
 }
 
+let finePrintStyle: (UILabel) -> Void =
+    centerStyle
+        <> baseTextStyle
+        <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
+
+
+/// UITextField
+
 let textFieldStyle: (UITextField) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     $0.borderStyle = .roundedRect
 }
 
+let baseTextFieldStyleBoldBody: (UITextField) -> Void =
+    fontStyleTextField(UIFont.preferredFont(forTextStyle: .body).bolded)
+
+/// UIButton
+
 let baseButtonStyle: (UIButton) -> Void = {
     $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
     $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-}
-
-let roundedStyle: (UIView) -> Void = {
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = 6
 }
 
 let roundedButtonStyle =
@@ -181,6 +182,30 @@ let removeButtonStyle =
             $0.tintColor = .white
             $0.setTitleColor(.mr_red, for: .normal)
 }
+
+
+/// M13Checkbox
+
+let checkboxStyle: (M13Checkbox) -> Void = {
+    $0.animationDuration = 0.50
+    $0.setCheckState(.unchecked, animated: true)
+    $0.tintColor = .mr_green
+    $0.secondaryTintColor = .mr_lightGray
+    $0.checkmarkLineWidth = 6.0
+    $0.boxLineWidth = 3.0
+    $0.boxType = .circle
+}
+
+
+/// UIView
+
+let roundedStyle: (UIView) -> Void = {
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 6
+}
+
+
+/// Text
 
 let borderStyle: (UIColor, CGFloat) -> (UIView) -> Void = { (color, width) in
     return {
@@ -212,21 +237,6 @@ let fontStyleTextField: (UIFont) -> (UITextField) -> Void = { myFont in
         $0.font = myFont
     }
 }
-
-let baseLabelStyleTitle: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .title3))
-
-let baseLabelStyleSubheadline: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .subheadline))
-
-let baseLabelStyleSmallCaption: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
-
-let baseLabelStyleBoldTitle: (UILabel) -> Void =
-    fontStyleLabel((UIFont.preferredFont(forTextStyle: .title1).bolded))
-
-let baseTextFieldStyleBoldBody: (UITextField) -> Void =
-    fontStyleTextField(UIFont.preferredFont(forTextStyle: .body).bolded)
 
 extension UIFont {
     public var smallCaps: UIFont {

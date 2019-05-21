@@ -109,7 +109,7 @@ extension SettingsViewController {
             <> { $0.numberOfLines = 0 }
         
         self.aliasStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2)}
             <> { $0.addArrangedSubview(self.staticAliasLabel) }
             <> { $0.addArrangedSubview(self.aliasLabel) }
@@ -125,13 +125,13 @@ extension SettingsViewController {
             <> { $0.textAlignment = .center }
         
         self.identityPubkeyStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2)}
             <> { $0.addArrangedSubview(self.staticIdentityPubkeyLabel) }
             <> { $0.addArrangedSubview(self.identityPubkeyLabel) }
         
         self.identityStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2)}
             <> { $0.addArrangedSubview(self.aliasStackView) }
             <> { $0.addArrangedSubview(self.identityPubkeyStackView) }
@@ -148,13 +148,13 @@ extension SettingsViewController {
             <> smallCapsText
 
         self.versionStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(1)}
             <> { $0.addArrangedSubview(self.lndVersionLabel) }
             <> { $0.addArrangedSubview(self.tabsVersionLabel) }
  
         self.textStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(4)}
             <> { $0.addArrangedSubview(self.identityStackView) }
             <> { $0.addArrangedSubview(self.versionStackView) }
@@ -170,7 +170,7 @@ extension SettingsViewController {
         )
         
         self.buttonStackView
-            |> settingsStackViewStyle
+            |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.removeNodeButton) }
 
 
