@@ -115,7 +115,7 @@
                             <outlet property="delegate" destination="9aw-dg-8I5" id="GCH-DP-h0g"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Invoices" image="Invoices" id="h4I-9E-eKh"/>
+                    <tabBarItem key="tabBarItem" title="Invoices" image="InvoicesTab" id="h4I-9E-eKh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="va8-Sw-hgm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -123,7 +123,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Invoices" width="25" height="25"/>
+        <image name="InvoicesTab" width="25" height="25"/>
         <image name="SettingsTab" width="25" height="25"/>
         <image name="StatusTab" width="25" height="25"/>
     </resources>
