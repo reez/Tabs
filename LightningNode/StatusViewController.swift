@@ -83,7 +83,7 @@ extension StatusViewController {
         
         self.refreshedLabel
             |> baseTextStyle
-            <> smallCapsText
+            <> smallCapsTextStyle
             <> { $0.text = "Refreshing..." }
         
         self.checkbox
@@ -113,7 +113,7 @@ extension StatusViewController {
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(32) }
-            <> topLayoutMargins
+            <> topLayoutMarginsStyle
             <> { $0.addArrangedSubview(self.syncedStackView) }
             <> { $0.addArrangedSubview(self.infoStackView) }
         

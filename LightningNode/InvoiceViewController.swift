@@ -121,36 +121,36 @@ extension InvoiceViewController {
     func setupUI() {
         
         self.amountTextField
-            |> textFieldStyle
+            |> baseTextFieldStyle
             <> { $0.placeholder = "Value"}
             <> { $0.keyboardType = UIKeyboardType.numbersAndPunctuation }
             <> { $0.delegate = self }
         
         self.memoTextField
-            |> textFieldStyle
+            |> baseTextFieldStyle
             <> { $0.placeholder = "Memo"}
             <> { $0.delegate = self }
         
         self.titleLabel
-            |> baseLabelStyleBoldTitle
+            |> title1BoldTextStyle
             <> { $0.text = "Add an Invoice" }
         
         self.amountLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
             <> { $0.text = "Amount" }
         
         self.amountTextField
-            |> baseTextFieldStyleBoldBody
+            |> bodyBoldTextFieldStyle
         
         self.memoLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
             <> { $0.text = "Memo" }
         
         self.memoTextField
-            |> baseTextFieldStyleBoldBody
+            |> bodyBoldTextFieldStyle
         
         self.invoiceLabel
-            |> baseLabelStyleSmallCaption
+            |> smallCapsTextStyle
             <> { $0.text = "Invoice" }
             <> { $0.numberOfLines = 0 }
         
@@ -199,7 +199,7 @@ extension InvoiceViewController {
         self.rootStackView
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
-            <> topLayoutMargins
+            <> topLayoutMarginsStyle
         
         self.amountStackView
             |> { $0.addArrangedSubview(self.amountTextField) }

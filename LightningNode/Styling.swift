@@ -16,25 +16,20 @@ let autolayoutStyle: (UIView) -> Void = {
     $0.translatesAutoresizingMaskIntoConstraints = false
 }
 
-let mediumLayoutMargins: (UIView) -> Void = {
+let mediumLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(8), left: .mr_grid(8), bottom: .mr_grid(8), right: .mr_grid(8))
 }
 
-let baseLayoutMargins: (UIView) -> Void = {
+let baseLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
-let topLayoutMargins: (UIView) -> Void = {
+let topLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))
 }
 
-let leftLayoutMargins: (UIView) -> Void = {
+let leftLayoutMarginsStyle: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(12), bottom: .mr_grid(0), right: .mr_grid(12))
-}
-
-let roundedStyle: (UIView) -> Void = {
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = 6
 }
 
 
@@ -66,15 +61,23 @@ let centerStackViewStyle: (UIStackView) -> Void = {
 
 /// UILabel
 
-let centerStyle: (UILabel) -> Void = {
+let centerTextStyle: (UILabel) -> Void = {
     $0.textAlignment = .center
 }
 
-let smallCapsText: (UILabel) -> Void = {
+let smallCapsTextStyle: (UILabel) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
 }
 
-let title3Text: (UILabel) -> Void = {
+let subheadlineTextStyle: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+}
+
+let title1BoldTextStyle: (UILabel) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1).bolded
+}
+
+let title3TextStyle: (UILabel) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
 }
 
@@ -82,19 +85,7 @@ let baseTextStyle: (UILabel) -> Void = {
     $0.numberOfLines = 0
 }
 
-let baseLabelStyleTitle: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .title3))
-
-let baseLabelStyleSubheadline: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .subheadline))
-
-let baseLabelStyleSmallCaption: (UILabel) -> Void =
-    fontStyleLabel(UIFont.preferredFont(forTextStyle: .caption1).smallCaps)
-
-let baseLabelStyleBoldTitle: (UILabel) -> Void =
-    fontStyleLabel((UIFont.preferredFont(forTextStyle: .title1).bolded))
-
-let nameStyle: (UILabel) -> Void = {
+let infoTextStyle: (UILabel) -> Void = {
     $0.textColor = .mr_black
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -102,20 +93,22 @@ let nameStyle: (UILabel) -> Void = {
 }
 
 let finePrintStyle: (UILabel) -> Void =
-    centerStyle
+    centerTextStyle
         <> baseTextStyle
         <> { $0.font = UIFont.preferredFont(forTextStyle: .largeTitle)}
 
 
 /// UITextField
 
-let textFieldStyle: (UITextField) -> Void = {
+let baseTextFieldStyle: (UITextField) -> Void = {
     $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     $0.borderStyle = .roundedRect
 }
 
-let baseTextFieldStyleBoldBody: (UITextField) -> Void =
-    fontStyleTextField(UIFont.preferredFont(forTextStyle: .body).bolded)
+let bodyBoldTextFieldStyle: (UITextField) -> Void = {
+    $0.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body).bolded
+}
+
 
 /// UIButton
 
@@ -124,32 +117,12 @@ let baseButtonStyle: (UIButton) -> Void = {
     $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
 }
 
-let roundedButtonStyle =
-    baseButtonStyle
-        <> roundedStyle
-
-let filledButtonStyle =
-    roundedButtonStyle
-        <> {
-            $0.backgroundColor = .mr_black
-            $0.tintColor = .white
-            $0.setTitleColor(.white, for: .normal)
-}
-
 let unfilledButtonStyle =
-    roundedButtonStyle
+    baseButtonStyle
         <> {
             $0.backgroundColor = .white
             $0.tintColor = .white
-            $0.setTitleColor(.mr_gold, for: .normal)
-}
-
-let removeButtonStyle =
-    roundedButtonStyle
-        <> {
-            $0.backgroundColor = .white
-            $0.tintColor = .white
-            $0.setTitleColor(.mr_red, for: .normal)
+            $0.setTitleColor(.mr_blue, for: .normal)
 }
 
 
@@ -166,38 +139,7 @@ let checkboxStyle: (M13Checkbox) -> Void = {
 }
 
 
-/// Text
-
-let borderStyle: (UIColor, CGFloat) -> (UIView) -> Void = { (color, width) in
-    return {
-        $0.layer.borderColor = color.cgColor
-        $0.layer.borderWidth = width
-    }
-}
-
-let backgroundStyle: (UIColor) -> (UIView) -> Void = { color in
-    return {
-        $0.backgroundColor = color
-    }
-}
-
-let fontStyleSizeWeight: (CGFloat, UIFont.Weight) -> (UILabel) -> Void = { (size, weight) in
-    return {
-        $0.font = .systemFont(ofSize: size, weight: weight)
-    }
-}
-
-let fontStyleLabel: (UIFont) -> (UILabel) -> Void = { myFont in
-    return {
-        $0.font = myFont
-    }
-}
-
-let fontStyleTextField: (UIFont) -> (UITextField) -> Void = { myFont in
-    return {
-        $0.font = myFont
-    }
-}
+/// Extensions
 
 extension UIFont {
     public var smallCaps: UIFont {
@@ -251,6 +193,9 @@ extension CGFloat {
         return CGFloat(n) * 4
     }
 }
+
+
+/// Date Formatters
 
 public var mrDateFormatter: DateFormatter {
     let formatter = DateFormatter()

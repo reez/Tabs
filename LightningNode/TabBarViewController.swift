@@ -14,6 +14,7 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         self.navigationController!.navigationBar.isHidden = true
+        self.tabBar.tintColor = .mr_blue
 //        
 //        let statusVC = StatusViewController()
 //        statusVC.tabBarItem.title = "Stats"

@@ -28,7 +28,7 @@ extension StatusDetailViewController {
     func setupUI() {
         
         self.infoLabel
-            |> nameStyle
+            |> infoTextStyle
         
         self.view
             |> { $0.addSubview(self.infoLabel) }

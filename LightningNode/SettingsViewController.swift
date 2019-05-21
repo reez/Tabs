@@ -104,7 +104,7 @@ extension SettingsViewController {
             <> { $0.textColor = .mr_gray }
         
         self.aliasLabel
-            |> title3Text
+            |> title3TextStyle
             <> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
         
@@ -120,7 +120,7 @@ extension SettingsViewController {
             <> { $0.textColor = .mr_gray }
         
         self.identityPubkeyLabel
-            |> title3Text
+            |> title3TextStyle
             <> { $0.numberOfLines = 0 }
             <> { $0.textAlignment = .center }
         
@@ -139,13 +139,13 @@ extension SettingsViewController {
         self.lndVersionLabel
             |> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
-            <> smallCapsText
+            <> smallCapsTextStyle
 
         self.tabsVersionLabel
             |> { $0.textAlignment = .center }
             <> { $0.text = "(Tabs LND Target Version: 0.5.2-beta)" }
             <> { $0.numberOfLines = 0 }
-            <> smallCapsText
+            <> smallCapsTextStyle
 
         self.versionStackView
             |> verticalStackViewStyle
@@ -160,8 +160,9 @@ extension SettingsViewController {
             <> { $0.addArrangedSubview(self.versionStackView) }
 
         self.removeNodeButton
-            |> removeButtonStyle
+            |> unfilledButtonStyle
             <> { $0.setTitle("Remove Node", for: .normal) }
+            <> { $0.setTitleColor(.mr_red, for: .normal) }
         
         self.removeNodeButton.addTarget(
             self,
@@ -177,7 +178,7 @@ extension SettingsViewController {
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(32) }
-            <> leftLayoutMargins
+            <> leftLayoutMarginsStyle
             <> { $0.addArrangedSubview(self.textStackView) }
             <> { $0.addArrangedSubview(self.buttonStackView) }
 

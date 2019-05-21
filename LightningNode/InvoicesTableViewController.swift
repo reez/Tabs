@@ -103,7 +103,7 @@ final class CreateInvoiceCell: UITableViewCell {
         
         self.bodyLabel
             |> baseTextStyle
-            <> title3Text
+            <> title3TextStyle
             <> { $0.textAlignment = .center }
             <> { $0.text = bodyText }
         
@@ -120,7 +120,7 @@ final class CreateInvoiceCell: UITableViewCell {
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(12) }
-            <> baseLayoutMargins
+            <> baseLayoutMarginsStyle
             <> centerStackViewStyle
             <> { $0.addArrangedSubview(self.bodyLabel) }
             <> { $0.addArrangedSubview(self.addInvoiceButton) }
@@ -164,7 +164,7 @@ final class InvoiceInfoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.sequenceAndDateLabel
-            |> smallCapsText
+            |> smallCapsTextStyle
             <> { $0.numberOfLines = 0 }
         
         self.sequenceAndDateStackView
@@ -173,7 +173,7 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
         
         self.memoLabel
-            |> baseLabelStyleTitle
+            |> title3TextStyle
             <> { $0.numberOfLines = 0 }
         
         self.memoStackView
@@ -182,7 +182,7 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.addArrangedSubview(self.memoLabel) }
         
         self.amountLabel
-            |> baseLabelStyleSubheadline
+            |> subheadlineTextStyle
 
         self.amountStackView
             |> horizontalStackViewStyle
@@ -194,7 +194,7 @@ final class InvoiceInfoCell: UITableViewCell {
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
             <> { $0.alignment = .leading }
-            <> mediumLayoutMargins
+            <> mediumLayoutMarginsStyle
             <> { $0.addArrangedSubview(self.sequenceAndDateStackView) }
             <> { $0.addArrangedSubview(self.memoStackView) }
             <> { $0.addArrangedSubview(self.amountStackView) }
