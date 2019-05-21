@@ -32,44 +32,13 @@ let leftLayoutMargins: (UIView) -> Void = {
     $0.layoutMargins = UIEdgeInsets(top: .mr_grid(6), left: .mr_grid(12), bottom: .mr_grid(0), right: .mr_grid(12))
 }
 
+let roundedStyle: (UIView) -> Void = {
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 6
+}
+
+
 /// UIStackView
-
-//let statusRootStackViewStyle: (UIStackView) -> Void =
-//    autolayoutStyle
-//        <> {
-//            $0.axis = .vertical
-//            $0.isLayoutMarginsRelativeArrangement = true
-//            $0.spacing = .mr_grid(32)
-//}
-
-//let invoiceRootStackViewStyle: (UIStackView) -> Void =
-//    autolayoutStyle
-//        <> {
-//            $0.axis = .vertical
-//            $0.isLayoutMarginsRelativeArrangement = true
-//            $0.spacing = .mr_grid(12)
-//}
-
-
-
-//let settingsStackViewStyle: (UIStackView) -> Void =
-//    autolayoutStyle
-//        <> {
-//            $0.axis = .vertical
-//            $0.isLayoutMarginsRelativeArrangement = true
-//            $0.spacing = .mr_grid(6)
-//}
-
-//let settingsStackViewStyle2: (UIStackView) -> Void =
-//    autolayoutStyle
-//        <> statusRootStackViewStyle
-//        <> {
-//            $0.axis = .vertical
-//            $0.isLayoutMarginsRelativeArrangement = true
-//            $0.spacing = .mr_grid(6)
-//}
-
-// New Base
 
 let rootStackViewStyle: (UIStackView) -> Void =
     autolayoutStyle
@@ -194,14 +163,6 @@ let checkboxStyle: (M13Checkbox) -> Void = {
     $0.checkmarkLineWidth = 6.0
     $0.boxLineWidth = 3.0
     $0.boxType = .circle
-}
-
-
-/// UIView
-
-let roundedStyle: (UIView) -> Void = {
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = 6
 }
 
 
