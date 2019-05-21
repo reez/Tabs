@@ -151,38 +151,38 @@ final class CreateInvoiceCell: UITableViewCell {
 }
 
 final class InvoiceInfoCell: UITableViewCell {
-    private let amountLabel = UILabel()
-    private let contentStackView = UIStackView()
-    private let rootStackView = UIStackView()
     private let sequenceAndDateLabel = UILabel()
-    private let titleLabel = UILabel()
-    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
-    private let lightningStackView = UIStackView()
-    
-    private let amountLabelStatic = UILabel()
-    private let titleLabelStatic = UILabel()
+    private let sequenceAndDateStackView = UIStackView()
+    private let memoLabel = UILabel()
+    private let memoStackView = UIStackView()
+    private let amountLabel = UILabel()
     private let amountStackView = UIStackView()
-    private let titleStackView = UIStackView()
+    private let rootStackView = UIStackView()
+    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self
-            |> { $0.selectionStyle = .none }
+        self.sequenceAndDateLabel
+            |> smallCapsText
+            <> { $0.numberOfLines = 0 }
         
-        self.contentStackView
-            |> verticalStackViewStyle
-            <> { $0.spacing = .mr_grid(2) }
-            <> { $0.alignment = .leading }
-            <> baseLayoutMargins
-            <> { $0.addArrangedSubview(self.lightningStackView) }
-            <> { $0.addArrangedSubview(self.titleStackView) }
-            <> { $0.addArrangedSubview(self.amountStackView) }
-        
-        self.lightningStackView
+        self.sequenceAndDateStackView
             |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
             <> { $0.addArrangedSubview(self.sequenceAndDateLabel) }
+        
+        self.memoLabel
+            |> baseLabelStyleTitle
+            <> { $0.numberOfLines = 0 }
+        
+        self.memoStackView
+            |> horizontalStackViewStyle
+            <> { $0.spacing = .mr_grid(1) }
+            <> { $0.addArrangedSubview(self.memoLabel) }
+        
+        self.amountLabel
+            |> baseLabelStyleSubheadline
 
         self.amountStackView
             |> horizontalStackViewStyle
@@ -190,36 +190,20 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.addArrangedSubview(self.lightningImageView) }
             <> { $0.addArrangedSubview(self.amountLabel) }
         
-        self.titleStackView
-            |> horizontalStackViewStyle
-            <> { $0.spacing = .mr_grid(1) }
-            <> { $0.addArrangedSubview(self.titleLabel) }
-        
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(2) }
-            <> smallLayoutMargins
-            <> { $0.addArrangedSubview(self.contentStackView) }
-        
-        self.sequenceAndDateLabel
-            |> smallCapsText
-            <> { $0.numberOfLines = 0 }
-        
-        self.titleLabelStatic
-            |> baseLabelStyleSubheadline
-        
-        self.titleLabel
-            |> baseLabelStyleTitle
-            <> { $0.numberOfLines = 0 }
-        
-        self.amountLabel
-            |> baseLabelStyleSubheadline
+            <> { $0.alignment = .leading }
+            <> mediumLayoutMargins
+            <> { $0.addArrangedSubview(self.sequenceAndDateStackView) }
+            <> { $0.addArrangedSubview(self.memoStackView) }
+            <> { $0.addArrangedSubview(self.amountStackView) }
 
-        self.amountLabelStatic
-            |> baseLabelStyleSubheadline
-        
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
+        
+        self
+            |> { $0.selectionStyle = .none }
 
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -236,7 +220,7 @@ final class InvoiceInfoCell: UITableViewCell {
     }
     
     func configure(with invoice: Invoice) {
-        self.titleLabel.text = "\(invoice.memo ?? "")"
+        self.memoLabel.text = "\(invoice.memo ?? "")"
         self.amountLabel.text = "\(invoice.value)"
         
         let creationDate = invoice.creationDate

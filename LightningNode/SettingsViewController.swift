@@ -211,4 +211,6 @@ extension SettingsViewController {
             self.rootStackView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor, constant: -45),
             ])
         
-    }}
+    }
+    
+}

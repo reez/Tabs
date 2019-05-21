@@ -16,8 +16,8 @@ let autolayoutStyle: (UIView) -> Void = {
     $0.translatesAutoresizingMaskIntoConstraints = false
 }
 
-let smallLayoutMargins: (UIView) -> Void = {
-    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(2), left: .mr_grid(2), bottom: .mr_grid(2), right: .mr_grid(2))
+let mediumLayoutMargins: (UIView) -> Void = {
+    $0.layoutMargins = UIEdgeInsets(top: .mr_grid(8), left: .mr_grid(8), bottom: .mr_grid(8), right: .mr_grid(8))
 }
 
 let baseLayoutMargins: (UIView) -> Void = {

@@ -35,7 +35,7 @@ class InvoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
+        
         self.copyButton.addTarget(
             self,
             action: #selector(copyButtonPressed),
@@ -125,7 +125,7 @@ extension InvoiceViewController {
             <> { $0.placeholder = "Value"}
             <> { $0.keyboardType = UIKeyboardType.numbersAndPunctuation }
             <> { $0.delegate = self }
-
+        
         self.memoTextField
             |> textFieldStyle
             <> { $0.placeholder = "Memo"}
@@ -138,14 +138,14 @@ extension InvoiceViewController {
         self.amountLabel
             |> baseLabelStyleSmallCaption
             <> { $0.text = "Amount" }
-
+        
         self.amountTextField
             |> baseTextFieldStyleBoldBody
         
         self.memoLabel
             |> baseLabelStyleSmallCaption
             <> { $0.text = "Memo" }
-
+        
         self.memoTextField
             |> baseTextFieldStyleBoldBody
         
@@ -153,15 +153,15 @@ extension InvoiceViewController {
             |> baseLabelStyleSmallCaption
             <> { $0.text = "Invoice" }
             <> { $0.numberOfLines = 0 }
-
+        
         self.submitButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Add Invoice", for: .normal) }
-
+        
         self.copyButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Copy Invoice", for: .normal) }
-
+        
         self.invoiceLabel
             |> map { $0.isHidden = true }
         
@@ -172,7 +172,7 @@ extension InvoiceViewController {
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
             <> { $0.axis = .horizontal }
-
+        
         self.memoTextStackView
             |> rootStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
@@ -200,7 +200,7 @@ extension InvoiceViewController {
             |> rootStackViewStyle
             <> { $0.axis = .vertical }
             <> topLayoutMargins
-
+        
         self.amountStackView
             |> { $0.addArrangedSubview(self.amountTextField) }
         
@@ -223,7 +223,7 @@ extension InvoiceViewController {
         self.view
             |> { $0.addSubview(self.rootStackView) }
             <> { $0.backgroundColor = .white }
-
+        
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
