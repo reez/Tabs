@@ -48,10 +48,13 @@ class AddNodeViewController: UIViewController {
     }
     
     @IBAction func cameraButtonPressed(_ sender: Any) {
-        let bundle = Bundle(for: CameraViewController.self)
-        let cameraIdentifier = Reusing<CameraViewController>().identifier()
-        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
+//        let bundle = Bundle(for: CameraViewController.self)
+//        let cameraIdentifier = Reusing<CameraViewController>().identifier()
+//        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
+//        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
+//        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = CameraViewController()
+//        self.present(vc, animated: true, completion: nil)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -134,11 +137,15 @@ extension AddNodeViewController {
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
-                    let bundle = Bundle(for: TabBarViewController.self)
-                    let nodeIdentifier = Reusing<TabBarViewController>().identifier()
-                    let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
-                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! TabBarViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
+//                    let bundle = Bundle(for: TabBarViewController.self)
+//                    let nodeIdentifier = Reusing<TabBarViewController>().identifier()
+//                    let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
+//                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! TabBarViewController
+//                    self.navigationController?.pushViewController(vc, animated: true)
+                    
+                    let vc = TabBarViewController()
+                    self.present(vc, animated: true, completion: nil)
+                    
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
