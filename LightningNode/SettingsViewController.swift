@@ -78,7 +78,8 @@ class SettingsViewController: UIViewController {
                     let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
                     let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
                     let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
+//                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.present(vc, animated: false, completion: nil)
             }
             )
         )

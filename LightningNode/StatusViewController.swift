@@ -40,10 +40,13 @@ class StatusViewController: UIViewController {
             self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
+            print(savedConfig)
             Current.lightningAPIRPC.info { [weak self] result in
+                print(result)
                 try? result.get()
                     |> flatMap {
                         self?.viewModel.lightningNodeInfo = $0
+                        print($0)
                         
                         let creationDate = Current.date()
                         let formattedDate = mrDateFormatter.string(from: creationDate)

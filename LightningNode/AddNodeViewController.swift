@@ -12,25 +12,20 @@ import NVActivityIndicatorView
 class AddNodeViewController: UIViewController {
     
     private var nvActivityIndicator: NVActivityIndicatorView?
-    @IBOutlet var certificateStackView: UIStackView!
-    @IBOutlet var macaroonStackView: UIStackView!
-    @IBOutlet var uriStackView: UIStackView!
-    @IBOutlet var rootStackView: UIStackView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var certificateLabel: UILabel!
-    @IBOutlet var certificateTextField: UITextField!
-    @IBOutlet var macaroonLabel: UILabel!
-    @IBOutlet var macaroonTextField: UITextField!
-    @IBOutlet var uriLabel: UILabel!
-    @IBOutlet var uriTextField: UITextField!
-    @IBOutlet var submitButton: UIButton!
-    @IBOutlet var lndConnectButton: UIButton!
+    let titleLabel = UILabel()
+    let lndConnectButton = UIButton()
+    let titleLabelStatic = UILabel()
+    let rootStackView = UIStackView()
+    let certificateTextField = UITextField()
+    let macaroonTextField = UITextField()
+    let uriTextField = UITextField()
+    let submitButton = UIButton()
+    let textFieldStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         
-        print(Current.remoteNodeConnection ?? "No current remote node connection")
+        setupUI()
         
         if let lndConnect = Current.remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
@@ -38,23 +33,13 @@ class AddNodeViewController: UIViewController {
             self.uriTextField.text = lndConnect.uri
             
         } else {
-            print("what happened")
+            print("No Current RNC")
         }
         
     }
     
-    @IBAction func submitButtonPressed(_ sender: Any) {
-        submitPressed()
-    }
-    
-    @IBAction func cameraButtonPressed(_ sender: Any) {
-//        let bundle = Bundle(for: CameraViewController.self)
-//        let cameraIdentifier = Reusing<CameraViewController>().identifier()
-//        let storyboard = UIStoryboard(name: cameraIdentifier, bundle: bundle)
-//        let vc = storyboard.instantiateViewController(withIdentifier: cameraIdentifier) as! CameraViewController
-//        self.navigationController?.pushViewController(vc, animated: true)
+    @objc func cameraPressed() {
         let vc = CameraViewController()
-//        self.present(vc, animated: true, completion: nil)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -70,55 +55,94 @@ extension AddNodeViewController: UITextFieldDelegate {
 
 extension AddNodeViewController {
     func setupUI() {
-        self.macaroonTextField.delegate = self
-        self.certificateTextField.delegate = self
-        self.uriTextField.delegate = self
         
-        let nvActivityIndicatorframe = CGRect(
+        self.titleLabel
+            |> title1BoldTextStyle
+            <> { $0.text = "Add a Node" }
+        
+        self.lndConnectButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Scan lndconnect QRCode", for: .normal) }
+        
+        self.lndConnectButton.addTarget(
+            self,
+            action: #selector(cameraPressed),
+            for: .touchUpInside
+        )
+        
+        self.titleLabelStatic
+            |> { $0.numberOfLines = 0 }
+            <> centerTextStyle
+            <> subheadlineTextStyle
+            <> { $0.text = "Or paste info manually below" }
+            <> { $0.textColor = .mr_gray }
+        
+        self.certificateTextField
+            |> baseTextFieldStyle
+            <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
+            <> { $0.delegate = self }
+
+        self.macaroonTextField
+            |> baseTextFieldStyle
+            <> { $0.placeholder = "Macaroon (Example: AgECg...reaDXg==)"}
+            <> { $0.delegate = self }
+
+        self.uriTextField
+            |> baseTextFieldStyle
+            <> { $0.placeholder = "URI (Example: 142.x.x.x:10009)"}
+            <> { $0.delegate = self }
+        
+        self.textFieldStackView
+            |> verticalStackViewStyle
+            <> { $0.addArrangedSubview(self.certificateTextField) }
+            <> { $0.addArrangedSubview(self.macaroonTextField) }
+            <> { $0.addArrangedSubview(self.uriTextField) }
+        
+        self.submitButton
+            |> unfilledButtonStyle
+            <> { $0.setTitle("Add Node", for: .normal) }
+            <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
+        
+        self.rootStackView
+            |> verticalStackViewStyle
+            <> { $0.addArrangedSubview(self.titleLabel) }
+            <> { $0.addArrangedSubview(self.lndConnectButton) }
+            <> { $0.addArrangedSubview(self.titleLabelStatic) }
+            <> { $0.addArrangedSubview(self.textFieldStackView) }
+            <> { $0.addArrangedSubview(self.submitButton) }
+        
+        let nvActivityIndicatorFrame = CGRect(
             x: (UIScreen.main.bounds.size.width / 2 - 40),
             y: (UIScreen.main.bounds.size.height / 2 - 40),
             width: 80,
             height: 80
         )
+        
         self.nvActivityIndicator = NVActivityIndicatorView(
-            frame: nvActivityIndicatorframe,
+            frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
             color: UIColor.mr_black,
             padding: nil
         )
-        self.view.addSubview(self.nvActivityIndicator!)
         
-        self.titleLabel
-            |> title1BoldTextStyle
+        self.view
+            |> { $0.addSubview(self.nvActivityIndicator!) }
+            <> { $0.addSubview(self.rootStackView) }
+            <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
         
-        self.certificateLabel
-            |> smallCapsTextStyle
+        NSLayoutConstraint.activate([
+            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
+            self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
+            self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+            self.lndConnectButton.heightAnchor.constraint(equalToConstant: 40.0),
+            self.submitButton.heightAnchor.constraint(equalToConstant: 40.0),
+            ])
         
-        self.certificateTextField
-            |> bodyBoldTextFieldStyle
-        
-        self.macaroonLabel
-            |> smallCapsTextStyle
-        
-        self.macaroonTextField
-            |> bodyBoldTextFieldStyle
-        
-        self.uriLabel
-            |> smallCapsTextStyle
-        
-        self.uriTextField
-            |> bodyBoldTextFieldStyle
-        
-        self.lndConnectButton
-            |> unfilledButtonStyle
-        
-        self.submitButton
-            |> unfilledButtonStyle
     }
 }
 
 extension AddNodeViewController {
-    func submitPressed() {
+    @objc func submitPressed() {
         self.nvActivityIndicator?.startAnimating()
         
         if let certificate = self.certificateTextField.text,
@@ -137,15 +161,8 @@ extension AddNodeViewController {
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
-//                    let bundle = Bundle(for: TabBarViewController.self)
-//                    let nodeIdentifier = Reusing<TabBarViewController>().identifier()
-//                    let storyboard = UIStoryboard(name: nodeIdentifier, bundle: bundle)
-//                    let vc = storyboard.instantiateViewController(withIdentifier: nodeIdentifier) as! TabBarViewController
-//                    self.navigationController?.pushViewController(vc, animated: true)
-                    
                     let vc = TabBarViewController()
                     self.present(vc, animated: true, completion: nil)
-                    
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
