@@ -41,7 +41,6 @@
 		AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */; };
 		AE8107772218E3C800EC3A15 /* LightningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */; };
 		AE8BB8B121E9967B001513DD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8BB8B021E9967B001513DD /* CameraViewController.swift */; };
-		AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */; };
 		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
@@ -102,7 +101,6 @@
 		AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStoreTests.swift; sourceTree = "<group>"; };
 		AE8107762218E3C800EC3A15 /* LightningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModelTests.swift; sourceTree = "<group>"; };
 		AE8BB8B021E9967B001513DD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraViewController.storyboard; sourceTree = "<group>"; };
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -175,11 +173,10 @@
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
 				AEDA9EE721EBE617008E88A3 /* Reusing.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
-				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
-				AE8BB8B221E9968E001513DD /* CameraViewController.storyboard */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
 				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
+				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
 				AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */,
@@ -325,7 +322,6 @@
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
 				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
 				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
-				AE8BB8B321E9968E001513DD /* CameraViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

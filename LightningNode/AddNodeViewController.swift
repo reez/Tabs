@@ -24,6 +24,11 @@ class AddNodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    // RNC from camera to appear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         setupUI()
         
@@ -35,12 +40,11 @@ class AddNodeViewController: UIViewController {
         } else {
             print("No Current RNC")
         }
-        
     }
     
     @objc func cameraPressed() {
         let vc = CameraViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.present(vc, animated: true, completion: nil)
     }
     
 }

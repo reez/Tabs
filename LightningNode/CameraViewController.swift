@@ -55,11 +55,6 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
             let nodeString = "\(nodeHostString!):\(port!)"
             let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate!, macaroon: macaroonString!)
             Current.remoteNodeConnection = rnc
-            let bundle = Bundle(for: AddNodeViewController.self)
-            let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
-            let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
-            let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
-            self.navigationController?.pushViewController(vc, animated: true)
         }
         
         dismiss(animated: true)
