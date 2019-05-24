@@ -183,7 +183,7 @@ extension UIColor {
     public static let mr_lightGray = UIColor(white: 0.95, alpha: 1.0)
     public static let mr_green = UIColor(red: 121/255, green: 242/255, blue: 176/255, alpha: 1)
     public static let mr_purple = UIColor(red: 151/255, green: 77/255, blue: 255/255, alpha: 1)
-    public static let mr_red = UIColor(red: 235/255, green: 28/255, blue: 38/255, alpha: 1)
+    public static let mr_red = UIColor(red: 255/255, green: 100/255, blue: 87/255, alpha: 1)
     public static let mr_yellow = UIColor(red: 255/255, green: 240/255, blue: 128/255, alpha: 1)
     public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 }

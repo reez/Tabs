@@ -14,11 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let navigationIdentifier = Reusing<TabBarViewController>().identifier()
-        let storyboard = UIStoryboard(name: navigationIdentifier, bundle: Bundle(for: TabBarViewController.self))
-        let vc = storyboard.instantiateViewController(withIdentifier: navigationIdentifier)
+        let vc = TabBarViewController()
         let navigationController = UINavigationController(rootViewController: vc)
-        
+        navigationController.navigationBar.isHidden = true
+        navigationController.view.backgroundColor = .white
+
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         

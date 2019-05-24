@@ -13,14 +13,25 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController!.navigationBar.isHidden = true
         self.tabBar.tintColor = .mr_blue
-//        
-//        let statusVC = StatusViewController()
-//        statusVC.tabBarItem.title = "Stats"
-//        
-//        let viewcontrollers = [statusVC]
-//        self.viewControllers = viewcontrollers
+
+        let status = StatusViewController()
+        status.tabBarItem.title = "Status"
+        status.view.backgroundColor = .white
+        status.tabBarItem.image = UIImage(named: "StatusTab")
+        
+        let invoices = InvoicesTableViewController()
+        invoices.tabBarItem.title = "Invoices"
+        invoices.view.backgroundColor = .white
+        invoices.tabBarItem.image = UIImage(named: "InvoicesTab")
+        
+        let settings = SettingsViewController()
+        settings.tabBarItem.title = "Settings"
+        settings.view.backgroundColor = .white
+        settings.tabBarItem.image = UIImage(named: "SettingsTab")
+        
+        let viewControllers = [status, invoices, settings]
+        self.viewControllers = viewControllers
         
     }
 
