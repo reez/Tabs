@@ -20,7 +20,6 @@
 		AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721121C4943F0055D5BD /* LightningAPI.swift */; };
 		AE15721821C495C10055D5BD /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721721C495C10055D5BD /* Environment.swift */; };
 		AE15721A21C49E070055D5BD /* AddNodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721921C49E070055D5BD /* AddNodeViewController.swift */; };
-		AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */; };
 		AE15722221C4B0740055D5BD /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15722121C4B0740055D5BD /* Errors.swift */; };
 		AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */; };
 		AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5121C5A2B200D0E1B9 /* Invoice.swift */; };
@@ -78,7 +77,6 @@
 		AE15721121C4943F0055D5BD /* LightningAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPI.swift; sourceTree = "<group>"; };
 		AE15721721C495C10055D5BD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		AE15721921C49E070055D5BD /* AddNodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewController.swift; sourceTree = "<group>"; };
-		AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddNodeViewController.storyboard; sourceTree = "<group>"; };
 		AE15722121C4B0740055D5BD /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPI.swift; sourceTree = "<group>"; };
 		AE434C5121C5A2B200D0E1B9 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
-				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
 				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
@@ -313,7 +310,6 @@
 			files = (
 				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
-				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
