@@ -44,7 +44,6 @@
 		AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45021D1674E003E5EC2 /* Styling.swift */; };
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
-		AE9511172274BCED00271DC0 /* TabBarViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */; };
 		AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511182274BD7700271DC0 /* StatusViewController.swift */; };
 		AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDA9EE721EBE617008E88A3 /* Reusing.swift */; };
 		AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE18C42274CA8000416B49 /* SettingsViewController.swift */; };
@@ -104,7 +103,6 @@
 		AE8DD45021D1674E003E5EC2 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		AE8DD45221D16CCA003E5EC2 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarViewController.storyboard; sourceTree = "<group>"; };
 		AE9511182274BD7700271DC0 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AEDA9EE721EBE617008E88A3 /* Reusing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusing.swift; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
 				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
-				AE9511162274BCED00271DC0 /* TabBarViewController.storyboard */,
 				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
 				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
 				AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */,
@@ -318,7 +315,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
-				AE9511172274BCED00271DC0 /* TabBarViewController.storyboard in Resources */,
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
 				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
 				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
