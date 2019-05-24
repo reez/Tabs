@@ -15,7 +15,6 @@
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
 		AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
-		AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F121C4927D0055D5BD /* Main.storyboard */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
 		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
 		AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15721121C4943F0055D5BD /* LightningAPI.swift */; };
@@ -71,7 +70,6 @@
 		AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailViewController.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AE1571F221C4927D0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AE1571F421C4927E0055D5BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE1571F721C4927E0055D5BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE1571F921C4927E0055D5BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
 				AE15721B21C49E200055D5BD /* AddNodeViewController.storyboard */,
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
-				AE1571F121C4927D0055D5BD /* Main.storyboard */,
 				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
 				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
 				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
@@ -316,7 +313,6 @@
 			files = (
 				AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */,
 				AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */,
-				AE1571F321C4927D0055D5BD /* Main.storyboard in Resources */,
 				AE15721C21C49E200055D5BD /* AddNodeViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,14 +516,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AE1571F121C4927D0055D5BD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AE1571F221C4927D0055D5BD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
