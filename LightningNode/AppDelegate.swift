@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let vc = TabBarViewController()
+        let vc = AddNodeViewController()
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isHidden = true
         navigationController.view.backgroundColor = .white

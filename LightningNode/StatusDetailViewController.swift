@@ -75,11 +75,7 @@ extension StatusDetailViewController {
                 }
             }
         case .failure(_):
-            let bundle = Bundle(for: AddNodeViewController.self)
-            let addNodeIdentifier = Reusing<AddNodeViewController>().identifier()
-            let storyboard = UIStoryboard.init(name: addNodeIdentifier, bundle: bundle)
-            let vc = storyboard.instantiateViewController(withIdentifier: addNodeIdentifier) as! AddNodeViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
