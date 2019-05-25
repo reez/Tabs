@@ -24,6 +24,16 @@ class AddNodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        switch Current.remoteNodeConnection {
+        case .none:
+            print("Nothing")
+        case .some(_):
+            let vc = TabBarViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        
     }
     
     // RNC from camera to appear
