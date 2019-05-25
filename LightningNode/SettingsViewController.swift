@@ -25,10 +25,10 @@ class SettingsViewController: UIViewController {
     private let removeNodeButton = UIButton()
     private let buttonStackView = UIStackView()
     private let rootStackView = UIStackView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupUI()
         loadSettingsVC()
     }
@@ -96,7 +96,7 @@ class SettingsViewController: UIViewController {
         )
         present(alertController, animated: true, completion: nil)
     }
-
+    
 }
 
 extension SettingsViewController {
@@ -144,25 +144,25 @@ extension SettingsViewController {
             |> { $0.textAlignment = .center }
             <> { $0.numberOfLines = 0 }
             <> smallCapsTextStyle
-
+        
         self.tabsVersionLabel
             |> { $0.textAlignment = .center }
             <> { $0.text = "(Tabs LND Target Version: 0.5.2-beta)" }
             <> { $0.numberOfLines = 0 }
             <> smallCapsTextStyle
-
+        
         self.versionStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(1)}
             <> { $0.addArrangedSubview(self.lndVersionLabel) }
             <> { $0.addArrangedSubview(self.tabsVersionLabel) }
- 
+        
         self.textStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(4)}
             <> { $0.addArrangedSubview(self.identityStackView) }
             <> { $0.addArrangedSubview(self.versionStackView) }
-
+        
         self.removeNodeButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Remove Node", for: .normal) }
@@ -177,15 +177,15 @@ extension SettingsViewController {
         self.buttonStackView
             |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.removeNodeButton) }
-
-
+        
+        
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.spacing = .mr_grid(32) }
             <> leftLayoutMarginsStyle
             <> { $0.addArrangedSubview(self.textStackView) }
             <> { $0.addArrangedSubview(self.buttonStackView) }
-
+        
         self.view
             |> { $0.addSubview(self.rootStackView) }
         

@@ -124,14 +124,14 @@ final class CreateInvoiceCell: UITableViewCell {
             <> centerStackViewStyle
             <> { $0.addArrangedSubview(self.bodyLabel) }
             <> { $0.addArrangedSubview(self.addInvoiceButton) }
-
+        
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
-
+        
         self
             |> { $0.selectionStyle = .none }
             <> { $0.contentView.layoutMargins = .init(top: .mr_grid(12), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6)) }
-
+        
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
@@ -183,7 +183,7 @@ final class InvoiceInfoCell: UITableViewCell {
         
         self.amountLabel
             |> subheadlineTextStyle
-
+        
         self.amountStackView
             |> horizontalStackViewStyle
             <> { $0.spacing = .mr_grid(1) }
@@ -198,13 +198,13 @@ final class InvoiceInfoCell: UITableViewCell {
             <> { $0.addArrangedSubview(self.sequenceAndDateStackView) }
             <> { $0.addArrangedSubview(self.memoStackView) }
             <> { $0.addArrangedSubview(self.amountStackView) }
-
+        
         self.contentView
             |> { $0.addSubview(self.rootStackView) }
         
         self
             |> { $0.selectionStyle = .none }
-
+        
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),

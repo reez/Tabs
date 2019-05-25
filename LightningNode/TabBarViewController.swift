@@ -9,12 +9,12 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tabBar.tintColor = .mr_blue
-
+        
         let status = StatusViewController()
         status.tabBarItem.title = "Status"
         status.view.backgroundColor = .white
@@ -34,5 +34,5 @@ class TabBarViewController: UITabBarController {
         self.viewControllers = viewControllers
         
     }
-
+    
 }

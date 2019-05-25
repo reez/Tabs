@@ -16,7 +16,7 @@ class StatusDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupUI()
         loadStatusDetail()
     }
