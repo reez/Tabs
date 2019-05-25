@@ -25,13 +25,25 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        switch Current.remoteNodeConnection {
-        case .none:
-            print("Nothing")
-        case .some(_):
+        let l = loadFromKeychain()
+        
+        switch l {
+
+        case let .success(value):
+            Current.remoteNodeConnectionFormatted = value
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
+        case let .failure(error):
+            print(error)
         }
+        
+//        switch Current.remoteNodeConnection {
+//        case .none:
+//            print("Nothing")
+//        case .some(_):
+//            let vc = TabBarViewController()
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
         
         
     }

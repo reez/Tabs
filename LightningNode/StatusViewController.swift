@@ -62,7 +62,13 @@ class StatusViewController: UIViewController {
                 }
             }
         case .failure(_):
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            if (self.navigationController != nil) {
+                print("self.navigationController != nil")
+                self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                print("self.navigationController = nil")
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
