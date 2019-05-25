@@ -81,4 +81,20 @@ class KeychainDataStoreTests: XCTestCase {
         assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
     }
     
+    func testDeleteSuccess() {
+        Current = .mock
+        
+        let mockRNC = Current.keychain.delete
+        assertSnapshot(matching: mockRNC, as: .dump)
+    }
+    
+    func testDeleteFailure() {
+        Current = .test
+        
+        let mockRNC = Current.keychain.delete
+        assertSnapshot(matching: mockRNC, as: .dump)
+    }
+
+    
+    
 }
