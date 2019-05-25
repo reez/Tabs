@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import M13Checkbox
 
-
 /// UIView
 
 let autolayoutStyle: (UIView) -> Void = {

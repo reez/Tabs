@@ -25,26 +25,19 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let l = loadFromKeychain()
-        
-        switch l {
-
+        switch loadFromKeychain() {
         case let .success(value):
             Current.remoteNodeConnectionFormatted = value
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
-            print(error)
+            let alertController = UIAlertController(
+                title: "Something went wrong fetching node.",
+                message: error.localizedDescription,
+                preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true)
         }
-        
-//        switch Current.remoteNodeConnection {
-//        case .none:
-//            print("Nothing")
-//        case .some(_):
-//            let vc = TabBarViewController()
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-        
         
     }
     
@@ -59,9 +52,8 @@ class AddNodeViewController: UIViewController {
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
             
-        } else {
-            print("No Current RNC")
         }
+        
     }
     
     @objc func cameraPressed() {
@@ -107,12 +99,12 @@ extension AddNodeViewController {
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
             <> { $0.delegate = self }
-
+        
         self.macaroonTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Macaroon (Example: AgECg...reaDXg==)"}
             <> { $0.delegate = self }
-
+        
         self.uriTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "URI (Example: 142.x.x.x:10009)"}

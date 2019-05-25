@@ -94,7 +94,7 @@ extension CameraViewController {
         self.previewLayer.frame = view.layer.bounds
         self.previewLayer.videoGravity = .resizeAspectFill
         self.view.layer.addSublayer(self.previewLayer)
-                
+        
         self.captureSession.startRunning()
     }
     

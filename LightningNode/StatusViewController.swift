@@ -40,13 +40,10 @@ class StatusViewController: UIViewController {
             self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
-            print(savedConfig)
             Current.lightningAPIRPC.info { [weak self] result in
-                print(result)
                 try? result.get()
                     |> flatMap {
                         self?.viewModel.lightningNodeInfo = $0
-                        print($0)
                         
                         let creationDate = Current.date()
                         let formattedDate = mrDateFormatter.string(from: creationDate)
@@ -125,7 +122,7 @@ extension StatusViewController {
         self.view
             |> { $0.addSubview(self.rootStackView) }
             <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
-
+        
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
