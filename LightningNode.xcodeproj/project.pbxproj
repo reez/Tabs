@@ -23,6 +23,7 @@
 		AE15722221C4B0740055D5BD /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE15722121C4B0740055D5BD /* Errors.swift */; };
 		AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */; };
 		AE4282BA2299CFFE0076E78E /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4282B92299CFFE0076E78E /* EnvironmentTests.swift */; };
+		AE4282BC2299D6C20076E78E /* FreeFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4282BB2299D6C20076E78E /* FreeFunctionsTests.swift */; };
 		AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5121C5A2B200D0E1B9 /* Invoice.swift */; };
 		AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5521C5A54900D0E1B9 /* Info.swift */; };
 		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
@@ -80,6 +81,7 @@
 		AE15722121C4B0740055D5BD /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPI.swift; sourceTree = "<group>"; };
 		AE4282B92299CFFE0076E78E /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
+		AE4282BB2299D6C20076E78E /* FreeFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctionsTests.swift; sourceTree = "<group>"; };
 		AE434C5121C5A2B200D0E1B9 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		AE434C5521C5A54900D0E1B9 /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			children = (
 				AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */,
 				AE4282B92299CFFE0076E78E /* EnvironmentTests.swift */,
+				AE4282BB2299D6C20076E78E /* FreeFunctionsTests.swift */,
 				AE59D42D228E1B7800C75022 /* InfoTests.swift */,
 				AE8107722218DDBA00EC3A15 /* KeychainDataStoreTests.swift */,
 				AE59D42F228E1BD900C75022 /* LightningAPITests.swift */,
@@ -490,6 +493,7 @@
 			files = (
 				AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */,
 				AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */,
+				AE4282BC2299D6C20076E78E /* FreeFunctionsTests.swift in Sources */,
 				AE59D432228E224700C75022 /* RemoteNodeConnectionTests.swift in Sources */,
 				AE4282BA2299CFFE0076E78E /* EnvironmentTests.swift in Sources */,
 				AE8107732218DDBA00EC3A15 /* KeychainDataStoreTests.swift in Sources */,

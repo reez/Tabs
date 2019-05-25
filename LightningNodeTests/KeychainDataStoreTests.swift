@@ -94,7 +94,5 @@ class KeychainDataStoreTests: XCTestCase {
         let mockRNC = Current.keychain.delete
         assertSnapshot(matching: mockRNC, as: .dump)
     }
-
-    
     
 }
