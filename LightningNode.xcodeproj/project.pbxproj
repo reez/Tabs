@@ -43,7 +43,6 @@
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
 		AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511182274BD7700271DC0 /* StatusViewController.swift */; };
-		AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDA9EE721EBE617008E88A3 /* Reusing.swift */; };
 		AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE18C42274CA8000416B49 /* SettingsViewController.swift */; };
 		AEFFAB4B2278E03400B7080C /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */; };
 /* End PBXBuildFile section */
@@ -101,7 +100,6 @@
 		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AE9511182274BD7700271DC0 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		AEDA9EE721EBE617008E88A3 /* Reusing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusing.swift; sourceTree = "<group>"; };
 		AEFE18C42274CA8000416B49 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewController.swift; sourceTree = "<group>"; };
 		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +163,6 @@
 				AE8DD45221D16CCA003E5EC2 /* Operators.swift */,
 				AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */,
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
-				AEDA9EE721EBE617008E88A3 /* Reusing.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
@@ -477,7 +474,6 @@
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
 				AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */,
 				AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */,
-				AEDA9EE821EBE617008E88A3 /* Reusing.swift in Sources */,
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
 				AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 				AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */,
