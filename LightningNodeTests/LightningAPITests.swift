@@ -42,6 +42,12 @@ class LightningAPITests: XCTestCase {
         
     }
     
+    func testAddInvoiceFF() {
+        addInvoice(value: 2, memo: "hello") { (result) in
+            XCTAssertEqual(result, Result.success("Success!!!"))
+        }
+    }
+    
     func testCanConnectSuccess() {
         Current = .mock
         
@@ -58,6 +64,12 @@ class LightningAPITests: XCTestCase {
             XCTAssertFalse(bool, "False")
         }
         
+    }
+    
+    func testCanConnectFF() {
+        canConnect { (bool) in
+            XCTAssert(true)
+        }
     }
     
     func testInfoSuccess() {
