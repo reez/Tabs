@@ -48,6 +48,13 @@ class KeychainDataStoreTests: XCTestCase {
         assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
     }
     
+    func testLoadFromKeychain() {
+        
+        let mockRNC = loadFromKeychain()
+        
+        assertSnapshot(matching: mockRNC, as: .dump)
+    }
+    
     func testSaveSuccess() {
         Current = .mock
         
@@ -81,6 +88,22 @@ class KeychainDataStoreTests: XCTestCase {
         assertSnapshot(matching: mockRNC.error?.localizedDescription, as: .dump)
     }
     
+    func testSaveToKeychain() {
+        
+        let rnc = RemoteNodeConnection.init(
+            uri: lndURI,
+            certificate: lndCertificate,
+            macaroon: lndMacaroon
+        )
+        
+        let mockRNC = saveToKeychain(remoteNodeConnection: rnc)
+        let mockSave = try? mockRNC.get()
+        
+        XCTAssertEqual(mockSave!, "Saved Value to Defaults!")
+        assertSnapshot(matching: mockSave!, as: .dump)
+        assertSnapshot(matching: mockRNC, as: .dump)
+    }
+    
     func testDeleteSuccess() {
         Current = .mock
         
@@ -92,6 +115,13 @@ class KeychainDataStoreTests: XCTestCase {
         Current = .test
         
         let mockRNC = Current.keychain.delete
+        assertSnapshot(matching: mockRNC, as: .dump)
+    }
+    
+    func testDeleteFromKeychain() {
+        
+        let mockRNC = deleteFromKeychain
+        
         assertSnapshot(matching: mockRNC, as: .dump)
     }
     
