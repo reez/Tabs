@@ -120,7 +120,7 @@ class KeychainDataStoreTests: XCTestCase {
     
     func testDeleteFromKeychain() {
         
-        let mockRNC = deleteFromKeychain
+        let mockRNC = deleteFromKeychain()
         
         assertSnapshot(matching: mockRNC, as: .dump)
     }
