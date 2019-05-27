@@ -35,6 +35,7 @@ Tabs is using [LND](https://github.com/lightningnetwork/lnd) to make [gRPC API r
 
 - `/getinfo`
 - `/addinvoice`
+- `/listinvoices`
 
 ## Thanks
 
