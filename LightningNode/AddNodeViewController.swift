@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import PanModal
 
 class AddNodeViewController: UIViewController {
     
@@ -25,18 +26,15 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(loadRNC), name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+        
         switch loadFromKeychain() {
         case let .success(value):
             Current.remoteNodeConnectionFormatted = value
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
-            let alertController = UIAlertController(
-                title: "Something went wrong fetching node.",
-                message: error.localizedDescription,
-                preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
+            print(error)
         }
         
     }
@@ -46,19 +44,7 @@ class AddNodeViewController: UIViewController {
         super.viewDidAppear(animated)
         
         setupUI()
-        
-        if let lndConnect = Current.remoteNodeConnection {
-            self.certificateTextField.text = lndConnect.certificate
-            self.macaroonTextField.text = lndConnect.macaroon
-            self.uriTextField.text = lndConnect.uri
-            
-        }
-        
-    }
-    
-    @objc func cameraPressed() {
-        let vc = CameraViewController()
-        self.present(vc, animated: true, completion: nil)
+        loadRNC()
     }
     
 }
@@ -160,6 +146,21 @@ extension AddNodeViewController {
 }
 
 extension AddNodeViewController {
+    
+    @objc func cameraPressed() {
+        let vc = CameraViewController()
+        presentPanModal(vc)
+    }
+    
+    // This is my workaround for refreshing after modal dismissed
+    @objc func loadRNC(){
+        if let lndConnect = Current.remoteNodeConnection {
+            self.certificateTextField.text = lndConnect.certificate
+            self.macaroonTextField.text = lndConnect.macaroon
+            self.uriTextField.text = lndConnect.uri
+        }
+    }
+    
     @objc func submitPressed() {
         self.nvActivityIndicator?.startAnimating()
         

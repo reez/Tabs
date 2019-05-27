@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import PanModal
 
 class CameraViewController: UIViewController {
     
@@ -55,6 +56,7 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
             let nodeString = "\(nodeHostString!):\(port!)"
             let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate!, macaroon: macaroonString!)
             Current.remoteNodeConnection = rnc
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
         }
         
         dismiss(animated: true)
@@ -107,4 +109,20 @@ extension CameraViewController {
         present(alertController, animated: true)
         self.captureSession = nil
     }
+}
+
+extension CameraViewController: PanModalPresentable {
+    
+    var panScrollable: UIScrollView? {
+        return nil
+    }
+    
+    var longFormHeight: PanModalHeight {
+        return .contentHeight(525)
+    }
+    
+    var anchorModalToLongForm: Bool {
+        return false
+    }
+    
 }
