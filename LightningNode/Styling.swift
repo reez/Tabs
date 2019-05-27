@@ -130,7 +130,7 @@ let unfilledButtonStyle =
 let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50
     $0.setCheckState(.unchecked, animated: true)
-    $0.tintColor = .mr_green
+    $0.tintColor = .mr_gold
     $0.secondaryTintColor = .mr_lightGray
     $0.checkmarkLineWidth = 6.0
     $0.boxLineWidth = 3.0
