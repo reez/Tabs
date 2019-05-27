@@ -11,6 +11,7 @@ target 'LightningNode' do
     pod 'NVActivityIndicatorView'
     pod 'PanModal'
     pod 'M13Checkbox'
+    pod 'Loaf'
 
   target 'LightningNodeTests' do
     inherit! :search_paths

@@ -9,6 +9,7 @@
 import UIKit
 import PanModal
 import NVActivityIndicatorView
+import Loaf
 
 class InvoiceViewController: UIViewController {
     
@@ -269,16 +270,7 @@ extension InvoiceViewController: UITextFieldDelegate {
 
 extension InvoiceViewController {
     @objc func copyButtonPressed(_ sender: UIButton) {
-        UIButton.animate(
-            withDuration: 0.0,
-            animations: { sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.975) }
-        ) { _ in
-            UIButton.animate(
-                withDuration: 0.1,
-                animations: { sender.transform = CGAffineTransform.identity }
-            )
-        }
-        
+        Loaf("Copied Invoice!", state: .success, sender: self).show()
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
 }
