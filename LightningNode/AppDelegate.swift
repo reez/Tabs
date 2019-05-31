@@ -15,9 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(1800)
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(60)
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // build 1+2, 30 mins
         registerForLocalNotifications(application: application)
         
         let vc = AddNodeViewController()
@@ -51,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     |> flatMap {
                     
                         print("s2c: \($0.syncedToChain)")
+                        
 
                         if $0.syncedToChain == false {
                             self?.addNotification(syncStatus: $0.syncedToChain)
@@ -68,19 +67,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addNotification(syncStatus: Bool) {
         
         let content = UNMutableNotificationContent()
-        content.title = "Synced: \(syncStatus)"
-        //        content.badge = 1
-        //        content.categoryIdentifier = "New Category Id"
-        //        content.userInfo = [
-        //            "title": "Title",
-        //            "id": "ID"
-        //        ]
+        content.title = "🌩 Node is Not Synced" // "Synced: \(syncStatus)" <-- build 1 passed status into it, build 2 doesn't need status
+        content.subtitle = """
+        "syncedToChain": false
+        """
         
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let identifier = UUID().uuidString
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: nil)
 
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
             if let error = error {
