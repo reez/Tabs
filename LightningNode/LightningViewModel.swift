@@ -16,6 +16,7 @@ final class LightningViewModel {
         blockHeight: 0,
         chainsArray: [],
         identityPubkey: "No identityPubkey",
+        network: "Testnetwork",
         numActiveChannels: 0,
         numPeers: 0,
         numPendingChannels: 0,

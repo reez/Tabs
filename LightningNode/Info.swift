@@ -15,6 +15,7 @@ struct Info: Equatable {
     let blockHeight: Int
     let chainsArray: NSMutableArray
     let identityPubkey: String
+    let network: String
     let numActiveChannels: Int
     let numPeers: Int
     let numPendingChannels: Int
@@ -32,6 +33,14 @@ extension Info {
         blockHeight = Int(getInfoResponse.blockHeight)
         chainsArray = getInfoResponse.chainsArray
         identityPubkey = getInfoResponse.identityPubkey
+        if
+            let chains = getInfoResponse.chainsArray as? [Chain],
+            let chainNetwork = chains.first?.network
+        {
+            network = chainNetwork
+        } else {
+            network = getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+        }
         numActiveChannels = Int(getInfoResponse.numActiveChannels)
         numPeers = Int(getInfoResponse.numPeers)
         numPendingChannels = Int(getInfoResponse.numPendingChannels)
@@ -40,4 +49,9 @@ extension Info {
         urisArray = getInfoResponse.urisArray.compactMap { URL(string: $0 as! String) }
         version = getInfoResponse.version
     }
+}
+
+public enum Network: String {
+    case testnet = "testnet"
+    case mainnet = "mainnet"
 }
