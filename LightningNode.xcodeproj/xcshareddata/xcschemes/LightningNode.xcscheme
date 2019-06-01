@@ -84,7 +84,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A4EB0486A0C9442793DD73569BE36F57"
+               BlueprintIdentifier = "BC26099F577F54C8F423D8E8265D05CE"
                BuildableName = "Pods_LightningNode.framework"
                BlueprintName = "Pods-LightningNode"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "65EF03BCB63AA818D1A367C976FEA0E3"
+               BlueprintIdentifier = "614D63DC0388E1E2DADFF9525CB86E10"
                BuildableName = "Pods_LightningNodeTests.framework"
                BlueprintName = "Pods-LightningNodeTests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -251,6 +251,11 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction

@@ -279,6 +279,11 @@
 					AE1571E921C4927D0055D5BD = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					AE1571FD21C4927E0055D5BD = {
 						CreatedOnToolsVersion = 10.1;
