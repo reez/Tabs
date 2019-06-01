@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // build 1+2, 30 mins
+        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // 30 mins
         registerForLocalNotifications(application: application)
         
         let vc = AddNodeViewController()
@@ -47,9 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Current.lightningAPIRPC.info { [weak self] result in
                 try? result.get()
                     |> flatMap {
-                    
-                        print("s2c: \($0.syncedToChain)")
-                        
 
                         if $0.syncedToChain == false {
                             self?.addNotification(syncStatus: $0.syncedToChain)
@@ -67,10 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addNotification(syncStatus: Bool) {
         
         let content = UNMutableNotificationContent()
-        content.title = "🌩 Node is Not Synced" // "Synced: \(syncStatus)" <-- build 1 passed status into it, build 2 doesn't need status
-        content.subtitle = """
-        "syncedToChain": false
-        """
+        content.title = "🌩 Node is Not Synced"
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let identifier = UUID().uuidString
