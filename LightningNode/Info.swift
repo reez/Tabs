@@ -13,7 +13,7 @@ struct Info: Equatable {
     let bestHeaderTimestamp: Date
     let blockHash: String
     let blockHeight: Int
-    let chainsArray: NSMutableArray
+    let chainsArray: String//NSMutableArray
     let identityPubkey: String
     let network: String
     let numActiveChannels: Int
@@ -31,7 +31,23 @@ extension Info {
         bestHeaderTimestamp = Date(timeIntervalSince1970: TimeInterval(getInfoResponse.bestHeaderTimestamp))
         blockHash = getInfoResponse.blockHash
         blockHeight = Int(getInfoResponse.blockHeight)
-        chainsArray = getInfoResponse.chainsArray
+        
+        
+        
+        
+        //chainsArray = getInfoResponse.chainsArray
+        if
+            let chains = getInfoResponse.chainsArray as? [Chain],
+            let chain = chains.first?.chain
+        {
+            chainsArray = chain
+        } else {
+            chainsArray = "No Chain" //getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+        }
+        
+        
+        
+        
         identityPubkey = getInfoResponse.identityPubkey
         if
             let chains = getInfoResponse.chainsArray as? [Chain],

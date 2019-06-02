@@ -51,7 +51,7 @@ extension Info {
         bestHeaderTimestamp: Current.date(),
         blockHash: "No blockHash",
         blockHeight: 0,
-        chainsArray: [],
+        chainsArray: "No chainz",//[],
         identityPubkey: "No identityPubkey",
         network: "Testnetwork",
         numActiveChannels: 0,

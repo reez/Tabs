@@ -61,6 +61,8 @@ extension StatusDetailViewController {
                         
                         "blockHeight": \($0.blockHeight)
                         
+                        "chain": \($0.chainsArray)
+                        
                         "network": \($0.network)
                         
                         "numActiveChannels": \($0.numActiveChannels)
@@ -70,8 +72,6 @@ extension StatusDetailViewController {
                         "numPendingChannels": \($0.numPendingChannels)
                         
                         "syncedToChain": \($0.syncedToChain)
-                        
-                        "testnet": \($0.testnet)
                         """
                         
                         self?.infoLabel.text = text
