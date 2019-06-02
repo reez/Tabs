@@ -14,7 +14,7 @@ final class LightningViewModel {
         bestHeaderTimestamp: Current.date(),
         blockHash: "No blockHash",
         blockHeight: 0,
-        chainsArray: "No chainz",//[],
+        chainsArray: "No chainz",
         identityPubkey: "No identityPubkey",
         network: "Testnetwork",
         numActiveChannels: 0,

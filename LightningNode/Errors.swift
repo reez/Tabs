@@ -31,7 +31,6 @@ extension DataError: LocalizedError {
             return NSLocalizedString("No Saved Data", comment: "Could not get saved Node data")
         case .remoteNodeInfoMissing:
             return NSLocalizedString("Remote Node Info Missing", comment: "Incorrect Remote Info")
-
         }
     }
 }

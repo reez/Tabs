@@ -118,7 +118,7 @@ extension CameraViewController: PanModalPresentable {
     }
     
     var longFormHeight: PanModalHeight {
-        return .contentHeight(525)
+        return .contentHeight(565)
     }
     
     var anchorModalToLongForm: Bool {

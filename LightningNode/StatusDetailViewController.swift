@@ -47,9 +47,6 @@ extension StatusDetailViewController {
             
             self.viewModel = LightningViewModel { _ in }
             
-            //"chainsArray": \($0.chainsArray.firstObject!)
-
-            
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info { [weak self] result in
                 try? result.get()
