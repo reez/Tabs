@@ -13,8 +13,9 @@ struct Info: Equatable {
     let bestHeaderTimestamp: Date
     let blockHash: String
     let blockHeight: Int
-    let chainsArray: NSMutableArray
+    let chainsArray: String//NSMutableArray
     let identityPubkey: String
+    let network: String
     let numActiveChannels: Int
     let numPeers: Int
     let numPendingChannels: Int
@@ -30,8 +31,23 @@ extension Info {
         bestHeaderTimestamp = Date(timeIntervalSince1970: TimeInterval(getInfoResponse.bestHeaderTimestamp))
         blockHash = getInfoResponse.blockHash
         blockHeight = Int(getInfoResponse.blockHeight)
-        chainsArray = getInfoResponse.chainsArray
+        if
+            let chains = getInfoResponse.chainsArray as? [Chain],
+            let chain = chains.first?.chain
+        {
+            chainsArray = chain
+        } else {
+            chainsArray = "No Chain Info" //getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+        }
         identityPubkey = getInfoResponse.identityPubkey
+        if
+            let chains = getInfoResponse.chainsArray as? [Chain],
+            let chainNetwork = chains.first?.network
+        {
+            network = chainNetwork
+        } else {
+            network = getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+        }
         numActiveChannels = Int(getInfoResponse.numActiveChannels)
         numPeers = Int(getInfoResponse.numPeers)
         numPendingChannels = Int(getInfoResponse.numPendingChannels)
@@ -40,4 +56,9 @@ extension Info {
         urisArray = getInfoResponse.urisArray.compactMap { URL(string: $0 as! String) }
         version = getInfoResponse.version
     }
+}
+
+public enum Network: String {
+    case testnet = "testnet"
+    case mainnet = "mainnet"
 }

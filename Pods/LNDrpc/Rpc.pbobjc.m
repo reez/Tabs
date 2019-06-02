@@ -56,6 +56,47 @@ static GPBFileDescriptor *RpcRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum AddressType
+
+GPBEnumDescriptor *AddressType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "WitnessPubkeyHash\000NestedPubkeyHash\000Unuse"
+        "dWitnessPubkeyHash\000UnusedNestedPubkeyHas"
+        "h\000";
+    static const int32_t values[] = {
+        AddressType_WitnessPubkeyHash,
+        AddressType_NestedPubkeyHash,
+        AddressType_UnusedWitnessPubkeyHash,
+        AddressType_UnusedNestedPubkeyHash,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(AddressType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:AddressType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL AddressType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case AddressType_WitnessPubkeyHash:
+    case AddressType_NestedPubkeyHash:
+    case AddressType_UnusedWitnessPubkeyHash:
+    case AddressType_UnusedNestedPubkeyHash:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - GenSeedRequest
 
 @implementation GenSeedRequest
@@ -102,7 +143,9 @@ typedef struct GenSeedRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(GenSeedRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -156,7 +199,9 @@ typedef struct GenSeedResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(GenSeedResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -172,6 +217,7 @@ typedef struct GenSeedResponse__storage_ {
 @dynamic cipherSeedMnemonicArray, cipherSeedMnemonicArray_Count;
 @dynamic aezeedPassphrase;
 @dynamic recoveryWindow;
+@dynamic hasChannelBackups, channelBackups;
 
 typedef struct InitWalletRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -179,6 +225,7 @@ typedef struct InitWalletRequest__storage_ {
   NSData *walletPassword;
   NSMutableArray *cipherSeedMnemonicArray;
   NSData *aezeedPassphrase;
+  ChanBackupSnapshot *channelBackups;
 } InitWalletRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -223,6 +270,15 @@ typedef struct InitWalletRequest__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "channelBackups",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChanBackupSnapshot),
+        .number = InitWalletRequest_FieldNumber_ChannelBackups,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(InitWalletRequest__storage_, channelBackups),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[InitWalletRequest class]
@@ -232,7 +288,9 @@ typedef struct InitWalletRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(InitWalletRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -262,7 +320,9 @@ typedef struct InitWalletResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(InitWalletResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -276,11 +336,13 @@ typedef struct InitWalletResponse__storage_ {
 
 @dynamic walletPassword;
 @dynamic recoveryWindow;
+@dynamic hasChannelBackups, channelBackups;
 
 typedef struct UnlockWalletRequest__storage_ {
   uint32_t _has_storage_[1];
   int32_t recoveryWindow;
   NSData *walletPassword;
+  ChanBackupSnapshot *channelBackups;
 } UnlockWalletRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -307,6 +369,15 @@ typedef struct UnlockWalletRequest__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "channelBackups",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChanBackupSnapshot),
+        .number = UnlockWalletRequest_FieldNumber_ChannelBackups,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(UnlockWalletRequest__storage_, channelBackups),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[UnlockWalletRequest class]
@@ -316,7 +387,9 @@ typedef struct UnlockWalletRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(UnlockWalletRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -346,7 +419,9 @@ typedef struct UnlockWalletResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(UnlockWalletResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -400,7 +475,9 @@ typedef struct ChangePasswordRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChangePasswordRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -430,13 +507,127 @@ typedef struct ChangePasswordResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(ChangePasswordResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
 }
 
 @end
+
+#pragma mark - Utxo
+
+@implementation Utxo
+
+@dynamic type;
+@dynamic address;
+@dynamic amountSat;
+@dynamic pkScript;
+@dynamic hasOutpoint, outpoint;
+@dynamic confirmations;
+
+typedef struct Utxo__storage_ {
+  uint32_t _has_storage_[1];
+  AddressType type;
+  NSString *address;
+  NSString *pkScript;
+  OutPoint *outpoint;
+  int64_t amountSat;
+  int64_t confirmations;
+} Utxo__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = AddressType_EnumDescriptor,
+        .number = Utxo_FieldNumber_Type,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(Utxo__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "address",
+        .dataTypeSpecific.className = NULL,
+        .number = Utxo_FieldNumber_Address,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(Utxo__storage_, address),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "amountSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Utxo_FieldNumber_AmountSat,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(Utxo__storage_, amountSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "pkScript",
+        .dataTypeSpecific.className = NULL,
+        .number = Utxo_FieldNumber_PkScript,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(Utxo__storage_, pkScript),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "outpoint",
+        .dataTypeSpecific.className = GPBStringifySymbol(OutPoint),
+        .number = Utxo_FieldNumber_Outpoint,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(Utxo__storage_, outpoint),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "confirmations",
+        .dataTypeSpecific.className = NULL,
+        .number = Utxo_FieldNumber_Confirmations,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(Utxo__storage_, confirmations),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[Utxo class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(Utxo__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t Utxo_Type_RawValue(Utxo *message) {
+  GPBDescriptor *descriptor = [Utxo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetUtxo_Type_RawValue(Utxo *message, int32_t value) {
+  GPBDescriptor *descriptor = [Utxo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - Transaction
 
@@ -550,7 +741,9 @@ typedef struct Transaction__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Transaction__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -580,7 +773,9 @@ typedef struct GetTransactionsRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(GetTransactionsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -623,7 +818,9 @@ typedef struct TransactionDetails__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(TransactionDetails__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -684,7 +881,9 @@ typedef struct FeeLimit__storage_ {
     [localDescriptor setupOneofs:oneofs
                            count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
                    firstHasIndex:-1];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -709,10 +908,13 @@ void FeeLimit_ClearLimitOneOfCase(FeeLimit *message) {
 @dynamic paymentRequest;
 @dynamic finalCltvDelta;
 @dynamic hasFeeLimit, feeLimit;
+@dynamic outgoingChanId;
+@dynamic cltvLimit;
 
 typedef struct SendRequest__storage_ {
   uint32_t _has_storage_[1];
   int32_t finalCltvDelta;
+  uint32_t cltvLimit;
   NSData *dest;
   NSString *destString;
   NSData *paymentHash;
@@ -720,6 +922,7 @@ typedef struct SendRequest__storage_ {
   NSString *paymentRequest;
   FeeLimit *feeLimit;
   int64_t amt;
+  uint64_t outgoingChanId;
 } SendRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -800,6 +1003,24 @@ typedef struct SendRequest__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "outgoingChanId",
+        .dataTypeSpecific.className = NULL,
+        .number = SendRequest_FieldNumber_OutgoingChanId,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(SendRequest__storage_, outgoingChanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "cltvLimit",
+        .dataTypeSpecific.className = NULL,
+        .number = SendRequest_FieldNumber_CltvLimit,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(SendRequest__storage_, cltvLimit),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SendRequest class]
@@ -809,7 +1030,9 @@ typedef struct SendRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -824,12 +1047,14 @@ typedef struct SendRequest__storage_ {
 @dynamic paymentError;
 @dynamic paymentPreimage;
 @dynamic hasPaymentRoute, paymentRoute;
+@dynamic paymentHash;
 
 typedef struct SendResponse__storage_ {
   uint32_t _has_storage_[1];
   NSString *paymentError;
   NSData *paymentPreimage;
   Route *paymentRoute;
+  NSData *paymentHash;
 } SendResponse__storage_;
 
 // This method is threadsafe because it is initially called
@@ -865,6 +1090,15 @@ typedef struct SendResponse__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "paymentHash",
+        .dataTypeSpecific.className = NULL,
+        .number = SendResponse_FieldNumber_PaymentHash,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(SendResponse__storage_, paymentHash),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SendResponse class]
@@ -874,7 +1108,9 @@ typedef struct SendResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -889,12 +1125,14 @@ typedef struct SendResponse__storage_ {
 @dynamic paymentHash;
 @dynamic paymentHashString;
 @dynamic routesArray, routesArray_Count;
+@dynamic hasRoute, route;
 
 typedef struct SendToRouteRequest__storage_ {
   uint32_t _has_storage_[1];
   NSData *paymentHash;
   NSString *paymentHashString;
   NSMutableArray *routesArray;
+  Route *route;
 } SendToRouteRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -930,6 +1168,15 @@ typedef struct SendToRouteRequest__storage_ {
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "route",
+        .dataTypeSpecific.className = GPBStringifySymbol(Route),
+        .number = SendToRouteRequest_FieldNumber_Route,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(SendToRouteRequest__storage_, route),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SendToRouteRequest class]
@@ -939,7 +1186,9 @@ typedef struct SendToRouteRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendToRouteRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1011,7 +1260,9 @@ typedef struct ChannelPoint__storage_ {
     [localDescriptor setupOneofs:oneofs
                            count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
                    firstHasIndex:-1];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1024,6 +1275,73 @@ void ChannelPoint_ClearFundingTxidOneOfCase(ChannelPoint *message) {
   GPBOneofDescriptor *oneof = [descriptor.oneofs objectAtIndex:0];
   GPBMaybeClearOneof(message, oneof, -1, 0);
 }
+#pragma mark - OutPoint
+
+@implementation OutPoint
+
+@dynamic txidBytes;
+@dynamic txidStr;
+@dynamic outputIndex;
+
+typedef struct OutPoint__storage_ {
+  uint32_t _has_storage_[1];
+  uint32_t outputIndex;
+  NSData *txidBytes;
+  NSString *txidStr;
+} OutPoint__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "txidBytes",
+        .dataTypeSpecific.className = NULL,
+        .number = OutPoint_FieldNumber_TxidBytes,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(OutPoint__storage_, txidBytes),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "txidStr",
+        .dataTypeSpecific.className = NULL,
+        .number = OutPoint_FieldNumber_TxidStr,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(OutPoint__storage_, txidStr),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "outputIndex",
+        .dataTypeSpecific.className = NULL,
+        .number = OutPoint_FieldNumber_OutputIndex,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(OutPoint__storage_, outputIndex),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[OutPoint class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(OutPoint__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - LightningAddress
 
 @implementation LightningAddress
@@ -1070,7 +1388,126 @@ typedef struct LightningAddress__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(LightningAddress__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - EstimateFeeRequest
+
+@implementation EstimateFeeRequest
+
+@dynamic addrToAmount, addrToAmount_Count;
+@dynamic targetConf;
+
+typedef struct EstimateFeeRequest__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t targetConf;
+  GPBStringInt64Dictionary *addrToAmount;
+} EstimateFeeRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "addrToAmount",
+        .dataTypeSpecific.className = NULL,
+        .number = EstimateFeeRequest_FieldNumber_AddrToAmount,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(EstimateFeeRequest__storage_, addrToAmount),
+        .flags = (GPBFieldFlags)(GPBFieldMapKeyString | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "targetConf",
+        .dataTypeSpecific.className = NULL,
+        .number = EstimateFeeRequest_FieldNumber_TargetConf,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(EstimateFeeRequest__storage_, targetConf),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[EstimateFeeRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(EstimateFeeRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001L\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - EstimateFeeResponse
+
+@implementation EstimateFeeResponse
+
+@dynamic feeSat;
+@dynamic feerateSatPerByte;
+
+typedef struct EstimateFeeResponse__storage_ {
+  uint32_t _has_storage_[1];
+  int64_t feeSat;
+  int64_t feerateSatPerByte;
+} EstimateFeeResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "feeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = EstimateFeeResponse_FieldNumber_FeeSat,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(EstimateFeeResponse__storage_, feeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "feerateSatPerByte",
+        .dataTypeSpecific.className = NULL,
+        .number = EstimateFeeResponse_FieldNumber_FeerateSatPerByte,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(EstimateFeeResponse__storage_, feerateSatPerByte),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[EstimateFeeResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(EstimateFeeResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1140,7 +1577,9 @@ typedef struct SendManyRequest__storage_ {
         "\001\001L\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1183,7 +1622,9 @@ typedef struct SendManyResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendManyResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1199,6 +1640,7 @@ typedef struct SendManyResponse__storage_ {
 @dynamic amount;
 @dynamic targetConf;
 @dynamic satPerByte;
+@dynamic sendAll;
 
 typedef struct SendCoinsRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -1250,6 +1692,15 @@ typedef struct SendCoinsRequest__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "sendAll",
+        .dataTypeSpecific.className = NULL,
+        .number = SendCoinsRequest_FieldNumber_SendAll,
+        .hasIndex = 4,
+        .offset = 5,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SendCoinsRequest class]
@@ -1259,7 +1710,9 @@ typedef struct SendCoinsRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendCoinsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1302,7 +1755,110 @@ typedef struct SendCoinsResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SendCoinsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ListUnspentRequest
+
+@implementation ListUnspentRequest
+
+@dynamic minConfs;
+@dynamic maxConfs;
+
+typedef struct ListUnspentRequest__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t minConfs;
+  int32_t maxConfs;
+} ListUnspentRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "minConfs",
+        .dataTypeSpecific.className = NULL,
+        .number = ListUnspentRequest_FieldNumber_MinConfs,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ListUnspentRequest__storage_, minConfs),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "maxConfs",
+        .dataTypeSpecific.className = NULL,
+        .number = ListUnspentRequest_FieldNumber_MaxConfs,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ListUnspentRequest__storage_, maxConfs),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ListUnspentRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ListUnspentRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ListUnspentResponse
+
+@implementation ListUnspentResponse
+
+@dynamic utxosArray, utxosArray_Count;
+
+typedef struct ListUnspentResponse__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *utxosArray;
+} ListUnspentResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "utxosArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(Utxo),
+        .number = ListUnspentResponse_FieldNumber_UtxosArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(ListUnspentResponse__storage_, utxosArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ListUnspentResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ListUnspentResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1318,7 +1874,7 @@ typedef struct SendCoinsResponse__storage_ {
 
 typedef struct NewAddressRequest__storage_ {
   uint32_t _has_storage_[1];
-  NewAddressRequest_AddressType type;
+  AddressType type;
 } NewAddressRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -1329,7 +1885,7 @@ typedef struct NewAddressRequest__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "type",
-        .dataTypeSpecific.enumDescFunc = NewAddressRequest_AddressType_EnumDescriptor,
+        .dataTypeSpecific.enumDescFunc = AddressType_EnumDescriptor,
         .number = NewAddressRequest_FieldNumber_Type,
         .hasIndex = 0,
         .offset = (uint32_t)offsetof(NewAddressRequest__storage_, type),
@@ -1345,7 +1901,9 @@ typedef struct NewAddressRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NewAddressRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1363,41 +1921,6 @@ void SetNewAddressRequest_Type_RawValue(NewAddressRequest *message, int32_t valu
   GPBDescriptor *descriptor = [NewAddressRequest descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:NewAddressRequest_FieldNumber_Type];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-#pragma mark - Enum NewAddressRequest_AddressType
-
-GPBEnumDescriptor *NewAddressRequest_AddressType_EnumDescriptor(void) {
-  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
-  if (!descriptor) {
-    static const char *valueNames =
-        "WitnessPubkeyHash\000NestedPubkeyHash\000";
-    static const int32_t values[] = {
-        NewAddressRequest_AddressType_WitnessPubkeyHash,
-        NewAddressRequest_AddressType_NestedPubkeyHash,
-    };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(NewAddressRequest_AddressType)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:NewAddressRequest_AddressType_IsValidValue];
-    GPBEnumDescriptor *expected = nil;
-    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
-      [worker release];
-    }
-  }
-  return descriptor;
-}
-
-BOOL NewAddressRequest_AddressType_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case NewAddressRequest_AddressType_WitnessPubkeyHash:
-    case NewAddressRequest_AddressType_NestedPubkeyHash:
-      return YES;
-    default:
-      return NO;
-  }
 }
 
 #pragma mark - NewAddressResponse
@@ -1435,7 +1958,9 @@ typedef struct NewAddressResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NewAddressResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1478,7 +2003,9 @@ typedef struct SignMessageRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SignMessageRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1521,7 +2048,9 @@ typedef struct SignMessageResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(SignMessageResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1575,7 +2104,9 @@ typedef struct VerifyMessageRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(VerifyMessageRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1628,7 +2159,9 @@ typedef struct VerifyMessageResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(VerifyMessageResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1681,7 +2214,9 @@ typedef struct ConnectPeerRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ConnectPeerRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1711,7 +2246,9 @@ typedef struct ConnectPeerResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(ConnectPeerResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1754,7 +2291,9 @@ typedef struct DisconnectPeerRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(DisconnectPeerRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1784,7 +2323,9 @@ typedef struct DisconnectPeerResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(DisconnectPeerResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1859,7 +2400,9 @@ typedef struct HTLC__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(HTLC__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -1888,6 +2431,8 @@ typedef struct HTLC__storage_ {
 @dynamic pendingHtlcsArray, pendingHtlcsArray_Count;
 @dynamic csvDelay;
 @dynamic private_p;
+@dynamic initiator;
+@dynamic chanStatusFlags;
 
 typedef struct Channel__storage_ {
   uint32_t _has_storage_[1];
@@ -1895,6 +2440,7 @@ typedef struct Channel__storage_ {
   NSString *remotePubkey;
   NSString *channelPoint;
   NSMutableArray *pendingHtlcsArray;
+  NSString *chanStatusFlags;
   uint64_t chanId;
   int64_t capacity;
   int64_t localBalance;
@@ -2067,6 +2613,24 @@ typedef struct Channel__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
+      {
+        .name = "initiator",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_Initiator,
+        .hasIndex = 18,
+        .offset = 19,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "chanStatusFlags",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_ChanStatusFlags,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(Channel__storage_, chanStatusFlags),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Channel class]
@@ -2076,7 +2640,9 @@ typedef struct Channel__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Channel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2148,7 +2714,9 @@ typedef struct ListChannelsRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListChannelsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2191,7 +2759,9 @@ typedef struct ListChannelsResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListChannelsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2333,7 +2903,9 @@ typedef struct ChannelCloseSummary__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelCloseSummary__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2482,7 +3054,9 @@ typedef struct ClosedChannelsRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ClosedChannelsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2525,7 +3099,9 @@ typedef struct ClosedChannelsResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ClosedChannelsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2545,9 +3121,11 @@ typedef struct ClosedChannelsResponse__storage_ {
 @dynamic satRecv;
 @dynamic inbound;
 @dynamic pingTime;
+@dynamic syncType;
 
 typedef struct Peer__storage_ {
   uint32_t _has_storage_[1];
+  Peer_SyncType syncType;
   NSString *pubKey;
   NSString *address;
   uint64_t bytesSent;
@@ -2635,6 +3213,15 @@ typedef struct Peer__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "syncType",
+        .dataTypeSpecific.enumDescFunc = Peer_SyncType_EnumDescriptor,
+        .number = Peer_FieldNumber_SyncType,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(Peer__storage_, syncType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Peer class]
@@ -2644,13 +3231,64 @@ typedef struct Peer__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Peer__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
 }
 
 @end
+
+int32_t Peer_SyncType_RawValue(Peer *message) {
+  GPBDescriptor *descriptor = [Peer descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Peer_FieldNumber_SyncType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPeer_SyncType_RawValue(Peer *message, int32_t value) {
+  GPBDescriptor *descriptor = [Peer descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Peer_FieldNumber_SyncType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - Enum Peer_SyncType
+
+GPBEnumDescriptor *Peer_SyncType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "UnknownSync\000ActiveSync\000PassiveSync\000";
+    static const int32_t values[] = {
+        Peer_SyncType_UnknownSync,
+        Peer_SyncType_ActiveSync,
+        Peer_SyncType_PassiveSync,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(Peer_SyncType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:Peer_SyncType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL Peer_SyncType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case Peer_SyncType_UnknownSync:
+    case Peer_SyncType_ActiveSync:
+    case Peer_SyncType_PassiveSync:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 #pragma mark - ListPeersRequest
 
@@ -2674,7 +3312,9 @@ typedef struct ListPeersRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(ListPeersRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2717,7 +3357,9 @@ typedef struct ListPeersResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListPeersResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2747,7 +3389,9 @@ typedef struct GetInfoRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(GetInfoRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2768,11 +3412,11 @@ typedef struct GetInfoRequest__storage_ {
 @dynamic blockHash;
 @dynamic syncedToChain;
 @dynamic testnet;
-@dynamic chainsArray, chainsArray_Count;
 @dynamic urisArray, urisArray_Count;
 @dynamic bestHeaderTimestamp;
 @dynamic version;
 @dynamic numInactiveChannels;
+@dynamic chainsArray, chainsArray_Count;
 
 typedef struct GetInfoResponse__storage_ {
   uint32_t _has_storage_[1];
@@ -2784,9 +3428,9 @@ typedef struct GetInfoResponse__storage_ {
   NSString *identityPubkey;
   NSString *alias;
   NSString *blockHash;
-  NSMutableArray *chainsArray;
   NSMutableArray *urisArray;
   NSString *version;
+  NSMutableArray *chainsArray;
   int64_t bestHeaderTimestamp;
 } GetInfoResponse__storage_;
 
@@ -2878,15 +3522,6 @@ typedef struct GetInfoResponse__storage_ {
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "chainsArray",
-        .dataTypeSpecific.className = NULL,
-        .number = GetInfoResponse_FieldNumber_ChainsArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(GetInfoResponse__storage_, chainsArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "urisArray",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_UrisArray,
@@ -2922,6 +3557,15 @@ typedef struct GetInfoResponse__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
       },
+      {
+        .name = "chainsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(Chain),
+        .number = GetInfoResponse_FieldNumber_ChainsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(GetInfoResponse__storage_, chainsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[GetInfoResponse class]
@@ -2931,7 +3575,65 @@ typedef struct GetInfoResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(GetInfoResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - Chain
+
+@implementation Chain
+
+@dynamic chain;
+@dynamic network;
+
+typedef struct Chain__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *chain;
+  NSString *network;
+} Chain__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chain",
+        .dataTypeSpecific.className = NULL,
+        .number = Chain_FieldNumber_Chain,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(Chain__storage_, chain),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "network",
+        .dataTypeSpecific.className = NULL,
+        .number = Chain_FieldNumber_Network,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(Chain__storage_, network),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[Chain class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(Chain__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -2996,7 +3698,9 @@ typedef struct ConfirmationUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ConfirmationUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3039,7 +3743,9 @@ typedef struct ChannelOpenUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelOpenUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3092,7 +3798,9 @@ typedef struct ChannelCloseUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelCloseUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3167,7 +3875,9 @@ typedef struct CloseChannelRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(CloseChannelRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3181,13 +3891,11 @@ typedef struct CloseChannelRequest__storage_ {
 
 @dynamic updateOneOfCase;
 @dynamic closePending;
-@dynamic confirmation;
 @dynamic chanClose;
 
 typedef struct CloseStatusUpdate__storage_ {
   uint32_t _has_storage_[2];
   PendingUpdate *closePending;
-  ConfirmationUpdate *confirmation;
   ChannelCloseUpdate *chanClose;
 } CloseStatusUpdate__storage_;
 
@@ -3203,15 +3911,6 @@ typedef struct CloseStatusUpdate__storage_ {
         .number = CloseStatusUpdate_FieldNumber_ClosePending,
         .hasIndex = -1,
         .offset = (uint32_t)offsetof(CloseStatusUpdate__storage_, closePending),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "confirmation",
-        .dataTypeSpecific.className = GPBStringifySymbol(ConfirmationUpdate),
-        .number = CloseStatusUpdate_FieldNumber_Confirmation,
-        .hasIndex = -1,
-        .offset = (uint32_t)offsetof(CloseStatusUpdate__storage_, confirmation),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
@@ -3239,7 +3938,9 @@ typedef struct CloseStatusUpdate__storage_ {
     [localDescriptor setupOneofs:oneofs
                            count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
                    firstHasIndex:-1];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3298,7 +3999,9 @@ typedef struct PendingUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PendingUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3449,7 +4152,9 @@ typedef struct OpenChannelRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(OpenChannelRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3463,13 +4168,11 @@ typedef struct OpenChannelRequest__storage_ {
 
 @dynamic updateOneOfCase;
 @dynamic chanPending;
-@dynamic confirmation;
 @dynamic chanOpen;
 
 typedef struct OpenStatusUpdate__storage_ {
   uint32_t _has_storage_[2];
   PendingUpdate *chanPending;
-  ConfirmationUpdate *confirmation;
   ChannelOpenUpdate *chanOpen;
 } OpenStatusUpdate__storage_;
 
@@ -3485,15 +4188,6 @@ typedef struct OpenStatusUpdate__storage_ {
         .number = OpenStatusUpdate_FieldNumber_ChanPending,
         .hasIndex = -1,
         .offset = (uint32_t)offsetof(OpenStatusUpdate__storage_, chanPending),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "confirmation",
-        .dataTypeSpecific.className = GPBStringifySymbol(ConfirmationUpdate),
-        .number = OpenStatusUpdate_FieldNumber_Confirmation,
-        .hasIndex = -1,
-        .offset = (uint32_t)offsetof(OpenStatusUpdate__storage_, confirmation),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
@@ -3521,7 +4215,9 @@ typedef struct OpenStatusUpdate__storage_ {
     [localDescriptor setupOneofs:oneofs
                            count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
                    firstHasIndex:-1];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3623,7 +4319,9 @@ typedef struct PendingHTLC__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PendingHTLC__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3653,7 +4351,9 @@ typedef struct PendingChannelsRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(PendingChannelsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3740,7 +4440,9 @@ typedef struct PendingChannelsResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PendingChannelsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3828,7 +4530,9 @@ typedef struct PendingChannelsResponse_PendingChannel__storage_ {
                                    storageSize:sizeof(PendingChannelsResponse_PendingChannel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3916,7 +4620,9 @@ typedef struct PendingChannelsResponse_PendingOpenChannel__storage_ {
                                    storageSize:sizeof(PendingChannelsResponse_PendingOpenChannel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -3971,7 +4677,9 @@ typedef struct PendingChannelsResponse_WaitingCloseChannel__storage_ {
                                    storageSize:sizeof(PendingChannelsResponse_WaitingCloseChannel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4026,7 +4734,9 @@ typedef struct PendingChannelsResponse_ClosedChannel__storage_ {
                                    storageSize:sizeof(PendingChannelsResponse_ClosedChannel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4136,13 +4846,200 @@ typedef struct PendingChannelsResponse_ForceClosedChannel__storage_ {
                                    storageSize:sizeof(PendingChannelsResponse_ForceClosedChannel__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
 }
 
 @end
+
+#pragma mark - ChannelEventSubscription
+
+@implementation ChannelEventSubscription
+
+
+typedef struct ChannelEventSubscription__storage_ {
+  uint32_t _has_storage_[1];
+} ChannelEventSubscription__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelEventSubscription class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(ChannelEventSubscription__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChannelEventUpdate
+
+@implementation ChannelEventUpdate
+
+@dynamic channelOneOfCase;
+@dynamic openChannel;
+@dynamic closedChannel;
+@dynamic activeChannel;
+@dynamic inactiveChannel;
+@dynamic type;
+
+typedef struct ChannelEventUpdate__storage_ {
+  uint32_t _has_storage_[2];
+  ChannelEventUpdate_UpdateType type;
+  Channel *openChannel;
+  ChannelCloseSummary *closedChannel;
+  ChannelPoint *activeChannel;
+  ChannelPoint *inactiveChannel;
+} ChannelEventUpdate__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "openChannel",
+        .dataTypeSpecific.className = GPBStringifySymbol(Channel),
+        .number = ChannelEventUpdate_FieldNumber_OpenChannel,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, openChannel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "closedChannel",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelCloseSummary),
+        .number = ChannelEventUpdate_FieldNumber_ClosedChannel,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, closedChannel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "activeChannel",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = ChannelEventUpdate_FieldNumber_ActiveChannel,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, activeChannel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "inactiveChannel",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = ChannelEventUpdate_FieldNumber_InactiveChannel,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, inactiveChannel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = ChannelEventUpdate_UpdateType_EnumDescriptor,
+        .number = ChannelEventUpdate_FieldNumber_Type,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelEventUpdate class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ChannelEventUpdate__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    static const char *oneofs[] = {
+      "channel",
+    };
+    [localDescriptor setupOneofs:oneofs
+                           count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
+                   firstHasIndex:-1];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t ChannelEventUpdate_Type_RawValue(ChannelEventUpdate *message) {
+  GPBDescriptor *descriptor = [ChannelEventUpdate descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelEventUpdate_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetChannelEventUpdate_Type_RawValue(ChannelEventUpdate *message, int32_t value) {
+  GPBDescriptor *descriptor = [ChannelEventUpdate descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelEventUpdate_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+void ChannelEventUpdate_ClearChannelOneOfCase(ChannelEventUpdate *message) {
+  GPBDescriptor *descriptor = [message descriptor];
+  GPBOneofDescriptor *oneof = [descriptor.oneofs objectAtIndex:0];
+  GPBMaybeClearOneof(message, oneof, -1, 0);
+}
+#pragma mark - Enum ChannelEventUpdate_UpdateType
+
+GPBEnumDescriptor *ChannelEventUpdate_UpdateType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "OpenChannel\000ClosedChannel\000ActiveChannel\000"
+        "InactiveChannel\000";
+    static const int32_t values[] = {
+        ChannelEventUpdate_UpdateType_OpenChannel,
+        ChannelEventUpdate_UpdateType_ClosedChannel,
+        ChannelEventUpdate_UpdateType_ActiveChannel,
+        ChannelEventUpdate_UpdateType_InactiveChannel,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(ChannelEventUpdate_UpdateType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:ChannelEventUpdate_UpdateType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL ChannelEventUpdate_UpdateType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case ChannelEventUpdate_UpdateType_OpenChannel:
+    case ChannelEventUpdate_UpdateType_ClosedChannel:
+    case ChannelEventUpdate_UpdateType_ActiveChannel:
+    case ChannelEventUpdate_UpdateType_InactiveChannel:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 #pragma mark - WalletBalanceRequest
 
@@ -4166,7 +5063,9 @@ typedef struct WalletBalanceRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(WalletBalanceRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4231,7 +5130,9 @@ typedef struct WalletBalanceResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(WalletBalanceResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4261,7 +5162,9 @@ typedef struct ChannelBalanceRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(ChannelBalanceRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4315,7 +5218,9 @@ typedef struct ChannelBalanceResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelBalanceResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4332,6 +5237,9 @@ typedef struct ChannelBalanceResponse__storage_ {
 @dynamic numRoutes;
 @dynamic finalCltvDelta;
 @dynamic hasFeeLimit, feeLimit;
+@dynamic ignoredNodesArray, ignoredNodesArray_Count;
+@dynamic ignoredEdgesArray, ignoredEdgesArray_Count;
+@dynamic sourcePubKey;
 
 typedef struct QueryRoutesRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -4339,6 +5247,9 @@ typedef struct QueryRoutesRequest__storage_ {
   int32_t finalCltvDelta;
   NSString *pubKey;
   FeeLimit *feeLimit;
+  NSMutableArray *ignoredNodesArray;
+  NSMutableArray *ignoredEdgesArray;
+  NSString *sourcePubKey;
   int64_t amt;
 } QueryRoutesRequest__storage_;
 
@@ -4393,6 +5304,33 @@ typedef struct QueryRoutesRequest__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "ignoredNodesArray",
+        .dataTypeSpecific.className = NULL,
+        .number = QueryRoutesRequest_FieldNumber_IgnoredNodesArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(QueryRoutesRequest__storage_, ignoredNodesArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "ignoredEdgesArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(EdgeLocator),
+        .number = QueryRoutesRequest_FieldNumber_IgnoredEdgesArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(QueryRoutesRequest__storage_, ignoredEdgesArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "sourcePubKey",
+        .dataTypeSpecific.className = NULL,
+        .number = QueryRoutesRequest_FieldNumber_SourcePubKey,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(QueryRoutesRequest__storage_, sourcePubKey),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[QueryRoutesRequest class]
@@ -4402,7 +5340,64 @@ typedef struct QueryRoutesRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(QueryRoutesRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - EdgeLocator
+
+@implementation EdgeLocator
+
+@dynamic channelId;
+@dynamic directionReverse;
+
+typedef struct EdgeLocator__storage_ {
+  uint32_t _has_storage_[1];
+  uint64_t channelId;
+} EdgeLocator__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "channelId",
+        .dataTypeSpecific.className = NULL,
+        .number = EdgeLocator_FieldNumber_ChannelId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(EdgeLocator__storage_, channelId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "directionReverse",
+        .dataTypeSpecific.className = NULL,
+        .number = EdgeLocator_FieldNumber_DirectionReverse,
+        .hasIndex = 1,
+        .offset = 2,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[EdgeLocator class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(EdgeLocator__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4445,7 +5440,9 @@ typedef struct QueryRoutesResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(QueryRoutesResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4565,7 +5562,9 @@ typedef struct Hop__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Hop__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4663,7 +5662,9 @@ typedef struct Route__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Route__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4706,7 +5707,9 @@ typedef struct NodeInfoRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NodeInfoRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4771,7 +5774,9 @@ typedef struct NodeInfo__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NodeInfo__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4858,7 +5863,9 @@ typedef struct LightningNode__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(LightningNode__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4912,7 +5919,9 @@ typedef struct NodeAddress__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NodeAddress__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -4929,6 +5938,7 @@ typedef struct NodeAddress__storage_ {
 @dynamic feeBaseMsat;
 @dynamic feeRateMilliMsat;
 @dynamic disabled;
+@dynamic maxHtlcMsat;
 
 typedef struct RoutingPolicy__storage_ {
   uint32_t _has_storage_[1];
@@ -4936,6 +5946,7 @@ typedef struct RoutingPolicy__storage_ {
   int64_t minHtlc;
   int64_t feeBaseMsat;
   int64_t feeRateMilliMsat;
+  uint64_t maxHtlcMsat;
 } RoutingPolicy__storage_;
 
 // This method is threadsafe because it is initially called
@@ -4989,6 +6000,15 @@ typedef struct RoutingPolicy__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
+      {
+        .name = "maxHtlcMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = RoutingPolicy_FieldNumber_MaxHtlcMsat,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(RoutingPolicy__storage_, maxHtlcMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[RoutingPolicy class]
@@ -4998,7 +6018,9 @@ typedef struct RoutingPolicy__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(RoutingPolicy__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5118,7 +6140,9 @@ typedef struct ChannelEdge__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelEdge__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5160,7 +6184,9 @@ typedef struct ChannelGraphRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelGraphRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5214,7 +6240,9 @@ typedef struct ChannelGraph__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelGraph__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5257,7 +6285,9 @@ typedef struct ChanInfoRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChanInfoRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5287,7 +6317,9 @@ typedef struct NetworkInfoRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(NetworkInfoRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5308,6 +6340,7 @@ typedef struct NetworkInfoRequest__storage_ {
 @dynamic avgChannelSize;
 @dynamic minChannelSize;
 @dynamic maxChannelSize;
+@dynamic medianChannelSizeSat;
 
 typedef struct NetworkInfo__storage_ {
   uint32_t _has_storage_[1];
@@ -5320,6 +6353,7 @@ typedef struct NetworkInfo__storage_ {
   double avgChannelSize;
   int64_t minChannelSize;
   int64_t maxChannelSize;
+  int64_t medianChannelSizeSat;
 } NetworkInfo__storage_;
 
 // This method is threadsafe because it is initially called
@@ -5409,6 +6443,15 @@ typedef struct NetworkInfo__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "medianChannelSizeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = NetworkInfo_FieldNumber_MedianChannelSizeSat,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(NetworkInfo__storage_, medianChannelSizeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[NetworkInfo class]
@@ -5418,7 +6461,9 @@ typedef struct NetworkInfo__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NetworkInfo__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5448,7 +6493,9 @@ typedef struct StopRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(StopRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5478,7 +6525,9 @@ typedef struct StopResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(StopResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5508,7 +6557,9 @@ typedef struct GraphTopologySubscription__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(GraphTopologySubscription__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5573,7 +6624,9 @@ typedef struct GraphTopologyUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(GraphTopologyUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5649,7 +6702,9 @@ typedef struct NodeUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(NodeUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5747,7 +6802,9 @@ typedef struct ChannelEdgeUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelEdgeUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5823,7 +6880,9 @@ typedef struct ClosedChannelUpdate__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ClosedChannelUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5910,7 +6969,9 @@ typedef struct HopHint__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(HopHint__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5953,7 +7014,9 @@ typedef struct RouteHint__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(RouteHint__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -5985,9 +7048,11 @@ typedef struct RouteHint__storage_ {
 @dynamic amtPaid;
 @dynamic amtPaidSat;
 @dynamic amtPaidMsat;
+@dynamic state;
 
 typedef struct Invoice__storage_ {
   uint32_t _has_storage_[1];
+  Invoice_InvoiceState state;
   NSString *memo;
   NSData *receipt;
   NSData *rPreimage;
@@ -6194,6 +7259,15 @@ typedef struct Invoice__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "state",
+        .dataTypeSpecific.enumDescFunc = Invoice_InvoiceState_EnumDescriptor,
+        .number = Invoice_FieldNumber_State,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(Invoice__storage_, state),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Invoice class]
@@ -6203,13 +7277,66 @@ typedef struct Invoice__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Invoice__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
 }
 
 @end
+
+int32_t Invoice_State_RawValue(Invoice *message) {
+  GPBDescriptor *descriptor = [Invoice descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Invoice_FieldNumber_State];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetInvoice_State_RawValue(Invoice *message, int32_t value) {
+  GPBDescriptor *descriptor = [Invoice descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Invoice_FieldNumber_State];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - Enum Invoice_InvoiceState
+
+GPBEnumDescriptor *Invoice_InvoiceState_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Open\000Settled\000Canceled\000Accepted\000";
+    static const int32_t values[] = {
+        Invoice_InvoiceState_Open,
+        Invoice_InvoiceState_Settled,
+        Invoice_InvoiceState_Canceled,
+        Invoice_InvoiceState_Accepted,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(Invoice_InvoiceState)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:Invoice_InvoiceState_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL Invoice_InvoiceState_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case Invoice_InvoiceState_Open:
+    case Invoice_InvoiceState_Settled:
+    case Invoice_InvoiceState_Canceled:
+    case Invoice_InvoiceState_Accepted:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 #pragma mark - AddInvoiceResponse
 
@@ -6268,7 +7395,9 @@ typedef struct AddInvoiceResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(AddInvoiceResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6322,7 +7451,9 @@ typedef struct PaymentHash__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PaymentHash__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6396,7 +7527,9 @@ typedef struct ListInvoiceRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListInvoiceRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6461,7 +7594,9 @@ typedef struct ListInvoiceResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListInvoiceResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6515,7 +7650,9 @@ typedef struct InvoiceSubscription__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(InvoiceSubscription__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6635,7 +7772,9 @@ typedef struct Payment__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Payment__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6665,7 +7804,9 @@ typedef struct ListPaymentsRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(ListPaymentsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6708,7 +7849,9 @@ typedef struct ListPaymentsResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListPaymentsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6738,7 +7881,9 @@ typedef struct DeleteAllPaymentsRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(DeleteAllPaymentsRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6768,7 +7913,9 @@ typedef struct DeleteAllPaymentsResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(DeleteAllPaymentsResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6811,7 +7958,9 @@ typedef struct AbandonChannelRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(AbandonChannelRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6841,7 +7990,9 @@ typedef struct AbandonChannelResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(AbandonChannelResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6894,7 +8045,9 @@ typedef struct DebugLevelRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(DebugLevelRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6937,7 +8090,9 @@ typedef struct DebugLevelResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(DebugLevelResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -6980,7 +8135,9 @@ typedef struct PayReqString__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PayReqString__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7122,7 +8279,9 @@ typedef struct PayReq__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PayReq__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7152,7 +8311,9 @@ typedef struct FeeReportRequest__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(FeeReportRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7228,7 +8389,9 @@ typedef struct ChannelFeeReport__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChannelFeeReport__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7304,7 +8467,9 @@ typedef struct FeeReportResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(FeeReportResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7397,7 +8562,9 @@ typedef struct PolicyUpdateRequest__storage_ {
     [localDescriptor setupOneofs:oneofs
                            count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
                    firstHasIndex:-1];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7432,7 +8599,9 @@ typedef struct PolicyUpdateResponse__storage_ {
                                     fieldCount:0
                                    storageSize:sizeof(PolicyUpdateResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7508,7 +8677,9 @@ typedef struct ForwardingHistoryRequest__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ForwardingHistoryRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7526,6 +8697,7 @@ typedef struct ForwardingHistoryRequest__storage_ {
 @dynamic amtIn;
 @dynamic amtOut;
 @dynamic fee;
+@dynamic feeMsat;
 
 typedef struct ForwardingEvent__storage_ {
   uint32_t _has_storage_[1];
@@ -7535,6 +8707,7 @@ typedef struct ForwardingEvent__storage_ {
   uint64_t amtIn;
   uint64_t amtOut;
   uint64_t fee;
+  uint64_t feeMsat;
 } ForwardingEvent__storage_;
 
 // This method is threadsafe because it is initially called
@@ -7597,6 +8770,15 @@ typedef struct ForwardingEvent__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
+      {
+        .name = "feeMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = ForwardingEvent_FieldNumber_FeeMsat,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(ForwardingEvent__storage_, feeMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ForwardingEvent class]
@@ -7606,7 +8788,9 @@ typedef struct ForwardingEvent__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ForwardingEvent__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;
@@ -7660,7 +8844,463 @@ typedef struct ForwardingHistoryResponse__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ForwardingHistoryResponse__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-    NSAssert(descriptor == nil, @"Startup recursed!");
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ExportChannelBackupRequest
+
+@implementation ExportChannelBackupRequest
+
+@dynamic hasChanPoint, chanPoint;
+
+typedef struct ExportChannelBackupRequest__storage_ {
+  uint32_t _has_storage_[1];
+  ChannelPoint *chanPoint;
+} ExportChannelBackupRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chanPoint",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = ExportChannelBackupRequest_FieldNumber_ChanPoint,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ExportChannelBackupRequest__storage_, chanPoint),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ExportChannelBackupRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ExportChannelBackupRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChannelBackup
+
+@implementation ChannelBackup
+
+@dynamic hasChanPoint, chanPoint;
+@dynamic chanBackup;
+
+typedef struct ChannelBackup__storage_ {
+  uint32_t _has_storage_[1];
+  ChannelPoint *chanPoint;
+  NSData *chanBackup;
+} ChannelBackup__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chanPoint",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = ChannelBackup_FieldNumber_ChanPoint,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ChannelBackup__storage_, chanPoint),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "chanBackup",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelBackup_FieldNumber_ChanBackup,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ChannelBackup__storage_, chanBackup),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelBackup class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ChannelBackup__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - MultiChanBackup
+
+@implementation MultiChanBackup
+
+@dynamic chanPointsArray, chanPointsArray_Count;
+@dynamic multiChanBackup;
+
+typedef struct MultiChanBackup__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *chanPointsArray;
+  NSData *multiChanBackup;
+} MultiChanBackup__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chanPointsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelPoint),
+        .number = MultiChanBackup_FieldNumber_ChanPointsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(MultiChanBackup__storage_, chanPointsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "multiChanBackup",
+        .dataTypeSpecific.className = NULL,
+        .number = MultiChanBackup_FieldNumber_MultiChanBackup,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(MultiChanBackup__storage_, multiChanBackup),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[MultiChanBackup class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(MultiChanBackup__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChanBackupExportRequest
+
+@implementation ChanBackupExportRequest
+
+
+typedef struct ChanBackupExportRequest__storage_ {
+  uint32_t _has_storage_[1];
+} ChanBackupExportRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChanBackupExportRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(ChanBackupExportRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChanBackupSnapshot
+
+@implementation ChanBackupSnapshot
+
+@dynamic hasSingleChanBackups, singleChanBackups;
+@dynamic hasMultiChanBackup, multiChanBackup;
+
+typedef struct ChanBackupSnapshot__storage_ {
+  uint32_t _has_storage_[1];
+  ChannelBackups *singleChanBackups;
+  MultiChanBackup *multiChanBackup;
+} ChanBackupSnapshot__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "singleChanBackups",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelBackups),
+        .number = ChanBackupSnapshot_FieldNumber_SingleChanBackups,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ChanBackupSnapshot__storage_, singleChanBackups),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "multiChanBackup",
+        .dataTypeSpecific.className = GPBStringifySymbol(MultiChanBackup),
+        .number = ChanBackupSnapshot_FieldNumber_MultiChanBackup,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ChanBackupSnapshot__storage_, multiChanBackup),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChanBackupSnapshot class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ChanBackupSnapshot__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChannelBackups
+
+@implementation ChannelBackups
+
+@dynamic chanBackupsArray, chanBackupsArray_Count;
+
+typedef struct ChannelBackups__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *chanBackupsArray;
+} ChannelBackups__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chanBackupsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelBackup),
+        .number = ChannelBackups_FieldNumber_ChanBackupsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(ChannelBackups__storage_, chanBackupsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelBackups class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ChannelBackups__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - RestoreChanBackupRequest
+
+@implementation RestoreChanBackupRequest
+
+@dynamic backupOneOfCase;
+@dynamic chanBackups;
+@dynamic multiChanBackup;
+
+typedef struct RestoreChanBackupRequest__storage_ {
+  uint32_t _has_storage_[2];
+  ChannelBackups *chanBackups;
+  NSData *multiChanBackup;
+} RestoreChanBackupRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "chanBackups",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelBackups),
+        .number = RestoreChanBackupRequest_FieldNumber_ChanBackups,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(RestoreChanBackupRequest__storage_, chanBackups),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "multiChanBackup",
+        .dataTypeSpecific.className = NULL,
+        .number = RestoreChanBackupRequest_FieldNumber_MultiChanBackup,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(RestoreChanBackupRequest__storage_, multiChanBackup),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[RestoreChanBackupRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(RestoreChanBackupRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    static const char *oneofs[] = {
+      "backup",
+    };
+    [localDescriptor setupOneofs:oneofs
+                           count:(uint32_t)(sizeof(oneofs) / sizeof(char*))
+                   firstHasIndex:-1];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+void RestoreChanBackupRequest_ClearBackupOneOfCase(RestoreChanBackupRequest *message) {
+  GPBDescriptor *descriptor = [message descriptor];
+  GPBOneofDescriptor *oneof = [descriptor.oneofs objectAtIndex:0];
+  GPBMaybeClearOneof(message, oneof, -1, 0);
+}
+#pragma mark - RestoreBackupResponse
+
+@implementation RestoreBackupResponse
+
+
+typedef struct RestoreBackupResponse__storage_ {
+  uint32_t _has_storage_[1];
+} RestoreBackupResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[RestoreBackupResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(RestoreBackupResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - ChannelBackupSubscription
+
+@implementation ChannelBackupSubscription
+
+
+typedef struct ChannelBackupSubscription__storage_ {
+  uint32_t _has_storage_[1];
+} ChannelBackupSubscription__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelBackupSubscription class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(ChannelBackupSubscription__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - VerifyChanBackupResponse
+
+@implementation VerifyChanBackupResponse
+
+
+typedef struct VerifyChanBackupResponse__storage_ {
+  uint32_t _has_storage_[1];
+} VerifyChanBackupResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[VerifyChanBackupResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:NULL
+                                    fieldCount:0
+                                   storageSize:sizeof(VerifyChanBackupResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
     descriptor = localDescriptor;
   }
   return descriptor;

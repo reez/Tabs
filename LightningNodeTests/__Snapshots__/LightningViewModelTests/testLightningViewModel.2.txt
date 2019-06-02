@@ -3,8 +3,9 @@
   - bestHeaderTimestamp: 2018-05-04T18:40:21Z
   - blockHash: "No blockHash"
   - blockHeight: 0
-  - chainsArray: 0 elements
+  - chainsArray: "No chainz"
   - identityPubkey: "No identityPubkey"
+  - network: "Testnetwork"
   - numActiveChannels: 0
   - numPeers: 0
   - numPendingChannels: 0
