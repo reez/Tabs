@@ -1,2 +1,2 @@
 ▿ Result<String, DataError>
-  - success: "Success!"
+  - success: "Success"

@@ -47,14 +47,14 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let readableString = readableObject.stringValue else { return }
-            let url = URL(string: readableString)
-            let queryParameters = url!.queryParameters
-            let certificate = queryParameters!["cert"]?.base64UrlToBase64()
-            let macaroonString = queryParameters?["macaroon"]?.base64UrlToBase64()
-            let nodeHostString = url?.host
-            let port = url?.port
-            let nodeString = "\(nodeHostString!):\(port!)"
-            let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate!, macaroon: macaroonString!)
+            guard let url = URL(string: readableString) else { return }
+            guard let queryParameters = url.queryParameters else { return }
+            guard let certificate = queryParameters["cert"]?.base64UrlToBase64() else { return }
+            guard let macaroonString = queryParameters["macaroon"]?.base64UrlToBase64() else { return }
+            guard let nodeHostString = url.host else { return }
+            guard let port = url.port else { return }
+            let nodeString = "\(nodeHostString):\(port)"
+            let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate, macaroon: macaroonString)
             Current.remoteNodeConnection = rnc
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
         }

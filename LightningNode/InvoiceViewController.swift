@@ -270,7 +270,7 @@ extension InvoiceViewController: UITextFieldDelegate {
 
 extension InvoiceViewController {
     @objc func copyButtonPressed(_ sender: UIButton) {
-        Loaf("Copied Invoice!", state: .success, sender: self).show()
+        Loaf("Copied Invoice", state: .success, sender: self).show()
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
 }

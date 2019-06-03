@@ -44,7 +44,7 @@ class LightningAPITests: XCTestCase {
     
     func testAddInvoiceFF() {
         addInvoice(value: 2, memo: "hello") { (result) in
-            XCTAssertEqual(result, Result.success("Success!!!"))
+            XCTAssertEqual(result, Result.success("Success"))
         }
     }
     

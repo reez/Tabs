@@ -21,7 +21,6 @@ struct Info: Equatable {
     let numPendingChannels: Int
     let syncedToChain: Bool
     let testnet: Bool
-    let urisArray: [URL]
     let version: String
 }
 
@@ -53,7 +52,6 @@ extension Info {
         numPendingChannels = Int(getInfoResponse.numPendingChannels)
         syncedToChain = getInfoResponse.syncedToChain
         testnet = getInfoResponse.testnet
-        urisArray = getInfoResponse.urisArray.compactMap { URL(string: $0 as! String) }
         version = getInfoResponse.version
     }
 }

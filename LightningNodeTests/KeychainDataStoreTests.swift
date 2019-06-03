@@ -67,7 +67,7 @@ class KeychainDataStoreTests: XCTestCase {
         let mockRNC = Current.keychain.save(rnc)
         let mockSave = try? mockRNC.get()
         
-        XCTAssertEqual(mockSave!, "Success!")
+        XCTAssertEqual(mockSave!, "Success")
         assertSnapshot(matching: mockSave!, as: .dump)
         assertSnapshot(matching: mockRNC, as: .dump)
     }
@@ -99,7 +99,7 @@ class KeychainDataStoreTests: XCTestCase {
         let mockRNC = saveToKeychain(remoteNodeConnection: rnc)
         let mockSave = try? mockRNC.get()
         
-        XCTAssertEqual(mockSave!, "Saved Value to Defaults!")
+        XCTAssertEqual(mockSave!, "Saved Value to Defaults")
         assertSnapshot(matching: mockSave!, as: .dump)
         assertSnapshot(matching: mockRNC, as: .dump)
     }

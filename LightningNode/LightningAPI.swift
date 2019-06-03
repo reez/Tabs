@@ -43,7 +43,8 @@ func invoices(completion: @escaping (Result<[Invoice], DataError>) -> Void) {
         // does this need to be compactmap?
         response?.invoicesArray.flatMap {
             let invoice = $0 as? [Invoice]
-            completion(Result.success(invoice!)) // Need to not bang this invoice
+            guard let invoiceArray = invoice else { return }
+            completion(Result.success(invoiceArray))
         }
         }.runWithMacaroon(rnc.macaroon)
 
