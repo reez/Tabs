@@ -80,9 +80,7 @@ extension InvoiceViewController {
             )
             addInvoiceViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                        self.nvActivityIndicator?.stopAnimating()
-                    }
+                    self.nvActivityIndicator?.stopAnimating()
                     self.invoiceLabel.isHidden = output.invoiceLabelHidden
                     self.copyButton.isHidden = output.copyButtonHidden
                     self.invoiceLabel.text = output.invoiceLabel

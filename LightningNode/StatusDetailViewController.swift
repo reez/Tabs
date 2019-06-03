@@ -8,10 +8,12 @@
 
 import UIKit
 import PanModal
+import NVActivityIndicatorView
 
 class StatusDetailViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
+    private var nvActivityIndicator: NVActivityIndicatorView?
     let infoLabel = UILabel()
     
     override func viewDidLoad() {
@@ -30,8 +32,23 @@ extension StatusDetailViewController {
         self.infoLabel
             |> infoTextStyle
         
+        let nvActivityIndicatorFrame = CGRect(
+            x: (UIScreen.main.bounds.size.width / 2 - 80),
+            y: (UIScreen.main.bounds.size.height / 2 - 80),
+            width: 80,
+            height: 80
+        )
+        
+        self.nvActivityIndicator = NVActivityIndicatorView(
+            frame: nvActivityIndicatorFrame,
+            type: NVActivityIndicatorType.ballClipRotate,
+            color: UIColor.mr_black,
+            padding: nil
+        )
+        
         self.view
-            |> { $0.addSubview(self.infoLabel) }
+            |> { $0.addSubview(self.nvActivityIndicator!) }
+            <> { $0.addSubview(self.infoLabel) }
             <> { $0.backgroundColor = .white }
         
         NSLayoutConstraint.activate([
@@ -42,6 +59,7 @@ extension StatusDetailViewController {
     }
     
     func loadStatusDetail() {
+        self.nvActivityIndicator?.startAnimating()
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -72,9 +90,11 @@ extension StatusDetailViewController {
                         """
                         
                         self?.infoLabel.text = text
+                        self?.nvActivityIndicator?.stopAnimating()
                 }
             }
         case .failure(_):
+            self.nvActivityIndicator?.stopAnimating()
             if (self.navigationController != nil) {
                 print("self.navigationController != nil")
                 self.navigationController?.popToRootViewController(animated: true)
