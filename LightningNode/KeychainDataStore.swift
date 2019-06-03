@@ -25,7 +25,7 @@ func saveToKeychain(remoteNodeConnection: RemoteNodeConnection) -> Result<String
     guard let data = try? JSONEncoder().encode(remoteNodeConnection) else { return Result.failure(DataError.encodingFailure) }
     let keychain = Keychain(service: "com.matthewramsden.Tabs")
     keychain[data: "remoteNodeConfiguration"] = data
-    return Result.success("Saved Value to Defaults!")
+    return Result.success("Saved Value to Defaults")
 }
 
 func deleteFromKeychain() {

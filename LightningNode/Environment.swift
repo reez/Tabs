@@ -59,7 +59,6 @@ extension Info {
         numPendingChannels: 0,
         syncedToChain: false,
         testnet: true,
-        urisArray: [],
         version: "No version")
 }
 
@@ -68,7 +67,7 @@ extension KeychainDataStore {
         let rnc = RemoteNodeConnection.mock
         return Result.success(rnc)
     }, save: { _ in
-        return Result.success("Success!")
+        return Result.success("Success")
     }, delete: { }
     )
 }

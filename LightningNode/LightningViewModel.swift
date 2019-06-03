@@ -22,7 +22,6 @@ final class LightningViewModel {
         numPendingChannels: 0,
         syncedToChain: false,
         testnet: true,
-        urisArray: [],
         version: "No version")
     
     var callback: ((Info) -> Void)

@@ -11,5 +11,4 @@
   - numPendingChannels: 0
   - syncedToChain: false
   - testnet: true
-  - urisArray: 0 elements
   - version: "No version"

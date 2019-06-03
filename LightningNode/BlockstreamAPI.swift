@@ -17,24 +17,34 @@ enum BlockstreamAPIMainnet: String {
 
 func blockstreamAPIRequest(testnet: Bool, completion: @escaping (Result<String, Error>) -> Void) {
     
-    var request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
-    switch testnet {
-    case true:
-        request = URLRequest(url: URL(string: BlockstreamAPITestnet.height.rawValue)!)
-    case false:
-        request = URLRequest(url: URL(string: BlockstreamAPIMainnet.height.rawValue)!)
-    }
+    let main = BlockstreamAPIMainnet.height.rawValue
+    let test = BlockstreamAPITestnet.height.rawValue
     
-    request.httpMethod = "GET"
-    URLSession.shared.dataTask(
-        with: request,
-        completionHandler: { data, response, error in
-            if let data = data,
-                let height = String(data: data, encoding: .utf8) {
-                completion(.success(height))
-            } else {
-                completion(.failure(error!))
-            }
-    }).resume()
+    let mainURL = URL(string: main)
+    let testURL = URL(string: test)
+    
+    if let main = mainURL, let test = testURL {
+        
+        var request = URLRequest(url: test)
+        switch testnet {
+        case true:
+            request = URLRequest(url: test)
+        case false:
+            request = URLRequest(url: main)
+        }
+        
+        request.httpMethod = "GET"
+        URLSession.shared.dataTask(
+            with: request,
+            completionHandler: { data, response, error in
+                if let data = data,
+                    let height = String(data: data, encoding: .utf8) {
+                    completion(.success(height))
+                } else {
+                    completion(.failure(error ?? DataError.fetchInfoFailure))
+                }
+        }).resume()
+        
+    }
     
 }

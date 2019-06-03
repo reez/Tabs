@@ -1,2 +1,2 @@
 ▿ Result<String, DataError>
-  - success: "Saved Value to Defaults!"
+  - success: "Saved Value to Defaults"
