@@ -33,7 +33,7 @@ extension StatusDetailViewController {
             |> infoTextStyle
         
         let nvActivityIndicatorFrame = CGRect(
-            x: (UIScreen.main.bounds.size.width / 2 - 80),
+            x: (UIScreen.main.bounds.size.width / 2 - 40),
             y: (UIScreen.main.bounds.size.height / 2 - 80),
             width: 80,
             height: 80
