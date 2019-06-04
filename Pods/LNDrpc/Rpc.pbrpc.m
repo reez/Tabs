@@ -4,7 +4,7 @@
 #import <ProtoRPC/ProtoRPC.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 
 @implementation WalletUnlocker
 
@@ -66,6 +66,8 @@
  * Once the cipherseed is obtained and verified by the user, the InitWallet
  * method should be used to commit the newly generated seed, and create the
  * wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)genSeedWithRequest:(GenSeedRequest *)request handler:(void(^)(GenSeedResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGenSeedWithRequest:request handler:handler] start];
@@ -81,6 +83,8 @@
  * Once the cipherseed is obtained and verified by the user, the InitWallet
  * method should be used to commit the newly generated seed, and create the
  * wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGenSeedWithRequest:(GenSeedRequest *)request handler:(void(^)(GenSeedResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GenSeed"
@@ -124,6 +128,8 @@
  * Alternatively, this can be used along with the GenSeed RPC to obtain a
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)initWalletWithRequest:(InitWalletRequest *)request handler:(void(^)(InitWalletResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToInitWalletWithRequest:request handler:handler] start];
@@ -143,6 +149,8 @@
  * Alternatively, this can be used along with the GenSeed RPC to obtain a
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToInitWalletWithRequest:(InitWalletRequest *)request handler:(void(^)(InitWalletResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"InitWallet"
@@ -165,13 +173,13 @@
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
  */
-//- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
-//  return [self RPCToMethod:@"InitWallet"
-//                   message:message
-//           responseHandler:handler
-//               callOptions:callOptions
-//             responseClass:[InitWalletResponse class]];
-//}
+- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"InitWallet"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[InitWalletResponse class]];
+}
 
 #pragma mark UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse)
 
@@ -180,6 +188,8 @@
  * * lncli: `unlock`
  * UnlockWallet is used at startup of lnd to provide a password to unlock
  * the wallet database.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)unlockWalletWithRequest:(UnlockWalletRequest *)request handler:(void(^)(UnlockWalletResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToUnlockWalletWithRequest:request handler:handler] start];
@@ -189,6 +199,8 @@
  * * lncli: `unlock`
  * UnlockWallet is used at startup of lnd to provide a password to unlock
  * the wallet database.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToUnlockWalletWithRequest:(UnlockWalletRequest *)request handler:(void(^)(UnlockWalletResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"UnlockWallet"
@@ -216,6 +228,8 @@
  * * lncli: `changepassword`
  * ChangePassword changes the password of the encrypted wallet. This will
  * automatically unlock the wallet database if successful.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)changePasswordWithRequest:(ChangePasswordRequest *)request handler:(void(^)(ChangePasswordResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToChangePasswordWithRequest:request handler:handler] start];
@@ -225,6 +239,8 @@
  * * lncli: `changepassword`
  * ChangePassword changes the password of the encrypted wallet. This will
  * automatically unlock the wallet database if successful.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToChangePasswordWithRequest:(ChangePasswordRequest *)request handler:(void(^)(ChangePasswordResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ChangePassword"
@@ -301,6 +317,8 @@
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
  * confirmed unspent outputs and all unconfirmed unspent outputs under control
  * of the wallet. 
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)walletBalanceWithRequest:(WalletBalanceRequest *)request handler:(void(^)(WalletBalanceResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToWalletBalanceWithRequest:request handler:handler] start];
@@ -311,6 +329,8 @@
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
  * confirmed unspent outputs and all unconfirmed unspent outputs under control
  * of the wallet. 
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToWalletBalanceWithRequest:(WalletBalanceRequest *)request handler:(void(^)(WalletBalanceResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"WalletBalance"
@@ -339,6 +359,8 @@
  * * lncli: `channelbalance`
  * ChannelBalance returns the total funds available across all open channels
  * in satoshis.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)channelBalanceWithRequest:(ChannelBalanceRequest *)request handler:(void(^)(ChannelBalanceResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToChannelBalanceWithRequest:request handler:handler] start];
@@ -348,6 +370,8 @@
  * * lncli: `channelbalance`
  * ChannelBalance returns the total funds available across all open channels
  * in satoshis.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToChannelBalanceWithRequest:(ChannelBalanceRequest *)request handler:(void(^)(ChannelBalanceResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ChannelBalance"
@@ -375,6 +399,8 @@
  * * lncli: `listchaintxns`
  * GetTransactions returns a list describing all the known transactions
  * relevant to the wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)getTransactionsWithRequest:(GetTransactionsRequest *)request handler:(void(^)(TransactionDetails *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGetTransactionsWithRequest:request handler:handler] start];
@@ -384,6 +410,8 @@
  * * lncli: `listchaintxns`
  * GetTransactions returns a list describing all the known transactions
  * relevant to the wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGetTransactionsWithRequest:(GetTransactionsRequest *)request handler:(void(^)(TransactionDetails *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GetTransactions"
@@ -411,6 +439,8 @@
  * * lncli: `estimatefee`
  * EstimateFee asks the chain backend to estimate the fee rate and total fees
  * for a transaction that pays to multiple specified outputs.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)estimateFeeWithRequest:(EstimateFeeRequest *)request handler:(void(^)(EstimateFeeResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToEstimateFeeWithRequest:request handler:handler] start];
@@ -420,6 +450,8 @@
  * * lncli: `estimatefee`
  * EstimateFee asks the chain backend to estimate the fee rate and total fees
  * for a transaction that pays to multiple specified outputs.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToEstimateFeeWithRequest:(EstimateFeeRequest *)request handler:(void(^)(EstimateFeeResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"EstimateFee"
@@ -450,6 +482,8 @@
  * neither target_conf, or sat_per_byte are set, then the internal wallet will
  * consult its fee model to determine a fee for the default confirmation
  * target.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendCoinsWithRequest:(SendCoinsRequest *)request handler:(void(^)(SendCoinsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToSendCoinsWithRequest:request handler:handler] start];
@@ -462,6 +496,8 @@
  * neither target_conf, or sat_per_byte are set, then the internal wallet will
  * consult its fee model to determine a fee for the default confirmation
  * target.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendCoinsWithRequest:(SendCoinsRequest *)request handler:(void(^)(SendCoinsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"SendCoins"
@@ -492,6 +528,8 @@
  * * lncli: `listunspent`
  * ListUnspent returns a list of all utxos spendable by the wallet with a
  * number of confirmations between the specified minimum and maximum.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)listUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListUnspentWithRequest:request handler:handler] start];
@@ -501,6 +539,8 @@
  * * lncli: `listunspent`
  * ListUnspent returns a list of all utxos spendable by the wallet with a
  * number of confirmations between the specified minimum and maximum.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToListUnspentWithRequest:(ListUnspentRequest *)request handler:(void(^)(ListUnspentResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListUnspent"
@@ -529,6 +569,8 @@
  * SubscribeTransactions creates a uni-directional stream from the server to
  * the client in which any newly discovered transactions relevant to the
  * wallet are sent over.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)subscribeTransactionsWithRequest:(GetTransactionsRequest *)request eventHandler:(void(^)(BOOL done, Transaction *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSubscribeTransactionsWithRequest:request eventHandler:eventHandler] start];
@@ -539,6 +581,8 @@
  * SubscribeTransactions creates a uni-directional stream from the server to
  * the client in which any newly discovered transactions relevant to the
  * wallet are sent over.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeTransactionsWithRequest:(GetTransactionsRequest *)request eventHandler:(void(^)(BOOL done, Transaction *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SubscribeTransactions"
@@ -569,6 +613,8 @@
  * outputs in parallel. If neither target_conf, or sat_per_byte are set, then
  * the internal wallet will consult its fee model to determine a fee for the
  * default confirmation target.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendManyWithRequest:(SendManyRequest *)request handler:(void(^)(SendManyResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToSendManyWithRequest:request handler:handler] start];
@@ -580,6 +626,8 @@
  * outputs in parallel. If neither target_conf, or sat_per_byte are set, then
  * the internal wallet will consult its fee model to determine a fee for the
  * default confirmation target.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendManyWithRequest:(SendManyRequest *)request handler:(void(^)(SendManyResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"SendMany"
@@ -608,6 +656,8 @@
 /**
  * * lncli: `newaddress`
  * NewAddress creates a new address under control of the local wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)newAddressWithRequest:(NewAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToNewAddressWithRequest:request handler:handler] start];
@@ -616,6 +666,8 @@
 /**
  * * lncli: `newaddress`
  * NewAddress creates a new address under control of the local wallet.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToNewAddressWithRequest:(NewAddressRequest *)request handler:(void(^)(NewAddressResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"NewAddress"
@@ -643,6 +695,8 @@
  * SignMessage signs a message with this node's private key. The returned
  * signature string is `zbase32` encoded and pubkey recoverable, meaning that
  * only the message digest and signature are needed for verification.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)signMessageWithRequest:(SignMessageRequest *)request handler:(void(^)(SignMessageResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToSignMessageWithRequest:request handler:handler] start];
@@ -653,6 +707,8 @@
  * SignMessage signs a message with this node's private key. The returned
  * signature string is `zbase32` encoded and pubkey recoverable, meaning that
  * only the message digest and signature are needed for verification.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSignMessageWithRequest:(SignMessageRequest *)request handler:(void(^)(SignMessageResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"SignMessage"
@@ -683,6 +739,8 @@
  * zbase32 encoded and signed by an active node in the resident node's
  * channel database. In addition to returning the validity of the signature,
  * VerifyMessage also returns the recovered pubkey from the signature.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)verifyMessageWithRequest:(VerifyMessageRequest *)request handler:(void(^)(VerifyMessageResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToVerifyMessageWithRequest:request handler:handler] start];
@@ -694,6 +752,8 @@
  * zbase32 encoded and signed by an active node in the resident node's
  * channel database. In addition to returning the validity of the signature,
  * VerifyMessage also returns the recovered pubkey from the signature.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToVerifyMessageWithRequest:(VerifyMessageRequest *)request handler:(void(^)(VerifyMessageResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"VerifyMessage"
@@ -724,6 +784,8 @@
  * ConnectPeer attempts to establish a connection to a remote peer. This is at
  * the networking level, and is used for communication between nodes. This is
  * distinct from establishing a channel with a peer.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)connectPeerWithRequest:(ConnectPeerRequest *)request handler:(void(^)(ConnectPeerResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToConnectPeerWithRequest:request handler:handler] start];
@@ -734,6 +796,8 @@
  * ConnectPeer attempts to establish a connection to a remote peer. This is at
  * the networking level, and is used for communication between nodes. This is
  * distinct from establishing a channel with a peer.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToConnectPeerWithRequest:(ConnectPeerRequest *)request handler:(void(^)(ConnectPeerResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ConnectPeer"
@@ -763,6 +827,8 @@
  * DisconnectPeer attempts to disconnect one peer from another identified by a
  * given pubKey. In the case that we currently have a pending or active channel
  * with the target peer, then this action will be not be allowed.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)disconnectPeerWithRequest:(DisconnectPeerRequest *)request handler:(void(^)(DisconnectPeerResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToDisconnectPeerWithRequest:request handler:handler] start];
@@ -773,6 +839,8 @@
  * DisconnectPeer attempts to disconnect one peer from another identified by a
  * given pubKey. In the case that we currently have a pending or active channel
  * with the target peer, then this action will be not be allowed.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDisconnectPeerWithRequest:(DisconnectPeerRequest *)request handler:(void(^)(DisconnectPeerResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"DisconnectPeer"
@@ -800,6 +868,8 @@
 /**
  * * lncli: `listpeers`
  * ListPeers returns a verbose listing of all currently active peers.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)listPeersWithRequest:(ListPeersRequest *)request handler:(void(^)(ListPeersResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListPeersWithRequest:request handler:handler] start];
@@ -808,6 +878,8 @@
 /**
  * * lncli: `listpeers`
  * ListPeers returns a verbose listing of all currently active peers.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToListPeersWithRequest:(ListPeersRequest *)request handler:(void(^)(ListPeersResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListPeers"
@@ -835,6 +907,8 @@
  * GetInfo returns general information concerning the lightning node including
  * it's identity pubkey, alias, the chains it is connected to, and information
  * concerning the number of open+pending channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)getInfoWithRequest:(GetInfoRequest *)request handler:(void(^)(GetInfoResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGetInfoWithRequest:request handler:handler] start];
@@ -845,6 +919,8 @@
  * GetInfo returns general information concerning the lightning node including
  * it's identity pubkey, alias, the chains it is connected to, and information
  * concerning the number of open+pending channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGetInfoWithRequest:(GetInfoRequest *)request handler:(void(^)(GetInfoResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GetInfo"
@@ -877,6 +953,8 @@
  * considered "pending". A channel is pending if it has finished the funding
  * workflow and is waiting for confirmations for the funding txn, or is in the
  * process of closure, either initiated cooperatively or non-cooperatively.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)pendingChannelsWithRequest:(PendingChannelsRequest *)request handler:(void(^)(PendingChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToPendingChannelsWithRequest:request handler:handler] start];
@@ -890,6 +968,8 @@
  * considered "pending". A channel is pending if it has finished the funding
  * workflow and is waiting for confirmations for the funding txn, or is in the
  * process of closure, either initiated cooperatively or non-cooperatively.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToPendingChannelsWithRequest:(PendingChannelsRequest *)request handler:(void(^)(PendingChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"PendingChannels"
@@ -921,6 +1001,8 @@
  * * lncli: `listchannels`
  * ListChannels returns a description of all the open channels that this node
  * is a participant in.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)listChannelsWithRequest:(ListChannelsRequest *)request handler:(void(^)(ListChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListChannelsWithRequest:request handler:handler] start];
@@ -930,6 +1012,8 @@
  * * lncli: `listchannels`
  * ListChannels returns a description of all the open channels that this node
  * is a participant in.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToListChannelsWithRequest:(ListChannelsRequest *)request handler:(void(^)(ListChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListChannels"
@@ -959,6 +1043,8 @@
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
  * channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)subscribeChannelEventsWithRequest:(ChannelEventSubscription *)request eventHandler:(void(^)(BOOL done, ChannelEventUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSubscribeChannelEventsWithRequest:request eventHandler:eventHandler] start];
@@ -970,6 +1056,8 @@
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
  * channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeChannelEventsWithRequest:(ChannelEventSubscription *)request eventHandler:(void(^)(BOOL done, ChannelEventUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SubscribeChannelEvents"
@@ -999,6 +1087,8 @@
  * * lncli: `closedchannels`
  * ClosedChannels returns a description of all the closed channels that 
  * this node was a participant in.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)closedChannelsWithRequest:(ClosedChannelsRequest *)request handler:(void(^)(ClosedChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToClosedChannelsWithRequest:request handler:handler] start];
@@ -1008,6 +1098,8 @@
  * * lncli: `closedchannels`
  * ClosedChannels returns a description of all the closed channels that 
  * this node was a participant in.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToClosedChannelsWithRequest:(ClosedChannelsRequest *)request handler:(void(^)(ClosedChannelsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ClosedChannels"
@@ -1037,6 +1129,8 @@
  * call is meant to be consumed by clients to the REST proxy. As with all
  * other sync calls, all byte slices are intended to be populated as hex
  * encoded strings.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)openChannelSyncWithRequest:(OpenChannelRequest *)request handler:(void(^)(ChannelPoint *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToOpenChannelSyncWithRequest:request handler:handler] start];
@@ -1048,6 +1142,8 @@
  * call is meant to be consumed by clients to the REST proxy. As with all
  * other sync calls, all byte slices are intended to be populated as hex
  * encoded strings.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToOpenChannelSyncWithRequest:(OpenChannelRequest *)request handler:(void(^)(ChannelPoint *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"OpenChannelSync"
@@ -1080,6 +1176,8 @@
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
  * lax block confirmation target is used.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)openChannelWithRequest:(OpenChannelRequest *)request eventHandler:(void(^)(BOOL done, OpenStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToOpenChannelWithRequest:request eventHandler:eventHandler] start];
@@ -1092,6 +1190,8 @@
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
  * lax block confirmation target is used.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToOpenChannelWithRequest:(OpenChannelRequest *)request eventHandler:(void(^)(BOOL done, OpenStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"OpenChannel"
@@ -1127,6 +1227,8 @@
  * then the user can specify either a target number of blocks until the
  * closure transaction is confirmed, or a manual fee rate. If neither are
  * specified, then a default lax, block confirmation target is used.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)closeChannelWithRequest:(CloseChannelRequest *)request eventHandler:(void(^)(BOOL done, CloseStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToCloseChannelWithRequest:request eventHandler:eventHandler] start];
@@ -1141,6 +1243,8 @@
  * then the user can specify either a target number of blocks until the
  * closure transaction is confirmed, or a manual fee rate. If neither are
  * specified, then a default lax, block confirmation target is used.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToCloseChannelWithRequest:(CloseChannelRequest *)request eventHandler:(void(^)(BOOL done, CloseStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"CloseChannel"
@@ -1175,6 +1279,8 @@
  * close summary. This method can be used to get rid of permanently unusable
  * channels due to bugs fixed in newer versions of lnd. Only available
  * when in debug builds of lnd.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)abandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToAbandonChannelWithRequest:request handler:handler] start];
@@ -1186,6 +1292,8 @@
  * close summary. This method can be used to get rid of permanently unusable
  * channels due to bugs fixed in newer versions of lnd. Only available
  * when in debug builds of lnd.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToAbandonChannelWithRequest:(AbandonChannelRequest *)request handler:(void(^)(AbandonChannelResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"AbandonChannel"
@@ -1217,6 +1325,8 @@
  * through the Lightning Network. A single RPC invocation creates a persistent
  * bi-directional stream allowing clients to rapidly send payments through the
  * Lightning Network with a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendPaymentWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, SendResponse *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSendPaymentWithRequestsWriter:requestWriter eventHandler:eventHandler] start];
@@ -1228,6 +1338,8 @@
  * through the Lightning Network. A single RPC invocation creates a persistent
  * bi-directional stream allowing clients to rapidly send payments through the
  * Lightning Network with a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendPaymentWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, SendResponse *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SendPayment"
@@ -1258,6 +1370,8 @@
  * This RPC is intended to be consumed by clients of the REST proxy.
  * Additionally, this RPC expects the destination's public key and the payment
  * hash (if any) to be encoded as hex strings.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendPaymentSyncWithRequest:(SendRequest *)request handler:(void(^)(SendResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToSendPaymentSyncWithRequest:request handler:handler] start];
@@ -1269,6 +1383,8 @@
  * This RPC is intended to be consumed by clients of the REST proxy.
  * Additionally, this RPC expects the destination's public key and the payment
  * hash (if any) to be encoded as hex strings.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendPaymentSyncWithRequest:(SendRequest *)request handler:(void(^)(SendResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"SendPaymentSync"
@@ -1300,6 +1416,8 @@
  * the Lightning Network. This method differs from SendPayment in that it
  * allows users to specify a full route manually. This can be used for things
  * like rebalancing, and atomic swaps.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendToRouteWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, SendResponse *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSendToRouteWithRequestsWriter:requestWriter eventHandler:eventHandler] start];
@@ -1311,6 +1429,8 @@
  * the Lightning Network. This method differs from SendPayment in that it
  * allows users to specify a full route manually. This can be used for things
  * like rebalancing, and atomic swaps.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendToRouteWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, SendResponse *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SendToRoute"
@@ -1339,6 +1459,8 @@
  * *
  * SendToRouteSync is a synchronous version of SendToRoute. It Will block
  * until the payment either fails or succeeds.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)sendToRouteSyncWithRequest:(SendToRouteRequest *)request handler:(void(^)(SendResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToSendToRouteSyncWithRequest:request handler:handler] start];
@@ -1348,6 +1470,8 @@
  * *
  * SendToRouteSync is a synchronous version of SendToRoute. It Will block
  * until the payment either fails or succeeds.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSendToRouteSyncWithRequest:(SendToRouteRequest *)request handler:(void(^)(SendResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"SendToRouteSync"
@@ -1376,6 +1500,8 @@
  * AddInvoice attempts to add a new invoice to the invoice database. Any
  * duplicated invoices are rejected, therefore all invoices *must* have a
  * unique payment preimage.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)addInvoiceWithRequest:(Invoice *)request handler:(void(^)(AddInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToAddInvoiceWithRequest:request handler:handler] start];
@@ -1386,6 +1512,8 @@
  * AddInvoice attempts to add a new invoice to the invoice database. Any
  * duplicated invoices are rejected, therefore all invoices *must* have a
  * unique payment preimage.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToAddInvoiceWithRequest:(Invoice *)request handler:(void(^)(AddInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"AddInvoice"
@@ -1419,6 +1547,8 @@
  * last_index_offset fields included in the response as the index_offset of the
  * next request. By default, the first 100 invoices created will be returned.
  * Backwards pagination is also supported through the Reversed flag.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)listInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListInvoicesWithRequest:request handler:handler] start];
@@ -1433,6 +1563,8 @@
  * last_index_offset fields included in the response as the index_offset of the
  * next request. By default, the first 100 invoices created will be returned.
  * Backwards pagination is also supported through the Reversed flag.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToListInvoicesWithRequest:(ListInvoiceRequest *)request handler:(void(^)(ListInvoiceResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListInvoices"
@@ -1466,6 +1598,8 @@
  * LookupInvoice attempts to look up an invoice according to its payment hash.
  * The passed payment hash *must* be exactly 32 bytes, if not, an error is
  * returned.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)lookupInvoiceWithRequest:(PaymentHash *)request handler:(void(^)(Invoice *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToLookupInvoiceWithRequest:request handler:handler] start];
@@ -1476,6 +1610,8 @@
  * LookupInvoice attempts to look up an invoice according to its payment hash.
  * The passed payment hash *must* be exactly 32 bytes, if not, an error is
  * returned.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToLookupInvoiceWithRequest:(PaymentHash *)request handler:(void(^)(Invoice *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"LookupInvoice"
@@ -1511,6 +1647,8 @@
  * invoices with a settle_index greater than the specified value.  One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)subscribeInvoicesWithRequest:(InvoiceSubscription *)request eventHandler:(void(^)(BOOL done, Invoice *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSubscribeInvoicesWithRequest:request eventHandler:eventHandler] start];
@@ -1527,6 +1665,8 @@
  * invoices with a settle_index greater than the specified value.  One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeInvoicesWithRequest:(InvoiceSubscription *)request eventHandler:(void(^)(BOOL done, Invoice *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SubscribeInvoices"
@@ -1562,6 +1702,8 @@
  * DecodePayReq takes an encoded payment request string and attempts to decode
  * it, returning a full description of the conditions encoded within the
  * payment request.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)decodePayReqWithRequest:(PayReqString *)request handler:(void(^)(PayReq *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToDecodePayReqWithRequest:request handler:handler] start];
@@ -1572,6 +1714,8 @@
  * DecodePayReq takes an encoded payment request string and attempts to decode
  * it, returning a full description of the conditions encoded within the
  * payment request.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDecodePayReqWithRequest:(PayReqString *)request handler:(void(^)(PayReq *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"DecodePayReq"
@@ -1599,6 +1743,8 @@
 /**
  * * lncli: `listpayments`
  * ListPayments returns a list of all outgoing payments.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)listPaymentsWithRequest:(ListPaymentsRequest *)request handler:(void(^)(ListPaymentsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToListPaymentsWithRequest:request handler:handler] start];
@@ -1607,6 +1753,8 @@
 /**
  * * lncli: `listpayments`
  * ListPayments returns a list of all outgoing payments.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToListPaymentsWithRequest:(ListPaymentsRequest *)request handler:(void(^)(ListPaymentsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ListPayments"
@@ -1632,6 +1780,8 @@
 /**
  * *
  * DeleteAllPayments deletes all outgoing payments from DB.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)deleteAllPaymentsWithRequest:(DeleteAllPaymentsRequest *)request handler:(void(^)(DeleteAllPaymentsResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToDeleteAllPaymentsWithRequest:request handler:handler] start];
@@ -1640,6 +1790,8 @@
 /**
  * *
  * DeleteAllPayments deletes all outgoing payments from DB.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDeleteAllPaymentsWithRequest:(DeleteAllPaymentsRequest *)request handler:(void(^)(DeleteAllPaymentsResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"DeleteAllPayments"
@@ -1670,6 +1822,8 @@
  * vertexes themselves.  As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)describeGraphWithRequest:(ChannelGraphRequest *)request handler:(void(^)(ChannelGraph *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToDescribeGraphWithRequest:request handler:handler] start];
@@ -1683,6 +1837,8 @@
  * vertexes themselves.  As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDescribeGraphWithRequest:(ChannelGraphRequest *)request handler:(void(^)(ChannelGraph *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"DescribeGraph"
@@ -1716,6 +1872,8 @@
  * given channel identified by its channel ID: an 8-byte integer which
  * uniquely identifies the location of transaction's funding output within the
  * blockchain.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)getChanInfoWithRequest:(ChanInfoRequest *)request handler:(void(^)(ChannelEdge *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGetChanInfoWithRequest:request handler:handler] start];
@@ -1727,6 +1885,8 @@
  * given channel identified by its channel ID: an 8-byte integer which
  * uniquely identifies the location of transaction's funding output within the
  * blockchain.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGetChanInfoWithRequest:(ChanInfoRequest *)request handler:(void(^)(ChannelEdge *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GetChanInfo"
@@ -1756,6 +1916,8 @@
  * * lncli: `getnodeinfo`
  * GetNodeInfo returns the latest advertised, aggregated, and authenticated
  * channel information for the specified node identified by its public key.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)getNodeInfoWithRequest:(NodeInfoRequest *)request handler:(void(^)(NodeInfo *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGetNodeInfoWithRequest:request handler:handler] start];
@@ -1765,6 +1927,8 @@
  * * lncli: `getnodeinfo`
  * GetNodeInfo returns the latest advertised, aggregated, and authenticated
  * channel information for the specified node identified by its public key.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGetNodeInfoWithRequest:(NodeInfoRequest *)request handler:(void(^)(NodeInfo *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GetNodeInfo"
@@ -1795,6 +1959,8 @@
  * satoshis. The retuned route contains the full details required to craft and
  * send an HTLC, also including the necessary information that should be
  * present within the Sphinx packet encapsulated within the HTLC.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)queryRoutesWithRequest:(QueryRoutesRequest *)request handler:(void(^)(QueryRoutesResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToQueryRoutesWithRequest:request handler:handler] start];
@@ -1807,6 +1973,8 @@
  * satoshis. The retuned route contains the full details required to craft and
  * send an HTLC, also including the necessary information that should be
  * present within the Sphinx packet encapsulated within the HTLC.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToQueryRoutesWithRequest:(QueryRoutesRequest *)request handler:(void(^)(QueryRoutesResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"QueryRoutes"
@@ -1837,6 +2005,8 @@
  * * lncli: `getnetworkinfo`
  * GetNetworkInfo returns some basic stats about the known channel graph from
  * the point of view of the node.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)getNetworkInfoWithRequest:(NetworkInfoRequest *)request handler:(void(^)(NetworkInfo *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToGetNetworkInfoWithRequest:request handler:handler] start];
@@ -1846,6 +2016,8 @@
  * * lncli: `getnetworkinfo`
  * GetNetworkInfo returns some basic stats about the known channel graph from
  * the point of view of the node.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToGetNetworkInfoWithRequest:(NetworkInfoRequest *)request handler:(void(^)(NetworkInfo *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"GetNetworkInfo"
@@ -1873,6 +2045,8 @@
  * * lncli: `stop`
  * StopDaemon will send a shutdown request to the interrupt handler, triggering
  * a graceful shutdown of the daemon.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)stopDaemonWithRequest:(StopRequest *)request handler:(void(^)(StopResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToStopDaemonWithRequest:request handler:handler] start];
@@ -1882,6 +2056,8 @@
  * * lncli: `stop`
  * StopDaemon will send a shutdown request to the interrupt handler, triggering
  * a graceful shutdown of the daemon.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToStopDaemonWithRequest:(StopRequest *)request handler:(void(^)(StopResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"StopDaemon"
@@ -1913,6 +2089,8 @@
  * nodes coming online, nodes updating their authenticated attributes, new
  * channels being advertised, updates in the routing policy for a directional
  * channel edge, and when channels are closed on-chain.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)subscribeChannelGraphWithRequest:(GraphTopologySubscription *)request eventHandler:(void(^)(BOOL done, GraphTopologyUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSubscribeChannelGraphWithRequest:request eventHandler:eventHandler] start];
@@ -1926,6 +2104,8 @@
  * nodes coming online, nodes updating their authenticated attributes, new
  * channels being advertised, updates in the routing policy for a directional
  * channel edge, and when channels are closed on-chain.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeChannelGraphWithRequest:(GraphTopologySubscription *)request eventHandler:(void(^)(BOOL done, GraphTopologyUpdate *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SubscribeChannelGraph"
@@ -1959,6 +2139,8 @@
  * lnd. The logging can be targeted according to a coarse daemon-wide logging
  * level, or in a granular fashion to specify the logging for a target
  * sub-system.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)debugLevelWithRequest:(DebugLevelRequest *)request handler:(void(^)(DebugLevelResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToDebugLevelWithRequest:request handler:handler] start];
@@ -1970,6 +2152,8 @@
  * lnd. The logging can be targeted according to a coarse daemon-wide logging
  * level, or in a granular fashion to specify the logging for a target
  * sub-system.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDebugLevelWithRequest:(DebugLevelRequest *)request handler:(void(^)(DebugLevelResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"DebugLevel"
@@ -1999,6 +2183,8 @@
  * * lncli: `feereport`
  * FeeReport allows the caller to obtain a report detailing the current fee
  * schedule enforced by the node globally for each channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)feeReportWithRequest:(FeeReportRequest *)request handler:(void(^)(FeeReportResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToFeeReportWithRequest:request handler:handler] start];
@@ -2008,6 +2194,8 @@
  * * lncli: `feereport`
  * FeeReport allows the caller to obtain a report detailing the current fee
  * schedule enforced by the node globally for each channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToFeeReportWithRequest:(FeeReportRequest *)request handler:(void(^)(FeeReportResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"FeeReport"
@@ -2035,6 +2223,8 @@
  * * lncli: `updatechanpolicy`
  * UpdateChannelPolicy allows the caller to update the fee schedule and
  * channel policies for all channels globally, or a particular channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)updateChannelPolicyWithRequest:(PolicyUpdateRequest *)request handler:(void(^)(PolicyUpdateResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToUpdateChannelPolicyWithRequest:request handler:handler] start];
@@ -2044,6 +2234,8 @@
  * * lncli: `updatechanpolicy`
  * UpdateChannelPolicy allows the caller to update the fee schedule and
  * channel policies for all channels globally, or a particular channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToUpdateChannelPolicyWithRequest:(PolicyUpdateRequest *)request handler:(void(^)(PolicyUpdateResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"UpdateChannelPolicy"
@@ -2079,6 +2271,8 @@
  * As a result each message can only contain 50k entries.  Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)forwardingHistoryWithRequest:(ForwardingHistoryRequest *)request handler:(void(^)(ForwardingHistoryResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToForwardingHistoryWithRequest:request handler:handler] start];
@@ -2096,6 +2290,8 @@
  * As a result each message can only contain 50k entries.  Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToForwardingHistoryWithRequest:(ForwardingHistoryRequest *)request handler:(void(^)(ForwardingHistoryResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ForwardingHistory"
@@ -2135,6 +2331,8 @@
  * returned backup can either be restored using the RestoreChannelBackup
  * method once lnd is running, or via the InitWallet and UnlockWallet methods
  * from the WalletUnlocker service.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)exportChannelBackupWithRequest:(ExportChannelBackupRequest *)request handler:(void(^)(ChannelBackup *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToExportChannelBackupWithRequest:request handler:handler] start];
@@ -2148,6 +2346,8 @@
  * returned backup can either be restored using the RestoreChannelBackup
  * method once lnd is running, or via the InitWallet and UnlockWallet methods
  * from the WalletUnlocker service.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToExportChannelBackupWithRequest:(ExportChannelBackupRequest *)request handler:(void(^)(ChannelBackup *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ExportChannelBackup"
@@ -2182,6 +2382,8 @@
  * each channel are returned. Additionally, a multi-channel backup is returned
  * as well, which contains a single encrypted blob containing the backups of
  * each channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)exportAllChannelBackupsWithRequest:(ChanBackupExportRequest *)request handler:(void(^)(ChanBackupSnapshot *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToExportAllChannelBackupsWithRequest:request handler:handler] start];
@@ -2194,6 +2396,8 @@
  * each channel are returned. Additionally, a multi-channel backup is returned
  * as well, which contains a single encrypted blob containing the backups of
  * each channel.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToExportAllChannelBackupsWithRequest:(ChanBackupExportRequest *)request handler:(void(^)(ChanBackupSnapshot *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"ExportAllChannelBackups"
@@ -2225,6 +2429,8 @@
  * VerifyChanBackup allows a caller to verify the integrity of a channel backup
  * snapshot. This method will accept either a packed Single or a packed Multi.
  * Specifying both will result in an error.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)verifyChanBackupWithRequest:(ChanBackupSnapshot *)request handler:(void(^)(VerifyChanBackupResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToVerifyChanBackupWithRequest:request handler:handler] start];
@@ -2235,6 +2441,8 @@
  * VerifyChanBackup allows a caller to verify the integrity of a channel backup
  * snapshot. This method will accept either a packed Single or a packed Multi.
  * Specifying both will result in an error.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToVerifyChanBackupWithRequest:(ChanBackupSnapshot *)request handler:(void(^)(VerifyChanBackupResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"VerifyChanBackup"
@@ -2265,6 +2473,8 @@
  * single encrypted multi-chan backup and attempts to recover any funds
  * remaining within the channel. If we are able to unpack the backup, then the
  * new channel will be shown under listchannels, as well as pending channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)restoreChannelBackupsWithRequest:(RestoreChanBackupRequest *)request handler:(void(^)(RestoreBackupResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToRestoreChannelBackupsWithRequest:request handler:handler] start];
@@ -2276,6 +2486,8 @@
  * single encrypted multi-chan backup and attempts to recover any funds
  * remaining within the channel. If we are able to unpack the backup, then the
  * new channel will be shown under listchannels, as well as pending channels.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToRestoreChannelBackupsWithRequest:(RestoreChanBackupRequest *)request handler:(void(^)(RestoreBackupResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"RestoreChannelBackups"
@@ -2310,6 +2522,8 @@
  * channel is closed, we send a new update, which contains new new chan back
  * ups, but the updated set of encrypted multi-chan backups with the closed
  * channel(s) removed.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (void)subscribeChannelBackupsWithRequest:(ChannelBackupSubscription *)request eventHandler:(void(^)(BOOL done, ChanBackupSnapshot *_Nullable response, NSError *_Nullable error))eventHandler{
   [[self RPCToSubscribeChannelBackupsWithRequest:request eventHandler:eventHandler] start];
@@ -2324,6 +2538,8 @@
  * channel is closed, we send a new update, which contains new new chan back
  * ups, but the updated set of encrypted multi-chan backups with the closed
  * channel(s) removed.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeChannelBackupsWithRequest:(ChannelBackupSubscription *)request eventHandler:(void(^)(BOOL done, ChanBackupSnapshot *_Nullable response, NSError *_Nullable error))eventHandler{
   return [self RPCToMethod:@"SubscribeChannelBackups"

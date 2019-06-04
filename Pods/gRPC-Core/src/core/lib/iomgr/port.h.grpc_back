@@ -44,6 +44,8 @@
 #elif defined(GPR_WINDOWS)
 #define GRPC_WINSOCK_SOCKET 1
 #define GRPC_WINDOWS_SOCKETUTILS 1
+#define GRPC_WINDOWS_SOCKET_ARES_EV_DRIVER 1
+#define GRPC_ARES_RESOLVE_LOCALHOST_MANUALLY 1
 #elif defined(GPR_ANDROID)
 #define GRPC_HAVE_IPV6_RECVPKTINFO 1
 #define GRPC_HAVE_IP_PKTINFO 1
@@ -88,6 +90,15 @@
 #ifdef LINUX_VERSION_CODE
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)
 #define GRPC_HAVE_TCP_USER_TIMEOUT
+#ifdef __GLIBC_PREREQ
+#if !(__GLIBC_PREREQ(2, 17))
+/*
+ * TCP_USER_TIMEOUT wasn't imported to glibc until 2.17. Use Linux system
+ * header instead.
+ */
+#define GRPC_LINUX_TCP_H 1
+#endif /* __GLIBC_PREREQ(2, 17) */
+#endif /* ifdef __GLIBC_PREREQ */
 #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37) */
 #endif /* LINUX_VERSION_CODE */
 #ifndef __GLIBC__
