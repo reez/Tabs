@@ -1,6 +1,6 @@
 {
   "name": "LNDrpc",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "Apache License, Version 2.0",
   "authors": {
     "gRPC contributors": "grpc-io@googlegroups.com"
