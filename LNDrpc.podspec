@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name     = 'LNDrpc'
-  s.version  = "0.0.4"
+  s.version  = "0.0.5"
   s.license  = "Apache License, Version 2.0"
   s.authors  = { 'gRPC contributors' => 'grpc-io@googlegroups.com' }
   s.homepage = "https://grpc.io/"
   s.summary = "Lnd Rpc"
   s.source = { :git => 'https://github.com/grpc/grpc.git' }
 
-  s.ios.deployment_target = '7.1'
+  s.ios.deployment_target = '12.1'
   s.osx.deployment_target = '10.9'
 
   # Base directory where the .proto files are.
