@@ -21,7 +21,7 @@ final class LightningViewModel {
         numPeers: 0,
         numPendingChannels: 0,
         syncedToChain: false,
-        testnet: true,
+//        testnet: true,
         version: "No version")
     
     var callback: ((Info) -> Void)

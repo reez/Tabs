@@ -58,7 +58,7 @@ extension Info {
         numPeers: 0,
         numPendingChannels: 0,
         syncedToChain: false,
-        testnet: true,
+//        testnet: true,
         version: "No version")
 }
 

@@ -20,7 +20,7 @@ struct Info: Equatable {
     let numPeers: Int
     let numPendingChannels: Int
     let syncedToChain: Bool
-    let testnet: Bool
+//    let testnet: Bool
     let version: String
 }
 
@@ -51,7 +51,7 @@ extension Info {
         numPeers = Int(getInfoResponse.numPeers)
         numPendingChannels = Int(getInfoResponse.numPendingChannels)
         syncedToChain = getInfoResponse.syncedToChain
-        testnet = getInfoResponse.testnet
+//        testnet = getInfoResponse.testnet
         version = getInfoResponse.version
     }
 }
