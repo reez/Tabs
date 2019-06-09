@@ -227,9 +227,9 @@ final class InvoiceInfoCell: UITableViewCell {
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
         let formattedDate = mrDateFormatter.string(from: dr)
-        
-        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice settled: \(invoice.settled)"
-        
+        let invoiceState = InvoiceState(state: invoice.state).invoiceState
+        self.sequenceAndDateLabel.text = "Creation date: \(formattedDate) • Invoice state: \(invoiceState)"
+
         // Do I want to make the call for invoices here?
     }
     
