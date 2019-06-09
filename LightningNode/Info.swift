@@ -13,14 +13,13 @@ struct Info: Equatable {
     let bestHeaderTimestamp: Date
     let blockHash: String
     let blockHeight: Int
-    let chainsArray: String//NSMutableArray
+    let chainsArray: String
     let identityPubkey: String
     let network: String
     let numActiveChannels: Int
     let numPeers: Int
     let numPendingChannels: Int
     let syncedToChain: Bool
-//    let testnet: Bool
     let version: String
 }
 
@@ -36,7 +35,7 @@ extension Info {
         {
             chainsArray = chain
         } else {
-            chainsArray = "No Chain Info" //getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+            chainsArray = "No Chain Info"
         }
         identityPubkey = getInfoResponse.identityPubkey
         if
@@ -45,13 +44,12 @@ extension Info {
         {
             network = chainNetwork
         } else {
-            network = getInfoResponse.testnet ? Network.testnet.rawValue : Network.mainnet.rawValue
+            network = "No Network Info"
         }
         numActiveChannels = Int(getInfoResponse.numActiveChannels)
         numPeers = Int(getInfoResponse.numPeers)
         numPendingChannels = Int(getInfoResponse.numPendingChannels)
         syncedToChain = getInfoResponse.syncedToChain
-//        testnet = getInfoResponse.testnet
         version = getInfoResponse.version
     }
 }

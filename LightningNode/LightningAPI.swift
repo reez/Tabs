@@ -77,13 +77,6 @@ func info(completion: @escaping (Result<Info, DataError>) -> Void) {
         }.runWithMacaroon(rnc.macaroon)
 }
 
-//extension PayReqString {
-//    convenience init(payReq: String) {
-//        self.init()
-//        self.payReq = payReq
-//    }
-//}
-
 extension GRPCProtoCall {
     func runWithMacaroon(_ macaroon: String) {
         requestHeaders["macaroon"] = macaroon
