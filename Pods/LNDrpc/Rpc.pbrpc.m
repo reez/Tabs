@@ -316,7 +316,7 @@
  * * lncli: `walletbalance`
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
  * confirmed unspent outputs and all unconfirmed unspent outputs under control
- * of the wallet. 
+ * of the wallet.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -328,7 +328,7 @@
  * * lncli: `walletbalance`
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
  * confirmed unspent outputs and all unconfirmed unspent outputs under control
- * of the wallet. 
+ * of the wallet.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -342,7 +342,7 @@
  * * lncli: `walletbalance`
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
  * confirmed unspent outputs and all unconfirmed unspent outputs under control
- * of the wallet. 
+ * of the wallet.
  */
 - (GRPCUnaryProtoCall *)walletBalanceWithMessage:(WalletBalanceRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
   return [self RPCToMethod:@"WalletBalance"
@@ -1085,7 +1085,7 @@
 // Deprecated methods.
 /**
  * * lncli: `closedchannels`
- * ClosedChannels returns a description of all the closed channels that 
+ * ClosedChannels returns a description of all the closed channels that
  * this node was a participant in.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
@@ -1096,7 +1096,7 @@
 // Returns a not-yet-started RPC object.
 /**
  * * lncli: `closedchannels`
- * ClosedChannels returns a description of all the closed channels that 
+ * ClosedChannels returns a description of all the closed channels that
  * this node was a participant in.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
@@ -1109,7 +1109,7 @@
 }
 /**
  * * lncli: `closedchannels`
- * ClosedChannels returns a description of all the closed channels that 
+ * ClosedChannels returns a description of all the closed channels that
  * this node was a participant in.
  */
 - (GRPCUnaryProtoCall *)closedChannelsWithMessage:(ClosedChannelsRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
@@ -1956,7 +1956,7 @@
  * * lncli: `queryroutes`
  * QueryRoutes attempts to query the daemon's Channel Router for a possible
  * route to a target destination capable of carrying a specific amount of
- * satoshis. The retuned route contains the full details required to craft and
+ * satoshis. The returned route contains the full details required to craft and
  * send an HTLC, also including the necessary information that should be
  * present within the Sphinx packet encapsulated within the HTLC.
  *
@@ -1970,7 +1970,7 @@
  * * lncli: `queryroutes`
  * QueryRoutes attempts to query the daemon's Channel Router for a possible
  * route to a target destination capable of carrying a specific amount of
- * satoshis. The retuned route contains the full details required to craft and
+ * satoshis. The returned route contains the full details required to craft and
  * send an HTLC, also including the necessary information that should be
  * present within the Sphinx packet encapsulated within the HTLC.
  *
@@ -1986,7 +1986,7 @@
  * * lncli: `queryroutes`
  * QueryRoutes attempts to query the daemon's Channel Router for a possible
  * route to a target destination capable of carrying a specific amount of
- * satoshis. The retuned route contains the full details required to craft and
+ * satoshis. The returned route contains the full details required to craft and
  * send an HTLC, also including the necessary information that should be
  * present within the Sphinx packet encapsulated within the HTLC.
  */
