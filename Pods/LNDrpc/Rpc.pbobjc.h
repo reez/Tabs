@@ -207,6 +207,29 @@ GPBEnumDescriptor *Invoice_InvoiceState_EnumDescriptor(void);
  **/
 BOOL Invoice_InvoiceState_IsValidValue(int32_t value);
 
+#pragma mark - Enum Payment_PaymentStatus
+
+typedef GPB_ENUM(Payment_PaymentStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  Payment_PaymentStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  Payment_PaymentStatus_Unknown = 0,
+  Payment_PaymentStatus_InFlight = 1,
+  Payment_PaymentStatus_Succeeded = 2,
+  Payment_PaymentStatus_Failed = 3,
+};
+
+GPBEnumDescriptor *Payment_PaymentStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL Payment_PaymentStatus_IsValidValue(int32_t value);
+
 #pragma mark - RpcRoot
 
 /**
@@ -367,7 +390,7 @@ typedef GPB_ENUM(UnlockWalletRequest_FieldNumber) {
  * *
  * recovery_window is an optional argument specifying the address lookahead
  * when restoring a wallet seed. The recovery window applies to each
- * invdividual branch of the BIP44 derivation paths. Supplying a recovery
+ * individual branch of the BIP44 derivation paths. Supplying a recovery
  * window of zero indicates that no addresses should be recovered, such after
  * the first initialization of the wallet.
  **/
@@ -483,6 +506,7 @@ typedef GPB_ENUM(Transaction_FieldNumber) {
   Transaction_FieldNumber_TimeStamp = 6,
   Transaction_FieldNumber_TotalFees = 7,
   Transaction_FieldNumber_DestAddressesArray = 8,
+  Transaction_FieldNumber_RawTxHex = 9,
 };
 
 @interface Transaction : GPBMessage
@@ -512,6 +536,9 @@ typedef GPB_ENUM(Transaction_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *destAddressesArray;
 /** The number of items in @c destAddressesArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger destAddressesArray_Count;
+
+/** / The raw transaction hex. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rawTxHex;
 
 @end
 
@@ -668,7 +695,6 @@ typedef GPB_ENUM(SendResponse_FieldNumber) {
 typedef GPB_ENUM(SendToRouteRequest_FieldNumber) {
   SendToRouteRequest_FieldNumber_PaymentHash = 1,
   SendToRouteRequest_FieldNumber_PaymentHashString = 2,
-  SendToRouteRequest_FieldNumber_RoutesArray = 3,
   SendToRouteRequest_FieldNumber_Route = 4,
 };
 
@@ -679,17 +705,6 @@ typedef GPB_ENUM(SendToRouteRequest_FieldNumber) {
 
 /** / An optional hex-encoded payment hash to be used for the HTLC. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHashString;
-
-/**
- * *
- * Deprecated. The set of routes that should be used to attempt to complete the
- * payment. The possibility to pass in multiple routes is deprecated and
- * instead the single route field below should be used in combination with the
- * streaming variant of SendToRoute.
- **/
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Route*> *routesArray GPB_DEPRECATED_MSG("lnrpc.SendToRouteRequest.routes is deprecated (see rpc.proto).");
-/** The number of items in @c routesArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger routesArray_Count GPB_DEPRECATED_MSG("lnrpc.SendToRouteRequest.routes is deprecated (see rpc.proto).");
 
 /** / Route that should be used to attempt to complete the payment. */
 @property(nonatomic, readwrite, strong, null_resettable) Route *route;
@@ -1206,7 +1221,7 @@ typedef GPB_ENUM(Channel_FieldNumber) {
 /** / True if we were the ones that created the channel. */
 @property(nonatomic, readwrite) BOOL initiator;
 
-/** / A set of flags showing the current state of the cahnnel. */
+/** / A set of flags showing the current state of the channel. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *chanStatusFlags;
 
 @end
@@ -1450,6 +1465,7 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
   GetInfoResponse_FieldNumber_Version = 14,
   GetInfoResponse_FieldNumber_NumInactiveChannels = 15,
   GetInfoResponse_FieldNumber_ChainsArray = 16,
+  GetInfoResponse_FieldNumber_Color = 17,
 };
 
 @interface GetInfoResponse : GPBMessage
@@ -1503,6 +1519,9 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Chain*> *chainsArray;
 /** The number of items in @c chainsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger chainsArray_Count;
+
+/** / The color of the current node in hex code format */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *color;
 
 @end
 
@@ -1937,7 +1956,7 @@ typedef GPB_ENUM(PendingChannelsResponse_ForceClosedChannel_FieldNumber) {
 /** / The balance in satoshis encumbered in this pending channel */
 @property(nonatomic, readwrite) int64_t limboBalance;
 
-/** / The height at which funds can be sweeped into the wallet */
+/** / The height at which funds can be swept into the wallet */
 @property(nonatomic, readwrite) uint32_t maturityHeight;
 
 /**
@@ -2069,7 +2088,6 @@ typedef GPB_ENUM(ChannelBalanceResponse_FieldNumber) {
 typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
   QueryRoutesRequest_FieldNumber_PubKey = 1,
   QueryRoutesRequest_FieldNumber_Amt = 2,
-  QueryRoutesRequest_FieldNumber_NumRoutes = 3,
   QueryRoutesRequest_FieldNumber_FinalCltvDelta = 4,
   QueryRoutesRequest_FieldNumber_FeeLimit = 5,
   QueryRoutesRequest_FieldNumber_IgnoredNodesArray = 6,
@@ -2084,13 +2102,6 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
 
 /** / The amount to send expressed in satoshis */
 @property(nonatomic, readwrite) int64_t amt;
-
-/**
- * *
- * Deprecated. The max number of routes to return. In the future, QueryRoutes
- * will only return a single route.
- **/
-@property(nonatomic, readwrite) int32_t numRoutes GPB_DEPRECATED_MSG("lnrpc.QueryRoutesRequest.num_routes is deprecated (see rpc.proto).");
 
 /** / An optional CLTV delta from the current height that should be used for the timelock of the final hop */
 @property(nonatomic, readwrite) int32_t finalCltvDelta;
@@ -2246,7 +2257,7 @@ typedef GPB_ENUM(Route_FieldNumber) {
  * *
  * The sum of the fees paid at each hop within the final route.  In the case
  * of a one-hop payment, this value will be zero as we don't need to pay a fee
- * it ourself.
+ * to ourselves.
  **/
 @property(nonatomic, readwrite) int64_t totalFees GPB_DEPRECATED_MSG("lnrpc.Route.total_fees is deprecated (see rpc.proto).");
 
@@ -2286,12 +2297,16 @@ typedef GPB_ENUM(Route_FieldNumber) {
 
 typedef GPB_ENUM(NodeInfoRequest_FieldNumber) {
   NodeInfoRequest_FieldNumber_PubKey = 1,
+  NodeInfoRequest_FieldNumber_IncludeChannels = 2,
 };
 
 @interface NodeInfoRequest : GPBMessage
 
 /** / The 33-byte hex-encoded compressed public of the target node */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *pubKey;
+
+/** / If true, will include all known channels associated with the node. */
+@property(nonatomic, readwrite) BOOL includeChannels;
 
 @end
 
@@ -2301,6 +2316,7 @@ typedef GPB_ENUM(NodeInfo_FieldNumber) {
   NodeInfo_FieldNumber_Node = 1,
   NodeInfo_FieldNumber_NumChannels = 2,
   NodeInfo_FieldNumber_TotalCapacity = 3,
+  NodeInfo_FieldNumber_ChannelsArray = 4,
 };
 
 @interface NodeInfo : GPBMessage
@@ -2316,9 +2332,16 @@ typedef GPB_ENUM(NodeInfo_FieldNumber) {
 /** Test to see if @c node has been set. */
 @property(nonatomic, readwrite) BOOL hasNode;
 
+/** / The total number of channels for the node. */
 @property(nonatomic, readwrite) uint32_t numChannels;
 
+/** / The sum of all channels capacity for the node, denominated in satoshis. */
 @property(nonatomic, readwrite) int64_t totalCapacity;
+
+/** / A list of all public channels for the node. */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ChannelEdge*> *channelsArray;
+/** The number of items in @c channelsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger channelsArray_Count;
 
 @end
 
@@ -2602,6 +2625,7 @@ typedef GPB_ENUM(NodeUpdate_FieldNumber) {
   NodeUpdate_FieldNumber_IdentityKey = 2,
   NodeUpdate_FieldNumber_GlobalFeatures = 3,
   NodeUpdate_FieldNumber_Alias = 4,
+  NodeUpdate_FieldNumber_Color = 5,
 };
 
 @interface NodeUpdate : GPBMessage
@@ -2615,6 +2639,8 @@ typedef GPB_ENUM(NodeUpdate_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSData *globalFeatures;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *alias;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *color;
 
 @end
 
@@ -3061,6 +3087,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_PaymentPreimage = 6,
   Payment_FieldNumber_ValueSat = 7,
   Payment_FieldNumber_ValueMsat = 8,
+  Payment_FieldNumber_PaymentRequest = 9,
+  Payment_FieldNumber_Status = 10,
 };
 
 @interface Payment : GPBMessage
@@ -3091,11 +3119,41 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** / The value of the payment in milli-satoshis */
 @property(nonatomic, readwrite) int64_t valueMsat;
 
+/** / The optional payment request being fulfilled. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *paymentRequest;
+
+/** The status of the payment. */
+@property(nonatomic, readwrite) Payment_PaymentStatus status;
+
 @end
+
+/**
+ * Fetches the raw value of a @c Payment's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t Payment_Status_RawValue(Payment *message);
+/**
+ * Sets the raw value of an @c Payment's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPayment_Status_RawValue(Payment *message, int32_t value);
 
 #pragma mark - ListPaymentsRequest
 
+typedef GPB_ENUM(ListPaymentsRequest_FieldNumber) {
+  ListPaymentsRequest_FieldNumber_IncludeIncomplete = 1,
+};
+
 @interface ListPaymentsRequest : GPBMessage
+
+/**
+ * *
+ * If true, then return payments that have not yet fully completed. This means
+ * that pending payments, as well as failed payments will show up if this
+ * field is set to True.
+ **/
+@property(nonatomic, readwrite) BOOL includeIncomplete;
 
 @end
 
@@ -3422,7 +3480,7 @@ typedef GPB_ENUM(ExportChannelBackupRequest_FieldNumber) {
 
 @interface ExportChannelBackupRequest : GPBMessage
 
-/** / The target chanenl point to obtain a back up for. */
+/** / The target channel point to obtain a back up for. */
 @property(nonatomic, readwrite, strong, null_resettable) ChannelPoint *chanPoint;
 /** Test to see if @c chanPoint has been set. */
 @property(nonatomic, readwrite) BOOL hasChanPoint;
@@ -3449,7 +3507,7 @@ typedef GPB_ENUM(ChannelBackup_FieldNumber) {
 /**
  * *
  * Is an encrypted single-chan backup. this can be passed to
- * RestoreChannelBackups, or the WalletUnlocker Innit and Unlock methods in
+ * RestoreChannelBackups, or the WalletUnlocker Init and Unlock methods in
  * order to trigger the recovery protocol.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *chanBackup;
