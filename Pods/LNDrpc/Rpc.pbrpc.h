@@ -108,7 +108,7 @@
 @class WalletBalanceResponse;
 
 #if !defined(GPB_GRPC_FORWARD_DECLARE_MESSAGE_PROTO) || !GPB_GRPC_FORWARD_DECLARE_MESSAGE_PROTO
-//  #import "google/api/Annotations.pbobjc.h"
+  #import "google/api/Annotations.pbobjc.h"
 #endif
 
 @class GRPCProtoCall;

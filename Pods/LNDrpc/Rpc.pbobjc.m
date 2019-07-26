@@ -16,7 +16,7 @@
 #import <stdatomic.h>
 
 #import "Rpc.pbobjc.h"
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -35,7 +35,7 @@
     GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
     registry = [[GPBExtensionRegistry alloc] init];
     // Merge in the imports (direct or indirect) that defined extensions.
-//    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
+    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
   }
   return registry;
 }
@@ -2433,6 +2433,8 @@ typedef struct HTLC__storage_ {
 @dynamic private_p;
 @dynamic initiator;
 @dynamic chanStatusFlags;
+@dynamic localChanReserveSat;
+@dynamic remoteChanReserveSat;
 
 typedef struct Channel__storage_ {
   uint32_t _has_storage_[1];
@@ -2452,6 +2454,8 @@ typedef struct Channel__storage_ {
   int64_t totalSatoshisSent;
   int64_t totalSatoshisReceived;
   uint64_t numUpdates;
+  int64_t localChanReserveSat;
+  int64_t remoteChanReserveSat;
 } Channel__storage_;
 
 // This method is threadsafe because it is initially called
@@ -2630,6 +2634,24 @@ typedef struct Channel__storage_ {
         .offset = (uint32_t)offsetof(Channel__storage_, chanStatusFlags),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "localChanReserveSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_LocalChanReserveSat,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(Channel__storage_, localChanReserveSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "remoteChanReserveSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_RemoteChanReserveSat,
+        .hasIndex = 22,
+        .offset = (uint32_t)offsetof(Channel__storage_, remoteChanReserveSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -4470,6 +4492,8 @@ typedef struct PendingChannelsResponse__storage_ {
 @dynamic capacity;
 @dynamic localBalance;
 @dynamic remoteBalance;
+@dynamic localChanReserveSat;
+@dynamic remoteChanReserveSat;
 
 typedef struct PendingChannelsResponse_PendingChannel__storage_ {
   uint32_t _has_storage_[1];
@@ -4478,6 +4502,8 @@ typedef struct PendingChannelsResponse_PendingChannel__storage_ {
   int64_t capacity;
   int64_t localBalance;
   int64_t remoteBalance;
+  int64_t localChanReserveSat;
+  int64_t remoteChanReserveSat;
 } PendingChannelsResponse_PendingChannel__storage_;
 
 // This method is threadsafe because it is initially called
@@ -4528,6 +4554,24 @@ typedef struct PendingChannelsResponse_PendingChannel__storage_ {
         .number = PendingChannelsResponse_PendingChannel_FieldNumber_RemoteBalance,
         .hasIndex = 4,
         .offset = (uint32_t)offsetof(PendingChannelsResponse_PendingChannel__storage_, remoteBalance),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "localChanReserveSat",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_PendingChannel_FieldNumber_LocalChanReserveSat,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_PendingChannel__storage_, localChanReserveSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "remoteChanReserveSat",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_PendingChannel_FieldNumber_RemoteChanReserveSat,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_PendingChannel__storage_, remoteChanReserveSat),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
@@ -5250,6 +5294,7 @@ typedef struct ChannelBalanceResponse__storage_ {
 @dynamic ignoredNodesArray, ignoredNodesArray_Count;
 @dynamic ignoredEdgesArray, ignoredEdgesArray_Count;
 @dynamic sourcePubKey;
+@dynamic useMissionControl;
 
 typedef struct QueryRoutesRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -5330,6 +5375,15 @@ typedef struct QueryRoutesRequest__storage_ {
         .offset = (uint32_t)offsetof(QueryRoutesRequest__storage_, sourcePubKey),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "useMissionControl",
+        .dataTypeSpecific.className = NULL,
+        .number = QueryRoutesRequest_FieldNumber_UseMissionControl,
+        .hasIndex = 5,
+        .offset = 6,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -5960,10 +6014,12 @@ typedef struct NodeAddress__storage_ {
 @dynamic feeRateMilliMsat;
 @dynamic disabled;
 @dynamic maxHtlcMsat;
+@dynamic lastUpdate;
 
 typedef struct RoutingPolicy__storage_ {
   uint32_t _has_storage_[1];
   uint32_t timeLockDelta;
+  uint32_t lastUpdate;
   int64_t minHtlc;
   int64_t feeBaseMsat;
   int64_t feeRateMilliMsat;
@@ -6029,6 +6085,15 @@ typedef struct RoutingPolicy__storage_ {
         .offset = (uint32_t)offsetof(RoutingPolicy__storage_, maxHtlcMsat),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "lastUpdate",
+        .dataTypeSpecific.className = NULL,
+        .number = RoutingPolicy_FieldNumber_LastUpdate,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(RoutingPolicy__storage_, lastUpdate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -6362,6 +6427,7 @@ typedef struct NetworkInfoRequest__storage_ {
 @dynamic minChannelSize;
 @dynamic maxChannelSize;
 @dynamic medianChannelSizeSat;
+@dynamic numZombieChans;
 
 typedef struct NetworkInfo__storage_ {
   uint32_t _has_storage_[1];
@@ -6375,6 +6441,7 @@ typedef struct NetworkInfo__storage_ {
   int64_t minChannelSize;
   int64_t maxChannelSize;
   int64_t medianChannelSizeSat;
+  uint64_t numZombieChans;
 } NetworkInfo__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6472,6 +6539,15 @@ typedef struct NetworkInfo__storage_ {
         .offset = (uint32_t)offsetof(NetworkInfo__storage_, medianChannelSizeSat),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "numZombieChans",
+        .dataTypeSpecific.className = NULL,
+        .number = NetworkInfo_FieldNumber_NumZombieChans,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(NetworkInfo__storage_, numZombieChans),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -7706,6 +7782,8 @@ typedef struct InvoiceSubscription__storage_ {
 @dynamic valueMsat;
 @dynamic paymentRequest;
 @dynamic status;
+@dynamic feeSat;
+@dynamic feeMsat;
 
 typedef struct Payment__storage_ {
   uint32_t _has_storage_[1];
@@ -7719,6 +7797,8 @@ typedef struct Payment__storage_ {
   int64_t fee;
   int64_t valueSat;
   int64_t valueMsat;
+  int64_t feeSat;
+  int64_t feeMsat;
 } Payment__storage_;
 
 // This method is threadsafe because it is initially called
@@ -7816,6 +7896,24 @@ typedef struct Payment__storage_ {
         .offset = (uint32_t)offsetof(Payment__storage_, status),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "feeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Payment_FieldNumber_FeeSat,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(Payment__storage_, feeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "feeMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = Payment_FieldNumber_FeeMsat,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(Payment__storage_, feeMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
