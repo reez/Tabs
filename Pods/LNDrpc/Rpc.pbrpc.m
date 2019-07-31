@@ -4,7 +4,7 @@
 #import <ProtoRPC/ProtoRPC.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 
 @implementation WalletUnlocker
 
@@ -173,13 +173,13 @@
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
  */
-//- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
-//  return [self RPCToMethod:@"InitWallet"
-//                   message:message
-//           responseHandler:handler
-//               callOptions:callOptions
-//             responseClass:[InitWalletResponse class]];
-//}
+- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"InitWallet"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[InitWalletResponse class]];
+}
 
 #pragma mark UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse)
 
