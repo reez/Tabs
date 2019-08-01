@@ -147,7 +147,7 @@ extension SettingsViewController {
         
         self.tabsVersionLabel
             |> { $0.textAlignment = .center }
-            <> { $0.text = "(Tabs LND Target Version: 0.7.0-beta)" }
+            <> { $0.text = "(Tabs LND Target Version: 0.7.1-beta)" }
             <> { $0.numberOfLines = 0 }
             <> smallCapsTextStyle
         

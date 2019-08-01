@@ -1124,6 +1124,8 @@ typedef GPB_ENUM(Channel_FieldNumber) {
   Channel_FieldNumber_Private_p = 17,
   Channel_FieldNumber_Initiator = 18,
   Channel_FieldNumber_ChanStatusFlags = 19,
+  Channel_FieldNumber_LocalChanReserveSat = 20,
+  Channel_FieldNumber_RemoteChanReserveSat = 21,
 };
 
 @interface Channel : GPBMessage
@@ -1223,6 +1225,15 @@ typedef GPB_ENUM(Channel_FieldNumber) {
 
 /** / A set of flags showing the current state of the channel. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *chanStatusFlags;
+
+/** / The minimum satoshis this node is required to reserve in its balance. */
+@property(nonatomic, readwrite) int64_t localChanReserveSat;
+
+/**
+ * *
+ * The minimum satoshis the other node is required to reserve in its balance.
+ **/
+@property(nonatomic, readwrite) int64_t remoteChanReserveSat;
 
 @end
 
@@ -1834,6 +1845,8 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingChannel_FieldNumber) {
   PendingChannelsResponse_PendingChannel_FieldNumber_Capacity = 3,
   PendingChannelsResponse_PendingChannel_FieldNumber_LocalBalance = 4,
   PendingChannelsResponse_PendingChannel_FieldNumber_RemoteBalance = 5,
+  PendingChannelsResponse_PendingChannel_FieldNumber_LocalChanReserveSat = 6,
+  PendingChannelsResponse_PendingChannel_FieldNumber_RemoteChanReserveSat = 7,
 };
 
 @interface PendingChannelsResponse_PendingChannel : GPBMessage
@@ -1847,6 +1860,16 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingChannel_FieldNumber) {
 @property(nonatomic, readwrite) int64_t localBalance;
 
 @property(nonatomic, readwrite) int64_t remoteBalance;
+
+/** / The minimum satoshis this node is required to reserve in its balance. */
+@property(nonatomic, readwrite) int64_t localChanReserveSat;
+
+/**
+ * *
+ * The minimum satoshis the other node is required to reserve in its
+ * balance.
+ **/
+@property(nonatomic, readwrite) int64_t remoteChanReserveSat;
 
 @end
 
@@ -2093,6 +2116,7 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
   QueryRoutesRequest_FieldNumber_IgnoredNodesArray = 6,
   QueryRoutesRequest_FieldNumber_IgnoredEdgesArray = 7,
   QueryRoutesRequest_FieldNumber_SourcePubKey = 8,
+  QueryRoutesRequest_FieldNumber_UseMissionControl = 9,
 };
 
 @interface QueryRoutesRequest : GPBMessage
@@ -2139,6 +2163,13 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
  * self is assumed.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *sourcePubKey;
+
+/**
+ * *
+ * If set to true, edge probabilities from mission control will be used to get
+ * the optimal route.
+ **/
+@property(nonatomic, readwrite) BOOL useMissionControl;
 
 @end
 
@@ -2402,6 +2433,7 @@ typedef GPB_ENUM(RoutingPolicy_FieldNumber) {
   RoutingPolicy_FieldNumber_FeeRateMilliMsat = 4,
   RoutingPolicy_FieldNumber_Disabled = 5,
   RoutingPolicy_FieldNumber_MaxHtlcMsat = 6,
+  RoutingPolicy_FieldNumber_LastUpdate = 7,
 };
 
 @interface RoutingPolicy : GPBMessage
@@ -2417,6 +2449,8 @@ typedef GPB_ENUM(RoutingPolicy_FieldNumber) {
 @property(nonatomic, readwrite) BOOL disabled;
 
 @property(nonatomic, readwrite) uint64_t maxHtlcMsat;
+
+@property(nonatomic, readwrite) uint32_t lastUpdate;
 
 @end
 
@@ -2453,7 +2487,7 @@ typedef GPB_ENUM(ChannelEdge_FieldNumber) {
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *chanPoint;
 
-@property(nonatomic, readwrite) uint32_t lastUpdate;
+@property(nonatomic, readwrite) uint32_t lastUpdate GPB_DEPRECATED_MSG("lnrpc.ChannelEdge.last_update is deprecated (see rpc.proto).");
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *node1Pub;
 
@@ -2550,6 +2584,7 @@ typedef GPB_ENUM(NetworkInfo_FieldNumber) {
   NetworkInfo_FieldNumber_MinChannelSize = 8,
   NetworkInfo_FieldNumber_MaxChannelSize = 9,
   NetworkInfo_FieldNumber_MedianChannelSizeSat = 10,
+  NetworkInfo_FieldNumber_NumZombieChans = 11,
 };
 
 @interface NetworkInfo : GPBMessage
@@ -2573,6 +2608,9 @@ typedef GPB_ENUM(NetworkInfo_FieldNumber) {
 @property(nonatomic, readwrite) int64_t maxChannelSize;
 
 @property(nonatomic, readwrite) int64_t medianChannelSizeSat;
+
+/** The number of edges marked as zombies. */
+@property(nonatomic, readwrite) uint64_t numZombieChans;
 
 @end
 
@@ -3089,6 +3127,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_ValueMsat = 8,
   Payment_FieldNumber_PaymentRequest = 9,
   Payment_FieldNumber_Status = 10,
+  Payment_FieldNumber_FeeSat = 11,
+  Payment_FieldNumber_FeeMsat = 12,
 };
 
 @interface Payment : GPBMessage
@@ -3107,8 +3147,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** The number of items in @c pathArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger pathArray_Count;
 
-/** / The fee paid for this payment in satoshis */
-@property(nonatomic, readwrite) int64_t fee;
+/** / Deprecated, use fee_sat or fee_msat. */
+@property(nonatomic, readwrite) int64_t fee GPB_DEPRECATED_MSG("lnrpc.Payment.fee is deprecated (see rpc.proto).");
 
 /** / The payment preimage */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *paymentPreimage;
@@ -3124,6 +3164,12 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 
 /** The status of the payment. */
 @property(nonatomic, readwrite) Payment_PaymentStatus status;
+
+/** /  The fee paid for this payment in satoshis */
+@property(nonatomic, readwrite) int64_t feeSat;
+
+/** /  The fee paid for this payment in milli-satoshis */
+@property(nonatomic, readwrite) int64_t feeMsat;
 
 @end
 
