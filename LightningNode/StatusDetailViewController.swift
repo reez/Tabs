@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PanModal
+//import PanModal
 import NVActivityIndicatorView
 
 class StatusDetailViewController: UIViewController {
@@ -107,18 +107,18 @@ extension StatusDetailViewController {
     
 }
 
-extension StatusDetailViewController: PanModalPresentable {
-    
-    var panScrollable: UIScrollView? {
-        return nil
-    }
-    
-    var longFormHeight: PanModalHeight {
-        return .contentHeight(300)
-    }
-    
-    var anchorModalToLongForm: Bool {
-        return false
-    }
-    
-}
+//extension StatusDetailViewController: PanModalPresentable {
+//    
+//    var panScrollable: UIScrollView? {
+//        return nil
+//    }
+//    
+//    var longFormHeight: PanModalHeight {
+//        return .contentHeight(300)
+//    }
+//    
+//    var anchorModalToLongForm: Bool {
+//        return false
+//    }
+//    
+//}
