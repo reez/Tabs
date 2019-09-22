@@ -84,7 +84,9 @@ extension AddNodeViewController {
             <> centerTextStyle
             <> subheadlineTextStyle
             <> { $0.text = "Or paste info manually below" }
-            <> { $0.textColor = .systemGray }
+//            <> { $0.textColor = .systemGray }
+        <> { $0.textColor = .secondaryLabel }
+
         
         self.certificateTextField
             |> baseTextFieldStyle

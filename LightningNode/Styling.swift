@@ -85,7 +85,7 @@ let baseTextStyle: (UILabel) -> Void = {
 }
 
 let infoTextStyle: (UILabel) -> Void = {
-    $0.textColor = .systemGray6//.mr_black
+    $0.textColor = .label//.systemGray6//.mr_black
     $0.font = UIFont.preferredFont(forTextStyle: .caption1).smallCaps
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 0
@@ -120,7 +120,7 @@ let unfilledButtonStyle =
     baseButtonStyle
         <> {
             $0.backgroundColor = .systemBackground//.white
-            $0.tintColor = .white
+            $0.tintColor = .systemFill//.white
             $0.setTitleColor(.systemBlue, for: .normal)
 }
 
