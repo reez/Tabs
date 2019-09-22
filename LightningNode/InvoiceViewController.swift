@@ -236,7 +236,7 @@ extension InvoiceViewController {
         self.view
             |> { $0.addSubview(self.nvActivityIndicator!) }
             <> { $0.addSubview(self.rootStackView) }
-            <> { $0.backgroundColor = .white }
+            <> { $0.backgroundColor = .systemBackground }
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),

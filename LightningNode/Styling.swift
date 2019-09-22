@@ -119,7 +119,7 @@ let baseButtonStyle: (UIButton) -> Void = {
 let unfilledButtonStyle =
     baseButtonStyle
         <> {
-            $0.backgroundColor = .white
+            $0.backgroundColor = .systemBackground//.white
             $0.tintColor = .white
             $0.setTitleColor(.systemBlue, for: .normal)
 }

@@ -17,17 +17,17 @@ class TabBarViewController: UITabBarController {
         
         let status = StatusViewController()
         status.tabBarItem.title = "Status"
-        status.view.backgroundColor = .white
+        status.view.backgroundColor = .systemBackground//.white
         status.tabBarItem.image = UIImage(named: "StatusTab")
         
         let invoices = InvoicesTableViewController()
         invoices.tabBarItem.title = "Invoices"
-        invoices.view.backgroundColor = .white
+        invoices.view.backgroundColor = .systemBackground//.white
         invoices.tabBarItem.image = UIImage(named: "InvoicesTab")
         
         let settings = SettingsViewController()
         settings.tabBarItem.title = "Settings"
-        settings.view.backgroundColor = .white
+        settings.view.backgroundColor = .systemBackground//.white
         settings.tabBarItem.image = UIImage(named: "SettingsTab")
         
         let viewControllers = [status, invoices, settings]

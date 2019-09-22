@@ -49,7 +49,7 @@ extension StatusDetailViewController {
         self.view
             |> { $0.addSubview(self.nvActivityIndicator!) }
             <> { $0.addSubview(self.infoLabel) }
-            <> { $0.backgroundColor = .white }
+            <> { $0.backgroundColor = .systemBackground }
         
         NSLayoutConstraint.activate([
             infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
