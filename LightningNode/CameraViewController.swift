@@ -55,7 +55,7 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
             let nodeString = "\(nodeHostString):\(port)"
             let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate, macaroon: macaroonString)
             Current.remoteNodeConnection = rnc
-            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
         }
         
         dismiss(animated: true)

@@ -90,7 +90,6 @@ extension AddNodeViewController {
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
             <> { $0.delegate = self }
-            <> { $0.backgroundColor = .systemGray }
         
         self.macaroonTextField
             |> baseTextFieldStyle
