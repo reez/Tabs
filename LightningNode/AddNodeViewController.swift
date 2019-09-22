@@ -84,12 +84,13 @@ extension AddNodeViewController {
             <> centerTextStyle
             <> subheadlineTextStyle
             <> { $0.text = "Or paste info manually below" }
-            <> { $0.textColor = .mr_gray }
+            <> { $0.textColor = .systemGray }
         
         self.certificateTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
             <> { $0.delegate = self }
+            <> { $0.backgroundColor = .systemGray }
         
         self.macaroonTextField
             |> baseTextFieldStyle
@@ -130,7 +131,8 @@ extension AddNodeViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: UIColor.mr_black,
+            color: .systemGray6,
+            //UIColor.mr_black,
             padding: nil
         )
         

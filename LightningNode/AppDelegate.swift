@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = AddNodeViewController()
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isHidden = true
-        navigationController.view.backgroundColor = .white
+        navigationController.view.backgroundColor = .systemBackground//.white
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navigationController

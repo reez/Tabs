@@ -42,7 +42,7 @@ extension StatusDetailViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: UIColor.mr_black,
+            color: .systemGray6,//UIColor.mr_black,
             padding: nil
         )
         

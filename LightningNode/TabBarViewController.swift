@@ -13,7 +13,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBar.tintColor = .mr_blue
+        self.tabBar.tintColor = .systemBlue//.mr_blue
         
         let status = StatusViewController()
         status.tabBarItem.title = "Status"
