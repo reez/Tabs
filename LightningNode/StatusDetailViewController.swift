@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PanModal
+//import PanModal
 import NVActivityIndicatorView
 
 class StatusDetailViewController: UIViewController {
@@ -42,14 +42,14 @@ extension StatusDetailViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: UIColor.mr_black,
+            color: .systemGray6,//UIColor.mr_black,
             padding: nil
         )
         
         self.view
             |> { $0.addSubview(self.nvActivityIndicator!) }
             <> { $0.addSubview(self.infoLabel) }
-            <> { $0.backgroundColor = .white }
+            <> { $0.backgroundColor = .systemBackground }
         
         NSLayoutConstraint.activate([
             infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -107,18 +107,18 @@ extension StatusDetailViewController {
     
 }
 
-extension StatusDetailViewController: PanModalPresentable {
-    
-    var panScrollable: UIScrollView? {
-        return nil
-    }
-    
-    var longFormHeight: PanModalHeight {
-        return .contentHeight(300)
-    }
-    
-    var anchorModalToLongForm: Bool {
-        return false
-    }
-    
-}
+//extension StatusDetailViewController: PanModalPresentable {
+//    
+//    var panScrollable: UIScrollView? {
+//        return nil
+//    }
+//    
+//    var longFormHeight: PanModalHeight {
+//        return .contentHeight(300)
+//    }
+//    
+//    var anchorModalToLongForm: Bool {
+//        return false
+//    }
+//    
+//}

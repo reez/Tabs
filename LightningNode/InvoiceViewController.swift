@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PanModal
+//import PanModal
 import NVActivityIndicatorView
 import Loaf
 
@@ -229,14 +229,14 @@ extension InvoiceViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: UIColor.mr_black,
+            color: .systemGray6, //UIColor.mr_black,
             padding: nil
         )
         
         self.view
             |> { $0.addSubview(self.nvActivityIndicator!) }
             <> { $0.addSubview(self.rootStackView) }
-            <> { $0.backgroundColor = .white }
+            <> { $0.backgroundColor = .systemBackground }
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
@@ -273,20 +273,20 @@ extension InvoiceViewController {
     }
 }
 
-extension InvoiceViewController: PanModalPresentable {
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    var panScrollable: UIScrollView? {
-        return nil
-    }
-    
-    var longFormHeight: PanModalHeight {
-        return .contentHeight(525)
-    }
-    
-    var anchorModalToLongForm: Bool {
-        return false
-    }
-}
+//extension InvoiceViewController: PanModalPresentable {
+//    override var preferredStatusBarStyle: UIStatusBarStyle {
+//        return .lightContent
+//    }
+//    
+//    var panScrollable: UIScrollView? {
+//        return nil
+//    }
+//    
+//    var longFormHeight: PanModalHeight {
+//        return .contentHeight(525)
+//    }
+//    
+//    var anchorModalToLongForm: Bool {
+//        return false
+//    }
+//}

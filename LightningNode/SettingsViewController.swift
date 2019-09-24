@@ -105,7 +105,7 @@ extension SettingsViewController {
         self.staticAliasLabel
             |> { $0.text = "Alias" }
             <> { $0.textAlignment = .center }
-            <> { $0.textColor = .mr_gray }
+            <> { $0.textColor = .systemGray }
         
         self.aliasLabel
             |> title3TextStyle
@@ -121,7 +121,7 @@ extension SettingsViewController {
         self.staticIdentityPubkeyLabel
             |> { $0.text = "Identity Pubkey" }
             <> { $0.textAlignment = .center }
-            <> { $0.textColor = .mr_gray }
+            <> { $0.textColor = .systemGray }
         
         self.identityPubkeyLabel
             |> title3TextStyle
@@ -166,7 +166,7 @@ extension SettingsViewController {
         self.removeNodeButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Remove Node", for: .normal) }
-            <> { $0.setTitleColor(.mr_red, for: .normal) }
+            <> { $0.setTitleColor(.systemRed, for: .normal) }
         
         self.removeNodeButton.addTarget(
             self,

@@ -8,7 +8,7 @@
 
 import UIKit
 import LNDrpc
-import PanModal
+//import PanModal
 
 class InvoicesTableViewController: UITableViewController {
     
@@ -38,7 +38,8 @@ extension InvoicesTableViewController {
             
             cell.tapAction = { [weak self] cell in
                 let vc = InvoiceViewController()
-                self?.presentPanModal(vc)
+//                self?.presentPanModal(vc)
+                self?.present(vc, animated: true, completion: nil)
             }
             
             return cell

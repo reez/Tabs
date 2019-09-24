@@ -25,7 +25,7 @@ class AddNodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // NotificationCenter.default.addObserver(self, selector: #selector(loadRNC), name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(loadRNC), name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
         
         switch loadFromKeychain() {
         case let .success(value):
@@ -84,7 +84,9 @@ extension AddNodeViewController {
             <> centerTextStyle
             <> subheadlineTextStyle
             <> { $0.text = "Or paste info manually below" }
-            <> { $0.textColor = .mr_gray }
+//            <> { $0.textColor = .systemGray }
+        <> { $0.textColor = .secondaryLabel }
+
         
         self.certificateTextField
             |> baseTextFieldStyle
@@ -130,7 +132,8 @@ extension AddNodeViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: UIColor.mr_black,
+            color: .systemGray6,
+            //UIColor.mr_black,
             padding: nil
         )
         
