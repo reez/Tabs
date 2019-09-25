@@ -53,7 +53,7 @@ extension StatusDetailViewController {
         
         NSLayoutConstraint.activate([
             infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40.0)
+            infoLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             ])
         
     }
