@@ -189,7 +189,8 @@ extension AddNodeViewController {
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
                     let vc = TabBarViewController()
-                    self.present(vc, animated: true, completion: nil)
+//                    self.present(vc, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
