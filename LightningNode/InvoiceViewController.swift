@@ -240,15 +240,10 @@ extension InvoiceViewController {
         
         NSLayoutConstraint.activate([
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-//            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
             rootStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            self.memoTextField.heightAnchor.constraint(equalToConstant: 40.0),
-            self.amountTextField.heightAnchor.constraint(equalToConstant: 40.0),
-//            self.memoImageView.heightAnchor.constraint(equalToConstant: 16.0),
-//            self.memoImageView.widthAnchor.constraint(equalToConstant: 16.0),
-//            self.amountImageView.heightAnchor.constraint(equalToConstant: 16.0),
-//            self.amountImageView.widthAnchor.constraint(equalToConstant: 16.0),
+            self.memoTextField.heightAnchor.constraint(equalToConstant: 60.0),
+            self.amountTextField.heightAnchor.constraint(equalToConstant: 60.0),
             ])
         
     }

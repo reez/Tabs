@@ -146,8 +146,8 @@ extension AddNodeViewController {
             self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            self.lndConnectButton.heightAnchor.constraint(equalToConstant: 40.0),
-            self.submitButton.heightAnchor.constraint(equalToConstant: 40.0),
+            self.lndConnectButton.heightAnchor.constraint(equalToConstant: 60.0),
+            self.submitButton.heightAnchor.constraint(equalToConstant: 60.0),
             ])
         
     }
