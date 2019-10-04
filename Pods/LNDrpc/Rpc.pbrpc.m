@@ -1038,7 +1038,7 @@
 
 // Deprecated methods.
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -1051,7 +1051,7 @@
 }
 // Returns a not-yet-started RPC object.
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -1066,7 +1066,7 @@
         responsesWriteable:[GRXWriteable writeableWithEventHandler:eventHandler]];
 }
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -1213,6 +1213,54 @@
            responseHandler:handler
                callOptions:callOptions
              responseClass:[OpenStatusUpdate class]];
+}
+
+#pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
+
+// Deprecated methods.
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)channelAcceptorWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, ChannelAcceptRequest *_Nullable response, NSError *_Nullable error))eventHandler{
+  [[self RPCToChannelAcceptorWithRequestsWriter:requestWriter eventHandler:eventHandler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToChannelAcceptorWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, ChannelAcceptRequest *_Nullable response, NSError *_Nullable error))eventHandler{
+  return [self RPCToMethod:@"ChannelAcceptor"
+            requestsWriter:requestWriter
+             responseClass:[ChannelAcceptRequest class]
+        responsesWriteable:[GRXWriteable writeableWithEventHandler:eventHandler]];
+}
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ */
+- (GRPCStreamingProtoCall *)channelAcceptorWithResponseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"ChannelAcceptor"
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[ChannelAcceptRequest class]];
 }
 
 #pragma mark CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate)
