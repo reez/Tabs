@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "ProtoRPCLegacy.h"
 #import "ProtoMethod.h"
 #import "ProtoRPC.h"
 #import "ProtoService.h"

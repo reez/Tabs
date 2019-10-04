@@ -1,0 +1,9 @@
+${PODS_ROOT}/Target Support Files/Pods-LightningNodeTests/Pods-LightningNodeTests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework
+${BUILT_PRODUCTS_DIR}/LNDrpc/LNDrpc.framework
+${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework
+${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework
+${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework
+${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework
+${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework
+${BUILT_PRODUCTS_DIR}/SnapshotTesting/SnapshotTesting.framework

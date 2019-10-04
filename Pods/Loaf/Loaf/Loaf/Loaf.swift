@@ -22,6 +22,15 @@ final public class Loaf {
             case left
             case right
         }
+		
+        /// Specifies the width of the Loaf. (Default is `.fixed(280)`)
+        ///
+        /// - fixed: Specified as pixel size. i.e. 280
+        /// - screenPercentage: Specified as a ratio to the screen size. This value must be between 0 and 1. i.e. 0.8
+        public enum Width {
+            case fixed(CGFloat)
+            case screenPercentage(CGFloat)
+        }
         
         /// The background color of the loaf.
         let backgroundColor: UIColor
@@ -38,12 +47,16 @@ final public class Loaf {
         /// The icon on the loaf
         let icon: UIImage?
         
+        /// The alignment of the text within the Loaf
         let textAlignment: NSTextAlignment
         
         /// The position of the icon
         let iconAlignment: IconAlignment
-        
-        public init(backgroundColor: UIColor, textColor: UIColor = .white, tintColor: UIColor = .white, font: UIFont = UIFont.systemFont(ofSize: 14, weight: .medium), icon: UIImage? = Icon.info, textAlignment: NSTextAlignment = .left, iconAlignment: IconAlignment = .left) {
+		
+        /// The width of the loaf
+        let width: Width
+		
+        public init(backgroundColor: UIColor, textColor: UIColor = .white, tintColor: UIColor = .white, font: UIFont = UIFont.systemFont(ofSize: 14, weight: .medium), icon: UIImage? = Icon.info, textAlignment: NSTextAlignment = .left, iconAlignment: IconAlignment = .left, width: Width = .fixed(280)) {
             self.backgroundColor = backgroundColor
             self.textColor = textColor
             self.tintColor = tintColor
@@ -51,6 +64,7 @@ final public class Loaf {
             self.icon = icon
             self.textAlignment = textAlignment
             self.iconAlignment = iconAlignment
+            self.width = width
         }
     }
     
@@ -120,14 +134,21 @@ final public class Loaf {
         public static let info = Icons.imageOfInfo().withRenderingMode(.alwaysTemplate)
     }
     
+    // Reason a Loaf was dismissed
+    public enum DismissalReason {
+        case tapped
+        case timedOut
+    }
+    
     // MARK: - Properties
+    public typealias LoafCompletionHandler = ((DismissalReason) -> Void)?
     var message: String
     var state: State
     var location: Location
     var duration: Duration = .average
     var presentingDirection: Direction
     var dismissingDirection: Direction
-    var completionHandler: ((Bool) -> Void)? = nil
+    var completionHandler: LoafCompletionHandler = nil
     weak var sender: UIViewController?
     
     // MARK: - Public methods
@@ -148,11 +169,22 @@ final public class Loaf {
     /// Show the loaf for a specified duration. (Default is `.average`)
     ///
     /// - Parameter duration: Length the loaf will be presented
-    public func show(_ duration: Duration = .average, completionHandler: ((Bool) -> Void)? = nil) {
+    public func show(_ duration: Duration = .average, completionHandler: LoafCompletionHandler = nil) {
         self.duration = duration
         self.completionHandler = completionHandler
         LoafManager.shared.queueAndPresent(self)
     }
+	
+	/// Manually dismiss a currently presented Loaf
+	///
+	/// - Parameter animated: Whether the dismissal will be animated
+	public static func dismiss(sender: UIViewController, animated: Bool = true){
+		guard LoafManager.shared.isPresenting else { return }
+		guard let vc = sender.presentedViewController as? LoafViewController else { return }
+		vc.dismiss(animated: animated) {
+			vc.delegate?.loafDidDismiss()
+		}
+	}
 }
 
 final fileprivate class LoafManager: LoafDelegate {
@@ -198,14 +230,23 @@ final class LoafViewController: UIViewController {
         self.loaf = toast
         self.transDelegate = Manager(loaf: toast, size: .zero)
         super.init(nibName: nil, bundle: nil)
-        
+		
+        var width: CGFloat?
         if case let Loaf.State.custom(style) = loaf.state {
             self.font = style.font
             self.textAlignment = style.textAlignment
+			
+            switch style.width {
+            case .fixed(let value):
+                width = value
+            case .screenPercentage(let percentage):
+                guard 0...1 ~= percentage else { return }
+                width = UIScreen.main.bounds.width * percentage
+            }
         }
         
         let height = max(toast.message.heightWithConstrainedWidth(width: 240, font: font) + 12, 40)
-        preferredContentSize = CGSize(width: 280, height: height)
+        preferredContentSize = CGSize(width: width ?? 280, height: height)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -260,7 +301,7 @@ final class LoafViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + loaf.duration.length, execute: {
             self.dismiss(animated: true) { [weak self] in
                 self?.delegate?.loafDidDismiss()
-                self?.loaf.completionHandler?(false)
+                self?.loaf.completionHandler?(.timedOut)
             }
         })
     }
@@ -268,7 +309,7 @@ final class LoafViewController: UIViewController {
     @objc private func handleTap() {
         dismiss(animated: true) { [weak self] in
             self?.delegate?.loafDidDismiss()
-            self?.loaf.completionHandler?(true)
+            self?.loaf.completionHandler?(.tapped)
         }
     }
     

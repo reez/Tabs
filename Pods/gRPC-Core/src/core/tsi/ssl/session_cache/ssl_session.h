@@ -26,7 +26,11 @@
 #include <grpc/slice.h>
 
 extern "C" {
-#include <openssl_grpc/ssl.h>
+#if COCOAPODS==1
+  #include <openssl_grpc/ssl.h>
+#else
+  #include <openssl/ssl.h>
+#endif
 }
 
 #include "src/core/lib/gprpp/ref_counted.h"
