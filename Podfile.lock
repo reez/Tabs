@@ -48,14 +48,14 @@ PODS:
   - gRPC/Interface-Legacy (1.24.0):
     - gRPC-RxLibrary/Interface (= 1.24.0)
   - KeychainAccess (3.2.0)
-  - LNDrpc (0.0.5):
+  - LNDrpc (0.0.6):
     - "!ProtoCompiler-gRPCPlugin (~> 1.0)"
-    - LNDrpc/Messages (= 0.0.5)
-    - LNDrpc/Services (= 0.0.5)
-  - LNDrpc/Messages (0.0.5):
+    - LNDrpc/Messages (= 0.0.6)
+    - LNDrpc/Services (= 0.0.6)
+  - LNDrpc/Messages (0.0.6):
     - "!ProtoCompiler-gRPCPlugin (~> 1.0)"
     - Protobuf
-  - LNDrpc/Services (0.0.5):
+  - LNDrpc/Services (0.0.6):
     - "!ProtoCompiler-gRPCPlugin (~> 1.0)"
     - gRPC-ProtoRPC
     - LNDrpc/Messages
@@ -104,7 +104,7 @@ SPEC CHECKSUMS:
   gRPC-ProtoRPC: 02cec67680ec43dedb3114de4a93bf1040eba06e
   gRPC-RxLibrary: 79090af46797d7b8cf7120d41930c388b1ca3118
   KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
-  LNDrpc: 91a0039979a2bf8441356cccfed361fb25ceb992
+  LNDrpc: e1bfa71a2c0705c57798926da676e217e0cf60db
   Loaf: 0800b444431366bc395d54267975d4ad4ad5c99c
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f

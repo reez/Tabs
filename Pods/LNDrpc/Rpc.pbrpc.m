@@ -1,10 +1,10 @@
 #if !defined(GPB_GRPC_PROTOCOL_ONLY) || !GPB_GRPC_PROTOCOL_ONLY
 #import "Rpc.pbrpc.h"
 #import "Rpc.pbobjc.h"
-#import <ProtoRPC/ProtoRPC.h>
+#import <ProtoRPC/ProtoRPCLegacy.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 
 @implementation WalletUnlocker
 
@@ -55,7 +55,6 @@
 
 #pragma mark GenSeed(GenSeedRequest) returns (GenSeedResponse)
 
-// Deprecated methods.
 /**
  * *
  * GenSeed is the first method that should be used to instantiate a new lnd
@@ -113,7 +112,6 @@
 
 #pragma mark InitWallet(InitWalletRequest) returns (InitWalletResponse)
 
-// Deprecated methods.
 /**
  * * 
  * InitWallet is used when lnd is starting up for the first time to fully
@@ -173,17 +171,16 @@
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
  */
-//- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
-//  return [self RPCToMethod:@"InitWallet"
-//                   message:message
-//           responseHandler:handler
-//               callOptions:callOptions
-//             responseClass:[InitWalletResponse class]];
-//}
+- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"InitWallet"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[InitWalletResponse class]];
+}
 
 #pragma mark UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `unlock`
  * UnlockWallet is used at startup of lnd to provide a password to unlock
@@ -223,7 +220,6 @@
 
 #pragma mark ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `changepassword`
  * ChangePassword changes the password of the encrypted wallet. This will
@@ -311,7 +307,6 @@
 
 #pragma mark WalletBalance(WalletBalanceRequest) returns (WalletBalanceResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `walletbalance`
  * WalletBalance returns total unspent outputs(confirmed and unconfirmed), all
@@ -354,7 +349,6 @@
 
 #pragma mark ChannelBalance(ChannelBalanceRequest) returns (ChannelBalanceResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `channelbalance`
  * ChannelBalance returns the total funds available across all open channels
@@ -394,7 +388,6 @@
 
 #pragma mark GetTransactions(GetTransactionsRequest) returns (TransactionDetails)
 
-// Deprecated methods.
 /**
  * * lncli: `listchaintxns`
  * GetTransactions returns a list describing all the known transactions
@@ -434,7 +427,6 @@
 
 #pragma mark EstimateFee(EstimateFeeRequest) returns (EstimateFeeResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `estimatefee`
  * EstimateFee asks the chain backend to estimate the fee rate and total fees
@@ -474,7 +466,6 @@
 
 #pragma mark SendCoins(SendCoinsRequest) returns (SendCoinsResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `sendcoins`
  * SendCoins executes a request to send coins to a particular address. Unlike
@@ -523,7 +514,6 @@
 
 #pragma mark ListUnspent(ListUnspentRequest) returns (ListUnspentResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `listunspent`
  * ListUnspent returns a list of all utxos spendable by the wallet with a
@@ -563,7 +553,6 @@
 
 #pragma mark SubscribeTransactions(GetTransactionsRequest) returns (stream Transaction)
 
-// Deprecated methods.
 /**
  * *
  * SubscribeTransactions creates a uni-directional stream from the server to
@@ -606,7 +595,6 @@
 
 #pragma mark SendMany(SendManyRequest) returns (SendManyResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `sendmany`
  * SendMany handles a request for a transaction that creates multiple specified
@@ -652,7 +640,6 @@
 
 #pragma mark NewAddress(NewAddressRequest) returns (NewAddressResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `newaddress`
  * NewAddress creates a new address under control of the local wallet.
@@ -689,7 +676,6 @@
 
 #pragma mark SignMessage(SignMessageRequest) returns (SignMessageResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `signmessage`
  * SignMessage signs a message with this node's private key. The returned
@@ -732,7 +718,6 @@
 
 #pragma mark VerifyMessage(VerifyMessageRequest) returns (VerifyMessageResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `verifymessage`
  * VerifyMessage verifies a signature over a msg. The signature must be
@@ -778,7 +763,6 @@
 
 #pragma mark ConnectPeer(ConnectPeerRequest) returns (ConnectPeerResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `connect`
  * ConnectPeer attempts to establish a connection to a remote peer. This is at
@@ -821,7 +805,6 @@
 
 #pragma mark DisconnectPeer(DisconnectPeerRequest) returns (DisconnectPeerResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `disconnect`
  * DisconnectPeer attempts to disconnect one peer from another identified by a
@@ -864,7 +847,6 @@
 
 #pragma mark ListPeers(ListPeersRequest) returns (ListPeersResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `listpeers`
  * ListPeers returns a verbose listing of all currently active peers.
@@ -901,7 +883,6 @@
 
 #pragma mark GetInfo(GetInfoRequest) returns (GetInfoResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `getinfo`
  * GetInfo returns general information concerning the lightning node including
@@ -944,7 +925,6 @@
 
 #pragma mark PendingChannels(PendingChannelsRequest) returns (PendingChannelsResponse)
 
-// Deprecated methods.
 /**
  * TODO(roasbeef): merge with below with bool?
  * 
@@ -996,7 +976,6 @@
 
 #pragma mark ListChannels(ListChannelsRequest) returns (ListChannelsResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `listchannels`
  * ListChannels returns a description of all the open channels that this node
@@ -1036,7 +1015,6 @@
 
 #pragma mark SubscribeChannelEvents(ChannelEventSubscription) returns (stream ChannelEventUpdate)
 
-// Deprecated methods.
 /**
  * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
@@ -1082,7 +1060,6 @@
 
 #pragma mark ClosedChannels(ClosedChannelsRequest) returns (ClosedChannelsResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `closedchannels`
  * ClosedChannels returns a description of all the closed channels that
@@ -1122,7 +1099,6 @@
 
 #pragma mark OpenChannelSync(OpenChannelRequest) returns (ChannelPoint)
 
-// Deprecated methods.
 /**
  * *
  * OpenChannelSync is a synchronous version of the OpenChannel RPC call. This
@@ -1168,7 +1144,6 @@
 
 #pragma mark OpenChannel(OpenChannelRequest) returns (stream OpenStatusUpdate)
 
-// Deprecated methods.
 /**
  * * lncli: `openchannel`
  * OpenChannel attempts to open a singly funded channel specified in the
@@ -1217,7 +1192,6 @@
 
 #pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
 
-// Deprecated methods.
 /**
  * *
  * ChannelAcceptor dispatches a bi-directional streaming RPC in which
@@ -1265,7 +1239,6 @@
 
 #pragma mark CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate)
 
-// Deprecated methods.
 /**
  * * lncli: `closechannel`
  * CloseChannel attempts to close an active channel identified by its channel
@@ -1320,7 +1293,6 @@
 
 #pragma mark AbandonChannel(AbandonChannelRequest) returns (AbandonChannelResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `abandonchannel`
  * AbandonChannel removes all channel state from the database except for a
@@ -1366,7 +1338,6 @@
 
 #pragma mark SendPayment(stream SendRequest) returns (stream SendResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `sendpayment`
  * SendPayment dispatches a bi-directional streaming RPC for sending payments
@@ -1411,7 +1382,6 @@
 
 #pragma mark SendPaymentSync(SendRequest) returns (SendResponse)
 
-// Deprecated methods.
 /**
  * *
  * SendPaymentSync is the synchronous non-streaming version of SendPayment.
@@ -1457,7 +1427,6 @@
 
 #pragma mark SendToRoute(stream SendToRouteRequest) returns (stream SendResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `sendtoroute`
  * SendToRoute is a bi-directional streaming RPC for sending payment through
@@ -1502,7 +1471,6 @@
 
 #pragma mark SendToRouteSync(SendToRouteRequest) returns (SendResponse)
 
-// Deprecated methods.
 /**
  * *
  * SendToRouteSync is a synchronous version of SendToRoute. It Will block
@@ -1542,7 +1510,6 @@
 
 #pragma mark AddInvoice(Invoice) returns (AddInvoiceResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `addinvoice`
  * AddInvoice attempts to add a new invoice to the invoice database. Any
@@ -1585,7 +1552,6 @@
 
 #pragma mark ListInvoices(ListInvoiceRequest) returns (ListInvoiceResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `listinvoices`
  * ListInvoices returns a list of all the invoices currently stored within the
@@ -1640,7 +1606,6 @@
 
 #pragma mark LookupInvoice(PaymentHash) returns (Invoice)
 
-// Deprecated methods.
 /**
  * * lncli: `lookupinvoice`
  * LookupInvoice attempts to look up an invoice according to its payment hash.
@@ -1683,7 +1648,6 @@
 
 #pragma mark SubscribeInvoices(InvoiceSubscription) returns (stream Invoice)
 
-// Deprecated methods.
 /**
  * *
  * SubscribeInvoices returns a uni-directional stream (server -> client) for
@@ -1744,7 +1708,6 @@
 
 #pragma mark DecodePayReq(PayReqString) returns (PayReq)
 
-// Deprecated methods.
 /**
  * * lncli: `decodepayreq`
  * DecodePayReq takes an encoded payment request string and attempts to decode
@@ -1787,7 +1750,6 @@
 
 #pragma mark ListPayments(ListPaymentsRequest) returns (ListPaymentsResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `listpayments`
  * ListPayments returns a list of all outgoing payments.
@@ -1824,7 +1786,6 @@
 
 #pragma mark DeleteAllPayments(DeleteAllPaymentsRequest) returns (DeleteAllPaymentsResponse)
 
-// Deprecated methods.
 /**
  * *
  * DeleteAllPayments deletes all outgoing payments from DB.
@@ -1861,7 +1822,6 @@
 
 #pragma mark DescribeGraph(ChannelGraphRequest) returns (ChannelGraph)
 
-// Deprecated methods.
 /**
  * * lncli: `describegraph`
  * DescribeGraph returns a description of the latest graph state from the
@@ -1913,7 +1873,6 @@
 
 #pragma mark GetChanInfo(ChanInfoRequest) returns (ChannelEdge)
 
-// Deprecated methods.
 /**
  * * lncli: `getchaninfo`
  * GetChanInfo returns the latest authenticated network announcement for the
@@ -1959,7 +1918,6 @@
 
 #pragma mark GetNodeInfo(NodeInfoRequest) returns (NodeInfo)
 
-// Deprecated methods.
 /**
  * * lncli: `getnodeinfo`
  * GetNodeInfo returns the latest advertised, aggregated, and authenticated
@@ -1999,7 +1957,6 @@
 
 #pragma mark QueryRoutes(QueryRoutesRequest) returns (QueryRoutesResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `queryroutes`
  * QueryRoutes attempts to query the daemon's Channel Router for a possible
@@ -2048,7 +2005,6 @@
 
 #pragma mark GetNetworkInfo(NetworkInfoRequest) returns (NetworkInfo)
 
-// Deprecated methods.
 /**
  * * lncli: `getnetworkinfo`
  * GetNetworkInfo returns some basic stats about the known channel graph from
@@ -2088,7 +2044,6 @@
 
 #pragma mark StopDaemon(StopRequest) returns (StopResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `stop`
  * StopDaemon will send a shutdown request to the interrupt handler, triggering
@@ -2128,7 +2083,6 @@
 
 #pragma mark SubscribeChannelGraph(GraphTopologySubscription) returns (stream GraphTopologyUpdate)
 
-// Deprecated methods.
 /**
  * *
  * SubscribeChannelGraph launches a streaming RPC that allows the caller to
@@ -2180,7 +2134,6 @@
 
 #pragma mark DebugLevel(DebugLevelRequest) returns (DebugLevelResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `debuglevel`
  * DebugLevel allows a caller to programmatically set the logging verbosity of
@@ -2226,7 +2179,6 @@
 
 #pragma mark FeeReport(FeeReportRequest) returns (FeeReportResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `feereport`
  * FeeReport allows the caller to obtain a report detailing the current fee
@@ -2266,7 +2218,6 @@
 
 #pragma mark UpdateChannelPolicy(PolicyUpdateRequest) returns (PolicyUpdateResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `updatechanpolicy`
  * UpdateChannelPolicy allows the caller to update the fee schedule and
@@ -2306,7 +2257,6 @@
 
 #pragma mark ForwardingHistory(ForwardingHistoryRequest) returns (ForwardingHistoryResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `fwdinghistory`
  * ForwardingHistory allows the caller to query the htlcswitch for a record of
@@ -2370,7 +2320,6 @@
 
 #pragma mark ExportChannelBackup(ExportChannelBackupRequest) returns (ChannelBackup)
 
-// Deprecated methods.
 /**
  * * lncli: `exportchanbackup`
  * ExportChannelBackup attempts to return an encrypted static channel backup
@@ -2422,7 +2371,6 @@
 
 #pragma mark ExportAllChannelBackups(ChanBackupExportRequest) returns (ChanBackupSnapshot)
 
-// Deprecated methods.
 /**
  * *
  * ExportAllChannelBackups returns static channel backups for all existing
@@ -2471,7 +2419,6 @@
 
 #pragma mark VerifyChanBackup(ChanBackupSnapshot) returns (VerifyChanBackupResponse)
 
-// Deprecated methods.
 /**
  * *
  * VerifyChanBackup allows a caller to verify the integrity of a channel backup
@@ -2514,7 +2461,6 @@
 
 #pragma mark RestoreChannelBackups(RestoreChanBackupRequest) returns (RestoreBackupResponse)
 
-// Deprecated methods.
 /**
  * * lncli: `restorechanbackup`
  * RestoreChannelBackups accepts a set of singular channel backups, or a
@@ -2560,7 +2506,6 @@
 
 #pragma mark SubscribeChannelBackups(ChannelBackupSubscription) returns (stream ChanBackupSnapshot)
 
-// Deprecated methods.
 /**
  * *
  * SubscribeChannelBackups allows a client to sub-subscribe to the most up to

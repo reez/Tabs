@@ -16,7 +16,7 @@
 #import <stdatomic.h>
 
 #import "Rpc.pbobjc.h"
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -35,7 +35,7 @@
     GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
     registry = [[GPBExtensionRegistry alloc] init];
     // Merge in the imports (direct or indirect) that defined extensions.
-//    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
+    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
   }
   return registry;
 }

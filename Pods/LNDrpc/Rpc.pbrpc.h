@@ -4,7 +4,7 @@
 
 #if !defined(GPB_GRPC_PROTOCOL_ONLY) || !GPB_GRPC_PROTOCOL_ONLY
 #import <ProtoRPC/ProtoService.h>
-#import <ProtoRPC/ProtoRPC.h>
+#import <ProtoRPC/ProtoRPCLegacy.h>
 #import <RxLibrary/GRXWriteable.h>
 #import <RxLibrary/GRXWriter.h>
 #endif
@@ -110,14 +110,14 @@
 @class WalletBalanceResponse;
 
 #if !defined(GPB_GRPC_FORWARD_DECLARE_MESSAGE_PROTO) || !GPB_GRPC_FORWARD_DECLARE_MESSAGE_PROTO
-//  #import "google/api/Annotations.pbobjc.h"
+  #import "google/api/Annotations.pbobjc.h"
 #endif
 
-@class GRPCProtoCall;
 @class GRPCUnaryProtoCall;
 @class GRPCStreamingProtoCall;
 @class GRPCCallOptions;
 @protocol GRPCProtoResponseHandler;
+@class GRPCProtoCall;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -2117,7 +2117,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Basic service implementation, over gRPC, that only does
  * marshalling and parsing.
  */
-@interface WalletUnlocker : GRPCProtoService<WalletUnlocker, WalletUnlocker2>
+@interface WalletUnlocker : GRPCProtoService<WalletUnlocker2, WalletUnlocker>
 - (instancetype)initWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions NS_DESIGNATED_INITIALIZER;
 + (instancetype)serviceWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions;
 // The following methods belong to a set of old APIs that have been deprecated.
@@ -2128,7 +2128,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Basic service implementation, over gRPC, that only does
  * marshalling and parsing.
  */
-@interface Lightning : GRPCProtoService<Lightning, Lightning2>
+@interface Lightning : GRPCProtoService<Lightning2, Lightning>
 - (instancetype)initWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions NS_DESIGNATED_INITIALIZER;
 + (instancetype)serviceWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions;
 // The following methods belong to a set of old APIs that have been deprecated.
