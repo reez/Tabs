@@ -30,9 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
-        
-        // NEW
-        
+                
         BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskIdentifier, using: nil) { (task) in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
@@ -101,8 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .failure(_):
             print("failed")
             task.setTaskCompleted(success: false)
-            
         }
+        
     }
     
 }
