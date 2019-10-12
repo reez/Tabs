@@ -7,6 +7,9 @@
 
 import UIKit
 import UserNotifications
+import BackgroundTasks
+
+fileprivate let backgroundTaskIdentifier = "com.matthewramsden.lightningnode.refresh"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // 30 mins
+        
+        //        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // 30 mins
         registerForLocalNotifications(application: application)
         
         let vc = AddNodeViewController()
@@ -26,39 +30,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
-        
-        return true
-    }
-    
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        switch Current.keychain.load() {
-        case let .success(savedConfig):
-            
-            Current.remoteNodeConnectionFormatted = savedConfig
-            Current.lightningAPIRPC.info { [weak self] result in
-                try? result.get()
-                    |> flatMap {
-                        
-                        if $0.syncedToChain == false {
-                            self?.addNotification(syncStatus: $0.syncedToChain)
-                        }
-                        
-                        completionHandler(.newData)
-                }
-            }
-        case .failure(_):
-            completionHandler(.failed)
+                
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskIdentifier, using: nil) { (task) in
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
         
+        return true
     }
     
     func registerForLocalNotifications(application: UIApplication) {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [ .alert]) { [weak center, weak self] (granted, error) in
-            guard granted, let center = center, let `self` = self else { return }
+            guard granted, let _ = center, let _ = self else { return }
             print("registerForLocalNotifications")
         }
+    }
+    
+    func scheduleAppRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: backgroundTaskIdentifier)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60) // Fetch no earlier than 30 minutes from now
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        scheduleAppRefresh()
     }
     
     func addNotification(syncStatus: Bool) {
@@ -76,6 +75,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             print("added(request)")
         })
+    }
+    
+    func handleAppRefresh(task: BGAppRefreshTask) {
+        scheduleAppRefresh()
+        
+        switch Current.keychain.load() {
+        case let .success(savedConfig):
+            
+            Current.remoteNodeConnectionFormatted = savedConfig
+            Current.lightningAPIRPC.info { [weak self] result in
+                try? result.get()
+                    |> flatMap {
+                        
+                        if $0.syncedToChain == false {
+                            self?.addNotification(syncStatus: $0.syncedToChain)
+                        }
+                        
+                        task.setTaskCompleted(success: true)
+                        
+                }
+            }
+        case .failure(_):
+            print("failed")
+            task.setTaskCompleted(success: false)
+        }
+        
     }
     
 }
