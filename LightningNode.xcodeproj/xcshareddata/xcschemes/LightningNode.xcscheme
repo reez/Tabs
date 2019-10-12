@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F649E3474EA363292452274F99284B95"
+               BlueprintIdentifier = "445FD4CB16BB7BEE2D1C404951CDE14A"
                BuildableName = "openssl_grpc.framework"
                BlueprintName = "BoringSSL-GRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3F895CBA524B654D3F837F25BFBE2262"
+               BlueprintIdentifier = "615C831BCE925ED486B225B87E44926D"
                BuildableName = "KeychainAccess.framework"
                BlueprintName = "KeychainAccess"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "139FB2486B399C750DD33FC336B3E28C"
+               BlueprintIdentifier = "490A4D61D8D043863A539CC26ED3D002"
                BuildableName = "LNDrpc.framework"
                BlueprintName = "LNDrpc"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -70,7 +70,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "54B1439EA0C8737E1BAF1F8CEF27B62C"
+               BlueprintIdentifier = "AF8A82876C43F4DFD625D1823E680EAC"
                BuildableName = "NVActivityIndicatorView.framework"
                BlueprintName = "NVActivityIndicatorView"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -84,7 +84,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BC26099F577F54C8F423D8E8265D05CE"
+               BlueprintIdentifier = "7B6595E180AB23971FBD994BC20AF916"
                BuildableName = "Pods_LightningNode.framework"
                BlueprintName = "Pods-LightningNode"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "614D63DC0388E1E2DADFF9525CB86E10"
+               BlueprintIdentifier = "8636B078BD388A7DB45D4E76E8F2032F"
                BuildableName = "Pods_LightningNodeTests.framework"
                BlueprintName = "Pods-LightningNodeTests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -112,8 +112,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AF5BE3CC3FCAFD67708D54A2C2F522B8"
-               BuildableName = "Protobuf.framework"
+               BlueprintIdentifier = "470FE31978DC918618A329D8B55C85FF"
+               BuildableName = "protobuf.framework"
                BlueprintName = "Protobuf"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "520B1E7F268E4AD1C6679FAC582E7B62"
+               BlueprintIdentifier = "39A39D401DF90CA29AA027EE83BA7E80"
                BuildableName = "GRPCClient.framework"
                BlueprintName = "gRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -140,7 +140,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F11508D1DD2CE8BDFC248AED4DD6362E"
+               BlueprintIdentifier = "50F380A87A4FC4EC7EE3AC9BDADB6D2D"
                BuildableName = "grpc.framework"
                BlueprintName = "gRPC-Core"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -154,7 +154,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FC177566CC4A5FC1FED99F1933BA1FBC"
+               BlueprintIdentifier = "8693D036FA6D3647075E6C157913F710"
                BuildableName = "ProtoRPC.framework"
                BlueprintName = "gRPC-ProtoRPC"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -168,7 +168,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13C5776CDDF2310CD38088C42E5CB2D6"
+               BlueprintIdentifier = "99B1DE31EF95463C39932B2E06C8F4F7"
                BuildableName = "RxLibrary.framework"
                BlueprintName = "gRPC-RxLibrary"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -194,9 +194,18 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AE1571E921C4927D0055D5BD"
+            BuildableName = "LightningNode.app"
+            BlueprintName = "LightningNode"
+            ReferencedContainer = "container:LightningNode.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -218,17 +227,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AE1571E921C4927D0055D5BD"
-            BuildableName = "LightningNode.app"
-            BlueprintName = "LightningNode"
-            ReferencedContainer = "container:LightningNode.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

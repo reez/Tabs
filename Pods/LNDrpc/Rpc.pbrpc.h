@@ -4,7 +4,7 @@
 
 #if !defined(GPB_GRPC_PROTOCOL_ONLY) || !GPB_GRPC_PROTOCOL_ONLY
 #import <ProtoRPC/ProtoService.h>
-#import <ProtoRPC/ProtoRPC.h>
+#import <ProtoRPC/ProtoRPCLegacy.h>
 #import <RxLibrary/GRXWriteable.h>
 #import <RxLibrary/GRXWriter.h>
 #endif
@@ -17,6 +17,8 @@
 @class ChanInfoRequest;
 @class ChangePasswordRequest;
 @class ChangePasswordResponse;
+@class ChannelAcceptRequest;
+@class ChannelAcceptResponse;
 @class ChannelBackup;
 @class ChannelBackupSubscription;
 @class ChannelBalanceRequest;
@@ -111,11 +113,11 @@
 //  #import "google/api/Annotations.pbobjc.h"
 #endif
 
-@class GRPCProtoCall;
 @class GRPCUnaryProtoCall;
 @class GRPCStreamingProtoCall;
 @class GRPCCallOptions;
 @protocol GRPCProtoResponseHandler;
+@class GRPCProtoCall;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -349,7 +351,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark SubscribeChannelEvents(ChannelEventSubscription) returns (stream ChannelEventUpdate)
 
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -388,6 +390,18 @@ NS_ASSUME_NONNULL_BEGIN
  * lax block confirmation target is used.
  */
 - (GRPCUnaryProtoCall *)openChannelWithMessage:(OpenChannelRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
+
+#pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
+
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ */
+- (GRPCStreamingProtoCall *)channelAcceptorWithResponseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
 #pragma mark CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate)
 
@@ -1236,7 +1250,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark SubscribeChannelEvents(ChannelEventSubscription) returns (stream ChannelEventUpdate)
 
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -1247,7 +1261,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)subscribeChannelEventsWithRequest:(ChannelEventSubscription *)request eventHandler:(void(^)(BOOL done, ChannelEventUpdate *_Nullable response, NSError *_Nullable error))eventHandler;
 
 /**
- * * lncli: `subscribechannelevents`
+ * *
  * SubscribeChannelEvents creates a uni-directional stream from the server to
  * the client in which any updates relevant to the state of the channels are
  * sent over. Events include new active channels, inactive channels, and closed
@@ -1329,6 +1343,33 @@ NS_ASSUME_NONNULL_BEGIN
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToOpenChannelWithRequest:(OpenChannelRequest *)request eventHandler:(void(^)(BOOL done, OpenStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler;
+
+
+#pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
+
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)channelAcceptorWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, ChannelAcceptRequest *_Nullable response, NSError *_Nullable error))eventHandler;
+
+/**
+ * *
+ * ChannelAcceptor dispatches a bi-directional streaming RPC in which
+ * OpenChannel requests are sent to the client and the client responds with
+ * a boolean that tells LND whether or not to accept the channel. This allows
+ * node operators to specify their own criteria for accepting inbound channels
+ * through a single persistent connection.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToChannelAcceptorWithRequestsWriter:(GRXWriter *)requestWriter eventHandler:(void(^)(BOOL done, ChannelAcceptRequest *_Nullable response, NSError *_Nullable error))eventHandler;
 
 
 #pragma mark CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate)
@@ -2076,7 +2117,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Basic service implementation, over gRPC, that only does
  * marshalling and parsing.
  */
-@interface WalletUnlocker : GRPCProtoService<WalletUnlocker, WalletUnlocker2>
+@interface WalletUnlocker : GRPCProtoService<WalletUnlocker2, WalletUnlocker>
 - (instancetype)initWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions NS_DESIGNATED_INITIALIZER;
 + (instancetype)serviceWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions;
 // The following methods belong to a set of old APIs that have been deprecated.
@@ -2087,7 +2128,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Basic service implementation, over gRPC, that only does
  * marshalling and parsing.
  */
-@interface Lightning : GRPCProtoService<Lightning, Lightning2>
+@interface Lightning : GRPCProtoService<Lightning2, Lightning>
 - (instancetype)initWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions NS_DESIGNATED_INITIALIZER;
 + (instancetype)serviceWithHost:(NSString *)host callOptions:(GRPCCallOptions *_Nullable)callOptions;
 // The following methods belong to a set of old APIs that have been deprecated.
