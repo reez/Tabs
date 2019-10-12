@@ -9,7 +9,6 @@ target 'LightningNode' do
     pod 'LNDrpc', :path => '.'
     pod 'KeychainAccess'
     pod 'NVActivityIndicatorView'
-    pod 'PanModal'
     pod 'M13Checkbox'
     pod 'Loaf'
 
@@ -17,7 +16,7 @@ target 'LightningNode' do
     inherit! :search_paths
     # Pods for testing
     pod 'LNDrpc', :path => '.'
-    pod 'SnapshotTesting'
+    pod 'SnapshotTesting', '~> 1.6'
   end
 
 end
