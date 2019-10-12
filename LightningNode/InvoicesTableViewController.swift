@@ -159,7 +159,7 @@ final class InvoiceInfoCell: UITableViewCell {
     private let amountLabel = UILabel()
     private let amountStackView = UIStackView()
     private let rootStackView = UIStackView()
-    private let lightningImageView = UIImageView(image: UIImage(named: "lightning"))
+    private let lightningImageView = UIImageView(image: UIImage(named: "bolt.circle"))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

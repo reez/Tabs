@@ -30,8 +30,8 @@ class InvoiceViewController: UIViewController {
     private let titleStackView = UIStackView()
     private let amountTextStackView = UIStackView()
     private let memoTextStackView = UIStackView()
-    private let amountImageView = UIImageView(image: UIImage(named: "lightning"))
-    private let memoImageView = UIImageView(image: UIImage(named: "message"))
+    private let amountImageView = UIImageView(image: UIImage(named: "bolt.circle"))
+//    private let memoImageView = UIImageView(image: UIImage(named: "message"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
