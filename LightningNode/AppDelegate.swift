@@ -7,6 +7,9 @@
 
 import UIKit
 import UserNotifications
+import BackgroundTasks
+
+fileprivate let backgroundTaskIdentifier = "com.matthewramsden.lightningnode.refresh"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -78,4 +81,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    func scheduleAppRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: backgroundTaskIdentifier)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // Fetch no earlier than 15 minutes from now
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+         scheduleAppRefresh()
+     }
+    
 }
+
