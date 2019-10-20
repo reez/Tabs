@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import PanModal
 import NVActivityIndicatorView
 
 class StatusDetailViewController: UIViewController {
@@ -42,7 +41,7 @@ extension StatusDetailViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: .systemGray6,//UIColor.mr_black,
+            color: .systemGray6,
             padding: nil
         )
         
@@ -106,19 +105,3 @@ extension StatusDetailViewController {
     }
     
 }
-
-//extension StatusDetailViewController: PanModalPresentable {
-//    
-//    var panScrollable: UIScrollView? {
-//        return nil
-//    }
-//    
-//    var longFormHeight: PanModalHeight {
-//        return .contentHeight(300)
-//    }
-//    
-//    var anchorModalToLongForm: Bool {
-//        return false
-//    }
-//    
-//}

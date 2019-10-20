@@ -198,3 +198,22 @@ extension SettingsViewController {
     }
     
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+struct SettingsViewControllerRepresentable: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return SettingsViewController.init().view
+    }
+    
+    func updateUIView(_ view: UIView, context: Context) {
+        
+    }
+}
+
+struct SettingsViewController_Preview: PreviewProvider {
+    static var previews: some View {
+        SettingsViewControllerRepresentable()
+    }
+}
+#endif

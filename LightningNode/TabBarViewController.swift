@@ -13,21 +13,21 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBar.tintColor = .systemBlue//.mr_blue
+        self.tabBar.tintColor = .systemBlue
         
         let status = StatusViewController()
         status.tabBarItem.title = "Status"
-        status.view.backgroundColor = .systemBackground//.white
+        status.view.backgroundColor = .systemBackground
         status.tabBarItem.image = UIImage(named: "checkmark.circle")
         
         let invoices = InvoicesTableViewController()
         invoices.tabBarItem.title = "Invoices"
-        invoices.view.backgroundColor = .systemBackground//.white
+        invoices.view.backgroundColor = .systemBackground
         invoices.tabBarItem.image = UIImage(named: "bolt.circle")
         
         let settings = SettingsViewController()
         settings.tabBarItem.title = "Settings"
-        settings.view.backgroundColor = .systemBackground//.white
+        settings.view.backgroundColor = .systemBackground
         settings.tabBarItem.image = UIImage(named: "line.horizontal.3.decrease.circle")
         
         let viewControllers = [status, invoices, settings]

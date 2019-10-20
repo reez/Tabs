@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import PanModal
 import NVActivityIndicatorView
 import Loaf
 
@@ -31,7 +30,6 @@ class InvoiceViewController: UIViewController {
     private let amountTextStackView = UIStackView()
     private let memoTextStackView = UIStackView()
     private let amountImageView = UIImageView(image: UIImage(named: "bolt.circle"))
-//    private let memoImageView = UIImageView(image: UIImage(named: "message"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -229,7 +227,7 @@ extension InvoiceViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: .systemGray6, //UIColor.mr_black,
+            color: .systemGray6,
             padding: nil
         )
         
@@ -268,21 +266,3 @@ extension InvoiceViewController {
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
 }
-
-//extension InvoiceViewController: PanModalPresentable {
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
-//    
-//    var panScrollable: UIScrollView? {
-//        return nil
-//    }
-//    
-//    var longFormHeight: PanModalHeight {
-//        return .contentHeight(525)
-//    }
-//    
-//    var anchorModalToLongForm: Bool {
-//        return false
-//    }
-//}

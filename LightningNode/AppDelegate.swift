@@ -19,13 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         
-        //        UIApplication.shared.setMinimumBackgroundFetchInterval(1800) // 30 mins
         registerForLocalNotifications(application: application)
         
         let vc = AddNodeViewController()
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isHidden = true
-        navigationController.view.backgroundColor = .systemBackground//.white
+        navigationController.view.backgroundColor = .systemBackground
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navigationController
