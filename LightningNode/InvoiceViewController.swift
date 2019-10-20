@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import PanModal
 import NVActivityIndicatorView
 import Loaf
 
@@ -267,21 +266,3 @@ extension InvoiceViewController {
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
 }
-
-//extension InvoiceViewController: PanModalPresentable {
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
-//    
-//    var panScrollable: UIScrollView? {
-//        return nil
-//    }
-//    
-//    var longFormHeight: PanModalHeight {
-//        return .contentHeight(525)
-//    }
-//    
-//    var anchorModalToLongForm: Bool {
-//        return false
-//    }
-//}
