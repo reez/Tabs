@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import PanModal
 import M13Checkbox
 
 class StatusViewController: UIViewController {
@@ -72,7 +71,6 @@ class StatusViewController: UIViewController {
     @objc private func modalButtonPressed() {
         let vc = StatusDetailViewController()
         self.present(vc, animated: true, completion: nil)
-        //presentPanModal(vc)
     }
     
 }
@@ -135,3 +133,22 @@ extension StatusViewController {
     }
     
 }
+//
+//#if canImport(SwiftUI) && DEBUG
+//import SwiftUI
+//struct StatusViewControllerRepresentable: UIViewRepresentable {
+//    func makeUIView(context: Context) -> UIView {
+//        return StatusViewController.init().view
+//    }
+//    
+//    func updateUIView(_ view: UIView, context: Context) {
+//        
+//    }
+//}
+//
+//struct StatusViewController_Preview: PreviewProvider {
+//    static var previews: some View {
+//        StatusViewControllerRepresentable()
+//    }
+//}
+//#endif

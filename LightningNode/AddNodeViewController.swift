@@ -84,8 +84,7 @@ extension AddNodeViewController {
             <> centerTextStyle
             <> subheadlineTextStyle
             <> { $0.text = "Or paste info manually below" }
-//            <> { $0.textColor = .systemGray }
-        <> { $0.textColor = .secondaryLabel }
+            <> { $0.textColor = .secondaryLabel }
 
         
         self.certificateTextField
@@ -133,7 +132,6 @@ extension AddNodeViewController {
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
             color: .systemGray6,
-            //UIColor.mr_black,
             padding: nil
         )
         
@@ -189,7 +187,6 @@ extension AddNodeViewController {
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
                     let vc = TabBarViewController()
-//                    self.present(vc, animated: true, completion: nil)
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
@@ -212,3 +209,22 @@ extension AddNodeViewController {
         }
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+struct AddNodeViewControllerRepresentable: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return AddNodeViewController.init().view
+    }
+    
+    func updateUIView(_ view: UIView, context: Context) {
+        
+    }
+}
+
+struct AddNodeViewController_Preview: PreviewProvider {
+    static var previews: some View {
+        AddNodeViewControllerRepresentable()
+    }
+}
+#endif

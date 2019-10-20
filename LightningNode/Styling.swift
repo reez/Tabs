@@ -130,7 +130,7 @@ let unfilledButtonStyle =
 let checkboxStyle: (M13Checkbox) -> Void = {
     $0.animationDuration = 0.50
     $0.setCheckState(.unchecked, animated: true)
-    $0.tintColor = .systemOrange//.mr_gold
+    $0.tintColor = .mr_gold//.systemOrange//.mr_gold
     $0.secondaryTintColor = .systemGray//.mr_lightGray
     $0.checkmarkLineWidth = 6.0
     $0.boxLineWidth = 3.0
@@ -186,6 +186,30 @@ extension UIFont {
 //    public static let mr_yellow = UIColor(red: 255/255, green: 240/255, blue: 128/255, alpha: 1)
 //    public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
 //}
+
+extension UIColor {
+//    public static let mr_black = UIColor(white: 0.07, alpha: 1)
+//    public static let mr_blue = UIColor(red: 0/255, green: 172/255, blue: 255/255, alpha: 1)
+//    public static let mr_gray = UIColor(white: 0.5, alpha: 1.0)
+//    public static let mr_lightGray = UIColor(white: 0.95, alpha: 1.0)
+//    public static let mr_green = UIColor(red: 121/255, green: 242/255, blue: 176/255, alpha: 1)
+//    public static let mr_purple = UIColor(red: 151/255, green: 77/255, blue: 255/255, alpha: 1)
+//    public static let mr_red = UIColor(red: 255/255, green: 100/255, blue: 87/255, alpha: 1)
+//    public static let mr_yellow = UIColor(red: 255/255, green: 240/255, blue: 128/255, alpha: 1)
+//    public static let mr_gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
+    
+    public static var mr_gold: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            if traitCollection.userInterfaceStyle == .dark {
+                return UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
+            } else {
+                return UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
+            }
+        }
+        
+    }
+    
+}
 
 extension CGFloat {
     static func mr_grid(_ n: Int) -> CGFloat {

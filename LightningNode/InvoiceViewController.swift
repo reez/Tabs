@@ -31,7 +31,6 @@ class InvoiceViewController: UIViewController {
     private let amountTextStackView = UIStackView()
     private let memoTextStackView = UIStackView()
     private let amountImageView = UIImageView(image: UIImage(named: "bolt.circle"))
-//    private let memoImageView = UIImageView(image: UIImage(named: "message"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -229,7 +228,7 @@ extension InvoiceViewController {
         self.nvActivityIndicator = NVActivityIndicatorView(
             frame: nvActivityIndicatorFrame,
             type: NVActivityIndicatorType.ballClipRotate,
-            color: .systemGray6, //UIColor.mr_black,
+            color: .systemGray6,
             padding: nil
         )
         
