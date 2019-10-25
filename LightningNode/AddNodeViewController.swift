@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import Combine
 
 class AddNodeViewController: UIViewController {
     
@@ -22,10 +23,19 @@ class AddNodeViewController: UIViewController {
     let submitButton = UIButton()
     let textFieldStackView = UIStackView()
     
+    private var addNodeViewModelCombine = AddNodeViewModelCombine()
+    private var submitButtonSubscriber: AnyCancellable? // calls cancel on deinit
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NotificationCenter.default.addObserver(self, selector: #selector(loadRNC), name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(loadRNC),
+            name: NSNotification.Name(rawValue: "loadRNC"),
+            object: nil
+        )
         
         switch loadFromKeychain() {
         case let .success(value):
@@ -33,12 +43,6 @@ class AddNodeViewController: UIViewController {
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
-            let alertController = UIAlertController(
-                title: "Something went wrong fetching node.",
-                message: error.localizedDescription,
-                preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
             print(error)
         }
         
@@ -50,6 +54,16 @@ class AddNodeViewController: UIViewController {
         
         setupUI()
         loadRNC()
+        
+        // This didn't trigger if in viewDidLoad when coming back from removing node
+        // i.e. if there was still text in the box, it wouldn't notice until editing character
+        // maybe change targets `editingChanged` trigger
+        submitButtonSubscriber = addNodeViewModelCombine.readyToSubmit
+            .receive(on: RunLoop.main)
+            .assign(to: \UIButton.isEnabled, on: submitButton)
+        
+        // do I need to compactmap or filter for only true values?
+
     }
     
 }
@@ -102,6 +116,24 @@ extension AddNodeViewController {
             <> { $0.placeholder = "URI (Example: 142.x.x.x:10009)"}
             <> { $0.delegate = self }
         
+        self.certificateTextField.addTarget(
+            self,
+            action: #selector(certificateDidChange),
+            for: .editingChanged
+        )
+        
+        self.macaroonTextField.addTarget(
+            self,
+            action: #selector(macaroonDidChange),
+            for: .editingChanged
+        )
+        
+        self.uriTextField.addTarget(
+            self,
+            action: #selector(uriDidChange),
+            for: .editingChanged
+        )
+        
         self.textFieldStackView
             |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.certificateTextField) }
@@ -110,8 +142,11 @@ extension AddNodeViewController {
         
         self.submitButton
             |> unfilledButtonStyle
+            <> { $0.setTitle("---", for: .disabled) }
             <> { $0.setTitle("Add Node", for: .normal) }
             <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
+            <> { $0.isEnabled = false }
+
         
         self.rootStackView
             |> verticalStackViewStyle
@@ -152,6 +187,18 @@ extension AddNodeViewController {
 }
 
 extension AddNodeViewController {
+    
+    @objc func certificateDidChange(_ sender: UITextField) {
+        addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
+    }
+    
+    @objc func macaroonDidChange(_ sender: UITextField) {
+        addNodeViewModelCombine.macaroonTextFieldInput = sender.text ?? ""
+    }
+    
+    @objc func uriDidChange(_ sender: UITextField) {
+        addNodeViewModelCombine.uriTextFieldInput = sender.text ?? ""
+    }
     
     @objc func cameraPressed() {
         let vc = CameraViewController()
