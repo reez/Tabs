@@ -78,9 +78,11 @@ class SettingsViewController: UIViewController {
                     deleteFromKeychain()
                     if (self.navigationController != nil) {
                         print("self.navigationController != nil")
+                        Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                         self.navigationController?.popToRootViewController(animated: true)
                     } else {
                         print("self.navigationController = nil")
+                        Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
                     }
             }

@@ -25,6 +25,7 @@ class AddNodeViewController: UIViewController {
     
     private var addNodeViewModelCombine = AddNodeViewModelCombine()
     private var submitButtonSubscriber: AnyCancellable? // calls cancel on deinit
+    private var yeezyButtonSubscriber: AnyCancellable? // calls cancel on deinit
 
     
     override func viewDidLoad() {
@@ -46,6 +47,66 @@ class AddNodeViewController: UIViewController {
             print(error)
         }
         
+        let certPub =  NotificationCenter.default
+                   .publisher(for: UITextField.textDidChangeNotification, object: certificateTextField)
+                   .map( { ($0.object as! UITextField).text } )
+//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+                   .eraseToAnyPublisher()
+               
+               let macSub =  NotificationCenter.default
+                   .publisher(for: UITextField.textDidChangeNotification, object: macaroonTextField)
+                   .map( { ($0.object as! UITextField).text } )
+//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+                   .eraseToAnyPublisher()
+               
+               let uriSub =  NotificationCenter.default
+                   .publisher(for: UITextField.textDidChangeNotification, object: uriTextField)
+                   .map( { ($0.object as! UITextField).text } )
+//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+                   .eraseToAnyPublisher()
+               
+               let yeezy = Publishers.CombineLatest3(certPub, macSub, uriSub)
+                   .map { value1, value2, value3 in
+                       print("yeezyvalue 1: \(value1)")
+                       
+                       print("yeezyvalue 2: \(value2)")
+                       
+                       print("yeezyvalue 3: \(value3)")
+               }
+               .eraseToAnyPublisher()
+               
+               _ = yeezy.sink { value in
+                   print(value)
+               }
+        
+        
+        let sub1 = NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: certificateTextField)
+            .compactMap( { ($0.object as! UITextField).text } ) // replace map w compactmap to remove optional
+            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
+                  receiveValue: { print ("KING 1 \($0)") })
+
+        let sub2 = NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: macaroonTextField)
+            .map( { ($0.object as! UITextField).text } )
+            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
+                  receiveValue: { print ("KING 2 \($0)") })
+        
+        let sub3 = NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: uriTextField)
+            .map( { ($0.object as! UITextField).text } )
+            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
+                  receiveValue: { print ("KING 3 \($0)") })
+        
+//        let _ = Publishers.CombineLatest3(sub1, sub2, sub3)
+//        .receive(on: RunLoop.main)
+//        .assign(to: \UIButton.isEnabled, on: submitButton)
+
+        
+        
+        
+        yeezyButtonSubscriber = sub1
+        
     }
     
     // RNC from camera to appear
@@ -55,6 +116,8 @@ class AddNodeViewController: UIViewController {
         setupUI()
         loadRNC()
         
+ 
+        
         // This didn't trigger if in viewDidLoad when coming back from removing node
         // i.e. if there was still text in the box, it wouldn't notice until editing character
         // maybe change targets `editingChanged` trigger
@@ -62,8 +125,18 @@ class AddNodeViewController: UIViewController {
             .receive(on: RunLoop.main)
             .assign(to: \UIButton.isEnabled, on: submitButton)
         
+        
+        
         // do I need to compactmap or filter for only true values?
 
+//        if !certificateTextField.text!.isEmpty && !macaroonTextField.text!.isEmpty && !uriTextField.text!.isEmpty {
+//              submitButton.isEnabled = true
+//             submitButton.setTitle("Add Node yo", for: .normal)
+//          }
+        
+       
+
+        
     }
     
 }
@@ -119,19 +192,19 @@ extension AddNodeViewController {
         self.certificateTextField.addTarget(
             self,
             action: #selector(certificateDidChange),
-            for: .editingChanged
+            for: .allEvents
         )
         
         self.macaroonTextField.addTarget(
             self,
             action: #selector(macaroonDidChange),
-            for: .editingChanged
+            for: .allEvents
         )
         
         self.uriTextField.addTarget(
             self,
             action: #selector(uriDidChange),
-            for: .editingChanged
+            for: .allEvents
         )
         
         self.textFieldStackView
@@ -142,10 +215,10 @@ extension AddNodeViewController {
         
         self.submitButton
             |> unfilledButtonStyle
-            <> { $0.setTitle("---", for: .disabled) }
+            <> { $0.isEnabled = false }
+            <> { $0.setTitle("...", for: .disabled) }
             <> { $0.setTitle("Add Node", for: .normal) }
             <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
-            <> { $0.isEnabled = false }
 
         
         self.rootStackView
@@ -189,14 +262,17 @@ extension AddNodeViewController {
 extension AddNodeViewController {
     
     @objc func certificateDidChange(_ sender: UITextField) {
+        print("certificateDidChange")
         addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
     }
     
     @objc func macaroonDidChange(_ sender: UITextField) {
+        print("macaroonDidChange")
         addNodeViewModelCombine.macaroonTextFieldInput = sender.text ?? ""
     }
     
     @objc func uriDidChange(_ sender: UITextField) {
+        print("uriDidChange")
         addNodeViewModelCombine.uriTextFieldInput = sender.text ?? ""
     }
     
@@ -212,6 +288,10 @@ extension AddNodeViewController {
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
         }
+//        if !certificateTextField.text!.isEmpty && !macaroonTextField.text!.isEmpty && !uriTextField.text!.isEmpty {
+//              submitButton.isEnabled = true
+//             submitButton.setTitle("Add Node yo", for: .normal)
+//          }
     }
     
     @objc func submitPressed() {
