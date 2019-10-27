@@ -25,7 +25,6 @@ class AddNodeViewController: UIViewController {
     
     private var addNodeViewModelCombine = AddNodeViewModelCombine()
     private var submitButtonSubscriber: AnyCancellable? // calls cancel on deinit
-    private var yeezyButtonSubscriber: AnyCancellable? // calls cancel on deinit
 
     
     override func viewDidLoad() {
@@ -46,96 +45,18 @@ class AddNodeViewController: UIViewController {
         case let .failure(error):
             print(error)
         }
-        
-        let certPub =  NotificationCenter.default
-                   .publisher(for: UITextField.textDidChangeNotification, object: certificateTextField)
-                   .map( { ($0.object as! UITextField).text } )
-//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                   .eraseToAnyPublisher()
-               
-               let macSub =  NotificationCenter.default
-                   .publisher(for: UITextField.textDidChangeNotification, object: macaroonTextField)
-                   .map( { ($0.object as! UITextField).text } )
-//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                   .eraseToAnyPublisher()
-               
-               let uriSub =  NotificationCenter.default
-                   .publisher(for: UITextField.textDidChangeNotification, object: uriTextField)
-                   .map( { ($0.object as! UITextField).text } )
-//                   .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                   .eraseToAnyPublisher()
-               
-               let yeezy = Publishers.CombineLatest3(certPub, macSub, uriSub)
-                   .map { value1, value2, value3 in
-                       print("yeezyvalue 1: \(value1)")
-                       
-                       print("yeezyvalue 2: \(value2)")
-                       
-                       print("yeezyvalue 3: \(value3)")
-               }
-               .eraseToAnyPublisher()
-               
-               _ = yeezy.sink { value in
-                   print(value)
-               }
-        
-        
-        let sub1 = NotificationCenter.default
-            .publisher(for: UITextField.textDidChangeNotification, object: certificateTextField)
-            .compactMap( { ($0.object as! UITextField).text } ) // replace map w compactmap to remove optional
-            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
-                  receiveValue: { print ("KING 1 \($0)") })
-
-        let sub2 = NotificationCenter.default
-            .publisher(for: UITextField.textDidChangeNotification, object: macaroonTextField)
-            .map( { ($0.object as! UITextField).text } )
-            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
-                  receiveValue: { print ("KING 2 \($0)") })
-        
-        let sub3 = NotificationCenter.default
-            .publisher(for: UITextField.textDidChangeNotification, object: uriTextField)
-            .map( { ($0.object as! UITextField).text } )
-            .sink(receiveCompletion: { print ("JESUS IS: \($0)") },
-                  receiveValue: { print ("KING 3 \($0)") })
-        
-//        let _ = Publishers.CombineLatest3(sub1, sub2, sub3)
-//        .receive(on: RunLoop.main)
-//        .assign(to: \UIButton.isEnabled, on: submitButton)
-
-        
-        
-        
-        yeezyButtonSubscriber = sub1
-        
+    
     }
     
-    // RNC from camera to appear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         setupUI()
         loadRNC()
         
- 
-        
-        // This didn't trigger if in viewDidLoad when coming back from removing node
-        // i.e. if there was still text in the box, it wouldn't notice until editing character
-        // maybe change targets `editingChanged` trigger
         submitButtonSubscriber = addNodeViewModelCombine.readyToSubmit
             .receive(on: RunLoop.main)
             .assign(to: \UIButton.isEnabled, on: submitButton)
-        
-        
-        
-        // do I need to compactmap or filter for only true values?
-
-//        if !certificateTextField.text!.isEmpty && !macaroonTextField.text!.isEmpty && !uriTextField.text!.isEmpty {
-//              submitButton.isEnabled = true
-//             submitButton.setTitle("Add Node yo", for: .normal)
-//          }
-        
-       
-
         
     }
     
@@ -159,12 +80,7 @@ extension AddNodeViewController {
         self.lndConnectButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Scan lndconnect QRCode", for: .normal) }
-        
-        self.lndConnectButton.addTarget(
-            self,
-            action: #selector(cameraPressed),
-            for: .touchUpInside
-        )
+        <> { $0.addTarget(self, action: #selector(self.cameraPressed), for: .touchUpInside) }
         
         self.titleLabelStatic
             |> { $0.numberOfLines = 0 }
@@ -173,39 +89,23 @@ extension AddNodeViewController {
             <> { $0.text = "Or paste info manually below" }
             <> { $0.textColor = .secondaryLabel }
 
-        
         self.certificateTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
             <> { $0.delegate = self }
+            <> { $0.addTarget(self, action: #selector(self.certificateDidChange), for: .allEvents) }
         
         self.macaroonTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Macaroon (Example: AgECg...reaDXg==)"}
             <> { $0.delegate = self }
+            <> { $0.addTarget(self, action: #selector(self.macaroonDidChange), for: .allEvents) }
         
         self.uriTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "URI (Example: 142.x.x.x:10009)"}
             <> { $0.delegate = self }
-        
-        self.certificateTextField.addTarget(
-            self,
-            action: #selector(certificateDidChange),
-            for: .allEvents
-        )
-        
-        self.macaroonTextField.addTarget(
-            self,
-            action: #selector(macaroonDidChange),
-            for: .allEvents
-        )
-        
-        self.uriTextField.addTarget(
-            self,
-            action: #selector(uriDidChange),
-            for: .allEvents
-        )
+            <> { $0.addTarget(self, action: #selector(self.uriDidChange), for: .allEvents) }
         
         self.textFieldStackView
             |> verticalStackViewStyle
@@ -220,7 +120,6 @@ extension AddNodeViewController {
             <> { $0.setTitle("Add Node", for: .normal) }
             <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
 
-        
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.titleLabel) }
@@ -248,13 +147,15 @@ extension AddNodeViewController {
             <> { $0.addSubview(self.rootStackView) }
             <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
         
-        NSLayoutConstraint.activate([
-            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
-            self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-            self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            self.lndConnectButton.heightAnchor.constraint(equalToConstant: 60.0),
-            self.submitButton.heightAnchor.constraint(equalToConstant: 60.0),
-            ])
+        NSLayoutConstraint.activate(
+            [
+                self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
+                self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
+                self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+                self.lndConnectButton.heightAnchor.constraint(equalToConstant: 60.0),
+                self.submitButton.heightAnchor.constraint(equalToConstant: 60.0),
+            ]
+        )
         
     }
 }
@@ -262,8 +163,7 @@ extension AddNodeViewController {
 extension AddNodeViewController {
     
     @objc func certificateDidChange(_ sender: UITextField) {
-        print("certificateDidChange")
-        addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
+         addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
     }
     
     @objc func macaroonDidChange(_ sender: UITextField) {
@@ -272,7 +172,6 @@ extension AddNodeViewController {
     }
     
     @objc func uriDidChange(_ sender: UITextField) {
-        print("uriDidChange")
         addNodeViewModelCombine.uriTextFieldInput = sender.text ?? ""
     }
     
@@ -282,16 +181,17 @@ extension AddNodeViewController {
     }
     
     // This is my workaround for refreshing after modal dismissed
+    // And enabling button
     @objc func loadRNC(){
         if let lndConnect = Current.remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
+            self.certificateDidChange(self.certificateTextField)
+            self.macaroonDidChange(self.macaroonTextField)
+            self.uriDidChange(self.uriTextField)
         }
-//        if !certificateTextField.text!.isEmpty && !macaroonTextField.text!.isEmpty && !uriTextField.text!.isEmpty {
-//              submitButton.isEnabled = true
-//             submitButton.setTitle("Add Node yo", for: .normal)
-//          }
+        
     }
     
     @objc func submitPressed() {
