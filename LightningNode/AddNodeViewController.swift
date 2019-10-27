@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import Combine
 
 class AddNodeViewController: UIViewController {
     
@@ -22,10 +23,19 @@ class AddNodeViewController: UIViewController {
     let submitButton = UIButton()
     let textFieldStackView = UIStackView()
     
+    private var addNodeViewModelCombine = AddNodeViewModelCombine()
+    private var submitButtonSubscriber: AnyCancellable? // calls cancel on deinit
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NotificationCenter.default.addObserver(self, selector: #selector(loadRNC), name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(loadRNC),
+            name: NSNotification.Name(rawValue: "loadRNC"),
+            object: nil
+        )
         
         switch loadFromKeychain() {
         case let .success(value):
@@ -33,23 +43,21 @@ class AddNodeViewController: UIViewController {
             let vc = TabBarViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
-            let alertController = UIAlertController(
-                title: "Something went wrong fetching node.",
-                message: error.localizedDescription,
-                preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alertController, animated: true)
             print(error)
         }
-        
+    
     }
     
-    // RNC from camera to appear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         setupUI()
         loadRNC()
+        
+        submitButtonSubscriber = addNodeViewModelCombine.readyToSubmit
+            .receive(on: RunLoop.main)
+            .assign(to: \UIButton.isEnabled, on: submitButton)
+        
     }
     
 }
@@ -72,12 +80,7 @@ extension AddNodeViewController {
         self.lndConnectButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Scan lndconnect QRCode", for: .normal) }
-        
-        self.lndConnectButton.addTarget(
-            self,
-            action: #selector(cameraPressed),
-            for: .touchUpInside
-        )
+        <> { $0.addTarget(self, action: #selector(self.cameraPressed), for: .touchUpInside) }
         
         self.titleLabelStatic
             |> { $0.numberOfLines = 0 }
@@ -86,21 +89,23 @@ extension AddNodeViewController {
             <> { $0.text = "Or paste info manually below" }
             <> { $0.textColor = .secondaryLabel }
 
-        
         self.certificateTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
             <> { $0.delegate = self }
+            <> { $0.addTarget(self, action: #selector(self.certificateDidChange), for: .allEvents) }
         
         self.macaroonTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Macaroon (Example: AgECg...reaDXg==)"}
             <> { $0.delegate = self }
+            <> { $0.addTarget(self, action: #selector(self.macaroonDidChange), for: .allEvents) }
         
         self.uriTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "URI (Example: 142.x.x.x:10009)"}
             <> { $0.delegate = self }
+            <> { $0.addTarget(self, action: #selector(self.uriDidChange), for: .allEvents) }
         
         self.textFieldStackView
             |> verticalStackViewStyle
@@ -110,9 +115,11 @@ extension AddNodeViewController {
         
         self.submitButton
             |> unfilledButtonStyle
+            <> { $0.isEnabled = false }
+            <> { $0.setTitle("...", for: .disabled) }
             <> { $0.setTitle("Add Node", for: .normal) }
             <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
-        
+
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.titleLabel) }
@@ -140,18 +147,33 @@ extension AddNodeViewController {
             <> { $0.addSubview(self.rootStackView) }
             <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
         
-        NSLayoutConstraint.activate([
-            self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
-            self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-            self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            self.lndConnectButton.heightAnchor.constraint(equalToConstant: 60.0),
-            self.submitButton.heightAnchor.constraint(equalToConstant: 60.0),
-            ])
+        NSLayoutConstraint.activate(
+            [
+                self.rootStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
+                self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
+                self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+                self.lndConnectButton.heightAnchor.constraint(equalToConstant: 60.0),
+                self.submitButton.heightAnchor.constraint(equalToConstant: 60.0),
+            ]
+        )
         
     }
 }
 
 extension AddNodeViewController {
+    
+    @objc func certificateDidChange(_ sender: UITextField) {
+         addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
+    }
+    
+    @objc func macaroonDidChange(_ sender: UITextField) {
+        print("macaroonDidChange")
+        addNodeViewModelCombine.macaroonTextFieldInput = sender.text ?? ""
+    }
+    
+    @objc func uriDidChange(_ sender: UITextField) {
+        addNodeViewModelCombine.uriTextFieldInput = sender.text ?? ""
+    }
     
     @objc func cameraPressed() {
         let vc = CameraViewController()
@@ -159,12 +181,17 @@ extension AddNodeViewController {
     }
     
     // This is my workaround for refreshing after modal dismissed
+    // And enabling button
     @objc func loadRNC(){
         if let lndConnect = Current.remoteNodeConnection {
             self.certificateTextField.text = lndConnect.certificate
             self.macaroonTextField.text = lndConnect.macaroon
             self.uriTextField.text = lndConnect.uri
+            self.certificateDidChange(self.certificateTextField)
+            self.macaroonDidChange(self.macaroonTextField)
+            self.uriDidChange(self.uriTextField)
         }
+        
     }
     
     @objc func submitPressed() {

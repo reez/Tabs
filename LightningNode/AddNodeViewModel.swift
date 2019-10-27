@@ -7,6 +7,48 @@
 //
 
 import Foundation
+import UIKit
+import Combine
+
+class AddNodeViewModelCombine {
+    // prperty wrapper -adds publisher to any property
+    @Published var certificateTextFieldInput: String = ""
+    @Published var macaroonTextFieldInput: String = ""
+    @Published var uriTextFieldInput: String = ""
+    
+    var readyToSubmit: AnyPublisher<Bool, Never> {
+        return Publishers.CombineLatest3(
+                validCertificateTextFieldInput,
+                validMacaroonTextFieldInput,
+                validURITextFieldInput
+        )
+            .map { if $0, $1, $2 { return true } else { return false } }
+            .eraseToAnyPublisher()
+    }
+    
+    var validCertificateTextFieldInput: AnyPublisher<Bool, Never> {
+        return $certificateTextFieldInput
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .map{!$0.isEmpty ? true : false}
+            .eraseToAnyPublisher()
+    }
+    
+    var validMacaroonTextFieldInput: AnyPublisher<Bool, Never> {
+        return $macaroonTextFieldInput
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .map{!$0.isEmpty ? true : false}
+            .eraseToAnyPublisher()
+    }
+    
+    var validURITextFieldInput: AnyPublisher<Bool, Never> {
+        return $uriTextFieldInput
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .map{!$0.isEmpty ? true : false}
+            .eraseToAnyPublisher()
+    }
+    
+}
+
 
 struct AddNodeViewModelInputs {
     let certificateTextFieldInput: String
@@ -22,7 +64,7 @@ struct AddNodeViewModelOutputs {
 func addNodeViewModel(
     input: AddNodeViewModelInputs,
     output: @escaping (AddNodeViewModelOutputs) -> Void
-    )
+)
 {
     var viewModelOutput = AddNodeViewModelOutputs(
         alertErrorMessage: "Unexpected Error",
