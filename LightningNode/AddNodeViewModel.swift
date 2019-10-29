@@ -54,11 +54,13 @@ struct AddNodeViewModelInputs {
     let certificateTextFieldInput: String
     let macaroonTextFieldInput: String
     let uriTextFieldInput: String
+    let addNodeViewModelCombine: AddNodeViewModelCombine
 }
 
 struct AddNodeViewModelOutputs {
     var alertErrorMessage: String
     var alertNeeded: Bool
+    var isButtonEnabled: AnyPublisher<Bool, Never>
 }
 
 func addNodeViewModel(
@@ -68,8 +70,10 @@ func addNodeViewModel(
 {
     var viewModelOutput = AddNodeViewModelOutputs(
         alertErrorMessage: "Unexpected Error",
-        alertNeeded: true
+        alertNeeded: true,
+        isButtonEnabled: input.addNodeViewModelCombine.readyToSubmit
     )
+    
     
     let cert = Pem(key: input.certificateTextFieldInput).string
     let formattedMacaroon = input.macaroonTextFieldInput.replacingOccurrences(of: " ", with: "")

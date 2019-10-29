@@ -54,9 +54,23 @@ class AddNodeViewController: UIViewController {
         setupUI()
         loadRNC()
         
-        submitButtonSubscriber = addNodeViewModelCombine.readyToSubmit
+
+        let input = AddNodeViewModelInputs(
+            certificateTextFieldInput: "",
+            macaroonTextFieldInput: "",
+            uriTextFieldInput: "",
+            addNodeViewModelCombine: self.addNodeViewModelCombine
+        )
+        
+        addNodeViewModel(input: input) { (outputs) in
+            outputs.isButtonEnabled
             .receive(on: RunLoop.main)
-            .assign(to: \UIButton.isEnabled, on: submitButton)
+            .assign(to: \UIButton.isEnabled, on: self.submitButton)
+        }
+        
+//        submitButtonSubscriber = addNodeViewModelCombine.readyToSubmit
+//            .receive(on: RunLoop.main)
+//            .assign(to: \UIButton.isEnabled, on: submitButton)
         
     }
     
@@ -207,7 +221,8 @@ extension AddNodeViewController {
             let input = AddNodeViewModelInputs(
                 certificateTextFieldInput: certificate,
                 macaroonTextFieldInput: macaroon,
-                uriTextFieldInput: uri
+                uriTextFieldInput: uri,
+                addNodeViewModelCombine: self.addNodeViewModelCombine
             )
             
             addNodeViewModel(input: input) { (output) in
