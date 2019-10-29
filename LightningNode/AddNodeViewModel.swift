@@ -26,21 +26,21 @@ class AddNodeViewModelCombine {
             .eraseToAnyPublisher()
     }
     
-    var validCertificateTextFieldInput: AnyPublisher<Bool, Never> {
+    private var validCertificateTextFieldInput: AnyPublisher<Bool, Never> {
         return $certificateTextFieldInput
             .debounce(for: 0.2, scheduler: RunLoop.main)
             .map{!$0.isEmpty ? true : false}
             .eraseToAnyPublisher()
     }
     
-    var validMacaroonTextFieldInput: AnyPublisher<Bool, Never> {
+    private var validMacaroonTextFieldInput: AnyPublisher<Bool, Never> {
         return $macaroonTextFieldInput
             .debounce(for: 0.2, scheduler: RunLoop.main)
             .map{!$0.isEmpty ? true : false}
             .eraseToAnyPublisher()
     }
     
-    var validURITextFieldInput: AnyPublisher<Bool, Never> {
+    private var validURITextFieldInput: AnyPublisher<Bool, Never> {
         return $uriTextFieldInput
             .debounce(for: 0.2, scheduler: RunLoop.main)
             .map{!$0.isEmpty ? true : false}
@@ -48,7 +48,6 @@ class AddNodeViewModelCombine {
     }
     
 }
-
 
 struct AddNodeViewModelInputs {
     let certificateTextFieldInput: String
