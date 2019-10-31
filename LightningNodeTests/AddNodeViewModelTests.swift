@@ -16,7 +16,14 @@ class AddNodeViewModelTests: XCTestCase {
         
         Current = .mock
 
-        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: "badMacaroonFormat", uriTextFieldInput: lndURI)
+        let anvmc = AddNodeViewModelCombine()
+
+        let input = AddNodeViewModelInputs(
+            certificateTextFieldInput: lndCertificate,
+            macaroonTextFieldInput: "badMacaroonFormat",
+            uriTextFieldInput: lndURI,
+            addNodeViewModelCombine: anvmc
+        )
         
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, true)
@@ -31,7 +38,14 @@ class AddNodeViewModelTests: XCTestCase {
         
         Current = .mock
         
-        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        let anvmc = AddNodeViewModelCombine()
+
+        let input = AddNodeViewModelInputs(
+            certificateTextFieldInput: lndCertificate,
+            macaroonTextFieldInput: lndMacaroon,
+            uriTextFieldInput: lndURI,
+            addNodeViewModelCombine: anvmc
+        )
         
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, false)
@@ -46,7 +60,14 @@ class AddNodeViewModelTests: XCTestCase {
         
         Current = .mock
         
-        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        let anvmc = AddNodeViewModelCombine()
+
+        let input = AddNodeViewModelInputs(
+            certificateTextFieldInput: lndCertificate,
+            macaroonTextFieldInput: lndMacaroon,
+            uriTextFieldInput: lndURI,
+            addNodeViewModelCombine: anvmc
+        )
         
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, false)
@@ -62,7 +83,14 @@ class AddNodeViewModelTests: XCTestCase {
         
         Current = .test
         
-        let input = AddNodeViewModelInputs(certificateTextFieldInput: lndCertificate, macaroonTextFieldInput: lndMacaroon, uriTextFieldInput: lndURI)
+        let anvmc = AddNodeViewModelCombine()
+        
+        let input = AddNodeViewModelInputs(
+            certificateTextFieldInput: lndCertificate,
+            macaroonTextFieldInput: lndMacaroon,
+            uriTextFieldInput: lndURI,
+            addNodeViewModelCombine: anvmc
+        )
         
         addNodeViewModel(input: input) { (outputs) in
             XCTAssertEqual(outputs.alertNeeded, true)
