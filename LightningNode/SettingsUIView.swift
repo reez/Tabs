@@ -18,8 +18,7 @@ class AppState: ObservableObject {
 struct SettingsUIView: View {
     @State var showAlert = false
     @ObservedObject var state = AppState()
-    
-    
+
     var body: some View {
         
         VStack {
@@ -91,8 +90,10 @@ extension SettingsUIView {
         Alert(
             title: Text("REmmy"),
             primaryButton: Alert.Button.default(Text("Get out!"), action: {
-                deleteFromKeychain()
-                Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
+                // TODO - make this pop back and work
+
+                //deleteFromKeychain()
+                //Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 //self.presentationMode.wrappedValue.dismiss()
                 print("Oked")
             }),
