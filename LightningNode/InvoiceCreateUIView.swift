@@ -47,18 +47,19 @@ struct InvoiceCreateUIView: View {
             }
             .padding()
             
-            if self.showInvoice {
-                Text(verbatim: self.state.newInvoice)
-                
-                Button("Copy Invoice") {
-                    withAnimation(.easeOut) {
-                        self.showInvoice.toggle()
-                        self.memo = ""
-                        self.value = ""
-                    }
-                }
-                
+            Text(verbatim: self.state.newInvoice)
+                .font(.caption)
+                .opacity(self.showInvoice ? 1 : 0) // This works opposite of hwo I'd think based on bool
+            
+            Button("Copy Invoice") {
+                self.showInvoice = false
+                self.memo = ""
+                self.value = ""
+                UIPasteboard.general.string = self.state.newInvoice
             }
+            .opacity(self.showInvoice ? 1 : 0) // This works opposite of hwo I'd think based on bool
+            
+            Spacer()
             
         }
         .multilineTextAlignment(.center)
