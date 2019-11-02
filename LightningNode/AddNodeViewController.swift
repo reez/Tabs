@@ -40,7 +40,9 @@ class AddNodeViewController: UIViewController {
         switch loadFromKeychain() {
         case let .success(value):
             Current.remoteNodeConnectionFormatted = value
-            let vc = TabBarViewController()
+//            let vc = TabBarViewController()
+            let swiftUIView = TabUIView()//SettingsViewController()
+            let vc = UIHostingController(rootView: swiftUIView)
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
             print(error)
@@ -213,7 +215,9 @@ extension AddNodeViewController {
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
-                    let vc = TabBarViewController()
+//                    let vc = TabBarViewController()
+                    let swiftUIView = TabUIView()//SettingsViewController()
+                     let vc = UIHostingController(rootView: swiftUIView)
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
