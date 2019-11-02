@@ -15,6 +15,7 @@ class StatusAppState: ObservableObject {
 
 struct StatusUIView: View {
     @ObservedObject var state = StatusAppState()
+    @State private var showAlert = false
 
     func loadStatus() {
         switch Current.keychain.load() {
@@ -65,9 +66,31 @@ struct StatusUIView: View {
             Text(self.state.refreshedLabel)
                 .font(.footnote)
             
+            Image(systemName: "checkmark.circle")
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .foregroundColor(.green)
+            
+            Button("Get Info") {
+                print("Get it")
+                self.showAlert = true
+
+            }
+            .padding()
+            .foregroundColor(.blue)
+            .padding()
+            .sheet(isPresented: $showAlert, onDismiss: {
+                print("Dismissed")
+                self.showAlert = false
+
+            }) {
+                StatusDetailUIView()
+            }
+            
         }.onAppear {
             self.loadStatus()
         }
+
         
     }
     
