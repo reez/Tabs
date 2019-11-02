@@ -42,7 +42,7 @@ struct SettingsUIView: View {
                 .font(.caption)
                 .fontWeight(.light)
             
-            Text("Tabs LND Version: 0.8.0")
+            Text("(Tabs LND Version: 0.8.0)")
                 .font(.caption)
                 .fontWeight(.light)
             
@@ -73,7 +73,6 @@ struct SettingsUIView: View {
                         }
                     }
                 case .failure(_):
-                    self.state.alias = "Fail"
                     print("Failed")
                 }
                 
@@ -104,8 +103,8 @@ extension SettingsUIView {
     }
 }
 
-//struct SettingsUIView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsUIView()
-//    }
-//}
+struct SettingsUIView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsUIView()
+    }
+}
