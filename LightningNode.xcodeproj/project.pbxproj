@@ -41,6 +41,7 @@
 		AE7497EB236DDF2E00230073 /* StatusDetailUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */; };
 		AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */; };
 		AE7497EF236DE9A400230073 /* InvoiceCreateUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */; };
+		AE7B7AE8236E1F88000DA3E0 /* AddNodeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */; };
 		AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */; };
 		AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */; };
 		AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */; };
@@ -110,6 +111,7 @@
 		AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailUIView.swift; sourceTree = "<group>"; };
 		AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceListUIView.swift; sourceTree = "<group>"; };
 		AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCreateUIView.swift; sourceTree = "<group>"; };
+		AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeUIView.swift; sourceTree = "<group>"; };
 		AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModelTests.swift; sourceTree = "<group>"; };
 		AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModelTests.swift; sourceTree = "<group>"; };
 		AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPITests.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
 				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
+				AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */,
 				AE7497E6236DD81100230073 /* TabUIView.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
 				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
@@ -471,6 +474,7 @@
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
 				AE7497E7236DD81100230073 /* TabUIView.swift in Sources */,
 				AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */,
+				AE7B7AE8236E1F88000DA3E0 /* AddNodeUIView.swift in Sources */,
 				AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
 				AE7497E5236D127100230073 /* SettingsUIView.swift in Sources */,
