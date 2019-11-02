@@ -31,7 +31,6 @@ struct TabUIView: View {
                      Text("Settings")
                  }.tag(2)
             
-            
         }
         
     }

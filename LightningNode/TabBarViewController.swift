@@ -26,7 +26,7 @@ class TabBarViewController: UITabBarController {
         invoices.view.backgroundColor = .systemBackground
         invoices.tabBarItem.image = UIImage(named: "bolt.circle")
         
-        let swiftUIView = SettingsUIView()//SettingsViewController()
+        let swiftUIView = SettingsUIView()
         let settings = UIHostingController(rootView: swiftUIView)
         settings.tabBarItem.title = "Settings"
         settings.view.backgroundColor = .systemBackground

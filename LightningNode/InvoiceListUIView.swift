@@ -55,42 +55,28 @@ struct InvoiceListUIView: View {
             
             Button("Add an Invoice") {
                 //                self.store.send(.showAddInvoice)
-                self.showAlert.toggle()
+                self.showAlert = true
             }
             .padding()
             .foregroundColor(.blue)
             .padding()
-            //                    .sheet(isPresented: $showAlert) {
-            //                        InvoicesDetailView(
-            //                            store: Store(
-            //                                initialValue: AppState(),
-            //                                reducer: appReducer
-            //                            )
-            //                        )
-            //                    }
+            .sheet(isPresented: $showAlert, onDismiss: {
+                 print("Dismissed")
+                 self.showAlert = false
+
+             }) {
+                 InvoiceCreateUIView()
+             }
             
             List {
-                
-                //                        ForEach(state.invoices) { (invoice) in
-                //                            Text(invoice)
-                //                        }
                 ForEach(self.state.invoices) { invoice in
-                    
-                    
                     HStack {
-                        
                         Text("\(invoice.memo)")
                         Text("|")
                         Text("\(invoice.value)")
                     }
                     
-                    
-                    
                 }
-                
-                
-                
-                //Text(verbatim: "Invoice #1")
             }
             .padding()
             
