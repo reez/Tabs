@@ -61,12 +61,12 @@ struct InvoiceListUIView: View {
             .foregroundColor(.blue)
             .padding()
             .sheet(isPresented: $showAlert, onDismiss: {
-                 print("Dismissed")
-                 self.showAlert = false
-
-             }) {
-                 InvoiceCreateUIView()
-             }
+                print("Dismissed")
+                self.showAlert = false
+                
+            }) {
+                InvoiceCreateUIView()
+            }
             
             List {
                 ForEach(self.state.invoices) { invoice in

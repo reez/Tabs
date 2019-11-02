@@ -14,20 +14,20 @@ class StatusDetailAppState: ObservableObject {
 
 struct StatusDetailUIView: View {
     @ObservedObject var state = StatusDetailAppState()
-
+    
     
     func loadStatusDetail() {
-//        self.nvActivityIndicator?.startAnimating()
+        //        self.nvActivityIndicator?.startAnimating()
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
-//            self.viewModel = LightningViewModel { _ in }
+            //            self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info { result in // [weak self]
                 try? result.get()
                     |> flatMap {
-//                        self?.viewModel.lightningNodeInfo = $0
+                        //                        self?.viewModel.lightningNodeInfo = $0
                         
                         let text = """
                         "alias": \($0.alias)
@@ -48,19 +48,19 @@ struct StatusDetailUIView: View {
                         """
                         
                         self.state.infoLabel = text
-//                        self?.nvActivityIndicator?.stopAnimating()
+                        //                        self?.nvActivityIndicator?.stopAnimating()
                 }
             }
         case .failure(_):
             print("big fail")
-//            self.nvActivityIndicator?.stopAnimating()
-//            if (self.navigationController != nil) {
-//                print("self.navigationController != nil")
-//                self.navigationController?.popToRootViewController(animated: true)
-//            } else {
-//                print("self.navigationController = nil")
-//                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-//            }
+            //            self.nvActivityIndicator?.stopAnimating()
+            //            if (self.navigationController != nil) {
+            //                print("self.navigationController != nil")
+            //                self.navigationController?.popToRootViewController(animated: true)
+            //            } else {
+            //                print("self.navigationController = nil")
+            //                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            //            }
         }
     }
     

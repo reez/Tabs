@@ -16,27 +16,27 @@ class StatusAppState: ObservableObject {
 struct StatusUIView: View {
     @ObservedObject var state = StatusAppState()
     @State private var showAlert = false
-
+    
     func loadStatus() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
-//            self.viewModel = LightningViewModel { _ in }
+            //            self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
             //'weak' may only be applied to class and class-bound protocol types, not 'StatusUIView'
             Current.lightningAPIRPC.info {  result in //[weak self]
                 try? result.get()
                     |> flatMap {
-//                        self?.viewModel.lightningNodeInfo = $0
+                        //                        self?.viewModel.lightningNodeInfo = $0
                         
                         let creationDate = Current.date()
                         let formattedDate = mrDateFormatter.string(from: creationDate)
                         self.state.refreshedLabel = "Refreshed: \(formattedDate)"
                         
-//                        $0.syncedToChain ?
-//                            (self?.checkbox.setCheckState(.checked, animated: true)) :
-//                            (self?.checkbox.setCheckState(.unchecked, animated: true))
+                        //                        $0.syncedToChain ?
+                        //                            (self?.checkbox.setCheckState(.checked, animated: true)) :
+                        //                            (self?.checkbox.setCheckState(.unchecked, animated: true))
                         
                         $0.syncedToChain ?
                             (self.state.syncedLabel = "Synced") :
@@ -45,22 +45,22 @@ struct StatusUIView: View {
             }
         case .failure(_):
             print("yoyo")
-//            if (self.navigationController != nil) {
-//                print("self.navigationController != nil")
-//                self.navigationController?.popToRootViewController(animated: true)
-//            } else {
-//                print("self.navigationController = nil")
-//                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-//            }
+            //            if (self.navigationController != nil) {
+            //                print("self.navigationController != nil")
+            //                self.navigationController?.popToRootViewController(animated: true)
+            //            } else {
+            //                print("self.navigationController = nil")
+            //                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            //            }
         }
     }
     
     var body: some View {
         
         VStack {
-             
+            
             Text(self.state.syncedLabel)
-                 .font(.headline)
+                .font(.headline)
             
             // $ ?
             Text(self.state.refreshedLabel)
@@ -74,7 +74,7 @@ struct StatusUIView: View {
             Button("Get Info") {
                 print("Get it")
                 self.showAlert = true
-
+                
             }
             .padding()
             .foregroundColor(.blue)
@@ -82,7 +82,7 @@ struct StatusUIView: View {
             .sheet(isPresented: $showAlert, onDismiss: {
                 print("Dismissed")
                 self.showAlert = false
-
+                
             }) {
                 StatusDetailUIView()
             }
@@ -90,7 +90,7 @@ struct StatusUIView: View {
         }.onAppear {
             self.loadStatus()
         }
-
+        
         
     }
     

@@ -18,7 +18,7 @@ class AppState: ObservableObject {
 struct SettingsUIView: View {
     @State var showAlert = false
     @ObservedObject var state = AppState()
-
+    
     var body: some View {
         
         VStack {
@@ -37,7 +37,7 @@ struct SettingsUIView: View {
             Text(state.pubkey)
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
-
+            
             Text(state.version)
                 .font(.caption)
                 .fontWeight(.light)
@@ -58,7 +58,7 @@ struct SettingsUIView: View {
             isPresented: $showAlert,
             content: { alert }
         )
-        .onAppear {
+            .onAppear {
                 switch Current.keychain.load() {
                 case let .success(savedConfig):
                     self.state.alias = "Success"
@@ -76,8 +76,8 @@ struct SettingsUIView: View {
                 case .failure(_):
                     self.state.alias = "Fail"
                     print("Failed")
-            }
-            
+                }
+                
         }
         
     }
@@ -91,7 +91,7 @@ extension SettingsUIView {
             title: Text("REmmy"),
             primaryButton: Alert.Button.default(Text("Get out!"), action: {
                 // TODO - make this pop back and work
-
+                
                 //deleteFromKeychain()
                 //Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 //self.presentationMode.wrappedValue.dismiss()
