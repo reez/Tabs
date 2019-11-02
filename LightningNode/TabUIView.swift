@@ -19,7 +19,7 @@ struct TabUIView: View {
                     Text("Status")
                 }.tag(0)
             
-            Text("Invoices")
+            InvoiceListUIView()
                  .tabItem {
                      Image(systemName: "bolt.circle")
                      Text("Invoices")

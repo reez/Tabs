@@ -39,6 +39,7 @@
 		AE7497E7236DD81100230073 /* TabUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497E6236DD81100230073 /* TabUIView.swift */; };
 		AE7497E9236DDA1D00230073 /* StatusUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497E8236DDA1D00230073 /* StatusUIView.swift */; };
 		AE7497EB236DDF2E00230073 /* StatusDetailUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */; };
+		AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */; };
 		AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */; };
 		AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */; };
 		AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */; };
@@ -106,6 +107,7 @@
 		AE7497E6236DD81100230073 /* TabUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabUIView.swift; sourceTree = "<group>"; };
 		AE7497E8236DDA1D00230073 /* StatusUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusUIView.swift; sourceTree = "<group>"; };
 		AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailUIView.swift; sourceTree = "<group>"; };
+		AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceListUIView.swift; sourceTree = "<group>"; };
 		AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModelTests.swift; sourceTree = "<group>"; };
 		AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModelTests.swift; sourceTree = "<group>"; };
 		AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPITests.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
 				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
 				AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */,
+				AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */,
 				AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */,
 				AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */,
 				AEFE18C42274CA8000416B49 /* SettingsViewController.swift */,
@@ -463,6 +466,7 @@
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
 				AE7497E7236DD81100230073 /* TabUIView.swift in Sources */,
+				AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */,
 				AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
 				AE7497E5236D127100230073 /* SettingsUIView.swift in Sources */,
