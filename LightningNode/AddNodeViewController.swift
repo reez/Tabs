@@ -169,7 +169,6 @@ extension AddNodeViewController {
     }
     
     @objc func macaroonDidChange(_ sender: UITextField) {
-        print("macaroonDidChange")
         addNodeViewModelCombine.macaroonTextFieldInput = sender.text ?? ""
     }
     

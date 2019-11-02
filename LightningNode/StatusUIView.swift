@@ -73,14 +73,14 @@ extension StatusUIView {
                             (self.state.syncedImage = "checkmark.circle") :
                             (self.state.syncedImage = "xmark.circle")
                         
-                        print("syncedIM: \(self.state.syncedImage)")
+//                        print("syncedIM: \(self.state.syncedImage)")
                         
                         $0.syncedToChain ?
                             (self.state.syncedState = true) :
                             (self.state.syncedState = false)
                         
-                        print("s2c: \($0.syncedToChain)")
-                        print("sS: \(self.state.syncedState)")
+//                        print("s2c: \($0.syncedToChain)")
+//                        print("sS: \(self.state.syncedState)")
                         
                         $0.syncedToChain ?
                             (self.state.syncedLabel = "Synced") :

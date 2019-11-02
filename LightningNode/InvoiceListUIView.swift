@@ -14,36 +14,20 @@ class InvoiceListAppState: ObservableObject {
 }
 
 extension Invoice: Identifiable {
-    // assuming `name` is unique, it can be used as our identifier
+    // might need to change this from paymentRequest later
     public var id: String { self.paymentRequest }
 }
+
+let bodyText = """
+🌩
+Check out your Lightning Invoices
+- or -
+Add a new Lightning Invoice
+"""
 
 struct InvoiceListUIView: View {
     @State var showAlert = false
     @ObservedObject var state = InvoiceListAppState()
-    
-    let bodyText = """
-    🌩
-    Check out your Lightning Invoices
-    - or -
-    Add a new Lightning Invoice
-    """
-    
-    func loadInvoices(){
-        invoices { (result) in // [weak self]
-            switch result {
-            case let .success(invoices):
-                self.state.invoices = invoices
-                print(invoices)
-                //                self?.tableView.reloadData()
-            //                self?.tableView.refreshControl?.endRefreshing()
-            case .failure(_):
-                print("list fail")
-                //                self?.tableView.refreshControl?.endRefreshing()
-            }
-        }
-        
-    }
     
     var body: some View {
         
@@ -53,39 +37,60 @@ struct InvoiceListUIView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             
-            Button("Add an Invoice") {
-                //                self.store.send(.showAddInvoice)
-                self.showAlert = true
-            }
-            .padding()
-            .foregroundColor(.blue)
-            .padding()
-            .sheet(isPresented: $showAlert, onDismiss: {
-                print("Dismissed")
-                self.showAlert = false
-                
-            }) {
-                InvoiceCreateUIView()
-            }
+            Button("Add an Invoice") { self.showAlert = true }
+                .padding()
+                .foregroundColor(.blue)
+                .padding()
+                .sheet(
+                    isPresented: $showAlert,
+                    onDismiss: { self.showAlert = false})
+                { InvoiceCreateUIView() }
             
             List {
-                ForEach(self.state.invoices) { invoice in
-                    HStack {
+                ForEach(self.state.invoices.reversed()) { invoice in
+                    Group {
+                        Text(self.invoiceToString(invoice))
+                            .font(.caption)
                         Text("\(invoice.memo)")
-                        Text("|")
-                        Text("\(invoice.value)")
+                            .font(.headline)
+                        HStack {
+                            Image(systemName: "bolt.circle")
+                                .foregroundColor(.blue)
+                            Text("\(invoice.value)")
+                                .font(.subheadline)
+                        }
                     }
-                    
                 }
             }
             .padding()
             
-        }.onAppear {
-            print("appear")
-            self.loadInvoices()
-            
         }
+        .onAppear { self.loadInvoices() }
+        // TODO: Need refresh right when comes back from creating invoice
         
+    }
+}
+
+extension InvoiceListUIView {
+    
+    func invoiceToString(_ invoice: Invoice) -> String {
+        let creationDate = invoice.creationDate
+        let cDDouble = Double(creationDate)
+        let dr = Date(timeIntervalSince1970: cDDouble)
+        let formattedDate = mrDateFormatter.string(from: dr)
+        let invoiceState = InvoiceState(state: invoice.state).invoiceState
+        return "Creation date: \(formattedDate) • Invoice state: \(invoiceState)"
+    }
+    
+    func loadInvoices(){
+        invoices { (result) in
+            switch result {
+            case let .success(invoices):
+                self.state.invoices = invoices
+            case .failure(_):
+                print("list fail")
+            }
+        }
     }
 }
 
