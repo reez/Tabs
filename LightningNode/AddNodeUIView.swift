@@ -12,6 +12,7 @@ import SwiftUI
 //    @Published var certificate = ""
 //    @Published var macaroon = ""
 //    @Published var uri = ""
+//    @Published var rnc = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
 //}
 
 struct AddNodeUIView: View {
@@ -19,7 +20,8 @@ struct AddNodeUIView: View {
     @State var certificate: String = ""
     @State var macaroon: String = ""
     @State var uri: String = ""
-    @State var showCamera = true
+    @State var showCamera = false
+    @State var isLoggedIn = false
 
     var body: some View {
         
@@ -31,7 +33,16 @@ struct AddNodeUIView: View {
                 print("Tapped camera")
              }
              .padding()
-            
+ 
+            Button("Camera Swift UI") { self.showCamera = true }
+                 .padding()
+                 .foregroundColor(.blue)
+                 .padding()
+                 .sheet(
+                     isPresented: $showCamera,
+                     onDismiss: { self.showCamera = false})
+                 { CameraUIView() }
+                
             Text("Or Add below manually")
             
             TextField("Certificate", text: $certificate)
@@ -43,14 +54,35 @@ struct AddNodeUIView: View {
             TextField("URI", text: $uri)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
+            
             Button("Add Node") {
                 
             }
             .padding()
             //            .disabled(self.isAddNodeButtonDisabled)
             
-            
-            
+        }
+        .onAppear {
+                    switch loadFromKeychain() {
+                    case let .success(value):
+                        Current.remoteNodeConnectionFormatted = value
+                        self.isLoggedIn = true
+
+                    case let .failure(error):
+                        print(error)
+                    }
+        }
+        
+        
+    }
+}
+
+extension AddNodeUIView {
+    func loadRNC(){
+        if let lndConnect = Current.remoteNodeConnection {
+            self.certificate = lndConnect.certificate
+            self.macaroon = lndConnect.macaroon
+            self.uri = lndConnect.uri
         }
     }
 }

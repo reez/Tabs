@@ -23,16 +23,19 @@ struct StatusUIView: View {
         
         VStack {
             
-            Text(self.state.syncedLabel)
-                .font(.headline)
-            
-            Text(self.state.refreshedLabel)
-                .font(.footnote)
-            
+            VStack {
+                Text(self.state.syncedLabel)
+                           .font(.largeTitle)
+                Text(self.state.refreshedLabel)
+                    .font(.footnote)
+            }
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                
             Image(systemName: self.state.syncedImage)
                 .resizable()
-                .frame(width: 175, height: 175, alignment: .center)
-                .foregroundColor(.blue) //.foregroundColor(state.syncedState ? .green : .red)
+                .animation(.interactiveSpring())
+                .frame(width: 125, height: 125, alignment: .center)
+                .foregroundColor(Color(.mr_gold)) //.foregroundColor(state.syncedState ? .green : .red)
             
             Button("Get Info") { self.showAlert = true }
                 .padding()
@@ -103,5 +106,13 @@ extension StatusUIView {
 struct StatusUIView_Previews: PreviewProvider {
     static var previews: some View {
         StatusUIView()
+        
+//        Group {
+//            StatusUIView()
+//                .colorScheme(.light)
+//            StatusUIView()
+//                .colorScheme(.dark)
+//        }
+        
     }
 }

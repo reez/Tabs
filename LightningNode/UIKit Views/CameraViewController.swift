@@ -9,8 +9,8 @@
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController {
-    
+final class CameraViewController: UIViewController {
+
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -108,4 +108,17 @@ extension CameraViewController {
         present(alertController, animated: true)
         self.captureSession = nil
     }
+}
+
+import SwiftUI
+extension CameraViewController: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> CameraViewController {
+        let imagePickerController = CameraViewController()
+        return imagePickerController
+    }
+    
+    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
+        
+    }
+    
 }

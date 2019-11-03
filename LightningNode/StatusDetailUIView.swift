@@ -30,7 +30,7 @@ struct StatusDetailUIView: View {
 
     var body: some View {
                 
-        Group {
+        VStack {
             Text("alias: ")
                 .bold()
                 + Text(self.appState.alias)
@@ -60,7 +60,7 @@ struct StatusDetailUIView: View {
                 + Text(String(self.appState.syncedToChain))
             
         }
-        .font(.caption)
+        .font(.callout)
         .onAppear { self.loadStatusDetail() }
         
     }

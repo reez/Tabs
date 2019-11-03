@@ -59,7 +59,7 @@ struct InvoiceListUIView: View {
                         
                         HStack {
                             Image(systemName: "bolt.circle")
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color(.mr_gold))
                             Text("\(invoice.value)")
                                 .font(.subheadline)
                         }

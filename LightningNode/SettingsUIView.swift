@@ -46,18 +46,18 @@ struct SettingsUIView: View {
                 .font(.caption)
                 .fontWeight(.light)
             
-            
             Button.init("Remove Node") {
                 self.showAlert = true
             }
             .padding()
-            .foregroundColor(.red)
+            .foregroundColor(.blue)
             .padding()
-        }
-        .alert(
+            }
+            .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
+            .alert(
             isPresented: $showAlert,
             content: { alert }
-        )
+            )
             .onAppear {
                 switch Current.keychain.load() {
                 case let .success(savedConfig):
@@ -89,10 +89,11 @@ extension SettingsUIView {
             title: Text("REmmy"),
             primaryButton: Alert.Button.default(Text("Get out!"), action: {
                 // TODO - make this pop back and work
-                
+//                AddNodeUIView()
                 //deleteFromKeychain()
                 //Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 //self.presentationMode.wrappedValue.dismiss()
+                                
                 print("Oked")
             }),
             secondaryButton: Alert.Button.cancel({
