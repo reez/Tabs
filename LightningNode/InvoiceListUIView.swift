@@ -16,6 +16,7 @@ class InvoiceListAppState: ObservableObject {
 extension Invoice: Identifiable {
     // might need to change this from paymentRequest later
     public var id: String { self.paymentRequest }
+//    private var id: Int
 }
 
 let bodyText = """
@@ -47,18 +48,23 @@ struct InvoiceListUIView: View {
                 { InvoiceCreateUIView() }
             
             List {
-                ForEach(self.state.invoices.reversed()) { invoice in
-                    Group {
+                VStack(alignment: .leading) {
+                    ForEach(self.state.invoices.reversed()) { invoice in
+                        
                         Text(self.invoiceToString(invoice))
                             .font(.caption)
+                        
                         Text("\(invoice.memo)")
                             .font(.headline)
+                        
                         HStack {
                             Image(systemName: "bolt.circle")
                                 .foregroundColor(.blue)
                             Text("\(invoice.value)")
                                 .font(.subheadline)
                         }
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                        
                     }
                 }
             }
