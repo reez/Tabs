@@ -8,15 +8,19 @@
 
 import SwiftUI
 
-//class AddNodeState: ObservableObject {
+class AddNodeState: ObservableObject {
 //    @Published var certificate = ""
 //    @Published var macaroon = ""
 //    @Published var uri = ""
-//    @Published var rnc = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
-//}
+    @Published var rnc = RemoteNodeConnection(uri: "", certificate: "", macaroon: "") 
+}
+
+class UserSettings: ObservableObject {
+    @Published var score = 0
+}
 
 struct AddNodeUIView: View {
-//    @ObservedObject var state = AddNodeState()
+    @ObservedObject var state = AddNodeState()
     @State var certificate: String = ""
     @State var macaroon: String = ""
     @State var uri: String = ""
@@ -63,6 +67,8 @@ struct AddNodeUIView: View {
             
         }
         .onAppear {
+            print(Current.remoteNodeConnection)
+            print(Current.remoteNodeConnectionFormatted)
                     switch loadFromKeychain() {
                     case let .success(value):
                         Current.remoteNodeConnectionFormatted = value
