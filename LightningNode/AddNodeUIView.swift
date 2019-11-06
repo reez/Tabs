@@ -9,10 +9,7 @@
 import SwiftUI
 
 class AddNodeState: ObservableObject {
-    //    @Published var certificate = ""
-    //    @Published var macaroon = ""
-    //    @Published var uri = ""
-    @Published var rnc = RemoteNodeConnection(uri: "", certificate: "", macaroon: "") 
+    @Published var rnc = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
 }
 
 struct AddNodeUIView: View {
@@ -23,35 +20,20 @@ struct AddNodeUIView: View {
     @State var showCamera = false
     @State var isButtonDisabled = true
     @State var showTab = false
-    
-    func loadRNC(){
-        if let lndConnect = Current.remoteNodeConnection {
-            self.certificate = lndConnect.certificate
-            self.macaroon = lndConnect.macaroon
-            self.uri = lndConnect.uri
-            self.isButtonDisabled = false
-        } else {
-            self.isButtonDisabled = true
-        }
-        print("loadRNC")
-    }
+    @State var alertErrorMessage = ""
+    @State var alertNeeded = false
     
     var body: some View {
         
         VStack {
             
-            Text("Add Via camera")
-            
-            Button("Camera Swift UI") { self.showCamera = true }
+            Button("Scan Node QR Code") { self.showCamera = true }
                 .padding()
                 .foregroundColor(.blue)
                 .padding()
-                .sheet(
-                    isPresented: $showCamera,
-                    onDismiss: { self.showCamera = false})
-                { QRUIView() }
+                .sheet(isPresented: $showCamera, onDismiss: { self.showCamera = false}) { QRUIView() }
             
-            Text("Or Add below manually")
+            Text("Or Add Below")
             
             TextField("Certificate", text: $certificate)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -63,7 +45,7 @@ struct AddNodeUIView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
             NavigationLink(destination: TabUIView()) {
-                Text("Show Detail View")
+                Text("Add Node")
             }
             .padding()
             .disabled(self.isButtonDisabled)
@@ -73,25 +55,23 @@ struct AddNodeUIView: View {
         }
         .onAppear {
             
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "loadRNC"), object: nil, queue: nil)
-            { note in
-                if note.name.rawValue == "loadRNC" {
+            NotificationCenter.default.addObserver(
+                forName: NSNotification.Name(rawValue: "loadRNC"),
+                object: nil,
+                queue: nil
+            ) { notification in
+                if notification.name.rawValue == "loadRNC" {
                     self.loadRNC()
-                    self.hasNodeReady()
-                } else {
-                    print("not loadrnc notification")
+                    self.submitPressed()
                 }
             }
             
             switch loadFromKeychain() {
             case let .success(value):
                 Current.remoteNodeConnectionFormatted = value
-                // need to push tabbar here if have something
                 self.showTab = true
-                NavigationLink(destination: TabUIView(), isActive: self.$showTab ) { Spacer().fixedSize() }
-                
-            case let .failure(error):
-                print(error)
+            case .failure(_):
+                break
             }
             
         }
@@ -100,31 +80,39 @@ struct AddNodeUIView: View {
 }
 
 extension AddNodeUIView {
+    func loadRNC(){
+        if let lndConnect = Current.remoteNodeConnection {
+            self.certificate = lndConnect.certificate
+            self.macaroon = lndConnect.macaroon
+            self.uri = lndConnect.uri
+        }
+    }
     
-    func hasNodeReady() {
+    func submitPressed() {
         if
-            //                    let certificate = self.certificate,
-            //                            let macaroon = self.macaroon.trimmingCharacters(in: .whitespacesAndNewlines),
-            //                            let uri = self.uritrimmingCharacters(in: .whitespaces),
             !self.certificate.isEmpty,
             !self.macaroon.isEmpty,
             !self.uri.isEmpty {
             
             let input = AddNodeViewModelInputs(
                 certificateTextFieldInput: self.certificate,
-                macaroonTextFieldInput: self.macaroon,
-                uriTextFieldInput: self.uri
+                macaroonTextFieldInput: self.macaroon.trimmingCharacters(in: .whitespacesAndNewlines),
+                uriTextFieldInput: self.uri.trimmingCharacters(in: .whitespaces)
             )
             
             addNodeViewModel(input: input) { (output) in
-                if !output.alertNeeded {
-                    print("dude present the tab view!")
+                if output.alertNeeded {
+                    self.isButtonDisabled = true
+                    self.alertErrorMessage = output.alertErrorMessage
+                    self.alertNeeded = true
                 } else {
-                    print("alert needed")
+                    self.isButtonDisabled = false
+                    self.alertErrorMessage = ""
+                    self.alertNeeded = false
                 }
             }
         } else {
-            print("someting empty")
+            self.alertErrorMessage = DataError.remoteNodeInfoMissing.localizedDescription
         }
     }
     
