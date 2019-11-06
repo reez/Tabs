@@ -87,15 +87,7 @@ extension StatusDetailUIView {
                 }
             }
         case .failure(_):
-            print("big fail")
-            //            self.nvActivityIndicator?.stopAnimating()
-            //            if (self.navigationController != nil) {
-            //                print("self.navigationController != nil")
-            //                self.navigationController?.popToRootViewController(animated: true)
-            //            } else {
-            //                print("self.navigationController = nil")
-            //                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            //            }
+            break
         }
     }
 }
