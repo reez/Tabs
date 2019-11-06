@@ -42,10 +42,7 @@ struct InvoiceListUIView: View {
                 .padding()
                 .foregroundColor(.blue)
                 .padding()
-                .sheet(
-                    isPresented: $showAlert,
-                    onDismiss: { self.showAlert = false})
-                { InvoiceCreateUIView() }
+                .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
             
             List {
                 VStack(alignment: .leading) {
@@ -94,7 +91,7 @@ extension InvoiceListUIView {
             case let .success(invoices):
                 self.state.invoices = invoices
             case .failure(_):
-                print("list fail")
+                break
             }
         }
     }
