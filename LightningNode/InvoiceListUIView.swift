@@ -68,8 +68,20 @@ struct InvoiceListUIView: View {
             .padding()
             
         }
-        .onAppear { self.loadInvoices() }
-        // TODO: Need refresh right when comes back from creating invoice
+        .onAppear {
+            self.loadInvoices()
+            
+            NotificationCenter.default.addObserver(
+                 forName: NSNotification.Name(rawValue: "load"),
+                 object: nil,
+                 queue: nil
+             ) { notification in
+                 if notification.name.rawValue == "load" {
+                     self.loadInvoices()
+                 }
+             }
+            
+        }
         
     }
 }

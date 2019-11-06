@@ -13,11 +13,13 @@ class InvoiceCreateAppState: ObservableObject {
 }
 
 struct InvoiceCreateUIView: View {
-    @ObservedObject var state = InvoiceCreateAppState()
+//    @ObservedObject var state = InvoiceCreateAppState()
     @State var memo: String = ""
     @State var value: String = ""
     @State var showInvoice = false
-    
+    @State var showCopy = false
+    @State var inv = ""
+
     var body: some View {
         
         VStack {
@@ -32,7 +34,9 @@ struct InvoiceCreateUIView: View {
                 .font(.callout)
             
             Button("Add Invoice") {
+                
                 self.showInvoice = true
+                self.showCopy = true
                 
                 let input = AddInvoiceViewModelInput(
                     amountTextFieldInput: self.value,
@@ -41,23 +45,33 @@ struct InvoiceCreateUIView: View {
                 )
                 
                 addInvoiceViewModel(input: input) { (output) in
-                    self.state.newInvoice = output.invoiceLabel
+                    
+                    if !output.alertNeeded {
+                        print("self before: \(self.inv)")
+                        self.inv = output.invoiceLabel //self.state.newInvoice
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+                        print("self after: \(self.inv)")
+
+                    }
+                    
                 }
                 
             }
             .padding()
             
-            Text(verbatim: self.state.newInvoice)
+            Text(verbatim: self.inv)
                 .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
             
+            
+            
             Button("Copy Invoice") {
-                self.showInvoice = false
+                self.showCopy = false
                 self.memo = ""
                 self.value = ""
-                UIPasteboard.general.string = self.state.newInvoice
+                //  UIPasteboard.general.string = self.state.newInvoice
             }
-                .opacity(self.showInvoice ? 1 : 0)
+                .opacity(self.showCopy ? 1 : 0)
             
             Spacer()
             
