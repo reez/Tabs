@@ -29,7 +29,6 @@
 		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
 		AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */; };
 		AE434C5C21C5B7C300D0E1B9 /* LightningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */; };
-		AE4D389B236F247F0029B878 /* CameraUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4D389A236F247E0029B878 /* CameraUIView.swift */; };
 		AE59D42E228E1B7800C75022 /* InfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D42D228E1B7800C75022 /* InfoTests.swift */; };
 		AE59D430228E1BD900C75022 /* LightningAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D42F228E1BD900C75022 /* LightningAPITests.swift */; };
 		AE59D432228E224700C75022 /* RemoteNodeConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE59D431228E224700C75022 /* RemoteNodeConnectionTests.swift */; };
@@ -58,6 +57,7 @@
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
 		AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511182274BD7700271DC0 /* StatusViewController.swift */; };
+		AEB55FCC2371F6D4000995A5 /* QRUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB55FCB2371F6D4000995A5 /* QRUIView.swift */; };
 		AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE18C42274CA8000416B49 /* SettingsViewController.swift */; };
 		AEFFAB4B2278E03400B7080C /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */; };
 /* End PBXBuildFile section */
@@ -100,7 +100,6 @@
 		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnection.swift; sourceTree = "<group>"; };
 		AE434C5B21C5B7C300D0E1B9 /* LightningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModel.swift; sourceTree = "<group>"; };
-		AE4D389A236F247E0029B878 /* CameraUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUIView.swift; sourceTree = "<group>"; };
 		AE59D42D228E1B7800C75022 /* InfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTests.swift; sourceTree = "<group>"; };
 		AE59D42F228E1BD900C75022 /* LightningAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningAPITests.swift; sourceTree = "<group>"; };
 		AE59D431228E224700C75022 /* RemoteNodeConnectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNodeConnectionTests.swift; sourceTree = "<group>"; };
@@ -130,6 +129,7 @@
 		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AE9511182274BD7700271DC0 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AEB55FCB2371F6D4000995A5 /* QRUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRUIView.swift; sourceTree = "<group>"; };
 		AEFE18C42274CA8000416B49 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewController.swift; sourceTree = "<group>"; };
 		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,7 +197,7 @@
 				AE4D3899236F20C40029B878 /* UIKit Views */,
 				AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
-				AE4D389A236F247E0029B878 /* CameraUIView.swift */,
+				AEB55FCB2371F6D4000995A5 /* QRUIView.swift */,
 				AE7497E6236DD81100230073 /* TabUIView.swift */,
 				AE7497E8236DDA1D00230073 /* StatusUIView.swift */,
 				AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */,
@@ -484,7 +484,6 @@
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
 				AE7497E7236DD81100230073 /* TabUIView.swift in Sources */,
-				AE4D389B236F247F0029B878 /* CameraUIView.swift in Sources */,
 				AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */,
 				AE7B7AE8236E1F88000DA3E0 /* AddNodeUIView.swift in Sources */,
 				AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */,
@@ -493,6 +492,7 @@
 				AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */,
 				AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */,
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
+				AEB55FCC2371F6D4000995A5 /* QRUIView.swift in Sources */,
 				AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 				AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */,
 				AE0226FB227662D600C4378A /* InvoicesTableViewController.swift in Sources */,

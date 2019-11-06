@@ -25,12 +25,12 @@ struct StatusUIView: View {
             
             VStack {
                 Text(self.state.syncedLabel)
-                           .font(.largeTitle)
+                    .font(.largeTitle)
                 Text(self.state.refreshedLabel)
                     .font(.footnote)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-                
+            
             Image(systemName: self.state.syncedImage)
                 .resizable()
                 .animation(.interactiveSpring())
@@ -44,7 +44,7 @@ struct StatusUIView: View {
                 .sheet(
                     isPresented: $showAlert,
                     onDismiss: { self.showAlert = false })
-                    { StatusDetailUIView() }
+                { StatusDetailUIView() }
             
         }.onAppear {
             self.loadStatus()
@@ -76,14 +76,9 @@ extension StatusUIView {
                             (self.state.syncedImage = "checkmark.circle") :
                             (self.state.syncedImage = "xmark.circle")
                         
-//                        print("syncedIM: \(self.state.syncedImage)")
-                        
                         $0.syncedToChain ?
                             (self.state.syncedState = true) :
                             (self.state.syncedState = false)
-                        
-//                        print("s2c: \($0.syncedToChain)")
-//                        print("sS: \(self.state.syncedState)")
                         
                         $0.syncedToChain ?
                             (self.state.syncedLabel = "Synced") :
@@ -106,13 +101,5 @@ extension StatusUIView {
 struct StatusUIView_Previews: PreviewProvider {
     static var previews: some View {
         StatusUIView()
-        
-//        Group {
-//            StatusUIView()
-//                .colorScheme(.light)
-//            StatusUIView()
-//                .colorScheme(.dark)
-//        }
-        
     }
 }

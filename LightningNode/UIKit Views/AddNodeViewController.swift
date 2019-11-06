@@ -25,7 +25,7 @@ class AddNodeViewController: UIViewController {
     
     private var addNodeViewModelCombine = AddNodeViewModelCombine()
     private var submitButtonSubscriber: AnyCancellable? // calls cancel on deinit
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +40,14 @@ class AddNodeViewController: UIViewController {
         switch loadFromKeychain() {
         case let .success(value):
             Current.remoteNodeConnectionFormatted = value
-//            let vc = TabBarViewController()
-            let swiftUIView = TabUIView()//SettingsViewController()
+            //            let vc = TabBarViewController()
+            let swiftUIView = TabUIView()
             let vc = UIHostingController(rootView: swiftUIView)
             self.navigationController?.pushViewController(vc, animated: true)
         case let .failure(error):
             print(error)
         }
-    
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +82,7 @@ extension AddNodeViewController {
         self.lndConnectButton
             |> unfilledButtonStyle
             <> { $0.setTitle("Scan lndconnect QRCode", for: .normal) }
-        <> { $0.addTarget(self, action: #selector(self.cameraPressed), for: .touchUpInside) }
+            <> { $0.addTarget(self, action: #selector(self.cameraPressed), for: .touchUpInside) }
         
         self.titleLabelStatic
             |> { $0.numberOfLines = 0 }
@@ -90,7 +90,7 @@ extension AddNodeViewController {
             <> subheadlineTextStyle
             <> { $0.text = "Or paste info manually below" }
             <> { $0.textColor = .secondaryLabel }
-
+        
         self.certificateTextField
             |> baseTextFieldStyle
             <> { $0.placeholder = "Certificate (Example: MIIC5T...2qN146)"}
@@ -121,7 +121,7 @@ extension AddNodeViewController {
             <> { $0.setTitle("...", for: .disabled) }
             <> { $0.setTitle("Add Node", for: .normal) }
             <> { $0.addTarget(self, action: #selector(self.submitPressed), for: .touchUpInside) }
-
+        
         self.rootStackView
             |> verticalStackViewStyle
             <> { $0.addArrangedSubview(self.titleLabel) }
@@ -165,7 +165,7 @@ extension AddNodeViewController {
 extension AddNodeViewController {
     
     @objc func certificateDidChange(_ sender: UITextField) {
-         addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
+        addNodeViewModelCombine.certificateTextFieldInput = sender.text ?? ""
     }
     
     @objc func macaroonDidChange(_ sender: UITextField) {
@@ -214,9 +214,9 @@ extension AddNodeViewController {
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
                     self.nvActivityIndicator?.stopAnimating()
-//                    let vc = TabBarViewController()
+                    //                    let vc = TabBarViewController()
                     let swiftUIView = TabUIView()//SettingsViewController()
-                     let vc = UIHostingController(rootView: swiftUIView)
+                    let vc = UIHostingController(rootView: swiftUIView)
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.nvActivityIndicator?.stopAnimating()
@@ -237,6 +237,8 @@ extension AddNodeViewController {
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alertController, animated: true)
         }
+        
+        
     }
 }
 

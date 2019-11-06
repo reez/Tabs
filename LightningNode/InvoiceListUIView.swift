@@ -16,7 +16,7 @@ class InvoiceListAppState: ObservableObject {
 extension Invoice: Identifiable {
     // might need to change this from paymentRequest later
     public var id: String { self.paymentRequest }
-//    private var id: Int
+    //    private var id: Int
 }
 
 let bodyText = """

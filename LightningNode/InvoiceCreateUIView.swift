@@ -57,7 +57,7 @@ struct InvoiceCreateUIView: View {
                 self.value = ""
                 UIPasteboard.general.string = self.state.newInvoice
             }
-            .opacity(self.showInvoice ? 1 : 0) // This works opposite of hwo I'd think based on bool
+                .opacity(self.showInvoice ? 1 : 0) // This works opposite of hwo I'd think based on bool
             
             Spacer()
             

@@ -9,7 +9,7 @@
 import SwiftUI
 
 class TabsAppState: ObservableObject {
-//    @Published var lightningNode: LightningViewModel!
+    //    @Published var lightningNode: LightningViewModel!
     @Published var alias = ""
     @Published var blockHeight = ""
     @Published var chainsArray = ""
@@ -20,16 +20,11 @@ class TabsAppState: ObservableObject {
     @Published var syncedToChain = ""
 }
 
-//class StatusDetailAppState: ObservableObject {
-//    @Published var infoLabel = "Getting Info..."
-//}
-
 struct StatusDetailUIView: View {
-//    @ObservedObject var state = StatusDetailAppState()
     @ObservedObject var appState = TabsAppState()
-
+    
     var body: some View {
-                
+        
         VStack {
             Text("alias: ")
                 .bold()
@@ -38,7 +33,7 @@ struct StatusDetailUIView: View {
             Text("chainsArray: ")
                 .bold()
                 + Text(self.appState.chainsArray)
-
+            
             Text("network: ")
                 .bold()
                 + Text(self.appState.network)
@@ -79,26 +74,6 @@ extension StatusDetailUIView {
                 try? result.get()
                     |> flatMap {
                         // self?.viewModel.lightningNodeInfo = $0
-                        
-                        //                        let text = """
-                        //                        "alias": \($0.alias)
-                        //
-                        //                        "blockHeight": \($0.blockHeight)
-                        //
-                        //                        "chain": \($0.chainsArray)
-                        //
-                        //                        "network": \($0.network)
-                        //
-                        //                        "numActiveChannels": \($0.numActiveChannels)
-                        //
-                        //                        "numPeers": \($0.numPeers)
-                        //
-                        //                        "numPendingChannels": \($0.numPendingChannels)
-                        //
-                        //                        "syncedToChain": \($0.syncedToChain)
-                        //                        """
-                        //
-                        //                        self.state.infoLabel = text
                         
                         self.appState.alias = $0.alias
                         self.appState.blockHeight = String($0.blockHeight)

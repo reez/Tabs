@@ -16,7 +16,8 @@ class AppState: ObservableObject {
 }
 
 struct SettingsUIView: View {
-    @State var showAlert = false
+//    @State var showAlert = false
+    @State var removedNode = false
     @ObservedObject var state = AppState()
     
     var body: some View {
@@ -47,62 +48,62 @@ struct SettingsUIView: View {
                 .fontWeight(.light)
             
             Button.init("Remove Node") {
-                self.showAlert = true
+                self.removedNode = true
+                Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
+                Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
+                deleteFromKeychain()
             }
             .padding()
             .foregroundColor(.blue)
             .padding()
-            }
-            .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
-            .alert(
-            isPresented: $showAlert,
-            content: { alert }
-            )
-            .onAppear {
-                switch Current.keychain.load() {
-                case let .success(savedConfig):
-                    self.state.alias = "Success"
-                    Current.remoteNodeConnectionFormatted = savedConfig
-                    Current.lightningAPIRPC.info {  result in // [weak self]
-                        try? result.get()
-                            |> flatMap {
-                                //self?.viewModel.lightningNodeInfo = $0
-                                self.state.alias = "\($0.alias)"
-                                self.state.pubkey = "\($0.identityPubkey)"
-                                self.state.version = "LND Version: \($0.version)"
-                        }
+            
+            NavigationLink(destination: AddNodeUIView(), isActive: self.$removedNode ) { Spacer().fixedSize() }
+            
+        }
+        .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
+        .onAppear {
+            switch Current.keychain.load() {
+            case let .success(savedConfig):
+                self.state.alias = "Success"
+                Current.remoteNodeConnectionFormatted = savedConfig
+                Current.lightningAPIRPC.info {  result in // [weak self]
+                    try? result.get()
+                        |> flatMap {
+                            //self?.viewModel.lightningNodeInfo = $0
+                            self.state.alias = "\($0.alias)"
+                            self.state.pubkey = "\($0.identityPubkey)"
+                            self.state.version = "LND Version: \($0.version)"
                     }
-                case .failure(_):
-                    print("Failed")
                 }
-                
+            case .failure(_):
+                print("Failed")
+            }
+            
         }
         
     }
 }
 
-extension SettingsUIView {
-    
-    var alert: Alert {
-        
-        Alert(
-            title: Text("REmmy"),
-            primaryButton: Alert.Button.default(Text("Get out!"), action: {
-                // TODO - make this pop back and work
-//                AddNodeUIView()
-                //deleteFromKeychain()
-                //Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
-                //self.presentationMode.wrappedValue.dismiss()
-                                
-                print("Oked")
-            }),
-            secondaryButton: Alert.Button.cancel({
-                print("Cancelled")
-            })
-        )
-        
-    }
-}
+//extension SettingsUIView {
+//
+//    var alert: Alert {
+//
+//        Alert(
+//            title: Text("REmmy"),
+//            primaryButton: Alert.Button.default(Text("Get out!"), action: {
+//                Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
+//                Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
+//                deleteFromKeychain()
+//                print("Oked")
+//
+//            }),
+//            secondaryButton: Alert.Button.cancel({
+//                print("Cancelled")
+//            })
+//        )
+//
+//    }
+//}
 
 struct SettingsUIView_Previews: PreviewProvider {
     static var previews: some View {
