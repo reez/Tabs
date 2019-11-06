@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Combine
 
 class AppState: ObservableObject {
     @Published var alias = "Getting Node Alias..."
@@ -16,7 +15,6 @@ class AppState: ObservableObject {
 }
 
 struct SettingsUIView: View {
-//    @State var showAlert = false
     @State var removedNode = false
     @ObservedObject var state = AppState()
     
@@ -76,34 +74,13 @@ struct SettingsUIView: View {
                     }
                 }
             case .failure(_):
-                print("Failed")
+                break
             }
             
         }
         
     }
 }
-
-//extension SettingsUIView {
-//
-//    var alert: Alert {
-//
-//        Alert(
-//            title: Text("REmmy"),
-//            primaryButton: Alert.Button.default(Text("Get out!"), action: {
-//                Current.remoteNodeConnection = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
-//                Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
-//                deleteFromKeychain()
-//                print("Oked")
-//
-//            }),
-//            secondaryButton: Alert.Button.cancel({
-//                print("Cancelled")
-//            })
-//        )
-//
-//    }
-//}
 
 struct SettingsUIView_Previews: PreviewProvider {
     static var previews: some View {
