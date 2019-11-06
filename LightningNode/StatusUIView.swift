@@ -35,16 +35,13 @@ struct StatusUIView: View {
                 .resizable()
                 .animation(.interactiveSpring())
                 .frame(width: 125, height: 125, alignment: .center)
-                .foregroundColor(Color(.mr_gold)) //.foregroundColor(state.syncedState ? .green : .red)
+                .foregroundColor(Color(.mr_gold))
             
             Button("Get Info") { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
                 .padding()
-                .sheet(
-                    isPresented: $showAlert,
-                    onDismiss: { self.showAlert = false })
-                { StatusDetailUIView() }
+                .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false }) { StatusDetailUIView() }
             
         }.onAppear {
             self.loadStatus()
@@ -62,8 +59,7 @@ extension StatusUIView {
             //            self.viewModel = LightningViewModel { _ in }
             
             Current.remoteNodeConnectionFormatted = savedConfig
-            //'weak' may only be applied to class and class-bound protocol types, not 'StatusUIView'
-            Current.lightningAPIRPC.info {  result in //[weak self]
+            Current.lightningAPIRPC.info {  result in
                 try? result.get()
                     |> flatMap {
                         //                        self?.viewModel.lightningNodeInfo = $0
@@ -86,14 +82,7 @@ extension StatusUIView {
                 }
             }
         case .failure(_):
-            print("Status fetch failure")
-            //            if (self.navigationController != nil) {
-            //                print("self.navigationController != nil")
-            //                self.navigationController?.popToRootViewController(animated: true)
-            //            } else {
-            //                print("self.navigationController = nil")
-            //                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            //            }
+            break
         }
     }
 }

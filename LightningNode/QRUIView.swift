@@ -20,14 +20,11 @@ struct QRUIView: UIViewControllerRepresentable {
         return vc
     }
     
-    func updateUIViewController(_ vc: CameraViewController, context: Context) {
-    }
+    func updateUIViewController(_ vc: CameraViewController, context: Context) {}
 
     class Coordinator: NSObject, QRCodeScannerDelegate {
         
-        func codeDidFind(_ code: String) {
-            print(code)
-        }
+        func codeDidFind(_ code: String) { print(code) }
         
         var parent: CameraViewController
         
@@ -35,7 +32,6 @@ struct QRUIView: UIViewControllerRepresentable {
             self.parent = parent
         }
     }
-    
     
 }
 

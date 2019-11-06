@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct TabUIView: View {
+    
     var body: some View {
         
         TabView {
@@ -34,6 +35,7 @@ struct TabUIView: View {
         }
         
     }
+    
 }
 
 struct TabUIView_Previews: PreviewProvider {
