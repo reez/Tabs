@@ -66,11 +66,11 @@ struct InvoiceCreateUIView: View {
                 .padding()
             
             Button("Copy Invoice") {
+                UIPasteboard.general.string = self.newInvoice
                 self.showCopy = false
                 self.showInvoice = false
                 self.memo = ""
                 self.value = ""
-                UIPasteboard.general.string = self.newInvoice
             }
             .opacity(self.showCopy ? 1 : 0)
             .padding()
