@@ -29,11 +29,12 @@ struct InvoiceCreateUIView: View {
             TextField("Memo", text: $memo)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
-            
+                .border(Color.blue)
+
             TextField("Value", text: $value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
-                .font(.callout)
+                .border(Color.blue)
             
             Button("Add Invoice") {
                 
@@ -60,11 +61,11 @@ struct InvoiceCreateUIView: View {
             }
             .padding()
             
+            Group {
             Text(verbatim: self.newInvoice)//self.state.newInvoice
                 .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
-            
-            
+                .padding()
             
             Button("Copy Invoice") {
                 self.showCopy = false
@@ -74,6 +75,9 @@ struct InvoiceCreateUIView: View {
                 UIPasteboard.general.string = self.newInvoice//self.state.newInvoice
             }
             .opacity(self.showCopy ? 1 : 0)
+            .padding()
+            }
+            .animation(.interactiveSpring())
             
             Spacer()
             
@@ -88,5 +92,6 @@ struct InvoiceCreateUIView: View {
 struct InvoiceCreateUIView_Previews: PreviewProvider {
     static var previews: some View {
         InvoiceCreateUIView()
+            .previewDevice(.some(PreviewDevice.init(stringLiteral: "iPhone 8")))
     }
 }

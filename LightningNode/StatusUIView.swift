@@ -33,9 +33,9 @@ struct StatusUIView: View {
             
             Image(systemName: self.state.syncedImage)
                 .resizable()
-                .animation(.interactiveSpring())
                 .frame(width: 125, height: 125, alignment: .center)
                 .foregroundColor(Color(.mr_gold))
+                .animation(.spring())
             
             Button("Get Info") { self.showAlert = true }
                 .padding()

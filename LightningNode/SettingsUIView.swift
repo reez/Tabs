@@ -9,9 +9,9 @@
 import SwiftUI
 
 class AppState: ObservableObject {
-    @Published var alias = "Getting Node Alias..."
-    @Published var pubkey = "Getting Pubkey..."
-    @Published var version = "Getting LND Version..."
+    @Published var alias = "..."//"Getting Node Alias..."
+    @Published var pubkey = "..."//"Getting Pubkey..."
+    @Published var version = "..."//"Getting LND Version..."
 }
 
 struct SettingsUIView: View {
@@ -22,28 +22,41 @@ struct SettingsUIView: View {
         
         VStack {
             
-            Text("Alias")
-                .font(.footnote)
-                .foregroundColor(.gray)
-            
-            Text(state.alias)
-                .font(.subheadline)
-            
-            Text("Identity Pubkey")
-                .font(.footnote)
-                .foregroundColor(.gray)
-            
-            Text(state.pubkey)
-                .font(.subheadline)
-                .multilineTextAlignment(.center)
-            
-            Text(state.version)
-                .font(.caption)
-                .fontWeight(.light)
-            
-            Text("(Tabs LND Version: 0.8.0)")
-                .font(.caption)
-                .fontWeight(.light)
+            VStack(spacing: 15.0) {
+                
+                VStack {
+                    
+                    Text(Constants.alias.rawValue)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                    
+                    Text(state.alias)
+                        .font(.subheadline)
+                }
+                
+                VStack {
+                    
+                    Text(Constants.pubkey.rawValue)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                    
+                    Text(state.pubkey)
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                }
+                
+                VStack {
+                    Text(Constants.tabsVersion.rawValue)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+
+                    Text(state.version)
+                        .font(.footnote)
+                    .multilineTextAlignment(.center)
+                }
+                
+            }
+            .padding()
             
             Button.init("Remove Node") {
                 self.removedNode = true
@@ -51,8 +64,6 @@ struct SettingsUIView: View {
                 Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 deleteFromKeychain()
             }
-            .padding()
-            .foregroundColor(.blue)
             .padding()
             
             NavigationLink(destination: AddNodeUIView(), isActive: self.$removedNode ) { Spacer().fixedSize() }
@@ -64,13 +75,13 @@ struct SettingsUIView: View {
             case let .success(savedConfig):
                 self.state.alias = "Success"
                 Current.remoteNodeConnectionFormatted = savedConfig
-                Current.lightningAPIRPC.info {  result in // [weak self]
+                Current.lightningAPIRPC.info {  result in
                     try? result.get()
                         |> flatMap {
                             //self?.viewModel.lightningNodeInfo = $0
                             self.state.alias = "\($0.alias)"
                             self.state.pubkey = "\($0.identityPubkey)"
-                            self.state.version = "LND Version: \($0.version)"
+                            self.state.version = "\(Constants.lndVersion.rawValue) \($0.version)"
                     }
                 }
             case .failure(_):

@@ -12,6 +12,10 @@ enum Constants: String {
     
     case lightningImage = "bolt.circle"
     case addInvoiceButton = "Add an Invoice"
+    case alias = "Alias"
+    case pubkey = "Identity Pubkey"
+    case tabsVersion = "(Tabs LND Target Version: 0.8.0)"
+    case lndVersion = "LND Version:"
     
     
     case listInvoicesBodyText = """
