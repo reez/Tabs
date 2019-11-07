@@ -10,7 +10,7 @@ import SwiftUI
 
 class StatusAppState: ObservableObject {
     @Published var syncedLabel = "Syncing..."
-    @Published var syncedImage = "xmark.circle"
+    @Published var syncedImage = Constants.xImage.rawValue//"xmark.circle"
     @Published var syncedState = false
     @Published var refreshedLabel = "Refreshing..."
 }
@@ -69,16 +69,16 @@ extension StatusUIView {
                         self.state.refreshedLabel = "Refreshed: \(formattedDate)"
                         
                         $0.syncedToChain ?
-                            (self.state.syncedImage = "checkmark.circle") :
-                            (self.state.syncedImage = "xmark.circle")
+                            (self.state.syncedImage = Constants.checkImage.rawValue) :
+                            (self.state.syncedImage = Constants.xImage.rawValue)
                         
                         $0.syncedToChain ?
                             (self.state.syncedState = true) :
                             (self.state.syncedState = false)
                         
                         $0.syncedToChain ?
-                            (self.state.syncedLabel = "Synced") :
-                            (self.state.syncedLabel = "Not Synced")
+                            (self.state.syncedLabel = Constants.synced.rawValue) :
+                            (self.state.syncedLabel = Constants.notSynced.rawValue)
                 }
             }
         case .failure(_):
