@@ -31,18 +31,25 @@ struct AddNodeUIView: View {
                 .padding()
                 .foregroundColor(.blue)
                 .padding()
-                .sheet(isPresented: $showCamera, onDismiss: { self.showCamera = false}) { QRUIView() }
+                .sheet(isPresented: $showCamera, onDismiss: { self.showCamera = false }) { QRUIView() }
             
             Text("Or Add Below")
+                .padding()
+                .font(.footnote)
             
-            TextField("Certificate", text: $certificate)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            VStack {
+                TextField("Certificate", text: $certificate)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                TextField("Macaroon", text: $macaroon)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                TextField("URI", text: $uri)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            .padding()
             
-            TextField("Macaroon", text: $macaroon)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            TextField("URI", text: $uri)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+
             
             NavigationLink(destination: TabUIView()) {
                 Text("Add Node")

@@ -13,19 +13,6 @@ class InvoiceListAppState: ObservableObject {
     @Published var invoices = [Invoice]()
 }
 
-extension Invoice: Identifiable {
-    // might need to change this from paymentRequest later
-    public var id: String { self.paymentRequest }
-    //    private var id: Int
-}
-
-let bodyText = """
-🌩
-Check out your Lightning Invoices
-- or -
-Add a new Lightning Invoice
-"""
-
 struct InvoiceListUIView: View {
     @State var showAlert = false
     @ObservedObject var state = InvoiceListAppState()
@@ -45,24 +32,8 @@ struct InvoiceListUIView: View {
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
             
             List {
-                VStack(alignment: .leading) {
-                    ForEach(self.state.invoices.reversed()) { invoice in
-                        
-                        Text(self.invoiceToString(invoice))
-                            .font(.caption)
-                        
-                        Text("\(invoice.memo)")
-                            .font(.headline)
-                        
-                        HStack {
-                            Image(systemName: "bolt.circle")
-                                .foregroundColor(Color(.mr_gold))
-                            Text("\(invoice.value)")
-                                .font(.subheadline)
-                        }
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-                        
-                    }
+                VStack {
+                    InvoiceRow(invoices: self.state.invoices)
                 }
             }
             .padding()
@@ -72,22 +43,66 @@ struct InvoiceListUIView: View {
             self.loadInvoices()
             
             NotificationCenter.default.addObserver(
-                 forName: NSNotification.Name(rawValue: "load"),
-                 object: nil,
-                 queue: nil
-             ) { notification in
-                 if notification.name.rawValue == "load" {
-                     self.loadInvoices()
-                 }
-             }
+                forName: NSNotification.Name(rawValue: "load"),
+                object: nil,
+                queue: nil
+            ) { notification in
+                if notification.name.rawValue == "load" {
+                    self.loadInvoices()
+                }
+            }
             
         }
         
     }
 }
 
-extension InvoiceListUIView {
+extension Invoice: Identifiable {
+    // might need to change this from paymentRequest later
+    public var id: String { self.paymentRequest }
+    //    private var id: Int
+}
+
+let bodyText = """
+🌩
+Check out your Lightning Invoices
+- or -
+Add a new Lightning Invoice
+"""
+
+
+struct InvoiceRow: View {
+    var invoices: [Invoice]
     
+    var body: some View {
+        
+        ForEach(invoices.reversed()) { invoice in
+            
+            VStack(alignment: .leading) {
+                Text(self.invoiceToString(invoice))
+                    .font(.caption)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                
+                
+                Text("\(invoice.memo)")
+                    .font(.headline)
+                
+                HStack {
+                    Image(systemName: "bolt.circle")
+                        .foregroundColor(Color(.mr_gold))
+                    Text("\(invoice.value)")
+                        .font(.subheadline)
+                }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+            }
+            
+        }
+        
+    }
+}
+
+
+extension InvoiceRow {
     func invoiceToString(_ invoice: Invoice) -> String {
         let creationDate = invoice.creationDate
         let cDDouble = Double(creationDate)
@@ -96,6 +111,9 @@ extension InvoiceListUIView {
         let invoiceState = InvoiceState(state: invoice.state).invoiceState
         return "Creation date: \(formattedDate) • Invoice state: \(invoiceState)"
     }
+}
+
+extension InvoiceListUIView {
     
     func loadInvoices(){
         invoices { (result) in
