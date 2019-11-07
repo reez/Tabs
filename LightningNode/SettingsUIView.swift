@@ -9,9 +9,9 @@
 import SwiftUI
 
 class AppState: ObservableObject {
-    @Published var alias = "..."//"Getting Node Alias..."
-    @Published var pubkey = "..."//"Getting Pubkey..."
-    @Published var version = "..."//"Getting LND Version..."
+    @Published var alias = "Getting Node Alias..."
+    @Published var pubkey = "Getting Pubkey..."
+    @Published var version = "Getting LND Version..."
 }
 
 struct SettingsUIView: View {
