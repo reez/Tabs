@@ -8,17 +8,19 @@
 
 import SwiftUI
 
-class InvoiceCreateAppState: ObservableObject {
-    @Published var newInvoice: String = ""
-}
+//class InvoiceCreateAppState: ObservableObject {
+//    @Published var newInvoice: String = ""
+//}
 
 struct InvoiceCreateUIView: View {
-//    @ObservedObject var state = InvoiceCreateAppState()
+    // If i use state newInvoice then invoicelabel updates and disappears
+    // so need to use @State for now
+    // @ObservedObject var state = InvoiceCreateAppState()
     @State var memo: String = ""
     @State var value: String = ""
     @State var showInvoice = false
     @State var showCopy = false
-    @State var inv = ""
+    @State var newInvoice = ""
 
     var body: some View {
         
@@ -47,11 +49,10 @@ struct InvoiceCreateUIView: View {
                 addInvoiceViewModel(input: input) { (output) in
                     
                     if !output.alertNeeded {
-                        print("self before: \(self.inv)")
-                        self.inv = output.invoiceLabel //self.state.newInvoice
+                        print("self before: \(self.newInvoice)")
+                        self.newInvoice = output.invoiceLabel //self.state.newInvoice
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-                        print("self after: \(self.inv)")
-
+                        print("self after: \(self.newInvoice)")
                     }
                     
                 }
@@ -59,7 +60,7 @@ struct InvoiceCreateUIView: View {
             }
             .padding()
             
-            Text(verbatim: self.inv)
+            Text(verbatim: self.newInvoice)//self.state.newInvoice
                 .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
             
@@ -67,11 +68,12 @@ struct InvoiceCreateUIView: View {
             
             Button("Copy Invoice") {
                 self.showCopy = false
+                self.showInvoice = false
                 self.memo = ""
                 self.value = ""
-                //  UIPasteboard.general.string = self.state.newInvoice
+                UIPasteboard.general.string = self.newInvoice//self.state.newInvoice
             }
-                .opacity(self.showCopy ? 1 : 0)
+            .opacity(self.showCopy ? 1 : 0)
             
             Spacer()
             
