@@ -21,7 +21,7 @@ struct InvoiceListUIView: View {
         
         VStack {
             
-            Text(bodyText)
+            Text(Constants.listInvoicesBodyText.rawValue)
                 .multilineTextAlignment(.center)
                 .padding()
             
@@ -63,12 +63,12 @@ extension Invoice: Identifiable {
     //    private var id: Int
 }
 
-let bodyText = """
-🌩
-Check out your Lightning Invoices
-- or -
-Add a new Lightning Invoice
-"""
+//let bodyText = """
+//🌩
+//Check out your Lightning Invoices
+//- or -
+//Add a new Lightning Invoice
+//"""
 
 
 struct InvoiceRow: View {

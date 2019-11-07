@@ -14,6 +14,7 @@
 		AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
 		AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */; };
+		AE0FAA4323747CD000F113A6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FAA4223747CD000F113A6 /* Constants.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
 		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
@@ -81,6 +82,7 @@
 		AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
 		AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailViewController.swift; sourceTree = "<group>"; };
+		AE0FAA4223747CD000F113A6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1571F421C4927E0055D5BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				AE1571ED21C4927D0055D5BD /* AppDelegate.swift */,
 				AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */,
+				AE0FAA4223747CD000F113A6 /* Constants.swift */,
 				AE15721721C495C10055D5BD /* Environment.swift */,
 				AE15722121C4B0740055D5BD /* Errors.swift */,
 				AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */,
@@ -464,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */,
+				AE0FAA4323747CD000F113A6 /* Constants.swift in Sources */,
 				AE7497EB236DDF2E00230073 /* StatusDetailUIView.swift in Sources */,
 				AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */,
 				AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */,
