@@ -78,7 +78,6 @@ struct SettingsUIView: View {
                 Current.lightningAPIRPC.info {  result in
                     try? result.get()
                         |> flatMap {
-                            //self?.viewModel.lightningNodeInfo = $0
                             self.state.alias = "\($0.alias)"
                             self.state.pubkey = "\($0.identityPubkey)"
                             self.state.version = "\(Constants.lndVersion.rawValue) \($0.version)"

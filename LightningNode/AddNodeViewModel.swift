@@ -11,7 +11,6 @@ import UIKit
 import Combine
 
 class AddNodeViewModelCombine {
-    // prperty wrapper -adds publisher to any property
     @Published var certificateTextFieldInput: String = ""
     @Published var macaroonTextFieldInput: String = ""
     @Published var uriTextFieldInput: String = ""

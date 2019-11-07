@@ -50,10 +50,8 @@ struct InvoiceCreateUIView: View {
                 addInvoiceViewModel(input: input) { (output) in
                     
                     if !output.alertNeeded {
-                        print("self before: \(self.newInvoice)")
-                        self.newInvoice = output.invoiceLabel //self.state.newInvoice
+                        self.newInvoice = output.invoiceLabel
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-                        print("self after: \(self.newInvoice)")
                     }
                     
                 }
@@ -62,7 +60,7 @@ struct InvoiceCreateUIView: View {
             .padding()
             
             Group {
-            Text(verbatim: self.newInvoice)//self.state.newInvoice
+            Text(verbatim: self.newInvoice)
                 .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
                 .padding()
@@ -72,7 +70,7 @@ struct InvoiceCreateUIView: View {
                 self.showInvoice = false
                 self.memo = ""
                 self.value = ""
-                UIPasteboard.general.string = self.newInvoice//self.state.newInvoice
+                UIPasteboard.general.string = self.newInvoice
             }
             .opacity(self.showCopy ? 1 : 0)
             .padding()

@@ -10,7 +10,7 @@ import SwiftUI
 
 class StatusAppState: ObservableObject {
     @Published var syncedLabel = "Syncing..."
-    @Published var syncedImage = Constants.xImage.rawValue//"xmark.circle"
+    @Published var syncedImage = Constants.xImage.rawValue
     @Published var syncedState = false
     @Published var refreshedLabel = "Refreshing..."
 }
@@ -55,14 +55,11 @@ extension StatusUIView {
     func loadStatus() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
-            
-            //            self.viewModel = LightningViewModel { _ in }
-            
+                        
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info {  result in
                 try? result.get()
                     |> flatMap {
-                        //                        self?.viewModel.lightningNodeInfo = $0
                         
                         let creationDate = Current.date()
                         let formattedDate = mrDateFormatter.string(from: creationDate)

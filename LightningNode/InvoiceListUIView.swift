@@ -63,7 +63,6 @@ extension Invoice: Identifiable {
     //    private var id: Int
 }
 
-
 struct InvoiceRow: View {
     var invoices: [Invoice]
     
@@ -75,7 +74,6 @@ struct InvoiceRow: View {
                 Text(self.invoiceToString(invoice))
                     .font(.caption)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-                
                 
                 Text("\(invoice.memo)")
                     .font(.headline)

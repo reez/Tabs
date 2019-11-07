@@ -9,15 +9,14 @@
 import SwiftUI
 
 class TabsAppState: ObservableObject {
-    //    @Published var lightningNode: LightningViewModel!
-    @Published var alias = ""
-    @Published var blockHeight = ""
-    @Published var chainsArray = ""
-    @Published var network = ""
-    @Published var numActiveChannels = ""
-    @Published var numPeers = ""
-    @Published var numPendingChannels = ""
-    @Published var syncedToChain = ""
+    @Published var alias = "..."
+    @Published var blockHeight = "..."
+    @Published var chainsArray = "..."
+    @Published var network = "..."
+    @Published var numActiveChannels = "..."
+    @Published var numPeers = "..."
+    @Published var numPendingChannels = "..."
+    @Published var syncedToChain = "..."
 }
 
 struct StatusDetailUIView: View {
@@ -66,14 +65,11 @@ extension StatusDetailUIView {
     func loadStatusDetail() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
-            
-            //            self.viewModel = LightningViewModel { _ in }
-            
+                        
             Current.remoteNodeConnectionFormatted = savedConfig
-            Current.lightningAPIRPC.info { result in // [weak self]
+            Current.lightningAPIRPC.info { result in
                 try? result.get()
                     |> flatMap {
-                        // self?.viewModel.lightningNodeInfo = $0
                         
                         self.appState.alias = $0.alias
                         self.appState.blockHeight = String($0.blockHeight)

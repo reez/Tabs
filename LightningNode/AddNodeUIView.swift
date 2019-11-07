@@ -49,8 +49,6 @@ struct AddNodeUIView: View {
             }
             .padding()
             
-
-            
             NavigationLink(destination: TabUIView()) {
                 Text("Add Node")
             }
