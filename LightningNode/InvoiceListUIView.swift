@@ -25,7 +25,7 @@ struct InvoiceListUIView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             
-            Button("Add an Invoice") { self.showAlert = true }
+            Button(Constants.addInvoiceButton.rawValue) { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
                 .padding()
@@ -63,13 +63,6 @@ extension Invoice: Identifiable {
     //    private var id: Int
 }
 
-//let bodyText = """
-//🌩
-//Check out your Lightning Invoices
-//- or -
-//Add a new Lightning Invoice
-//"""
-
 
 struct InvoiceRow: View {
     var invoices: [Invoice]
@@ -88,7 +81,7 @@ struct InvoiceRow: View {
                     .font(.headline)
                 
                 HStack {
-                    Image(systemName: "bolt.circle")
+                    Image(systemName: Constants.lightningImage.rawValue)
                         .foregroundColor(Color(.mr_gold))
                     Text("\(invoice.value)")
                         .font(.subheadline)

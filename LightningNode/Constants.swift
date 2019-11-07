@@ -9,6 +9,11 @@
 import Foundation
 
 enum Constants: String {
+    
+    case lightningImage = "bolt.circle"
+    case addInvoiceButton = "Add an Invoice"
+    
+    
     case listInvoicesBodyText = """
     🌩
     Check out your Lightning Invoices
