@@ -25,34 +25,34 @@ struct StatusDetailUIView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(alignment: .leading,spacing: 15.0) {
             Text("alias: ")
-                .bold()
                 + Text(self.appState.alias)
+                    .bold()
             
             Text("chainsArray: ")
-                .bold()
                 + Text(self.appState.chainsArray)
+                    .bold()
             
             Text("network: ")
-                .bold()
                 + Text(self.appState.network)
+                    .bold()
             
             Text("numActiveChannels: ")
-                .bold()
                 + Text("\(self.appState.numActiveChannels)")
+                    .bold()
             
             Text("numPeers: ")
-                .bold()
                 + Text("\(self.appState.numPeers)")
+                    .bold()
             
             Text("numPendingChannels: ")
-                .bold()
                 + Text("\(self.appState.numPendingChannels)")
+                    .bold()
             
             Text("syncedToChain: ")
-                .bold()
                 + Text(String(self.appState.syncedToChain))
+                    .bold()
             
         }
         .font(.callout)
