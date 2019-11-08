@@ -9,10 +9,11 @@
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController {
+final class CameraViewController: UIViewController {
     
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
+    var delegate: QRCodeScannerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,11 @@ class CameraViewController: UIViewController {
         }
     }
     
+    func found(code: String) {
+        print("Code: \(code)")
+        self.delegate?.codeDidFind(code)
+    }
+    
     @objc func buttonAction(sender: UIButton!) {
         _ = navigationController?.popViewController(animated: true)
     }
@@ -46,6 +52,7 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let readableString = readableObject.stringValue else { return }
+            print("Code read: \(readableString)")
             guard let url = URL(string: readableString) else { return }
             guard let queryParameters = url.queryParameters else { return }
             guard let certificate = queryParameters["cert"]?.base64UrlToBase64() else { return }
@@ -58,7 +65,10 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
         }
         
-        dismiss(animated: true)
+        //        dismiss(animated: true)
+        dismiss(animated: true) {
+            print("Dismissed Camera")
+        }
     }
 }
 
@@ -108,4 +118,21 @@ extension CameraViewController {
         present(alertController, animated: true)
         self.captureSession = nil
     }
+}
+
+protocol QRCodeScannerDelegate {
+    func codeDidFind(_ code: String)
+}
+
+import SwiftUI
+extension CameraViewController: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> CameraViewController {
+        return CameraViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: CameraViewController,
+                                context: UIViewControllerRepresentableContext<CameraViewController>) {
+        
+    }
+    
 }

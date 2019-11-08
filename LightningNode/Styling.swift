@@ -181,7 +181,7 @@ extension UIColor {
     public static var mr_gold: UIColor {
         return UIColor { (traitCollection: UITraitCollection) -> UIColor in
             if traitCollection.userInterfaceStyle == .dark {
-                return UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
+                return UIColor(red: 212/255, green: 175/255, blue: 75/255, alpha: 1)
             } else {
                 return UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1)
             }
@@ -190,6 +190,7 @@ extension UIColor {
     }
     
 }
+
 
 extension CGFloat {
     static func mr_grid(_ n: Int) -> CGFloat {

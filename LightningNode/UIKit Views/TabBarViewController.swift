@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TabBarViewController: UITabBarController {
     
@@ -25,7 +26,8 @@ class TabBarViewController: UITabBarController {
         invoices.view.backgroundColor = .systemBackground
         invoices.tabBarItem.image = UIImage(named: "bolt.circle")
         
-        let settings = SettingsViewController()
+        let swiftUIView = SettingsUIView()
+        let settings = UIHostingController(rootView: swiftUIView)
         settings.tabBarItem.title = "Settings"
         settings.view.backgroundColor = .systemBackground
         settings.tabBarItem.image = UIImage(named: "line.horizontal.3.decrease.circle")

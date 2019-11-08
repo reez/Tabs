@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		AE07DFC5221E3EEB00D6A7BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */; };
 		AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */; };
 		AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */; };
+		AE0FAA4323747CD000F113A6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FAA4223747CD000F113A6 /* Constants.swift */; };
 		AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1571ED21C4927D0055D5BD /* AppDelegate.swift */; };
 		AE1571F521C4927E0055D5BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F421C4927E0055D5BD /* Assets.xcassets */; };
 		AE1571F821C4927E0055D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */; };
@@ -35,6 +36,13 @@
 		AE5E7FBF22888E9D0090FD00 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */; };
 		AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */; };
 		AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */; };
+		AE7497E5236D127100230073 /* SettingsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497E4236D127100230073 /* SettingsUIView.swift */; };
+		AE7497E7236DD81100230073 /* TabUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497E6236DD81100230073 /* TabUIView.swift */; };
+		AE7497E9236DDA1D00230073 /* StatusUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497E8236DDA1D00230073 /* StatusUIView.swift */; };
+		AE7497EB236DDF2E00230073 /* StatusDetailUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */; };
+		AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */; };
+		AE7497EF236DE9A400230073 /* InvoiceCreateUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */; };
+		AE7B7AE8236E1F88000DA3E0 /* AddNodeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */; };
 		AE81076B2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */; };
 		AE81076D2217BAB000EC3A15 /* AddNodeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */; };
 		AE8107712218D84C00EC3A15 /* BlockstreamAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */; };
@@ -50,6 +58,7 @@
 		AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DD45221D16CCA003E5EC2 /* Operators.swift */; };
 		AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511142274BCDA00271DC0 /* TabBarViewController.swift */; };
 		AE9511192274BD7700271DC0 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9511182274BD7700271DC0 /* StatusViewController.swift */; };
+		AEB55FCC2371F6D4000995A5 /* QRUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB55FCB2371F6D4000995A5 /* QRUIView.swift */; };
 		AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE18C42274CA8000416B49 /* SettingsViewController.swift */; };
 		AEFFAB4B2278E03400B7080C /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +82,7 @@
 		AE07DFC3221E3EEB00D6A7BD /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModel.swift; sourceTree = "<group>"; };
 		AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailViewController.swift; sourceTree = "<group>"; };
+		AE0FAA4223747CD000F113A6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE1571EA21C4927D0055D5BD /* LightningNode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightningNode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1571ED21C4927D0055D5BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1571F421C4927E0055D5BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,6 +108,13 @@
 		AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctions.swift; sourceTree = "<group>"; };
 		AE6EFCD521C9BC0C0067D302 /* KeychainDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataStore.swift; sourceTree = "<group>"; };
+		AE7497E4236D127100230073 /* SettingsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUIView.swift; sourceTree = "<group>"; };
+		AE7497E6236DD81100230073 /* TabUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabUIView.swift; sourceTree = "<group>"; };
+		AE7497E8236DDA1D00230073 /* StatusUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusUIView.swift; sourceTree = "<group>"; };
+		AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDetailUIView.swift; sourceTree = "<group>"; };
+		AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceListUIView.swift; sourceTree = "<group>"; };
+		AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCreateUIView.swift; sourceTree = "<group>"; };
+		AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeUIView.swift; sourceTree = "<group>"; };
 		AE81076A2217B7E300EC3A15 /* AddInvoiceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceViewModelTests.swift; sourceTree = "<group>"; };
 		AE81076C2217BAB000EC3A15 /* AddNodeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNodeViewModelTests.swift; sourceTree = "<group>"; };
 		AE8107702218D84C00EC3A15 /* BlockstreamAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPITests.swift; sourceTree = "<group>"; };
@@ -114,6 +131,7 @@
 		AE9511142274BCDA00271DC0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AE9511182274BD7700271DC0 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		AEA649EC21E98F6000F9689A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AEB55FCB2371F6D4000995A5 /* QRUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRUIView.swift; sourceTree = "<group>"; };
 		AEFE18C42274CA8000416B49 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewController.swift; sourceTree = "<group>"; };
 		D206DFCC73DD9B62C75E5903 /* Pods_LightningNodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightningNodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +184,7 @@
 			children = (
 				AE1571ED21C4927D0055D5BD /* AppDelegate.swift */,
 				AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */,
+				AE0FAA4223747CD000F113A6 /* Constants.swift */,
 				AE15721721C495C10055D5BD /* Environment.swift */,
 				AE15722121C4B0740055D5BD /* Errors.swift */,
 				AE62AD1821D5BF6B009B7BCA /* FreeFunctions.swift */,
@@ -178,16 +197,17 @@
 				AE434C5921C5A5DF00D0E1B9 /* RemoteNodeConnection.swift */,
 				AE434C5721C5A5A400D0E1B9 /* Result.swift */,
 				AE8DD45021D1674E003E5EC2 /* Styling.swift */,
-				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
+				AE4D3899236F20C40029B878 /* UIKit Views */,
+				AE7B7AE7236E1F88000DA3E0 /* AddNodeUIView.swift */,
 				AE0A93B421F11FF4003EB324 /* AddNodeViewModel.swift */,
-				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
-				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
-				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
-				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
-				AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */,
-				AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */,
+				AEB55FCB2371F6D4000995A5 /* QRUIView.swift */,
+				AE7497E6236DD81100230073 /* TabUIView.swift */,
+				AE7497E8236DDA1D00230073 /* StatusUIView.swift */,
+				AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */,
+				AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */,
+				AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */,
 				AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */,
-				AEFE18C42274CA8000416B49 /* SettingsViewController.swift */,
+				AE7497E4236D127100230073 /* SettingsUIView.swift */,
 				AE1571F421C4927E0055D5BD /* Assets.xcassets */,
 				AE1571F621C4927E0055D5BD /* LaunchScreen.storyboard */,
 				AE1571F921C4927E0055D5BD /* Info.plist */,
@@ -217,6 +237,21 @@
 				AE8CE3DC235CB2F2005C7286 /* InvoicesViewController.swift */,
 			);
 			path = LightningNodeTests;
+			sourceTree = "<group>";
+		};
+		AE4D3899236F20C40029B878 /* UIKit Views */ = {
+			isa = PBXGroup;
+			children = (
+				AE15721921C49E070055D5BD /* AddNodeViewController.swift */,
+				AE8BB8B021E9967B001513DD /* CameraViewController.swift */,
+				AE9511142274BCDA00271DC0 /* TabBarViewController.swift */,
+				AE9511182274BD7700271DC0 /* StatusViewController.swift */,
+				AE0B0EB12276267C005FEC55 /* StatusDetailViewController.swift */,
+				AE0226FA227662D600C4378A /* InvoicesTableViewController.swift */,
+				AEFFAB4A2278E03400B7080C /* InvoiceViewController.swift */,
+				AEFE18C42274CA8000416B49 /* SettingsViewController.swift */,
+			);
+			path = "UIKit Views";
 			sourceTree = "<group>";
 		};
 		B7CEF8F914E4A4EC92C738E3 /* Frameworks */ = {
@@ -308,7 +343,7 @@
 				};
 			};
 			buildConfigurationList = AE1571E521C4927D0055D5BD /* Build configuration list for PBXProject "LightningNode" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -432,11 +467,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE8DD45121D1674E003E5EC2 /* Styling.swift in Sources */,
+				AE0FAA4323747CD000F113A6 /* Constants.swift in Sources */,
+				AE7497EB236DDF2E00230073 /* StatusDetailUIView.swift in Sources */,
 				AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */,
 				AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */,
+				AE7497EF236DE9A400230073 /* InvoiceCreateUIView.swift in Sources */,
 				AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */,
 				AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */,
 				AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */,
+				AE7497E9236DDA1D00230073 /* StatusUIView.swift in Sources */,
 				AE5E7FBF22888E9D0090FD00 /* InvoiceViewModel.swift in Sources */,
 				AE8DD45321D16CCA003E5EC2 /* Operators.swift in Sources */,
 				AE15721821C495C10055D5BD /* Environment.swift in Sources */,
@@ -448,11 +487,16 @@
 				AE0A93B521F11FF4003EB324 /* AddNodeViewModel.swift in Sources */,
 				AE15722221C4B0740055D5BD /* Errors.swift in Sources */,
 				AE6EFCD621C9BC0C0067D302 /* KeychainDataStore.swift in Sources */,
+				AE7497E7236DD81100230073 /* TabUIView.swift in Sources */,
+				AE7497ED236DE1D000230073 /* InvoiceListUIView.swift in Sources */,
+				AE7B7AE8236E1F88000DA3E0 /* AddNodeUIView.swift in Sources */,
 				AE0B0EB22276267C005FEC55 /* StatusDetailViewController.swift in Sources */,
 				AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */,
+				AE7497E5236D127100230073 /* SettingsUIView.swift in Sources */,
 				AE1571EE21C4927D0055D5BD /* AppDelegate.swift in Sources */,
 				AE9511152274BCDA00271DC0 /* TabBarViewController.swift in Sources */,
 				AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */,
+				AEB55FCC2371F6D4000995A5 /* QRUIView.swift in Sources */,
 				AE07DFC4221E3EEB00D6A7BD /* TestHelpers.swift in Sources */,
 				AEFE18C52274CA8000416B49 /* SettingsViewController.swift in Sources */,
 				AE0226FB227662D600C4378A /* InvoicesTableViewController.swift in Sources */,
@@ -628,7 +672,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9G6M658RKZ;
 				INFOPLIST_FILE = LightningNode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -636,7 +680,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -650,7 +694,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9G6M658RKZ;
 				INFOPLIST_FILE = LightningNode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -658,7 +702,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewramsden.LightningNode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

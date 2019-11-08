@@ -8,6 +8,7 @@
 import UIKit
 import UserNotifications
 import BackgroundTasks
+import SwiftUI
 
 fileprivate let backgroundTaskIdentifier = "com.matthewramsden.lightningnode.refresh"
 
@@ -21,7 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         registerForLocalNotifications(application: application)
         
-        let vc = AddNodeViewController()
+        let swiftUIView = AddNodeUIView()//SettingsViewController()
+        let vc = UIHostingController(rootView: swiftUIView)
+
+//        let vc = AddNodeViewController()
+        
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isHidden = true
         navigationController.view.backgroundColor = .systemBackground
@@ -41,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [ .alert]) { [weak center, weak self] (granted, error) in
             guard granted, let _ = center, let _ = self else { return }
-            print("registerForLocalNotifications")
+            //print("registerForLocalNotifications")
         }
     }
     
