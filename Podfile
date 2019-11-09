@@ -8,9 +8,6 @@ target 'LightningNode' do
   # Pods for LightningNode
     pod 'LNDrpc', :path => '.'
     pod 'KeychainAccess'
-    pod 'NVActivityIndicatorView'
-    pod 'M13Checkbox'
-    pod 'Loaf'
 
   target 'LightningNodeTests' do
     inherit! :search_paths
