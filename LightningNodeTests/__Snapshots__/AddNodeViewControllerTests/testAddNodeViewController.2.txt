@@ -1,7 +1,4 @@
 <UIView; frame = (0 0; 414 896); autoresize = W+H; layer = <CALayer>>
-   | <NVActivityIndicatorView.NVActivityIndicatorView; frame = (167 368; 80 80); hidden = YES; layer = <CALayer>>
-   | <NVActivityIndicatorView.NVActivityIndicatorView; frame = (167 368; 80 80); hidden = YES; layer = <CALayer>>
-   | <NVActivityIndicatorView.NVActivityIndicatorView; frame = (167 368; 80 80); hidden = YES; layer = <CALayer>>
    | <UIStackView; frame = (24 68; 366 417.5); layer = <CATransformLayer>>
    |    | <UILabel; frame = (0 0; 366 33.5); text = 'Add a Node'; userInteractionEnabled = NO; layer = <_UILabelLayer>>
    |    | <UIButton; frame = (0 57.5; 366 60); opaque = NO; tintColor = <UIDynamicSystemColor; name = systemFillColor>; layer = <CALayer>>
@@ -10,16 +7,22 @@
    |    | <UIStackView; frame = (0 183.5; 366 150); layer = <CATransformLayer>>
    |    |    | <UITextField; frame = (0 0; 366 34); text = ''; opaque = NO; gestureRecognizers = <NSArray>; layer = <CALayer>>
    |    |    |    | <_UITextFieldRoundedRectBackgroundViewNeue; frame = (0 0; 366 34); opaque = NO; autoresize = W+H; userInteractionEnabled = NO; layer = <CALayer>>
+   |    |    |    | <_UIBaselineLayoutStrut; frame = (0 8; 0 18); hidden = YES; userInteractionEnabled = NO; layer = <_UILabelLayer>>
+   |    |    |    |    | <_UILabelContentLayer> (layer)
    |    |    |    | <UITextFieldLabel; frame = (7 8; 352 18); text = 'Certificate (Example: MII...'; opaque = NO; userInteractionEnabled = NO; layer = <_UILabelLayer>>
    |    |    |    | <_UITextFieldCanvasView; frame = (7 2; 352 30); opaque = NO; userInteractionEnabled = NO; layer = <_UITextTiledLayer>>
    |    |    |    |    | <UITextSelectionView; frame = (0 0; 0 0); userInteractionEnabled = NO; layer = <CALayer>>
    |    |    | <UITextField; frame = (0 58; 366 34); text = ''; opaque = NO; gestureRecognizers = <NSArray>; layer = <CALayer>>
    |    |    |    | <_UITextFieldRoundedRectBackgroundViewNeue; frame = (0 0; 366 34); opaque = NO; autoresize = W+H; userInteractionEnabled = NO; layer = <CALayer>>
+   |    |    |    | <_UIBaselineLayoutStrut; frame = (0 8; 0 18); hidden = YES; userInteractionEnabled = NO; layer = <_UILabelLayer>>
+   |    |    |    |    | <_UILabelContentLayer> (layer)
    |    |    |    | <UITextFieldLabel; frame = (7 8; 352 18); text = 'Macaroon (Example: AgECg....'; opaque = NO; userInteractionEnabled = NO; layer = <_UILabelLayer>>
    |    |    |    | <_UITextFieldCanvasView; frame = (7 2; 352 30); opaque = NO; userInteractionEnabled = NO; layer = <_UITextTiledLayer>>
    |    |    |    |    | <UITextSelectionView; frame = (0 0; 0 0); userInteractionEnabled = NO; layer = <CALayer>>
    |    |    | <UITextField; frame = (0 116; 366 34); text = ''; opaque = NO; gestureRecognizers = <NSArray>; layer = <CALayer>>
    |    |    |    | <_UITextFieldRoundedRectBackgroundViewNeue; frame = (0 0; 366 34); opaque = NO; autoresize = W+H; userInteractionEnabled = NO; layer = <CALayer>>
+   |    |    |    | <_UIBaselineLayoutStrut; frame = (0 8; 0 18); hidden = YES; userInteractionEnabled = NO; layer = <_UILabelLayer>>
+   |    |    |    |    | <_UILabelContentLayer> (layer)
    |    |    |    | <UITextFieldLabel; frame = (7 8; 352 18); text = 'URI (Example: 142.x.x.x:1...'; opaque = NO; userInteractionEnabled = NO; layer = <_UILabelLayer>>
    |    |    |    | <_UITextFieldCanvasView; frame = (7 2; 352 30); opaque = NO; userInteractionEnabled = NO; layer = <_UITextTiledLayer>>
    |    |    |    |    | <UITextSelectionView; frame = (0 0; 0 0); userInteractionEnabled = NO; layer = <CALayer>>

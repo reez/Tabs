@@ -7,13 +7,11 @@
 //
 
 import UIKit
-import NVActivityIndicatorView
 import Combine
 import SwiftUI
 
 class AddNodeViewController: UIViewController {
     
-    private var nvActivityIndicator: NVActivityIndicatorView?
     let titleLabel = UILabel()
     let lndConnectButton = UIButton()
     let titleLabelStatic = UILabel()
@@ -131,23 +129,8 @@ extension AddNodeViewController {
             <> { $0.addArrangedSubview(self.textFieldStackView) }
             <> { $0.addArrangedSubview(self.submitButton) }
         
-        let nvActivityIndicatorFrame = CGRect(
-            x: (UIScreen.main.bounds.size.width / 2 - 40),
-            y: (UIScreen.main.bounds.size.height / 2 - 80),
-            width: 80,
-            height: 80
-        )
-        
-        self.nvActivityIndicator = NVActivityIndicatorView(
-            frame: nvActivityIndicatorFrame,
-            type: NVActivityIndicatorType.ballClipRotate,
-            color: .systemGray6,
-            padding: nil
-        )
-        
         self.view
-            |> { $0.addSubview(self.nvActivityIndicator!) }
-            <> { $0.addSubview(self.rootStackView) }
+            |> { $0.addSubview(self.rootStackView) }
             <> { $0.layoutMargins = .init(top: .mr_grid(6), left: .mr_grid(6), bottom: .mr_grid(6), right: .mr_grid(6))}
         
         NSLayoutConstraint.activate(
@@ -197,7 +180,7 @@ extension AddNodeViewController {
     }
     
     @objc func submitPressed() {
-        self.nvActivityIndicator?.startAnimating()
+//        self.nvActivityIndicator?.startAnimating()
         
         if let certificate = self.certificateTextField.text,
             let macaroon = self.macaroonTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -214,13 +197,13 @@ extension AddNodeViewController {
             
             addNodeViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-                    self.nvActivityIndicator?.stopAnimating()
+//                    self.nvActivityIndicator?.stopAnimating()
                     //                    let vc = TabBarViewController()
                     let swiftUIView = TabUIView()//SettingsViewController()
                     let vc = UIHostingController(rootView: swiftUIView)
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    self.nvActivityIndicator?.stopAnimating()
+//                    self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
                         title: "Something went wrong Adding Node",
                         message: output.alertErrorMessage,
@@ -230,7 +213,7 @@ extension AddNodeViewController {
                 }
             }
         } else {
-            self.nvActivityIndicator?.stopAnimating()
+//            self.nvActivityIndicator?.stopAnimating()
             let alertController = UIAlertController(
                 title: "Something went wrong in adding node.",
                 message: DataError.remoteNodeInfoMissing.localizedDescription,
@@ -243,7 +226,6 @@ extension AddNodeViewController {
     }
 }
 
-#if canImport(SwiftUI) && DEBUG
 import SwiftUI
 struct AddNodeViewControllerRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
@@ -260,4 +242,3 @@ struct AddNodeViewController_Preview: PreviewProvider {
         AddNodeViewControllerRepresentable()
     }
 }
-#endif

@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import SnapshotTesting
 @testable import LightningNode
 
 class BlockstreamAPITests: XCTestCase {

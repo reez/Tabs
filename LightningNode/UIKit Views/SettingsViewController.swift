@@ -201,7 +201,6 @@ extension SettingsViewController {
     
 }
 
-#if canImport(SwiftUI) && DEBUG
 import SwiftUI
 struct SettingsViewControllerRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
@@ -218,4 +217,3 @@ struct SettingsViewController_Preview: PreviewProvider {
         SettingsViewControllerRepresentable()
     }
 }
-#endif

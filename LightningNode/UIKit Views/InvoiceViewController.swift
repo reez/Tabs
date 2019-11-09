@@ -7,12 +7,9 @@
 //
 
 import UIKit
-import NVActivityIndicatorView
-import Loaf
 
 class InvoiceViewController: UIViewController {
     
-    private var nvActivityIndicator: NVActivityIndicatorView?
     private let rootStackView = UIStackView()
     private let titleLabel = UILabel()
     private let amountLabel = UILabel()
@@ -64,7 +61,7 @@ extension InvoiceViewController {
         }
         
         self.view.endEditing(true)
-        self.nvActivityIndicator?.startAnimating()
+//        self.nvActivityIndicator?.startAnimating()
         
         if let memo = self.memoTextField.text,
             let amount = self.amountTextField.text,
@@ -78,7 +75,7 @@ extension InvoiceViewController {
             )
             addInvoiceViewModel(input: input) { (output) in
                 if !output.alertNeeded {
-                    self.nvActivityIndicator?.stopAnimating()
+//                    self.nvActivityIndicator?.stopAnimating()
                     self.invoiceLabel.isHidden = output.invoiceLabelHidden
                     self.copyButton.isHidden = output.copyButtonHidden
                     self.invoiceLabel.text = output.invoiceLabel
@@ -88,7 +85,7 @@ extension InvoiceViewController {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
                     
                 } else {
-                    self.nvActivityIndicator?.stopAnimating()
+//                    self.nvActivityIndicator?.stopAnimating()
                     let alertController = UIAlertController(
                         title: DataError.fetchInfoFailure.localizedDescription,
                         message: output.alertErrorMessage,
@@ -100,7 +97,7 @@ extension InvoiceViewController {
             }
             
         } else {
-            self.nvActivityIndicator?.stopAnimating()
+//            self.nvActivityIndicator?.stopAnimating()
             let alertController = UIAlertController(
                 title: DataError.invoiceInfoMissing.localizedDescription,
                 message: "Missing Invoice Info",
@@ -217,23 +214,8 @@ extension InvoiceViewController {
             |> { $0.addArrangedSubview(self.textStackView) }
             <> { $0.addArrangedSubview(self.responseStackView) }
         
-        let nvActivityIndicatorFrame = CGRect(
-            x: (UIScreen.main.bounds.size.width / 2 - 40),
-            y: (UIScreen.main.bounds.size.height / 2 - 40),
-            width: 80,
-            height: 80
-        )
-        
-        self.nvActivityIndicator = NVActivityIndicatorView(
-            frame: nvActivityIndicatorFrame,
-            type: NVActivityIndicatorType.ballClipRotate,
-            color: .systemGray6,
-            padding: nil
-        )
-        
         self.view
-            |> { $0.addSubview(self.nvActivityIndicator!) }
-            <> { $0.addSubview(self.rootStackView) }
+            |> { $0.addSubview(self.rootStackView) }
             <> { $0.backgroundColor = .systemBackground }
         
         NSLayoutConstraint.activate([
@@ -262,7 +244,6 @@ extension InvoiceViewController: UITextFieldDelegate {
 
 extension InvoiceViewController {
     @objc func copyButtonPressed(_ sender: UIButton) {
-        Loaf("Copied Invoice", state: .success, sender: self).show()
         UIPasteboard.general.string = self.invoiceLabel.text.flatMap { $0 }
     }
 }
