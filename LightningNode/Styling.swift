@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import M13Checkbox
 
 /// UIView
 
@@ -122,19 +121,6 @@ let unfilledButtonStyle =
             $0.backgroundColor = .systemBackground
             $0.tintColor = .systemFill
             $0.setTitleColor(.systemBlue, for: .normal)
-}
-
-
-/// M13Checkbox
-
-let checkboxStyle: (M13Checkbox) -> Void = {
-    $0.animationDuration = 0.50
-    $0.setCheckState(.unchecked, animated: true)
-    $0.tintColor = .mr_gold
-    $0.secondaryTintColor = .systemGray
-    $0.checkmarkLineWidth = 6.0
-    $0.boxLineWidth = 3.0
-    $0.boxType = .circle
 }
 
 

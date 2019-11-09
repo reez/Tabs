@@ -7,14 +7,12 @@
 //
 
 import UIKit
-import M13Checkbox
 
 class StatusViewController: UIViewController {
     
     private var viewModel: LightningViewModel!
     private let syncedLabel = UILabel()
     private let refreshedLabel = UILabel()
-    private let checkbox = M13Checkbox()
     private let syncedStackView = UIStackView()
     private let infoButton = UIButton()
     private let infoStackView = UIStackView()
@@ -48,9 +46,9 @@ class StatusViewController: UIViewController {
                         let formattedDate = mrDateFormatter.string(from: creationDate)
                         self?.refreshedLabel.text = "Refreshed: \(formattedDate)"
                         
-                        $0.syncedToChain ?
-                            (self?.checkbox.setCheckState(.checked, animated: true)) :
-                            (self?.checkbox.setCheckState(.unchecked, animated: true))
+//                        $0.syncedToChain ?
+//                            (self?.checkbox.setCheckState(.checked, animated: true)) :
+//                            (self?.checkbox.setCheckState(.unchecked, animated: true))
                         
                         $0.syncedToChain ?
                             (self?.syncedLabel.text = "Synced") :
@@ -87,15 +85,11 @@ extension StatusViewController {
             <> smallCapsTextStyle
             <> { $0.text = "Refreshing..." }
         
-        self.checkbox
-            |> checkboxStyle
-        
         self.syncedStackView
             |> verticalStackViewStyle
             <> centerStackViewStyle
             <> { $0.addArrangedSubview(self.syncedLabel) }
             <> { $0.addArrangedSubview(self.refreshedLabel) }
-            <> { $0.addArrangedSubview(self.checkbox) }
         
         self.infoButton
             |> unfilledButtonStyle
@@ -126,8 +120,8 @@ extension StatusViewController {
             self.rootStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             self.rootStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
             self.rootStackView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor, constant: -0),
-            self.checkbox.heightAnchor.constraint(equalToConstant: 150.0),
-            self.checkbox.widthAnchor.constraint(equalToConstant: 150.0),
+//            self.checkbox.heightAnchor.constraint(equalToConstant: 150.0),
+//            self.checkbox.widthAnchor.constraint(equalToConstant: 150.0),
             ])
         
     }

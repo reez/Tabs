@@ -12,13 +12,13 @@ import SnapshotTesting
 
 class InvoicesViewController: XCTestCase {
 
-    func testInvoicesViewController() {
-        let vc = InvoiceViewController()
-        vc.viewDidLoad()
-        vc.viewDidAppear(true)
-        
-        assertSnapshot(matching: vc, as: .image(on: .iPhoneXr(.portrait)))
-    }
+//    func testInvoicesViewController() {
+//        let vc = InvoiceViewController()
+//        vc.viewDidLoad()
+//        vc.viewDidAppear(true)
+//        
+//        assertSnapshot(matching: vc, as: .image(on: .iPhoneXr(.portrait)))
+//    }
 
 
 }

@@ -59,20 +59,12 @@ PODS:
     - "!ProtoCompiler-gRPCPlugin (~> 1.0)"
     - gRPC-ProtoRPC
     - LNDrpc/Messages
-  - Loaf (0.5.0)
-  - M13Checkbox (3.4.0)
-  - NVActivityIndicatorView (4.8.0):
-    - NVActivityIndicatorView/Presenter (= 4.8.0)
-  - NVActivityIndicatorView/Presenter (4.8.0)
   - Protobuf (3.10.0)
   - SnapshotTesting (1.6.0)
 
 DEPENDENCIES:
   - KeychainAccess
   - LNDrpc (from `.`)
-  - Loaf
-  - M13Checkbox
-  - NVActivityIndicatorView
   - SnapshotTesting (~> 1.6)
 
 SPEC REPOS:
@@ -85,9 +77,6 @@ SPEC REPOS:
     - gRPC-ProtoRPC
     - gRPC-RxLibrary
     - KeychainAccess
-    - Loaf
-    - M13Checkbox
-    - NVActivityIndicatorView
     - Protobuf
     - SnapshotTesting
 
@@ -105,12 +94,9 @@ SPEC CHECKSUMS:
   gRPC-RxLibrary: 79090af46797d7b8cf7120d41930c388b1ca3118
   KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
   LNDrpc: e1bfa71a2c0705c57798926da676e217e0cf60db
-  Loaf: 0800b444431366bc395d54267975d4ad4ad5c99c
-  M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
-  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   SnapshotTesting: 9f478335073a830eafb7dc1fcd526c5e90143991
 
-PODFILE CHECKSUM: 91105ae68b1130869273bd43e16ca5fd10bb7519
+PODFILE CHECKSUM: 5f30d6d8182c957a0b8fea166458af842e2d6631
 
 COCOAPODS: 1.7.5
