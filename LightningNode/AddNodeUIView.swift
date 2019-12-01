@@ -30,28 +30,38 @@ struct AddNodeUIView: View {
             Button("Scan Node QR Code") { self.showCamera = true }
                 .padding()
                 .foregroundColor(.blue)
+                .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showCamera, onDismiss: { self.showCamera = false }) { QRUIView() }
             
             Text("Or Add Below")
                 .padding()
-                .font(.system(.footnote, design: .monospaced))
+                .font(Font.footnote.smallCaps())
 //                .font(.footnote)
             
             VStack {
                 TextField("Certificate", text: $certificate)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
+                        .font(.system(.footnote, design: .monospaced))
+                .border(Color.blue)
+
                 TextField("Macaroon", text: $macaroon)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                .font(.system(.footnote, design: .monospaced))
+                .border(Color.blue)
+
                 
                 TextField("URI", text: $uri)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                .font(.system(.footnote, design: .monospaced))
+                .border(Color.blue)
+
             }
             .padding()
             
             NavigationLink(destination: TabUIView()) {
                 Text("Add Node")
+                .font(.system(.headline, design: Font.Design.monospaced))
             }
             .padding()
             .disabled(self.isButtonDisabled)
