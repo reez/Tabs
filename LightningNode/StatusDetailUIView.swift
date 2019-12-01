@@ -54,7 +54,8 @@ struct StatusDetailUIView: View {
                     .bold()
             
         }
-        .font(.callout)
+        .font(.system(.callout, design: .monospaced))
+//        .font(.callout)
         .onAppear { self.loadStatusDetail() }
         
     }

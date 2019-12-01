@@ -25,9 +25,11 @@ struct StatusUIView: View {
             
             VStack {
                 Text(self.state.syncedLabel)
-                    .font(.largeTitle)
+                .font(.system(.largeTitle, design: .monospaced))
+//                    .font(.largeTitle)
                 Text(self.state.refreshedLabel)
-                    .font(.footnote)
+                    .font(Font.footnote.smallCaps())
+//                    .font(.footnote)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
             
@@ -36,10 +38,12 @@ struct StatusUIView: View {
                 .frame(width: 125, height: 125, alignment: .center)
                 .foregroundColor(Color(.mr_gold))
                 .animation(.spring())
+                .font(Font.title.weight(.ultraLight))
             
             Button("Get Info") { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
+                .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false }) { StatusDetailUIView() }
             

@@ -61,7 +61,8 @@ struct InvoiceCreateUIView: View {
             
             Group {
             Text(verbatim: self.newInvoice)
-                .font(.caption)
+                .font(.system(.caption, design: .monospaced))
+//                .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
                 .padding()
             

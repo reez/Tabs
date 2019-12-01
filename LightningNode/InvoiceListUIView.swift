@@ -23,11 +23,14 @@ struct InvoiceListUIView: View {
             
             Text(Constants.listInvoicesBodyText.rawValue)
                 .multilineTextAlignment(.center)
+                .font(Font.largeTitle.smallCaps())
+//                .font(.system(.headline, design: Font.Design.rounded))
                 .padding()
             
             Button(Constants.addInvoiceButton.rawValue) { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
+                .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
             
@@ -72,17 +75,22 @@ struct InvoiceRow: View {
             
             VStack(alignment: .leading) {
                 Text(self.invoiceToString(invoice))
-                    .font(.caption)
+                    .font(.system(.caption, design: .monospaced))
+//                    .font(.caption)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 
                 Text("\(invoice.memo)")
-                    .font(.headline)
+                    .font(.system(.headline, design: .monospaced))
+//                    .font(.headline)
                 
                 HStack {
                     Image(systemName: Constants.lightningImage.rawValue)
                         .foregroundColor(Color(.mr_gold))
+                        .font(Font.subheadline.weight(.ultraLight))
+
                     Text("\(invoice.value)")
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .monospaced))
+//                        .font(.subheadline)
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
             }

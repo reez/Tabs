@@ -22,10 +22,15 @@ enum Constants: String {
     case notSynced = "Not Synced"
     
     
+//    case listInvoicesBodyText = """
+//    🌩
+//    Check out your Lightning Invoices
+//    - or -
+//    Add a new Lightning Invoice
+//    """
+    
     case listInvoicesBodyText = """
     🌩
-    Check out your Lightning Invoices
-    - or -
-    Add a new Lightning Invoice
     """
+    
 }
