@@ -21,7 +21,7 @@ struct InvoiceCreateUIView: View {
     @State var showInvoice = false
     @State var showCopy = false
     @State var newInvoice = ""
-
+    
     var body: some View {
         
         VStack {
@@ -31,7 +31,7 @@ struct InvoiceCreateUIView: View {
                 .multilineTextAlignment(.leading)
                 .font(.system(.title, design: .monospaced))
                 .border(Color.blue)
-
+            
             TextField("Value", text: $value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
@@ -63,22 +63,21 @@ struct InvoiceCreateUIView: View {
             .padding()
             
             Group {
-            Text(verbatim: self.newInvoice)
-                .font(.system(.caption, design: .monospaced))
-//                .font(.caption)
-                .opacity(self.showInvoice ? 1 : 0)
+                Text(verbatim: self.newInvoice)
+                    .font(.system(.caption, design: .monospaced))
+                    .opacity(self.showInvoice ? 1 : 0)
+                    .padding()
+                
+                Button("Copy Invoice") {
+                    UIPasteboard.general.string = self.newInvoice
+                    self.showCopy = false
+                    self.showInvoice = false
+                    self.memo = ""
+                    self.value = ""
+                }
+                .opacity(self.showCopy ? 1 : 0)
+                .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
-            
-            Button("Copy Invoice") {
-                UIPasteboard.general.string = self.newInvoice
-                self.showCopy = false
-                self.showInvoice = false
-                self.memo = ""
-                self.value = ""
-            }
-            .opacity(self.showCopy ? 1 : 0)
-            .font(.system(.headline, design: Font.Design.monospaced))
-            .padding()
             }
             .animation(.interactiveSpring())
             

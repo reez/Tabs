@@ -24,7 +24,6 @@ struct InvoiceListUIView: View {
             Text(Constants.listInvoicesBodyText.rawValue)
                 .multilineTextAlignment(.center)
                 .font(Font.largeTitle.smallCaps())
-//                .font(.system(.headline, design: Font.Design.rounded))
                 .padding()
             
             Button(Constants.addInvoiceButton.rawValue) { self.showAlert = true }
@@ -74,25 +73,26 @@ struct InvoiceRow: View {
         ForEach(invoices.reversed()) { invoice in
             
             VStack(alignment: .leading) {
+                
                 Text(self.invoiceToString(invoice))
                     .font(.system(.caption, design: .monospaced))
-//                    .font(.caption)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 
                 Text("\(invoice.memo)")
                     .font(.system(.headline, design: .monospaced))
-//                    .font(.headline)
                 
                 HStack {
+                    
                     Image(systemName: Constants.lightningImage.rawValue)
                         .foregroundColor(Color(.mr_gold))
                         .font(Font.subheadline.weight(.ultraLight))
-
+                    
                     Text("\(invoice.value)")
                         .font(.system(.subheadline, design: .monospaced))
-//                        .font(.subheadline)
+                    
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                
             }
             
         }

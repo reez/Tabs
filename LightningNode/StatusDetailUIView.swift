@@ -25,6 +25,7 @@ struct StatusDetailUIView: View {
     var body: some View {
         
         VStack(alignment: .leading,spacing: 15.0) {
+            
             Text("alias: ")
                 + Text(self.appState.alias)
                     .bold()
@@ -55,7 +56,6 @@ struct StatusDetailUIView: View {
             
         }
         .font(.system(.callout, design: .monospaced))
-//        .font(.callout)
         .onAppear { self.loadStatusDetail() }
         
     }
@@ -66,7 +66,7 @@ extension StatusDetailUIView {
     func loadStatusDetail() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
-                        
+            
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info { result in
                 try? result.get()

@@ -28,37 +28,35 @@ struct SettingsUIView: View {
                     
                     Text(Constants.alias.rawValue)
                         .font(.system(.footnote, design: .monospaced))
-//                        .font(.footnote)
                         .foregroundColor(.gray)
                     
                     Text(state.alias)
                         .font(.system(.subheadline, design: .monospaced))
-//                        .font(.subheadline)
+                    
                 }
                 
                 VStack {
                     
                     Text(Constants.pubkey.rawValue)
                         .font(.system(.footnote, design: .monospaced))
-//                        .font(.footnote)
                         .foregroundColor(.gray)
                     
                     Text(state.pubkey)
                         .font(.system(.subheadline, design: .monospaced))
-//                        .font(.subheadline)
                         .multilineTextAlignment(.center)
+                    
                 }
                 
                 VStack {
+                    
                     Text(Constants.tabsVersion.rawValue)
                         .font(.system(.footnote, design: .monospaced))
-//                        .font(.footnote)
                         .foregroundColor(.gray)
-
+                    
                     Text(state.version)
                         .font(.system(.footnote, design: .monospaced))
-//                        .font(.footnote)
-                    .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.center)
+                    
                 }
                 
             }

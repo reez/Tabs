@@ -37,31 +37,31 @@ struct AddNodeUIView: View {
             Text("Or Add Below")
                 .padding()
                 .font(Font.footnote.smallCaps())
-//                .font(.footnote)
             
             VStack {
+                
                 TextField("Certificate", text: $certificate)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.system(.footnote, design: .monospaced))
-                .border(Color.blue)
-
+                    .font(.system(.footnote, design: .monospaced))
+                    .border(Color.blue)
+                
                 TextField("Macaroon", text: $macaroon)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                .font(.system(.footnote, design: .monospaced))
-                .border(Color.blue)
-
+                    .font(.system(.footnote, design: .monospaced))
+                    .border(Color.blue)
+                
                 
                 TextField("URI", text: $uri)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                .font(.system(.footnote, design: .monospaced))
-                .border(Color.blue)
-
+                    .font(.system(.footnote, design: .monospaced))
+                    .border(Color.blue)
+                
             }
             .padding()
             
             NavigationLink(destination: TabUIView()) {
                 Text("Add Node")
-                .font(.system(.headline, design: Font.Design.monospaced))
+                    .font(.system(.headline, design: Font.Design.monospaced))
             }
             .padding()
             .disabled(self.isButtonDisabled)
