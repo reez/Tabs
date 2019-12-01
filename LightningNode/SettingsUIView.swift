@@ -78,7 +78,6 @@ struct SettingsUIView: View {
         .onAppear {
             switch Current.keychain.load() {
             case let .success(savedConfig):
-                self.state.alias = "Success"
                 Current.remoteNodeConnectionFormatted = savedConfig
                 Current.lightningAPIRPC.info {  result in
                     try? result.get()
