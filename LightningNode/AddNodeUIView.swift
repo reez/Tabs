@@ -35,7 +35,8 @@ struct AddNodeUIView: View {
             
             Text("Or Add Below")
                 .padding()
-                .font(.footnote)
+                .font(.system(.footnote, design: .monospaced))
+//                .font(.footnote)
             
             VStack {
                 TextField("Certificate", text: $certificate)

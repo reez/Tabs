@@ -29,11 +29,13 @@ struct InvoiceCreateUIView: View {
             TextField("Memo", text: $memo)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
+                .font(.system(.title, design: .monospaced))
                 .border(Color.blue)
 
             TextField("Value", text: $value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
+                .font(.system(.title, design: .monospaced))
                 .border(Color.blue)
             
             Button("Add Invoice") {
@@ -57,11 +59,13 @@ struct InvoiceCreateUIView: View {
                 }
                 
             }
+            .font(.system(.headline, design: Font.Design.monospaced))
             .padding()
             
             Group {
             Text(verbatim: self.newInvoice)
-                .font(.caption)
+                .font(.system(.caption, design: .monospaced))
+//                .font(.caption)
                 .opacity(self.showInvoice ? 1 : 0)
                 .padding()
             
@@ -73,6 +77,7 @@ struct InvoiceCreateUIView: View {
                 self.value = ""
             }
             .opacity(self.showCopy ? 1 : 0)
+            .font(.system(.headline, design: Font.Design.monospaced))
             .padding()
             }
             .animation(.interactiveSpring())

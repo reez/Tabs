@@ -27,31 +27,37 @@ struct SettingsUIView: View {
                 VStack {
                     
                     Text(Constants.alias.rawValue)
-                        .font(.footnote)
+                        .font(.system(.footnote, design: .monospaced))
+//                        .font(.footnote)
                         .foregroundColor(.gray)
                     
                     Text(state.alias)
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .monospaced))
+//                        .font(.subheadline)
                 }
                 
                 VStack {
                     
                     Text(Constants.pubkey.rawValue)
-                        .font(.footnote)
+                        .font(.system(.footnote, design: .monospaced))
+//                        .font(.footnote)
                         .foregroundColor(.gray)
                     
                     Text(state.pubkey)
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .monospaced))
+//                        .font(.subheadline)
                         .multilineTextAlignment(.center)
                 }
                 
                 VStack {
                     Text(Constants.tabsVersion.rawValue)
-                        .font(.footnote)
+                        .font(.system(.footnote, design: .monospaced))
+//                        .font(.footnote)
                         .foregroundColor(.gray)
 
                     Text(state.version)
-                        .font(.footnote)
+                        .font(.system(.footnote, design: .monospaced))
+//                        .font(.footnote)
                     .multilineTextAlignment(.center)
                 }
                 
@@ -64,6 +70,7 @@ struct SettingsUIView: View {
                 Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 deleteFromKeychain()
             }
+            .font(.system(.headline, design: Font.Design.monospaced))
             .padding()
             
             NavigationLink(destination: AddNodeUIView(), isActive: self.$removedNode ) { Spacer().fixedSize() }
