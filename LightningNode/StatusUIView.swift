@@ -81,6 +81,7 @@ extension StatusUIView {
                         $0.syncedToChain ?
                             (self.state.syncedLabel = Constants.synced.rawValue) :
                             (self.state.syncedLabel = Constants.notSynced.rawValue)
+                  
                 }
             }
         case .failure(_):
