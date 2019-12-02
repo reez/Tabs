@@ -24,12 +24,13 @@ struct StatusUIView: View {
         VStack {
             
             VStack {
+                
                 Text(self.state.syncedLabel)
-                .font(.system(.largeTitle, design: .monospaced))
-//                    .font(.largeTitle)
+                    .font(.system(.largeTitle, design: .monospaced))
+                
                 Text(self.state.refreshedLabel)
                     .font(Font.footnote.smallCaps())
-//                    .font(.footnote)
+                
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
             
@@ -59,7 +60,7 @@ extension StatusUIView {
     func loadStatus() {
         switch Current.keychain.load() {
         case let .success(savedConfig):
-                        
+            
             Current.remoteNodeConnectionFormatted = savedConfig
             Current.lightningAPIRPC.info {  result in
                 try? result.get()
@@ -80,6 +81,7 @@ extension StatusUIView {
                         $0.syncedToChain ?
                             (self.state.syncedLabel = Constants.synced.rawValue) :
                             (self.state.syncedLabel = Constants.notSynced.rawValue)
+                  
                 }
             }
         case .failure(_):
