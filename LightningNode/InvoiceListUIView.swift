@@ -84,6 +84,9 @@ struct InvoiceRow: View {
                     Text("\(invoice.value)")
                         .font(.system(.subheadline, design: .monospaced))
                     
+                    Text("\(invoice.memo)")
+                        .font(.system(.subheadline, design: .monospaced))
+                    
                 }
                 
                 Text(self.invoiceToCreation(invoice))
