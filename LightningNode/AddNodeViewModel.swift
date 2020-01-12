@@ -17,9 +17,9 @@ class AddNodeViewModelCombine {
     
     var readyToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest3(
-                validCertificateTextFieldInput,
-                validMacaroonTextFieldInput,
-                validURITextFieldInput
+            validCertificateTextFieldInput,
+            validMacaroonTextFieldInput,
+            validURITextFieldInput
         )
             .map { if $0, $1, $2 { return true } else { return false } }
             .eraseToAnyPublisher()
@@ -47,7 +47,6 @@ class AddNodeViewModelCombine {
     }
     
 }
-
 
 struct AddNodeViewModelInputs {
     let certificateTextFieldInput: String

@@ -71,7 +71,6 @@ extension StatusDetailUIView {
             Current.lightningAPIRPC.info { result in
                 try? result.get()
                     |> flatMap {
-                        
                         self.appState.alias = $0.alias
                         self.appState.blockHeight = String($0.blockHeight)
                         self.appState.chainsArray = $0.chainsArray
@@ -80,7 +79,6 @@ extension StatusDetailUIView {
                         self.appState.numPeers = String($0.numPeers)
                         self.appState.numPendingChannels = String($0.numPendingChannels)
                         self.appState.syncedToChain = String($0.syncedToChain)
-                        
                 }
             }
         case .failure(_):
