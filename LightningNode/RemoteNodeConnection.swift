@@ -33,34 +33,6 @@ class Pem {
     }
 }
 
-class Pem2 {
-//    private let prefix = "-----BEGIN CERTIFICATE-----"
-//    private let suffix = "-----END CERTIFICATE-----"
-    let string: String
-    
-    init(key: String) {
-//        if key.hasPrefix(prefix) {
-//            string = key
-//        } else {
-            string = "\(key.separate(every: 64, with: "\n"))"
-//        }
-    }
-}
-
-class Pem3 {
-    private let prefix = "-----BEGIN CERTIFICATE-----"
-    private let suffix = "-----END CERTIFICATE-----"
-    let string: String
-    
-    init(key: String) {
-//        if key.hasPrefix(prefix) {
-//            string = key
-//        } else {
-            string = "\(prefix)\n\(key)\n\(suffix)\n"
-//        }
-    }
-}
-
 extension String {
     func base64UrlToBase64() -> String {
         var base64 = self

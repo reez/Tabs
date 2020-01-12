@@ -19,13 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
         registerForLocalNotifications(application: application)
         
         let swiftUIView = AddNodeUIView()//SettingsViewController()
         let vc = UIHostingController(rootView: swiftUIView)
-
-//        let vc = AddNodeViewController()
         
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isHidden = true
@@ -46,7 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [ .alert]) { [weak center, weak self] (granted, error) in
             guard granted, let _ = center, let _ = self else { return }
-            //print("registerForLocalNotifications")
         }
     }
     
