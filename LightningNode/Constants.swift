@@ -17,7 +17,7 @@ enum Constants: String {
     case alias = "Alias"
     case pubkey = "Identity Pubkey"
     case tabsVersion = "LND Version"
-    case lndVersion = "LND Version:"
+//    case lndVersion = "LND Version:"
     case synced = "Synced"
     case notSynced = "Not Synced"
     

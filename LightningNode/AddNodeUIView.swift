@@ -125,7 +125,6 @@ extension AddNodeUIView {
                     self.alertErrorMessage = ""
                     self.alertNeeded = false
                     self.showTab = true
-                    
                 }
             }
         } else {
