@@ -27,46 +27,44 @@ struct AddNodeUIView: View {
         
         VStack {
             
-            Button("Scan Node QR Code") { self.showCamera = true }
+            Button("Scan Node LNDConnect QR Code") { self.showCamera = true }
                 .padding()
                 .foregroundColor(.blue)
                 .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showCamera, onDismiss: { self.showCamera = false }) { QRUIView() }
             
-            Text("Or Add Below")
-                .padding()
-                .font(Font.footnote.smallCaps())
-            
             VStack {
                 
-                TextField("Certificate", text: $certificate)
+                Text("Or Add LND Node Info Manually Below")
+                    .font(Font.footnote.smallCaps())
+                
+                TextField("Certificate (`cat tls.cert`)", text: $certificate)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.system(.footnote, design: .monospaced))
                     .border(Color.blue)
                 
-                TextField("Macaroon", text: $macaroon)
+                TextField("Macaroon (`base64 admin.macaroon`)", text: $macaroon)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.system(.footnote, design: .monospaced))
                     .border(Color.blue)
-                
                 
                 TextField("URI", text: $uri)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.system(.footnote, design: .monospaced))
                     .border(Color.blue)
                 
+                Button("Add Node") { self.submitPressed() }
+                    .font(.system(.headline, design: Font.Design.monospaced))
+                
             }
             .padding()
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 200, trailing: 0))
             
-            NavigationLink(destination: TabUIView()) {
-                Text("Add Node")
+            NavigationLink(destination: TabUIView(), isActive: self.$showTab) {
+                Text("")
                     .font(.system(.headline, design: Font.Design.monospaced))
             }
-            .padding()
-            .disabled(self.isButtonDisabled)
-            
-            NavigationLink(destination: TabUIView(), isActive: self.$showTab ) { Spacer().fixedSize() }
             
         }
         .onAppear {
@@ -79,6 +77,7 @@ struct AddNodeUIView: View {
                 if notification.name.rawValue == "loadRNC" {
                     self.loadRNC()
                     self.submitPressed()
+                    self.showTab = true
                 }
             }
             
@@ -125,6 +124,7 @@ extension AddNodeUIView {
                     self.isButtonDisabled = false
                     self.alertErrorMessage = ""
                     self.alertNeeded = false
+                    self.showTab = true
                 }
             }
         } else {

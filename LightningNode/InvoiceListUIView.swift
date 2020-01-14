@@ -34,11 +34,10 @@ struct InvoiceListUIView: View {
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
             
             List {
-                VStack {
+                VStack(alignment: .leading) {
                     InvoiceRow(invoices: self.state.invoices)
                 }
             }
-            .padding()
             
         }
         .onAppear {
@@ -74,12 +73,7 @@ struct InvoiceRow: View {
             
             VStack(alignment: .leading) {
                 
-                Text(self.invoiceToString(invoice))
-                    .font(.system(.caption, design: .monospaced))
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-                
-                Text("\(invoice.memo)")
-                    .font(.system(.headline, design: .monospaced))
+                Spacer()
                 
                 HStack {
                     
@@ -90,8 +84,20 @@ struct InvoiceRow: View {
                     Text("\(invoice.value)")
                         .font(.system(.subheadline, design: .monospaced))
                     
+                    Text("\(invoice.memo)")
+                        .font(.system(.subheadline, design: .monospaced))
+                    
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                
+                Text(self.invoiceToCreation(invoice))
+                    .font(.system(.caption, design: .monospaced))
+                
+                Text(self.invoiceToState(invoice))
+                    .font(.system(.caption, design: .monospaced))
+                
+                Spacer()
+                
+                Spacer()
                 
             }
             
@@ -102,14 +108,20 @@ struct InvoiceRow: View {
 
 
 extension InvoiceRow {
-    func invoiceToString(_ invoice: Invoice) -> String {
+    
+    func invoiceToCreation(_ invoice: Invoice) -> String {
         let creationDate = invoice.creationDate
         let cDDouble = Double(creationDate)
         let dr = Date(timeIntervalSince1970: cDDouble)
         let formattedDate = mrDateFormatter.string(from: dr)
-        let invoiceState = InvoiceState(state: invoice.state).invoiceState
-        return "Creation date: \(formattedDate) • Invoice state: \(invoiceState)"
+        return "Created \(formattedDate)"
     }
+    
+    func invoiceToState(_ invoice: Invoice) -> String {
+        let invoiceState = InvoiceState(state: invoice.state).invoiceState
+        return "State: \(invoiceState)"
+    }
+    
 }
 
 extension InvoiceListUIView {
@@ -124,6 +136,7 @@ extension InvoiceListUIView {
             }
         }
     }
+    
 }
 
 struct InvoiceListUIView_Previews: PreviewProvider {

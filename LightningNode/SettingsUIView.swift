@@ -84,7 +84,7 @@ struct SettingsUIView: View {
                         |> flatMap {
                             self.state.alias = "\($0.alias)"
                             self.state.pubkey = "\($0.identityPubkey)"
-                            self.state.version = "\(Constants.lndVersion.rawValue) \($0.version)"
+                            self.state.version = "\($0.version)" // \(Constants.lndVersion.rawValue) 
                     }
                 }
             case .failure(_):

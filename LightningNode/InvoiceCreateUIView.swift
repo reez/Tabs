@@ -29,13 +29,13 @@ struct InvoiceCreateUIView: View {
             TextField("Memo", text: $memo)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
-                .font(.system(.title, design: .monospaced))
+                .font(.system(.subheadline, design: .monospaced))
                 .border(Color.blue)
             
             TextField("Value", text: $value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.leading)
-                .font(.system(.title, design: .monospaced))
+                .font(.system(.subheadline, design: .monospaced))
                 .border(Color.blue)
             
             Button("Add Invoice") {

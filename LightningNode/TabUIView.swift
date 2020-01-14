@@ -18,19 +18,22 @@ struct TabUIView: View {
                 .tabItem {
                     Image(systemName: "checkmark.circle")
                     Text("Status")
-                }.tag(0)
+            }
+            .tag(0)
             
             InvoiceListUIView()
-                 .tabItem {
-                     Image(systemName: "bolt.circle")
-                     Text("Invoices")
-                 }.tag(1)
+                .tabItem {
+                    Image(systemName: "bolt.circle")
+                    Text("Invoices")
+            }
+            .tag(1)
             
             SettingsUIView()
-                 .tabItem {
-                     Image(systemName: "line.horizontal.3.decrease.circle")
-                     Text("Settings")
-                 }.tag(2)
+                .tabItem {
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                    Text("Settings")
+            }
+            .tag(2)
             
         }
         

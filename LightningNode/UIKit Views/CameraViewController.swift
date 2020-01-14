@@ -22,9 +22,27 @@ final class CameraViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // If Local, Comment out
         if (self.captureSession?.isRunning == false) {
             self.captureSession.startRunning()
         }
+                // If not Local, Comment out
+        //        let readableString = lndconnectcode
+        //        guard let url = URL(string: readableString) else { return }
+        //        guard let queryParameters = url.queryParameters else { return }
+        //        guard let certificate = queryParameters["cert"]?.base64UrlToBase64() else { return }
+        //        guard let macaroonString = queryParameters["macaroon"]?.base64UrlToBase64() else { return }
+        //        guard let nodeHostString = url.host else { return }
+        //        guard let port = url.port else { return }
+        //        let nodeString = "\(nodeHostString):\(port)"
+        //        let rnc = RemoteNodeConnection.init(uri: nodeString, certificate: certificate, macaroon: macaroonString)
+        //        Current.remoteNodeConnection = rnc
+        //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadRNC"), object: nil)
+        //        self.dismiss(animated: true) {
+        //            print("dissed")
+        //        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,9 +68,15 @@ extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
         self.captureSession.stopRunning()
         
         if let metadataObject = metadataObjects.first {
+            
+            // If Local, Comment out
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let readableString = readableObject.stringValue else { return }
             print("Code read: \(readableString)")
+            
+            // If not Local, Comment out
+//            let readableString = lndconnectcode
+            
             guard let url = URL(string: readableString) else { return }
             guard let queryParameters = url.queryParameters else { return }
             guard let certificate = queryParameters["cert"]?.base64UrlToBase64() else { return }
