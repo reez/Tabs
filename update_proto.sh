@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 Pods/!ProtoCompiler/protoc \
 --plugin=protoc-gen-grpc="Pods/!ProtoCompiler-gRPCPlugin/grpc_objective_c_plugin" \
 --objc_out="Pods/LNDrpc" \
