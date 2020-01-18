@@ -143,7 +143,7 @@ bool grpc_ssl_check_call_host(grpc_core::StringView host,
                               grpc_core::StringView target_name,
                               grpc_core::StringView overridden_target_name,
                               grpc_auth_context* auth_context,
-                              grpc_closure* on_call_host_checked,
+                              grpc_closure* /*on_call_host_checked*/,
                               grpc_error** error) {
   grpc_security_status status = GRPC_SECURITY_ERROR;
   tsi_peer peer = grpc_shallow_peer_from_ssl_auth_context(auth_context);
@@ -189,13 +189,14 @@ int grpc_ssl_cmp_target_name(
     grpc_core::StringView target_name, grpc_core::StringView other_target_name,
     grpc_core::StringView overridden_target_name,
     grpc_core::StringView other_overridden_target_name) {
-  int c = target_name.cmp(other_target_name);
+  int c = grpc_core::StringViewCmp(target_name, other_target_name);
   if (c != 0) return c;
-  return overridden_target_name.cmp(other_overridden_target_name);
+  return grpc_core::StringViewCmp(overridden_target_name,
+                                  other_overridden_target_name);
 }
 
 grpc_core::RefCountedPtr<grpc_auth_context> grpc_ssl_peer_to_auth_context(
-    const tsi_peer* peer) {
+    const tsi_peer* peer, const char* transport_security_type) {
   size_t i;
   const char* peer_identity_property_name = nullptr;
 
@@ -205,7 +206,7 @@ grpc_core::RefCountedPtr<grpc_auth_context> grpc_ssl_peer_to_auth_context(
       grpc_core::MakeRefCounted<grpc_auth_context>(nullptr);
   grpc_auth_context_add_cstring_property(
       ctx.get(), GRPC_TRANSPORT_SECURITY_TYPE_PROPERTY_NAME,
-      GRPC_SSL_TRANSPORT_SECURITY_TYPE);
+      transport_security_type);
   for (i = 0; i < peer->property_count; i++) {
     const tsi_peer_property* prop = &peer->properties[i];
     if (prop->name == nullptr) continue;
@@ -422,7 +423,7 @@ grpc_slice DefaultSslRootStore::ComputePemRootCerts() {
   const bool not_use_system_roots =
       GPR_GLOBAL_CONFIG_GET(grpc_not_use_system_ssl_roots);
   // First try to load the roots from the configuration.
-  UniquePtr<char> default_root_certs_path =
+  grpc_core::UniquePtr<char> default_root_certs_path =
       GPR_GLOBAL_CONFIG_GET(grpc_default_ssl_roots_file_path);
   if (strlen(default_root_certs_path.get()) > 0) {
     GRPC_LOG_IF_ERROR(

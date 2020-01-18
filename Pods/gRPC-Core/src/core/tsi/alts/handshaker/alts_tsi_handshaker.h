@@ -29,16 +29,22 @@
 #include "src/core/tsi/transport_security.h"
 #include "src/core/tsi/transport_security_interface.h"
 #if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.h"
+#else
+  #include  "src/proto/grpc/gcp/altscontext.upb.h"
+#endif
+#if COCOAPODS==1
   #include  "src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.h"
 #else
   #include  "src/proto/grpc/gcp/handshaker.upb.h"
 #endif
 
-#define TSI_ALTS_SERVICE_ACCOUNT_PEER_PROPERTY "service_accont"
+#define TSI_ALTS_SERVICE_ACCOUNT_PEER_PROPERTY "service_account"
 #define TSI_ALTS_CERTIFICATE_TYPE "ALTS"
 #define TSI_ALTS_RPC_VERSIONS "rpc_versions"
+#define TSI_ALTS_CONTEXT "alts_context"
 
-const size_t kTsiAltsNumOfPeerProperties = 3;
+const size_t kTsiAltsNumOfPeerProperties = 4;
 
 typedef struct alts_tsi_handshaker alts_tsi_handshaker;
 

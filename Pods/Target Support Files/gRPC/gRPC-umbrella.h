@@ -15,7 +15,6 @@
 #import "GRPCCall+OAuth2.h"
 #import "GRPCCall+Tests.h"
 #import "GRPCCall+ChannelArg.h"
-#import "internal_testing/GRPCCall+InternalTests.h"
 #import "GRPCCall.h"
 #import "GRPCCall+Interceptor.h"
 #import "GRPCCallOptions.h"

@@ -43,8 +43,7 @@
 // For debugging refcounting.
 #ifndef NDEBUG
 #define GRPC_SUBCHANNEL_REF(p, r) (p)->Ref(__FILE__, __LINE__, (r))
-#define GRPC_SUBCHANNEL_REF_FROM_WEAK_REF(p, r) \
-  (p)->RefFromWeakRef(__FILE__, __LINE__, (r))
+#define GRPC_SUBCHANNEL_REF_FROM_WEAK_REF(p, r) (p)->RefFromWeakRef()
 #define GRPC_SUBCHANNEL_UNREF(p, r) (p)->Unref(__FILE__, __LINE__, (r))
 #define GRPC_SUBCHANNEL_WEAK_REF(p, r) (p)->WeakRef(__FILE__, __LINE__, (r))
 #define GRPC_SUBCHANNEL_WEAK_UNREF(p, r) (p)->WeakUnref(__FILE__, __LINE__, (r))
@@ -77,9 +76,9 @@ class ConnectedSubchannel : public RefCounted<ConnectedSubchannel> {
       RefCountedPtr<channelz::SubchannelNode> channelz_subchannel);
   ~ConnectedSubchannel();
 
-  void NotifyOnStateChange(grpc_pollset_set* interested_parties,
-                           grpc_connectivity_state* state,
-                           grpc_closure* closure);
+  void StartWatch(grpc_pollset_set* interested_parties,
+                  OrphanablePtr<ConnectivityStateWatcherInterface> watcher);
+
   void Ping(grpc_closure* on_initiate, grpc_closure* on_ack);
 
   grpc_channel_stack* channel_stack() const { return channel_stack_; }
@@ -192,20 +191,18 @@ class Subchannel {
     virtual void OnConnectivityStateChange(
         grpc_connectivity_state new_state,
         RefCountedPtr<ConnectedSubchannel> connected_subchannel)  // NOLINT
-        GRPC_ABSTRACT;
+        = 0;
 
-    virtual grpc_pollset_set* interested_parties() GRPC_ABSTRACT;
-
-    GRPC_ABSTRACT_BASE_CLASS
+    virtual grpc_pollset_set* interested_parties() = 0;
   };
 
   // The ctor and dtor are not intended to use directly.
-  Subchannel(SubchannelKey* key, grpc_connector* connector,
+  Subchannel(SubchannelKey* key, OrphanablePtr<SubchannelConnector> connector,
              const grpc_channel_args* args);
   ~Subchannel();
 
   // Creates a subchannel given \a connector and \a args.
-  static Subchannel* Create(grpc_connector* connector,
+  static Subchannel* Create(OrphanablePtr<SubchannelConnector> connector,
                             const grpc_channel_args* args);
 
   // Strong and weak refcounting.
@@ -216,7 +213,7 @@ class Subchannel {
   // Attempts to return a strong ref when only the weak refcount is guaranteed
   // non-zero. If the strong refcount is zero, does not alter the refcount and
   // returns null.
-  Subchannel* RefFromWeakRef(GRPC_SUBCHANNEL_REF_EXTRA_ARGS);
+  Subchannel* RefFromWeakRef();
 
   // Gets the string representing the subchannel address.
   // Caller doesn't take ownership.
@@ -245,7 +242,7 @@ class Subchannel {
   // destroyed or when CancelConnectivityStateWatch() is called.
   void WatchConnectivityState(
       grpc_connectivity_state initial_state,
-      UniquePtr<char> health_check_service_name,
+      grpc_core::UniquePtr<char> health_check_service_name,
       OrphanablePtr<ConnectivityStateWatcherInterface> watcher);
 
   // Cancels a connectivity state watch.
@@ -294,10 +291,10 @@ class Subchannel {
     bool empty() const { return watchers_.empty(); }
 
    private:
-    // TODO(roth): This could be a set instead of a map if we had a set
-    // implementation.
-    Map<ConnectivityStateWatcherInterface*,
-        OrphanablePtr<ConnectivityStateWatcherInterface>>
+    // TODO(roth): Once we can use C++-14 heterogeneous lookups, this can
+    // be a set instead of a map.
+    std::map<ConnectivityStateWatcherInterface*,
+             OrphanablePtr<ConnectivityStateWatcherInterface>>
         watchers_;
   };
 
@@ -314,7 +311,7 @@ class Subchannel {
    public:
     void AddWatcherLocked(
         Subchannel* subchannel, grpc_connectivity_state initial_state,
-        UniquePtr<char> health_check_service_name,
+        grpc_core::UniquePtr<char> health_check_service_name,
         OrphanablePtr<ConnectivityStateWatcherInterface> watcher);
     void RemoveWatcherLocked(const char* health_check_service_name,
                              ConnectivityStateWatcherInterface* watcher);
@@ -330,7 +327,7 @@ class Subchannel {
    private:
     class HealthWatcher;
 
-    Map<const char*, OrphanablePtr<HealthWatcher>, StringLess> map_;
+    std::map<const char*, OrphanablePtr<HealthWatcher>, StringLess> map_;
   };
 
   class ConnectedSubchannelStateWatcher;
@@ -368,9 +365,9 @@ class Subchannel {
   gpr_atm ref_pair_;
 
   // Connection states.
-  grpc_connector* connector_ = nullptr;
+  OrphanablePtr<SubchannelConnector> connector_;
   // Set during connection.
-  grpc_connect_out_args connecting_result_;
+  SubchannelConnector::Result connecting_result_;
   grpc_closure on_connecting_finished_;
   // Active connection, or null.
   RefCountedPtr<ConnectedSubchannel> connected_subchannel_;
