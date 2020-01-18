@@ -4,7 +4,7 @@
 #import <ProtoRPC/ProtoRPCLegacy.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 
 @implementation WalletUnlocker
 
@@ -171,13 +171,13 @@
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
  */
-//- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
-//  return [self RPCToMethod:@"InitWallet"
-//                   message:message
-//           responseHandler:handler
-//               callOptions:callOptions
-//             responseClass:[InitWalletResponse class]];
-//}
+- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"InitWallet"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[InitWalletResponse class]];
+}
 
 #pragma mark UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse)
 
@@ -881,6 +881,48 @@
              responseClass:[ListPeersResponse class]];
 }
 
+#pragma mark SubscribePeerEvents(PeerEventSubscription) returns (stream PeerEvent)
+
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)subscribePeerEventsWithRequest:(PeerEventSubscription *)request eventHandler:(void(^)(BOOL done, PeerEvent *_Nullable response, NSError *_Nullable error))eventHandler{
+  [[self RPCToSubscribePeerEventsWithRequest:request eventHandler:eventHandler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToSubscribePeerEventsWithRequest:(PeerEventSubscription *)request eventHandler:(void(^)(BOOL done, PeerEvent *_Nullable response, NSError *_Nullable error))eventHandler{
+  return [self RPCToMethod:@"SubscribePeerEvents"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[PeerEvent class]
+        responsesWriteable:[GRXWriteable writeableWithEventHandler:eventHandler]];
+}
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ */
+- (GRPCUnaryProtoCall *)subscribePeerEventsWithMessage:(PeerEventSubscription *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"SubscribePeerEvents"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[PeerEvent class]];
+}
+
 #pragma mark GetInfo(GetInfoRequest) returns (GetInfoResponse)
 
 /**
@@ -1150,7 +1192,10 @@
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1164,7 +1209,10 @@
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1180,7 +1228,10 @@
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  */
 - (GRPCUnaryProtoCall *)openChannelWithMessage:(OpenChannelRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
   return [self RPCToMethod:@"OpenChannel"
@@ -1188,6 +1239,63 @@
            responseHandler:handler
                callOptions:callOptions
              responseClass:[OpenStatusUpdate class]];
+}
+
+#pragma mark FundingStateStep(FundingTransitionMsg) returns (FundingStateStepResp)
+
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)fundingStateStepWithRequest:(FundingTransitionMsg *)request handler:(void(^)(FundingStateStepResp *_Nullable response, NSError *_Nullable error))handler{
+  [[self RPCToFundingStateStepWithRequest:request handler:handler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToFundingStateStepWithRequest:(FundingTransitionMsg *)request handler:(void(^)(FundingStateStepResp *_Nullable response, NSError *_Nullable error))handler{
+  return [self RPCToMethod:@"FundingStateStep"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[FundingStateStepResp class]
+        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
+}
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ */
+- (GRPCUnaryProtoCall *)fundingStateStepWithMessage:(FundingTransitionMsg *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"FundingStateStep"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[FundingStateStepResp class]];
 }
 
 #pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
@@ -1654,9 +1762,9 @@
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  *
@@ -1672,9 +1780,9 @@
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  *
@@ -1692,9 +1800,9 @@
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  */
@@ -1827,7 +1935,7 @@
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  *
@@ -1842,7 +1950,7 @@
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  *
@@ -1859,7 +1967,7 @@
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  */
@@ -2266,7 +2374,7 @@
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  *
@@ -2285,7 +2393,7 @@
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  *
@@ -2306,7 +2414,7 @@
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  */
@@ -2556,6 +2664,48 @@
            responseHandler:handler
                callOptions:callOptions
              responseClass:[ChanBackupSnapshot class]];
+}
+
+#pragma mark BakeMacaroon(BakeMacaroonRequest) returns (BakeMacaroonResponse)
+
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)bakeMacaroonWithRequest:(BakeMacaroonRequest *)request handler:(void(^)(BakeMacaroonResponse *_Nullable response, NSError *_Nullable error))handler{
+  [[self RPCToBakeMacaroonWithRequest:request handler:handler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToBakeMacaroonWithRequest:(BakeMacaroonRequest *)request handler:(void(^)(BakeMacaroonResponse *_Nullable response, NSError *_Nullable error))handler{
+  return [self RPCToMethod:@"BakeMacaroon"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[BakeMacaroonResponse class]
+        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
+}
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ */
+- (GRPCUnaryProtoCall *)bakeMacaroonWithMessage:(BakeMacaroonRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"BakeMacaroon"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[BakeMacaroonResponse class]];
 }
 
 @end
