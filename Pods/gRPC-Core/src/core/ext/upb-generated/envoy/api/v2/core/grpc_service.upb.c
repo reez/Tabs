@@ -33,24 +33,19 @@
   #include  "google/protobuf/duration.upb.h"
 #endif
 #if COCOAPODS==1
-  #include  "src/core/ext/upb-generated/google/protobuf/struct.upb.h"
-#else
-  #include  "google/protobuf/struct.upb.h"
-#endif
-#if COCOAPODS==1
   #include  "src/core/ext/upb-generated/google/protobuf/empty.upb.h"
 #else
   #include  "google/protobuf/empty.upb.h"
 #endif
 #if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/google/protobuf/struct.upb.h"
+#else
+  #include  "google/protobuf/struct.upb.h"
+#endif
+#if COCOAPODS==1
   #include  "src/core/ext/upb-generated/validate/validate.upb.h"
 #else
   #include  "validate/validate.upb.h"
-#endif
-#if COCOAPODS==1
-  #include  "src/core/ext/upb-generated/gogoproto/gogo.upb.h"
-#else
-  #include  "gogoproto/gogo.upb.h"
 #endif
 
 #if COCOAPODS==1

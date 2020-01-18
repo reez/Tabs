@@ -27,11 +27,6 @@
 #else
   #include  "google/protobuf/wrappers.upb.h"
 #endif
-#if COCOAPODS==1
-  #include  "src/core/ext/upb-generated/gogoproto/gogo.upb.h"
-#else
-  #include  "gogoproto/gogo.upb.h"
-#endif
 
 #if COCOAPODS==1
   #include  "third_party/upb/upb/port_def.inc"
