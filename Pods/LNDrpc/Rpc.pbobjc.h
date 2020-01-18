@@ -29,6 +29,7 @@ CF_EXTERN_C_BEGIN
 
 @class Chain;
 @class ChanBackupSnapshot;
+@class ChanPointShim;
 @class Channel;
 @class ChannelBackup;
 @class ChannelBackups;
@@ -41,15 +42,23 @@ CF_EXTERN_C_BEGIN
 @class ChannelPoint;
 @class ClosedChannelUpdate;
 @class EdgeLocator;
+@class Feature;
 @class FeeLimit;
 @class ForwardingEvent;
+@class FundingShim;
+@class FundingShimCancel;
 @class HTLC;
+@class HTLCAttempt;
 @class Hop;
 @class HopHint;
 @class Invoice;
 @class InvoiceHTLC;
+@class KeyDescriptor;
+@class KeyLocator;
 @class LightningAddress;
 @class LightningNode;
+@class MPPRecord;
+@class MacaroonPermission;
 @class MultiChanBackup;
 @class NodeAddress;
 @class NodePair;
@@ -113,7 +122,7 @@ typedef GPB_ENUM(InvoiceHTLCState) {
   InvoiceHTLCState_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
   InvoiceHTLCState_Accepted = 0,
   InvoiceHTLCState_Settled = 1,
-  InvoiceHTLCState_Cancelled = 2,
+  InvoiceHTLCState_Canceled = 2,
 };
 
 GPBEnumDescriptor *InvoiceHTLCState_EnumDescriptor(void);
@@ -123,6 +132,42 @@ GPBEnumDescriptor *InvoiceHTLCState_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL InvoiceHTLCState_IsValidValue(int32_t value);
+
+#pragma mark - Enum FeatureBit
+
+typedef GPB_ENUM(FeatureBit) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  FeatureBit_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  FeatureBit_DatalossProtectReq = 0,
+  FeatureBit_DatalossProtectOpt = 1,
+  FeatureBit_InitialRouingSync = 3,
+  FeatureBit_UpfrontShutdownScriptReq = 4,
+  FeatureBit_UpfrontShutdownScriptOpt = 5,
+  FeatureBit_GossipQueriesReq = 6,
+  FeatureBit_GossipQueriesOpt = 7,
+  FeatureBit_TlvOnionReq = 8,
+  FeatureBit_TlvOnionOpt = 9,
+  FeatureBit_ExtGossipQueriesReq = 10,
+  FeatureBit_ExtGossipQueriesOpt = 11,
+  FeatureBit_StaticRemoteKeyReq = 12,
+  FeatureBit_StaticRemoteKeyOpt = 13,
+  FeatureBit_PaymentAddrReq = 14,
+  FeatureBit_PaymentAddrOpt = 15,
+  FeatureBit_MppReq = 16,
+  FeatureBit_MppOpt = 17,
+};
+
+GPBEnumDescriptor *FeatureBit_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL FeatureBit_IsValidValue(int32_t value);
 
 #pragma mark - Enum ChannelCloseSummary_ClosureType
 
@@ -184,6 +229,27 @@ GPBEnumDescriptor *Peer_SyncType_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL Peer_SyncType_IsValidValue(int32_t value);
+
+#pragma mark - Enum PeerEvent_EventType
+
+typedef GPB_ENUM(PeerEvent_EventType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PeerEvent_EventType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PeerEvent_EventType_PeerOnline = 0,
+  PeerEvent_EventType_PeerOffline = 1,
+};
+
+GPBEnumDescriptor *PeerEvent_EventType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PeerEvent_EventType_IsValidValue(int32_t value);
 
 #pragma mark - Enum ChannelEventUpdate_UpdateType
 
@@ -254,6 +320,28 @@ GPBEnumDescriptor *Payment_PaymentStatus_EnumDescriptor(void);
  **/
 BOOL Payment_PaymentStatus_IsValidValue(int32_t value);
 
+#pragma mark - Enum HTLCAttempt_HTLCStatus
+
+typedef GPB_ENUM(HTLCAttempt_HTLCStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  HTLCAttempt_HTLCStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  HTLCAttempt_HTLCStatus_InFlight = 0,
+  HTLCAttempt_HTLCStatus_Succeeded = 1,
+  HTLCAttempt_HTLCStatus_Failed = 2,
+};
+
+GPBEnumDescriptor *HTLCAttempt_HTLCStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL HTLCAttempt_HTLCStatus_IsValidValue(int32_t value);
+
 #pragma mark - RpcRoot
 
 /**
@@ -281,7 +369,8 @@ typedef GPB_ENUM(GenSeedRequest_FieldNumber) {
 /**
  * *
  * aezeed_passphrase is an optional user provided passphrase that will be used
- * to encrypt the generated aezeed cipher seed.
+ * to encrypt the generated aezeed cipher seed. When using REST, this field
+ * must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *aezeedPassphrase;
 
@@ -289,6 +378,7 @@ typedef GPB_ENUM(GenSeedRequest_FieldNumber) {
  * *
  * seed_entropy is an optional 16-bytes generated via CSPRNG. If not
  * specified, then a fresh set of randomness will be used to create the seed.
+ * When using REST, this field must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *seedEntropy;
 
@@ -340,7 +430,8 @@ typedef GPB_ENUM(InitWalletRequest_FieldNumber) {
  * *
  * wallet_password is the passphrase that should be used to encrypt the
  * wallet. This MUST be at least 8 chars in length. After creation, this
- * password is required to unlock the daemon.
+ * password is required to unlock the daemon. When using REST, this field
+ * must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *walletPassword;
 
@@ -357,7 +448,8 @@ typedef GPB_ENUM(InitWalletRequest_FieldNumber) {
 /**
  * *
  * aezeed_passphrase is an optional user provided passphrase that will be used
- * to encrypt the generated aezeed cipher seed.
+ * to encrypt the generated aezeed cipher seed. When using REST, this field
+ * must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *aezeedPassphrase;
 
@@ -406,7 +498,7 @@ typedef GPB_ENUM(UnlockWalletRequest_FieldNumber) {
  * *
  * wallet_password should be the current valid passphrase for the daemon. This
  * will be required to decrypt on-disk material that the daemon requires to
- * function properly.
+ * function properly. When using REST, this field must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *walletPassword;
 
@@ -453,14 +545,14 @@ typedef GPB_ENUM(ChangePasswordRequest_FieldNumber) {
 /**
  * *
  * current_password should be the current valid passphrase used to unlock the
- * daemon.
+ * daemon. When using REST, this field must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *currentPassword;
 
 /**
  * *
  * new_password should be the new passphrase that will be needed to unlock the
- * daemon.
+ * daemon. When using REST, this field must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *newPassword NS_RETURNS_NOT_RETAINED;
 
@@ -592,11 +684,13 @@ typedef GPB_ENUM(TransactionDetails_FieldNumber) {
 typedef GPB_ENUM(FeeLimit_FieldNumber) {
   FeeLimit_FieldNumber_Fixed = 1,
   FeeLimit_FieldNumber_Percent = 2,
+  FeeLimit_FieldNumber_FixedMsat = 3,
 };
 
 typedef GPB_ENUM(FeeLimit_Limit_OneOfCase) {
   FeeLimit_Limit_OneOfCase_GPBUnsetOneOfCase = 0,
   FeeLimit_Limit_OneOfCase_Fixed = 1,
+  FeeLimit_Limit_OneOfCase_FixedMsat = 3,
   FeeLimit_Limit_OneOfCase_Percent = 2,
 };
 
@@ -604,8 +698,21 @@ typedef GPB_ENUM(FeeLimit_Limit_OneOfCase) {
 
 @property(nonatomic, readonly) FeeLimit_Limit_OneOfCase limitOneOfCase;
 
-/** / The fee limit expressed as a fixed amount of satoshis. */
+/**
+ * *
+ * The fee limit expressed as a fixed amount of satoshis.
+ *
+ * The fields fixed and fixed_msat are mutually exclusive.
+ **/
 @property(nonatomic, readwrite) int64_t fixed;
+
+/**
+ * *
+ * The fee limit expressed as a fixed amount of millisatoshis.
+ *
+ * The fields fixed and fixed_msat are mutually exclusive.
+ **/
+@property(nonatomic, readwrite) int64_t fixedMsat;
 
 /** / The fee limit expressed as a percentage of the payment amount. */
 @property(nonatomic, readwrite) int64_t percent;
@@ -630,29 +737,62 @@ typedef GPB_ENUM(SendRequest_FieldNumber) {
   SendRequest_FieldNumber_FeeLimit = 8,
   SendRequest_FieldNumber_OutgoingChanId = 9,
   SendRequest_FieldNumber_CltvLimit = 10,
-  SendRequest_FieldNumber_DestTlv = 11,
+  SendRequest_FieldNumber_DestCustomRecords = 11,
+  SendRequest_FieldNumber_AmtMsat = 12,
+  SendRequest_FieldNumber_LastHopPubkey = 13,
+  SendRequest_FieldNumber_AllowSelfPayment = 14,
+  SendRequest_FieldNumber_DestFeaturesArray = 15,
 };
 
 @interface SendRequest : GPBMessage
 
-/** / The identity pubkey of the payment recipient */
+/**
+ * *
+ * The identity pubkey of the payment recipient. When using REST, this field
+ * must be encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *dest;
-
-/** / The hex-encoded identity pubkey of the payment recipient */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *destString;
-
-/** / Number of satoshis to send. */
-@property(nonatomic, readwrite) int64_t amt;
-
-/** / The hash to use within the payment's HTLC */
-@property(nonatomic, readwrite, copy, null_resettable) NSData *paymentHash;
-
-/** / The hex-encoded hash to use within the payment's HTLC */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHashString;
 
 /**
  * *
- * A bare-bones invoice for a payment within the Lightning Network.  With the
+ * The hex-encoded identity pubkey of the payment recipient. Deprecated now
+ * that the REST gateway supports base64 encoding of bytes fields.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *destString GPB_DEPRECATED_MSG("lnrpc.SendRequest.dest_string is deprecated (see rpc.proto).");
+
+/**
+ * *
+ * The amount to send expressed in satoshis.
+ *
+ * The fields amt and amt_msat are mutually exclusive.
+ **/
+@property(nonatomic, readwrite) int64_t amt;
+
+/**
+ * *
+ * The amount to send expressed in millisatoshis.
+ *
+ * The fields amt and amt_msat are mutually exclusive.
+ **/
+@property(nonatomic, readwrite) int64_t amtMsat;
+
+/**
+ * *
+ * The hash to use within the payment's HTLC. When using REST, this field
+ * must be encoded as base64.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *paymentHash;
+
+/**
+ * *
+ * The hex-encoded hash to use within the payment's HTLC. Deprecated now
+ * that the REST gateway supports base64 encoding of bytes fields.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHashString GPB_DEPRECATED_MSG("lnrpc.SendRequest.payment_hash_string is deprecated (see rpc.proto).");
+
+/**
+ * *
+ * A bare-bones invoice for a payment within the Lightning Network. With the
  * details of the invoice, the sender has all the data necessary to send a
  * payment to the recipient.
  **/
@@ -685,8 +825,15 @@ typedef GPB_ENUM(SendRequest_FieldNumber) {
 
 /**
  * *
- * An optional maximum total time lock for the route. If zero, there is no
- * maximum enforced.
+ * The pubkey of the last hop of the route. If empty, any hop may be used.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *lastHopPubkey;
+
+/**
+ * *
+ * An optional maximum total time lock for the route. This should not exceed
+ * lnd's `--max-cltv-expiry` setting. If zero, then the value of
+ * `--max-cltv-expiry` is enforced.
  **/
 @property(nonatomic, readwrite) uint32_t cltvLimit;
 
@@ -694,11 +841,29 @@ typedef GPB_ENUM(SendRequest_FieldNumber) {
  * *
  * An optional field that can be used to pass an arbitrary set of TLV records
  * to a peer which understands the new records. This can be used to pass
- * application specific data during the payment attempt.
+ * application specific data during the payment attempt. Record types are
+ * required to be in the custom range >= 65536. When using REST, the values
+ * must be encoded as base64.
  **/
-@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *destTlv;
-/** The number of items in @c destTlv without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger destTlv_Count;
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *destCustomRecords;
+/** The number of items in @c destCustomRecords without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger destCustomRecords_Count;
+
+/** / If set, circular payments to self are permitted. */
+@property(nonatomic, readwrite) BOOL allowSelfPayment;
+
+/**
+ * *
+ * Features assumed to be supported by the final node. All transitive feature
+ * depdencies must also be set properly. For a given feature bit pair, either
+ * optional or remote may be set, but not both. If this field is nil or empty,
+ * the router will try to load destination features from the graph as a
+ * fallback.
+ **/
+// |destFeaturesArray| contains |FeatureBit|
+@property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *destFeaturesArray;
+/** The number of items in @c destFeaturesArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger destFeaturesArray_Count;
 
 @end
 
@@ -735,11 +900,19 @@ typedef GPB_ENUM(SendToRouteRequest_FieldNumber) {
 
 @interface SendToRouteRequest : GPBMessage
 
-/** / The payment hash to use for the HTLC. */
+/**
+ * *
+ * The payment hash to use for the HTLC. When using REST, this field must be
+ * encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *paymentHash;
 
-/** / An optional hex-encoded payment hash to be used for the HTLC. */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHashString;
+/**
+ * *
+ * An optional hex-encoded payment hash to be used for the HTLC. Deprecated now
+ * that the REST gateway supports base64 encoding of bytes fields.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *paymentHashString GPB_DEPRECATED_MSG("lnrpc.SendToRouteRequest.payment_hash_string is deprecated (see rpc.proto).");
 
 /** / Route that should be used to attempt to complete the payment. */
 @property(nonatomic, readwrite, strong, null_resettable) Route *route;
@@ -848,10 +1021,18 @@ typedef GPB_ENUM(ChannelPoint_FundingTxid_OneOfCase) {
 
 @property(nonatomic, readonly) ChannelPoint_FundingTxid_OneOfCase fundingTxidOneOfCase;
 
-/** / Txid of the funding transaction */
+/**
+ * *
+ * Txid of the funding transaction. When using REST, this field must be
+ * encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *fundingTxidBytes;
 
-/** / Hex-encoded string representing the funding transaction */
+/**
+ * *
+ * Hex-encoded string representing the byte-reversed hash of the funding
+ * transaction.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *fundingTxidStr;
 
 /** / The index of the output of the funding transaction */
@@ -1099,7 +1280,11 @@ typedef GPB_ENUM(SignMessageRequest_FieldNumber) {
 
 @interface SignMessageRequest : GPBMessage
 
-/** / The message to be signed */
+/**
+ * *
+ * The message to be signed. When using REST, this field must be encoded as
+ * base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *msg;
 
 @end
@@ -1126,7 +1311,11 @@ typedef GPB_ENUM(VerifyMessageRequest_FieldNumber) {
 
 @interface VerifyMessageRequest : GPBMessage
 
-/** / The message over which the signature is to be verified */
+/**
+ * *
+ * The message over which the signature is to be verified. When using REST,
+ * this field must be encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *msg;
 
 /** / The signature to be verified over the given message */
@@ -1167,7 +1356,7 @@ typedef GPB_ENUM(ConnectPeerRequest_FieldNumber) {
 
 /**
  * * If set, the daemon will attempt to persistently connect to the target
- * peer.  Otherwise, the call will be synchronous.
+ * peer. Otherwise, the call will be synchronous.
  **/
 @property(nonatomic, readwrite) BOOL perm;
 
@@ -1244,6 +1433,9 @@ typedef GPB_ENUM(Channel_FieldNumber) {
   Channel_FieldNumber_LocalChanReserveSat = 20,
   Channel_FieldNumber_RemoteChanReserveSat = 21,
   Channel_FieldNumber_StaticRemoteKey = 22,
+  Channel_FieldNumber_Lifetime = 23,
+  Channel_FieldNumber_Uptime = 24,
+  Channel_FieldNumber_CloseAddress = 25,
 };
 
 @interface Channel : GPBMessage
@@ -1361,6 +1553,31 @@ typedef GPB_ENUM(Channel_FieldNumber) {
  * directly to that key.
  **/
 @property(nonatomic, readwrite) BOOL staticRemoteKey;
+
+/**
+ * *
+ * The number of seconds that the channel has been monitored by the channel
+ * scoring system. Scores are currently not persisted, so this value may be
+ * less than the lifetime of the channel [EXPERIMENTAL].
+ **/
+@property(nonatomic, readwrite) int64_t lifetime;
+
+/**
+ * *
+ * The number of seconds that the remote peer has been observed as being online
+ * by the channel scoring system over the lifetime of the channel [EXPERIMENTAL].
+ **/
+@property(nonatomic, readwrite) int64_t uptime;
+
+/**
+ * *
+ * Close address is the address that we will enforce payout to on cooperative
+ * close if the channel was opened utilizing option upfront shutdown. This
+ * value can be set on channel open by setting close_address in an open channel
+ * request. If this value is not set, you can still choose a payout address by
+ * cooperatively closing with the delivery_address field set.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *closeAddress;
 
 @end
 
@@ -1514,6 +1731,7 @@ typedef GPB_ENUM(Peer_FieldNumber) {
   Peer_FieldNumber_Inbound = 8,
   Peer_FieldNumber_PingTime = 9,
   Peer_FieldNumber_SyncType = 10,
+  Peer_FieldNumber_Features = 11,
 };
 
 @interface Peer : GPBMessage
@@ -1544,6 +1762,11 @@ typedef GPB_ENUM(Peer_FieldNumber) {
 
 /** The type of sync we are currently performing with this peer. */
 @property(nonatomic, readwrite) Peer_SyncType syncType;
+
+/** / Features advertised by the remote peer in their init message. */
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32ObjectDictionary<Feature*> *features;
+/** The number of items in @c features without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger features_Count;
 
 @end
 
@@ -1580,6 +1803,40 @@ typedef GPB_ENUM(ListPeersResponse_FieldNumber) {
 
 @end
 
+#pragma mark - PeerEventSubscription
+
+@interface PeerEventSubscription : GPBMessage
+
+@end
+
+#pragma mark - PeerEvent
+
+typedef GPB_ENUM(PeerEvent_FieldNumber) {
+  PeerEvent_FieldNumber_PubKey = 1,
+  PeerEvent_FieldNumber_Type = 2,
+};
+
+@interface PeerEvent : GPBMessage
+
+/** / The identity pubkey of the peer. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *pubKey;
+
+@property(nonatomic, readwrite) PeerEvent_EventType type;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PeerEvent's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PeerEvent_Type_RawValue(PeerEvent *message);
+/**
+ * Sets the raw value of an @c PeerEvent's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPeerEvent_Type_RawValue(PeerEvent *message, int32_t value);
+
 #pragma mark - GetInfoRequest
 
 @interface GetInfoRequest : GPBMessage
@@ -1605,9 +1862,13 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
   GetInfoResponse_FieldNumber_ChainsArray = 16,
   GetInfoResponse_FieldNumber_Color = 17,
   GetInfoResponse_FieldNumber_SyncedToGraph = 18,
+  GetInfoResponse_FieldNumber_Features = 19,
 };
 
 @interface GetInfoResponse : GPBMessage
+
+/** / The version of the LND software that the node is running. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *version;
 
 /** / The identity pubkey of the current node. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *identityPubkey;
@@ -1615,11 +1876,17 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
 /** / If applicable, the alias of the current node, e.g. "bob" */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *alias;
 
+/** / The color of the current node in hex code format */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *color;
+
 /** / Number of pending channels */
 @property(nonatomic, readwrite) uint32_t numPendingChannels;
 
 /** / Number of active channels */
 @property(nonatomic, readwrite) uint32_t numActiveChannels;
+
+/** / Number of inactive channels */
+@property(nonatomic, readwrite) uint32_t numInactiveChannels;
 
 /** / Number of peers */
 @property(nonatomic, readwrite) uint32_t numPeers;
@@ -1630,8 +1897,14 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
 /** / The node's current view of the hash of the best block */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *blockHash;
 
+/** / Timestamp of the block best known to the wallet */
+@property(nonatomic, readwrite) int64_t bestHeaderTimestamp;
+
 /** / Whether the wallet's view is synced to the main chain */
 @property(nonatomic, readwrite) BOOL syncedToChain;
+
+/** Whether we consider ourselves synced with the public channel graph. */
+@property(nonatomic, readwrite) BOOL syncedToGraph;
 
 /**
  * *
@@ -1640,30 +1913,24 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
  **/
 @property(nonatomic, readwrite) BOOL testnet GPB_DEPRECATED_MSG("lnrpc.GetInfoResponse.testnet is deprecated (see rpc.proto).");
 
-/** / The URIs of the current node. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *urisArray;
-/** The number of items in @c urisArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger urisArray_Count;
-
-/** / Timestamp of the block best known to the wallet */
-@property(nonatomic, readwrite) int64_t bestHeaderTimestamp;
-
-/** / The version of the LND software that the node is running. */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *version;
-
-/** / Number of inactive channels */
-@property(nonatomic, readwrite) uint32_t numInactiveChannels;
-
 /** / A list of active chains the node is connected to */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Chain*> *chainsArray;
 /** The number of items in @c chainsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger chainsArray_Count;
 
-/** / The color of the current node in hex code format */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *color;
+/** / The URIs of the current node. */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *urisArray;
+/** The number of items in @c urisArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger urisArray_Count;
 
-/** Whether we consider ourselves synced with the public channel graph. */
-@property(nonatomic, readwrite) BOOL syncedToGraph;
+/**
+ *
+ * Features that our node has advertised in our init message, node
+ * announcements and invoices.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32ObjectDictionary<Feature*> *features;
+/** The number of items in @c features without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger features_Count;
 
 @end
 
@@ -1738,6 +2005,7 @@ typedef GPB_ENUM(CloseChannelRequest_FieldNumber) {
   CloseChannelRequest_FieldNumber_Force = 2,
   CloseChannelRequest_FieldNumber_TargetConf = 3,
   CloseChannelRequest_FieldNumber_SatPerByte = 4,
+  CloseChannelRequest_FieldNumber_DeliveryAddress = 5,
 };
 
 @interface CloseChannelRequest : GPBMessage
@@ -1760,6 +2028,15 @@ typedef GPB_ENUM(CloseChannelRequest_FieldNumber) {
 
 /** / A manual fee rate set in sat/byte that should be used when crafting the closure transaction. */
 @property(nonatomic, readwrite) int64_t satPerByte;
+
+/**
+ *
+ * An optional address to send funds to in the case of a cooperative close.
+ * If the channel was opened with an upfront shutdown script and this field
+ * is set, the request to close will fail because the channel must pay out
+ * to the upfront shutdown addresss.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deliveryAddress;
 
 @end
 
@@ -1820,15 +2097,25 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
   OpenChannelRequest_FieldNumber_RemoteCsvDelay = 10,
   OpenChannelRequest_FieldNumber_MinConfs = 11,
   OpenChannelRequest_FieldNumber_SpendUnconfirmed = 12,
+  OpenChannelRequest_FieldNumber_CloseAddress = 13,
+  OpenChannelRequest_FieldNumber_FundingShim = 14,
 };
 
 @interface OpenChannelRequest : GPBMessage
 
-/** / The pubkey of the node to open a channel with */
+/**
+ * *
+ * The pubkey of the node to open a channel with. When using REST, this field
+ * must be encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *nodePubkey;
 
-/** / The hex encoded pubkey of the node to open a channel with */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *nodePubkeyString;
+/**
+ * *
+ * The hex encoded pubkey of the node to open a channel with. Deprecated now
+ * that the REST gateway supports base64 encoding of bytes fields.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nodePubkeyString GPB_DEPRECATED_MSG("lnrpc.OpenChannelRequest.node_pubkey_string is deprecated (see rpc.proto).");
 
 /** / The number of satoshis the wallet should commit to the channel */
 @property(nonatomic, readwrite) int64_t localFundingAmount;
@@ -1857,6 +2144,31 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
 /** / Whether unconfirmed outputs should be used as inputs for the funding transaction. */
 @property(nonatomic, readwrite) BOOL spendUnconfirmed;
 
+/**
+ *
+ * Close address is an optional address which specifies the address to which
+ * funds should be paid out to upon cooperative close. This field may only be
+ * set if the peer supports the option upfront feature bit (call listpeers
+ * to check). The remote peer will only accept cooperative closes to this
+ * address if it is set.
+ *
+ * Note: If this value is set on channel creation, you will *not* be able to
+ * cooperatively close out to a different address.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *closeAddress;
+
+/**
+ * *
+ * Funding shims are an optional argument that allow the caller to intercept
+ * certain funding functionality. For example, a shim can be provided to use a
+ * particular key for the commitment key (ideally cold) rather than use one
+ * that is generated by the wallet as normal, or signal that signing will be
+ * carried out in an interactive manner (PSBT based).
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) FundingShim *fundingShim;
+/** Test to see if @c fundingShim has been set. */
+@property(nonatomic, readwrite) BOOL hasFundingShim;
+
 @end
 
 #pragma mark - OpenStatusUpdate
@@ -1864,6 +2176,7 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
 typedef GPB_ENUM(OpenStatusUpdate_FieldNumber) {
   OpenStatusUpdate_FieldNumber_ChanPending = 1,
   OpenStatusUpdate_FieldNumber_ChanOpen = 3,
+  OpenStatusUpdate_FieldNumber_PendingChanId = 4,
 };
 
 typedef GPB_ENUM(OpenStatusUpdate_Update_OneOfCase) {
@@ -1880,12 +2193,182 @@ typedef GPB_ENUM(OpenStatusUpdate_Update_OneOfCase) {
 
 @property(nonatomic, readwrite, strong, null_resettable) ChannelOpenUpdate *chanOpen;
 
+/**
+ * *
+ * The pending channel ID of the created channel. This value may be used to
+ * further the funding flow manually via the FundingStateStep method.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
 @end
 
 /**
  * Clears whatever value was set for the oneof 'update'.
  **/
 void OpenStatusUpdate_ClearUpdateOneOfCase(OpenStatusUpdate *message);
+
+#pragma mark - KeyLocator
+
+typedef GPB_ENUM(KeyLocator_FieldNumber) {
+  KeyLocator_FieldNumber_KeyFamily = 1,
+  KeyLocator_FieldNumber_KeyIndex = 2,
+};
+
+@interface KeyLocator : GPBMessage
+
+/** / The family of key being identified. */
+@property(nonatomic, readwrite) int32_t keyFamily;
+
+/** / The precise index of the key being identified. */
+@property(nonatomic, readwrite) int32_t keyIndex;
+
+@end
+
+#pragma mark - KeyDescriptor
+
+typedef GPB_ENUM(KeyDescriptor_FieldNumber) {
+  KeyDescriptor_FieldNumber_RawKeyBytes = 1,
+  KeyDescriptor_FieldNumber_KeyLoc = 2,
+};
+
+@interface KeyDescriptor : GPBMessage
+
+/**
+ * *
+ * The raw bytes of the key being identified.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *rawKeyBytes;
+
+/**
+ * *
+ * The key locator that identifies which key to use for signing.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) KeyLocator *keyLoc;
+/** Test to see if @c keyLoc has been set. */
+@property(nonatomic, readwrite) BOOL hasKeyLoc;
+
+@end
+
+#pragma mark - ChanPointShim
+
+typedef GPB_ENUM(ChanPointShim_FieldNumber) {
+  ChanPointShim_FieldNumber_Amt = 1,
+  ChanPointShim_FieldNumber_ChanPoint = 2,
+  ChanPointShim_FieldNumber_LocalKey = 3,
+  ChanPointShim_FieldNumber_RemoteKey = 4,
+  ChanPointShim_FieldNumber_PendingChanId = 5,
+};
+
+@interface ChanPointShim : GPBMessage
+
+/**
+ * *
+ * The size of the pre-crafted output to be used as the channel point for this
+ * channel funding.
+ **/
+@property(nonatomic, readwrite) int64_t amt;
+
+/** / The target channel point to refrence in created commitment transactions. */
+@property(nonatomic, readwrite, strong, null_resettable) ChannelPoint *chanPoint;
+/** Test to see if @c chanPoint has been set. */
+@property(nonatomic, readwrite) BOOL hasChanPoint;
+
+/** / Our local key to use when creating the multi-sig output. */
+@property(nonatomic, readwrite, strong, null_resettable) KeyDescriptor *localKey;
+/** Test to see if @c localKey has been set. */
+@property(nonatomic, readwrite) BOOL hasLocalKey;
+
+/** / The key of the remote party to use when creating the multi-sig output. */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *remoteKey;
+
+/**
+ * *
+ * If non-zero, then this will be used as the pending channel ID on the wire
+ * protocol to initate the funding request. This is an optional field, and
+ * should only be set if the responder is already expecting a specific pending
+ * channel ID.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
+@end
+
+#pragma mark - FundingShim
+
+typedef GPB_ENUM(FundingShim_FieldNumber) {
+  FundingShim_FieldNumber_ChanPointShim = 1,
+};
+
+typedef GPB_ENUM(FundingShim_Shim_OneOfCase) {
+  FundingShim_Shim_OneOfCase_GPBUnsetOneOfCase = 0,
+  FundingShim_Shim_OneOfCase_ChanPointShim = 1,
+};
+
+@interface FundingShim : GPBMessage
+
+@property(nonatomic, readonly) FundingShim_Shim_OneOfCase shimOneOfCase;
+
+@property(nonatomic, readwrite, strong, null_resettable) ChanPointShim *chanPointShim;
+
+@end
+
+/**
+ * Clears whatever value was set for the oneof 'shim'.
+ **/
+void FundingShim_ClearShimOneOfCase(FundingShim *message);
+
+#pragma mark - FundingShimCancel
+
+typedef GPB_ENUM(FundingShimCancel_FieldNumber) {
+  FundingShimCancel_FieldNumber_PendingChanId = 1,
+};
+
+@interface FundingShimCancel : GPBMessage
+
+/** / The pending channel ID of the channel to cancel the funding shim for. */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
+@end
+
+#pragma mark - FundingTransitionMsg
+
+typedef GPB_ENUM(FundingTransitionMsg_FieldNumber) {
+  FundingTransitionMsg_FieldNumber_ShimRegister = 1,
+  FundingTransitionMsg_FieldNumber_ShimCancel = 2,
+};
+
+typedef GPB_ENUM(FundingTransitionMsg_Trigger_OneOfCase) {
+  FundingTransitionMsg_Trigger_OneOfCase_GPBUnsetOneOfCase = 0,
+  FundingTransitionMsg_Trigger_OneOfCase_ShimRegister = 1,
+  FundingTransitionMsg_Trigger_OneOfCase_ShimCancel = 2,
+};
+
+@interface FundingTransitionMsg : GPBMessage
+
+@property(nonatomic, readonly) FundingTransitionMsg_Trigger_OneOfCase triggerOneOfCase;
+
+/**
+ * *
+ * The funding shim to regsiter. This should be used before any
+ * channel funding has began by the remote party, as it is intended as a
+ * prepatory step for the full channel funding.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) FundingShim *shimRegister;
+
+/** / Used to cancel an existing registered funding shim. */
+@property(nonatomic, readwrite, strong, null_resettable) FundingShimCancel *shimCancel;
+
+@end
+
+/**
+ * Clears whatever value was set for the oneof 'trigger'.
+ **/
+void FundingTransitionMsg_ClearTriggerOneOfCase(FundingTransitionMsg *message);
+
+#pragma mark - FundingStateStepResp
+
+@interface FundingStateStepResp : GPBMessage
+
+@end
 
 #pragma mark - PendingHTLC
 
@@ -2249,7 +2732,13 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
   QueryRoutesRequest_FieldNumber_SourcePubKey = 8,
   QueryRoutesRequest_FieldNumber_UseMissionControl = 9,
   QueryRoutesRequest_FieldNumber_IgnoredPairsArray = 10,
-  QueryRoutesRequest_FieldNumber_DestTlv = 11,
+  QueryRoutesRequest_FieldNumber_CltvLimit = 11,
+  QueryRoutesRequest_FieldNumber_AmtMsat = 12,
+  QueryRoutesRequest_FieldNumber_DestCustomRecords = 13,
+  QueryRoutesRequest_FieldNumber_OutgoingChanId = 14,
+  QueryRoutesRequest_FieldNumber_LastHopPubkey = 15,
+  QueryRoutesRequest_FieldNumber_RouteHintsArray = 16,
+  QueryRoutesRequest_FieldNumber_DestFeaturesArray = 17,
 };
 
 @interface QueryRoutesRequest : GPBMessage
@@ -2257,10 +2746,30 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
 /** / The 33-byte hex-encoded public key for the payment destination */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *pubKey;
 
-/** / The amount to send expressed in satoshis */
+/**
+ * *
+ * The amount to send expressed in satoshis.
+ *
+ * The fields amt and amt_msat are mutually exclusive.
+ **/
 @property(nonatomic, readwrite) int64_t amt;
 
-/** / An optional CLTV delta from the current height that should be used for the timelock of the final hop */
+/**
+ * *
+ * The amount to send expressed in millisatoshis.
+ *
+ * The fields amt and amt_msat are mutually exclusive.
+ **/
+@property(nonatomic, readwrite) int64_t amtMsat;
+
+/**
+ * *
+ * An optional CLTV delta from the current height that should be used for the
+ * timelock of the final hop. Note that unlike SendPayment, QueryRoutes does
+ * not add any additional block padding on top of final_ctlv_delta. This
+ * padding of a few blocks needs to be added manually or otherwise failures may
+ * happen when a block comes in while the payment is in flight.
+ **/
 @property(nonatomic, readwrite) int32_t finalCltvDelta;
 
 /**
@@ -2276,7 +2785,8 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
 
 /**
  * *
- * A list of nodes to ignore during path finding.
+ * A list of nodes to ignore during path finding. When using REST, these fields
+ * must be encoded as base64.
  **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSData*> *ignoredNodesArray;
 /** The number of items in @c ignoredNodesArray without causing the array to be created. */
@@ -2314,14 +2824,58 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
 
 /**
  * *
+ * An optional maximum total time lock for the route. If the source is empty or
+ * ourselves, this should not exceed lnd's `--max-cltv-expiry` setting. If
+ * zero, then the value of `--max-cltv-expiry` is used as the limit.
+ **/
+@property(nonatomic, readwrite) uint32_t cltvLimit;
+
+/**
+ * *
  * An optional field that can be used to pass an arbitrary set of TLV records
  * to a peer which understands the new records. This can be used to pass
  * application specific data during the payment attempt. If the destination
  * does not support the specified recrods, and error will be returned.
+ * Record types are required to be in the custom range >= 65536. When using
+ * REST, the values must be encoded as base64.
  **/
-@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *destTlv;
-/** The number of items in @c destTlv without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger destTlv_Count;
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *destCustomRecords;
+/** The number of items in @c destCustomRecords without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger destCustomRecords_Count;
+
+/**
+ * *
+ * The channel id of the channel that must be taken to the first hop. If zero,
+ * any channel may be used.
+ **/
+@property(nonatomic, readwrite) uint64_t outgoingChanId;
+
+/**
+ * *
+ * The pubkey of the last hop of the route. If empty, any hop may be used.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *lastHopPubkey;
+
+/**
+ * *
+ * Optional route hints to reach the destination through private channels.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<RouteHint*> *routeHintsArray;
+/** The number of items in @c routeHintsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger routeHintsArray_Count;
+
+/**
+ * *
+ * Features assumed to be supported by the final node. All transitive feature
+ * depdencies must also be set properly. For a given feature bit pair, either
+ * optional or remote may be set, but not both. If this field is nil or empty,
+ * the router will try to load destination features from the graph as a
+ * fallback.
+ **/
+// |destFeaturesArray| contains |FeatureBit|
+@property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *destFeaturesArray;
+/** The number of items in @c destFeaturesArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger destFeaturesArray_Count;
 
 @end
 
@@ -2334,10 +2888,18 @@ typedef GPB_ENUM(NodePair_FieldNumber) {
 
 @interface NodePair : GPBMessage
 
-/** / The sending node of the pair. */
+/**
+ * *
+ * The sending node of the pair. When using REST, this field must be encoded as
+ * base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *from;
 
-/** / The receiving node of the pair. */
+/**
+ * *
+ * The receiving node of the pair. When using REST, this field must be encoded
+ * as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *to;
 
 @end
@@ -2404,7 +2966,8 @@ typedef GPB_ENUM(Hop_FieldNumber) {
   Hop_FieldNumber_FeeMsat = 7,
   Hop_FieldNumber_PubKey = 8,
   Hop_FieldNumber_TlvPayload = 9,
-  Hop_FieldNumber_TlvRecords = 10,
+  Hop_FieldNumber_MppRecord = 10,
+  Hop_FieldNumber_CustomRecords = 11,
 };
 
 @interface Hop : GPBMessage
@@ -2446,13 +3009,53 @@ typedef GPB_ENUM(Hop_FieldNumber) {
 
 /**
  * *
+ * An optional TLV record tha singals the use of an MPP payment. If present,
+ * the receiver will enforce that that the same mpp_record is included in the
+ * final hop payload of all non-zero payments in the HTLC set. If empty, a
+ * regular single-shot payment is or was attempted.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) MPPRecord *mppRecord;
+/** Test to see if @c mppRecord has been set. */
+@property(nonatomic, readwrite) BOOL hasMppRecord;
+
+/**
+ * *
  * An optional set of key-value TLV records. This is useful within the context
  * of the SendToRoute call as it allows callers to specify arbitrary K-V pairs
  * to drop off at each hop within the onion.
  **/
-@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *tlvRecords;
-/** The number of items in @c tlvRecords without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger tlvRecords_Count;
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *customRecords;
+/** The number of items in @c customRecords without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger customRecords_Count;
+
+@end
+
+#pragma mark - MPPRecord
+
+typedef GPB_ENUM(MPPRecord_FieldNumber) {
+  MPPRecord_FieldNumber_TotalAmtMsat = 10,
+  MPPRecord_FieldNumber_PaymentAddr = 11,
+};
+
+@interface MPPRecord : GPBMessage
+
+/**
+ * *
+ * A unique, random identifier used to authenticate the sender as the intended
+ * payer of a multi-path payment. The payment_addr must be the same for all
+ * subpayments, and match the payment_addr provided in the receiver's invoice.
+ * The same payment_addr must be used on all subpayments.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *paymentAddr;
+
+/**
+ * *
+ * The total amount in milli-satoshis being sent as part of a larger multi-path
+ * payment. The caller is responsible for ensuring subpayments to the same node
+ * and payment_hash sum exactly to total_amt_msat. The same
+ * total_amt_msat must be used on all subpayments.
+ **/
+@property(nonatomic, readwrite) int64_t totalAmtMsat;
 
 @end
 
@@ -2479,7 +3082,7 @@ typedef GPB_ENUM(Route_FieldNumber) {
 
 /**
  * *
- * The cumulative (final) time lock across the entire route.  This is the CLTV
+ * The cumulative (final) time lock across the entire route. This is the CLTV
  * value that should be extended to the first hop in the route. All other hops
  * will decrement the time-lock as advertised, leaving enough time for all
  * hops to wait for or present the payment preimage to complete the payment.
@@ -2488,7 +3091,7 @@ typedef GPB_ENUM(Route_FieldNumber) {
 
 /**
  * *
- * The sum of the fees paid at each hop within the final route.  In the case
+ * The sum of the fees paid at each hop within the final route. In the case
  * of a one-hop payment, this value will be zero as we don't need to pay a fee
  * to ourselves.
  **/
@@ -2586,6 +3189,7 @@ typedef GPB_ENUM(LightningNode_FieldNumber) {
   LightningNode_FieldNumber_Alias = 3,
   LightningNode_FieldNumber_AddressesArray = 4,
   LightningNode_FieldNumber_Color = 5,
+  LightningNode_FieldNumber_Features = 6,
 };
 
 /**
@@ -2608,6 +3212,10 @@ typedef GPB_ENUM(LightningNode_FieldNumber) {
 @property(nonatomic, readonly) NSUInteger addressesArray_Count;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *color;
+
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32ObjectDictionary<Feature*> *features;
+/** The number of items in @c features without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger features_Count;
 
 @end
 
@@ -3006,7 +3614,6 @@ typedef GPB_ENUM(RouteHint_FieldNumber) {
 
 typedef GPB_ENUM(Invoice_FieldNumber) {
   Invoice_FieldNumber_Memo = 1,
-  Invoice_FieldNumber_Receipt = 2,
   Invoice_FieldNumber_RPreimage = 3,
   Invoice_FieldNumber_RHash = 4,
   Invoice_FieldNumber_Value = 5,
@@ -3027,6 +3634,9 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
   Invoice_FieldNumber_AmtPaidMsat = 20,
   Invoice_FieldNumber_State = 21,
   Invoice_FieldNumber_HtlcsArray = 22,
+  Invoice_FieldNumber_ValueMsat = 23,
+  Invoice_FieldNumber_Features = 24,
+  Invoice_FieldNumber_IsKeySend = 25,
 };
 
 @interface Invoice : GPBMessage
@@ -3041,23 +3651,35 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *memo;
 
 /**
- * * Deprecated. An optional cryptographic receipt of payment which is not
- * implemented.
- **/
-@property(nonatomic, readwrite, copy, null_resettable) NSData *receipt GPB_DEPRECATED_MSG("lnrpc.Invoice.receipt is deprecated (see rpc.proto).");
-
-/**
  * *
  * The hex-encoded preimage (32 byte) which will allow settling an incoming
- * HTLC payable to this preimage
+ * HTLC payable to this preimage. When using REST, this field must be encoded
+ * as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *rPreimage;
 
-/** / The hash of the preimage */
+/**
+ * *
+ * The hash of the preimage. When using REST, this field must be encoded as
+ * base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *rHash;
 
-/** / The value of this invoice in satoshis */
+/**
+ * *
+ * The value of this invoice in satoshis
+ *
+ * The fields value and value_msat are mutually exclusive.
+ **/
 @property(nonatomic, readwrite) int64_t value;
+
+/**
+ * *
+ * The value of this invoice in millisatoshis
+ *
+ * The fields value and value_msat are mutually exclusive.
+ **/
+@property(nonatomic, readwrite) int64_t valueMsat;
 
 /** / Whether this invoice has been fulfilled */
 @property(nonatomic, readwrite) BOOL settled GPB_DEPRECATED_MSG("lnrpc.Invoice.settled is deprecated (see rpc.proto).");
@@ -3070,7 +3692,7 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
 
 /**
  * *
- * A bare-bones invoice for a payment within the Lightning Network.  With the
+ * A bare-bones invoice for a payment within the Lightning Network. With the
  * details of the invoice, the sender has all the data necessary to send a
  * payment to the recipient.
  **/
@@ -3080,7 +3702,8 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
  * *
  * Hash (SHA-256) of a description of the payment. Used if the description of
  * payment (memo) is too long to naturally fit within the description field
- * of an encoded payment request.
+ * of an encoded payment request. When using REST, this field must be encoded
+ * as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *descriptionHash;
 
@@ -3159,6 +3782,18 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
 /** The number of items in @c htlcsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger htlcsArray_Count;
 
+/** / List of features advertised on the invoice. */
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32ObjectDictionary<Feature*> *features;
+/** The number of items in @c features without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger features_Count;
+
+/**
+ * *
+ * Indicates if this invoice was a spontaneous payment that arrived via keysend
+ * [EXPERIMENTAL].
+ **/
+@property(nonatomic, readwrite) BOOL isKeySend;
+
 @end
 
 /**
@@ -3184,6 +3819,8 @@ typedef GPB_ENUM(InvoiceHTLC_FieldNumber) {
   InvoiceHTLC_FieldNumber_ResolveTime = 6,
   InvoiceHTLC_FieldNumber_ExpiryHeight = 7,
   InvoiceHTLC_FieldNumber_State = 8,
+  InvoiceHTLC_FieldNumber_CustomRecords = 9,
+  InvoiceHTLC_FieldNumber_MppTotalAmtMsat = 10,
 };
 
 /**
@@ -3206,7 +3843,7 @@ typedef GPB_ENUM(InvoiceHTLC_FieldNumber) {
 /** / Time at which this htlc was accepted. */
 @property(nonatomic, readwrite) int64_t acceptTime;
 
-/** / Time at which this htlc was settled or cancelled. */
+/** / Time at which this htlc was settled or canceled. */
 @property(nonatomic, readwrite) int64_t resolveTime;
 
 /** / Block height at which this htlc expires. */
@@ -3214,6 +3851,14 @@ typedef GPB_ENUM(InvoiceHTLC_FieldNumber) {
 
 /** / Current state the htlc is in. */
 @property(nonatomic, readwrite) InvoiceHTLCState state;
+
+/** / Custom tlv records. */
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt64ObjectDictionary<NSData*> *customRecords;
+/** The number of items in @c customRecords without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger customRecords_Count;
+
+/** / The total amount of the mpp payment in msat. */
+@property(nonatomic, readwrite) uint64_t mppTotalAmtMsat;
 
 @end
 
@@ -3243,7 +3888,7 @@ typedef GPB_ENUM(AddInvoiceResponse_FieldNumber) {
 
 /**
  * *
- * A bare-bones invoice for a payment within the Lightning Network.  With the
+ * A bare-bones invoice for a payment within the Lightning Network. With the
  * details of the invoice, the sender has all the data necessary to send a
  * payment to the recipient.
  **/
@@ -3273,10 +3918,16 @@ typedef GPB_ENUM(PaymentHash_FieldNumber) {
  * *
  * The hex-encoded payment hash of the invoice to be looked up. The passed
  * payment hash must be exactly 32 bytes, otherwise an error is returned.
+ * Deprecated now that the REST gateway supports base64 encoding of bytes
+ * fields.
  **/
-@property(nonatomic, readwrite, copy, null_resettable) NSString *rHashStr;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *rHashStr GPB_DEPRECATED_MSG("lnrpc.PaymentHash.r_hash_str is deprecated (see rpc.proto).");
 
-/** / The payment hash of the invoice to be looked up. */
+/**
+ * *
+ * The payment hash of the invoice to be looked up. When using REST, this field
+ * must be encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *rHash;
 
 @end
@@ -3292,7 +3943,11 @@ typedef GPB_ENUM(ListInvoiceRequest_FieldNumber) {
 
 @interface ListInvoiceRequest : GPBMessage
 
-/** / If set, only unsettled invoices will be returned in the response. */
+/**
+ * *
+ * If set, only invoices that are not settled and not canceled will be returned
+ * in the response.
+ **/
 @property(nonatomic, readwrite) BOOL pendingOnly;
 
 /**
@@ -3393,6 +4048,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_Status = 10,
   Payment_FieldNumber_FeeSat = 11,
   Payment_FieldNumber_FeeMsat = 12,
+  Payment_FieldNumber_CreationTimeNs = 13,
+  Payment_FieldNumber_HtlcsArray = 14,
 };
 
 @interface Payment : GPBMessage
@@ -3403,13 +4060,13 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** / Deprecated, use value_sat or value_msat. */
 @property(nonatomic, readwrite) int64_t value GPB_DEPRECATED_MSG("lnrpc.Payment.value is deprecated (see rpc.proto).");
 
-/** / The date of this payment */
-@property(nonatomic, readwrite) int64_t creationDate;
+/** / Deprecated, use creation_time_ns */
+@property(nonatomic, readwrite) int64_t creationDate GPB_DEPRECATED_MSG("lnrpc.Payment.creation_date is deprecated (see rpc.proto).");
 
-/** / The path this payment took */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *pathArray;
+/** / The path this payment took. */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *pathArray GPB_DEPRECATED_MSG("lnrpc.Payment.path is deprecated (see rpc.proto).");
 /** The number of items in @c pathArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger pathArray_Count;
+@property(nonatomic, readonly) NSUInteger pathArray_Count GPB_DEPRECATED_MSG("lnrpc.Payment.path is deprecated (see rpc.proto).");
 
 /** / Deprecated, use fee_sat or fee_msat. */
 @property(nonatomic, readwrite) int64_t fee GPB_DEPRECATED_MSG("lnrpc.Payment.fee is deprecated (see rpc.proto).");
@@ -3435,6 +4092,14 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** /  The fee paid for this payment in milli-satoshis */
 @property(nonatomic, readwrite) int64_t feeMsat;
 
+/** / The time in UNIX nanoseconds at which the payment was created. */
+@property(nonatomic, readwrite) int64_t creationTimeNs;
+
+/** / The HTLCs made in attempt to settle the payment [EXPERIMENTAL]. */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<HTLCAttempt*> *htlcsArray;
+/** The number of items in @c htlcsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger htlcsArray_Count;
+
 @end
 
 /**
@@ -3448,6 +4113,49 @@ int32_t Payment_Status_RawValue(Payment *message);
  * was generated.
  **/
 void SetPayment_Status_RawValue(Payment *message, int32_t value);
+
+#pragma mark - HTLCAttempt
+
+typedef GPB_ENUM(HTLCAttempt_FieldNumber) {
+  HTLCAttempt_FieldNumber_Status = 1,
+  HTLCAttempt_FieldNumber_Route = 2,
+  HTLCAttempt_FieldNumber_AttemptTimeNs = 3,
+  HTLCAttempt_FieldNumber_ResolveTimeNs = 4,
+};
+
+@interface HTLCAttempt : GPBMessage
+
+/** / The status of the HTLC. */
+@property(nonatomic, readwrite) HTLCAttempt_HTLCStatus status;
+
+/** / The route taken by this HTLC. */
+@property(nonatomic, readwrite, strong, null_resettable) Route *route;
+/** Test to see if @c route has been set. */
+@property(nonatomic, readwrite) BOOL hasRoute;
+
+/** / The time in UNIX nanoseconds at which this HTLC was sent. */
+@property(nonatomic, readwrite) int64_t attemptTimeNs;
+
+/**
+ * *
+ * The time in UNIX nanoseconds at which this HTLC was settled or failed.
+ * This value will not be set if the HTLC is still IN_FLIGHT.
+ **/
+@property(nonatomic, readwrite) int64_t resolveTimeNs;
+
+@end
+
+/**
+ * Fetches the raw value of a @c HTLCAttempt's @c status property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t HTLCAttempt_Status_RawValue(HTLCAttempt *message);
+/**
+ * Sets the raw value of an @c HTLCAttempt's @c status property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetHTLCAttempt_Status_RawValue(HTLCAttempt *message, int32_t value);
 
 #pragma mark - ListPaymentsRequest
 
@@ -3567,6 +4275,9 @@ typedef GPB_ENUM(PayReq_FieldNumber) {
   PayReq_FieldNumber_FallbackAddr = 8,
   PayReq_FieldNumber_CltvExpiry = 9,
   PayReq_FieldNumber_RouteHintsArray = 10,
+  PayReq_FieldNumber_PaymentAddr = 11,
+  PayReq_FieldNumber_NumMsat = 12,
+  PayReq_FieldNumber_Features = 13,
 };
 
 @interface PayReq : GPBMessage
@@ -3592,6 +4303,32 @@ typedef GPB_ENUM(PayReq_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<RouteHint*> *routeHintsArray;
 /** The number of items in @c routeHintsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger routeHintsArray_Count;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSData *paymentAddr;
+
+@property(nonatomic, readwrite) int64_t numMsat;
+
+@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32ObjectDictionary<Feature*> *features;
+/** The number of items in @c features without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger features_Count;
+
+@end
+
+#pragma mark - Feature
+
+typedef GPB_ENUM(Feature_FieldNumber) {
+  Feature_FieldNumber_Name = 2,
+  Feature_FieldNumber_IsRequired = 3,
+  Feature_FieldNumber_IsKnown = 4,
+};
+
+@interface Feature : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
+
+@property(nonatomic, readwrite) BOOL isRequired;
+
+@property(nonatomic, readwrite) BOOL isKnown;
 
 @end
 
@@ -3662,6 +4399,8 @@ typedef GPB_ENUM(PolicyUpdateRequest_FieldNumber) {
   PolicyUpdateRequest_FieldNumber_FeeRate = 4,
   PolicyUpdateRequest_FieldNumber_TimeLockDelta = 5,
   PolicyUpdateRequest_FieldNumber_MaxHtlcMsat = 6,
+  PolicyUpdateRequest_FieldNumber_MinHtlcMsat = 7,
+  PolicyUpdateRequest_FieldNumber_MinHtlcMsatSpecified = 8,
 };
 
 typedef GPB_ENUM(PolicyUpdateRequest_Scope_OneOfCase) {
@@ -3691,6 +4430,12 @@ typedef GPB_ENUM(PolicyUpdateRequest_Scope_OneOfCase) {
 
 /** / If set, the maximum HTLC size in milli-satoshis. If unset, the maximum HTLC will be unchanged. */
 @property(nonatomic, readwrite) uint64_t maxHtlcMsat;
+
+/** / The minimum HTLC size in milli-satoshis. Only applied if min_htlc_msat_specified is true. */
+@property(nonatomic, readwrite) uint64_t minHtlcMsat;
+
+/** / If true, min_htlc_msat is applied. */
+@property(nonatomic, readwrite) BOOL minHtlcMsatSpecified;
 
 @end
 
@@ -3740,6 +4485,8 @@ typedef GPB_ENUM(ForwardingEvent_FieldNumber) {
   ForwardingEvent_FieldNumber_AmtOut = 6,
   ForwardingEvent_FieldNumber_Fee = 7,
   ForwardingEvent_FieldNumber_FeeMsat = 8,
+  ForwardingEvent_FieldNumber_AmtInMsat = 9,
+  ForwardingEvent_FieldNumber_AmtOutMsat = 10,
 };
 
 @interface ForwardingEvent : GPBMessage
@@ -3764,6 +4511,12 @@ typedef GPB_ENUM(ForwardingEvent_FieldNumber) {
 
 /** / The total fee (in milli-satoshis) that this payment circuit carried. */
 @property(nonatomic, readwrite) uint64_t feeMsat;
+
+/** / The total amount (in milli-satoshis) of the incoming HTLC that created half the circuit. */
+@property(nonatomic, readwrite) uint64_t amtInMsat;
+
+/** / The total amount (in milli-satoshis) of the outgoing HTLC that created the second half of the circuit. */
+@property(nonatomic, readwrite) uint64_t amtOutMsat;
 
 @end
 
@@ -3822,7 +4575,8 @@ typedef GPB_ENUM(ChannelBackup_FieldNumber) {
  * *
  * Is an encrypted single-chan backup. this can be passed to
  * RestoreChannelBackups, or the WalletUnlocker Init and Unlock methods in
- * order to trigger the recovery protocol.
+ * order to trigger the recovery protocol. When using REST, this field must be
+ * encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *chanBackup;
 
@@ -3849,7 +4603,8 @@ typedef GPB_ENUM(MultiChanBackup_FieldNumber) {
  * *
  * A single encrypted blob containing all the static channel backups of the
  * channel listed above. This can be stored as a single file or blob, and
- * safely be replaced with any prior/future versions.
+ * safely be replaced with any prior/future versions. When using REST, this
+ * field must be encoded as base64.
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *multiChanBackup;
 
@@ -3925,8 +4680,17 @@ typedef GPB_ENUM(RestoreChanBackupRequest_Backup_OneOfCase) {
 
 @property(nonatomic, readonly) RestoreChanBackupRequest_Backup_OneOfCase backupOneOfCase;
 
+/**
+ * *
+ * The channels to restore as a list of channel/backup pairs.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) ChannelBackups *chanBackups;
 
+/**
+ * *
+ * The channels to restore in the packed multi backup format. When using
+ * REST, this field must be encoded as base64.
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *multiChanBackup;
 
 @end
@@ -3951,6 +4715,51 @@ void RestoreChanBackupRequest_ClearBackupOneOfCase(RestoreChanBackupRequest *mes
 #pragma mark - VerifyChanBackupResponse
 
 @interface VerifyChanBackupResponse : GPBMessage
+
+@end
+
+#pragma mark - MacaroonPermission
+
+typedef GPB_ENUM(MacaroonPermission_FieldNumber) {
+  MacaroonPermission_FieldNumber_Entity = 1,
+  MacaroonPermission_FieldNumber_Action = 2,
+};
+
+@interface MacaroonPermission : GPBMessage
+
+/** / The entity a permission grants access to. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *entity;
+
+/** / The action that is granted. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *action;
+
+@end
+
+#pragma mark - BakeMacaroonRequest
+
+typedef GPB_ENUM(BakeMacaroonRequest_FieldNumber) {
+  BakeMacaroonRequest_FieldNumber_PermissionsArray = 1,
+};
+
+@interface BakeMacaroonRequest : GPBMessage
+
+/** / The list of permissions the new macaroon should grant. */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MacaroonPermission*> *permissionsArray;
+/** The number of items in @c permissionsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger permissionsArray_Count;
+
+@end
+
+#pragma mark - BakeMacaroonResponse
+
+typedef GPB_ENUM(BakeMacaroonResponse_FieldNumber) {
+  BakeMacaroonResponse_FieldNumber_Macaroon = 1,
+};
+
+@interface BakeMacaroonResponse : GPBMessage
+
+/** / The hex encoded macaroon, serialized in binary format. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *macaroon;
 
 @end
 

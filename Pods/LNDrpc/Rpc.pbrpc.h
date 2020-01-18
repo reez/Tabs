@@ -12,6 +12,8 @@
 @class AbandonChannelRequest;
 @class AbandonChannelResponse;
 @class AddInvoiceResponse;
+@class BakeMacaroonRequest;
+@class BakeMacaroonResponse;
 @class ChanBackupExportRequest;
 @class ChanBackupSnapshot;
 @class ChanInfoRequest;
@@ -48,6 +50,8 @@
 @class FeeReportResponse;
 @class ForwardingHistoryRequest;
 @class ForwardingHistoryResponse;
+@class FundingStateStepResp;
+@class FundingTransitionMsg;
 @class GenSeedRequest;
 @class GenSeedResponse;
 @class GetInfoRequest;
@@ -80,6 +84,8 @@
 @class PayReq;
 @class PayReqString;
 @class PaymentHash;
+@class PeerEvent;
+@class PeerEventSubscription;
 @class PendingChannelsRequest;
 @class PendingChannelsResponse;
 @class PolicyUpdateRequest;
@@ -316,6 +322,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (GRPCUnaryProtoCall *)listPeersWithMessage:(ListPeersRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
+#pragma mark SubscribePeerEvents(PeerEventSubscription) returns (stream PeerEvent)
+
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ */
+- (GRPCUnaryProtoCall *)subscribePeerEventsWithMessage:(PeerEventSubscription *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
+
 #pragma mark GetInfo(GetInfoRequest) returns (GetInfoResponse)
 
 /**
@@ -387,9 +403,27 @@ NS_ASSUME_NONNULL_BEGIN
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  */
 - (GRPCUnaryProtoCall *)openChannelWithMessage:(OpenChannelRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
+
+#pragma mark FundingStateStep(FundingTransitionMsg) returns (FundingStateStepResp)
+
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ */
+- (GRPCUnaryProtoCall *)fundingStateStepWithMessage:(FundingTransitionMsg *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
 #pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
 
@@ -512,9 +546,9 @@ NS_ASSUME_NONNULL_BEGIN
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  */
@@ -553,7 +587,7 @@ NS_ASSUME_NONNULL_BEGIN
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  */
@@ -662,7 +696,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  */
@@ -727,6 +761,16 @@ NS_ASSUME_NONNULL_BEGIN
  * channel(s) removed.
  */
 - (GRPCUnaryProtoCall *)subscribeChannelBackupsWithMessage:(ChannelBackupSubscription *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
+
+#pragma mark BakeMacaroon(BakeMacaroonRequest) returns (BakeMacaroonResponse)
+
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ */
+- (GRPCUnaryProtoCall *)bakeMacaroonWithMessage:(BakeMacaroonRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
 @end
 
@@ -1174,6 +1218,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (GRPCProtoCall *)RPCToListPeersWithRequest:(ListPeersRequest *)request handler:(void(^)(ListPeersResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
+#pragma mark SubscribePeerEvents(PeerEventSubscription) returns (stream PeerEvent)
+
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)subscribePeerEventsWithRequest:(PeerEventSubscription *)request eventHandler:(void(^)(BOOL done, PeerEvent *_Nullable response, NSError *_Nullable error))eventHandler;
+
+/**
+ * *
+ * SubscribePeerEvents creates a uni-directional stream from the server to
+ * the client in which any events relevant to the state of peers are sent
+ * over. Events include peers going online and offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToSubscribePeerEventsWithRequest:(PeerEventSubscription *)request eventHandler:(void(^)(BOOL done, PeerEvent *_Nullable response, NSError *_Nullable error))eventHandler;
+
+
 #pragma mark GetInfo(GetInfoRequest) returns (GetInfoResponse)
 
 /**
@@ -1326,7 +1393,10 @@ NS_ASSUME_NONNULL_BEGIN
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1338,11 +1408,47 @@ NS_ASSUME_NONNULL_BEGIN
  * request to a remote peer. Users are able to specify a target number of
  * blocks that the funding transaction should be confirmed in, or a manual fee
  * rate to us for the funding transaction. If neither are specified, then a
- * lax block confirmation target is used.
+ * lax block confirmation target is used. Each OpenStatusUpdate will return
+ * the pending channel ID of the in-progress channel. Depending on the
+ * arguments specified in the OpenChannelRequest, this pending channel ID can
+ * then be used to manually progress the channel funding flow.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToOpenChannelWithRequest:(OpenChannelRequest *)request eventHandler:(void(^)(BOOL done, OpenStatusUpdate *_Nullable response, NSError *_Nullable error))eventHandler;
+
+
+#pragma mark FundingStateStep(FundingTransitionMsg) returns (FundingStateStepResp)
+
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)fundingStateStepWithRequest:(FundingTransitionMsg *)request handler:(void(^)(FundingStateStepResp *_Nullable response, NSError *_Nullable error))handler;
+
+/**
+ * *
+ * FundingStateStep is an advanced funding related call that allows the caller
+ * to either execute some preparatory steps for a funding workflow, or
+ * manually progress a funding workflow. The primary way a funding flow is
+ * identified is via its pending channel ID. As an example, this method can be
+ * used to specify that we're expecting a funding flow for a particular
+ * pending channel ID, for which we need to use specific parameters.
+ * Alternatively, this can be used to interactively drive PSBT signing for
+ * funding for partially complete funding transactions.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToFundingStateStepWithRequest:(FundingTransitionMsg *)request handler:(void(^)(FundingStateStepResp *_Nullable response, NSError *_Nullable error))handler;
 
 
 #pragma mark ChannelAcceptor(stream ChannelAcceptResponse) returns (stream ChannelAcceptRequest)
@@ -1609,9 +1715,9 @@ NS_ASSUME_NONNULL_BEGIN
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  *
@@ -1625,9 +1731,9 @@ NS_ASSUME_NONNULL_BEGIN
  * notifying the client of newly added/settled invoices. The caller can
  * optionally specify the add_index and/or the settle_index. If the add_index
  * is specified, then we'll first start by sending add invoice events for all
- * invoices with an add_index greater than the specified value.  If the
+ * invoices with an add_index greater than the specified value. If the
  * settle_index is specified, the next, we'll send out all settle events for
- * invoices with a settle_index greater than the specified value.  One or both
+ * invoices with a settle_index greater than the specified value. One or both
  * of these fields can be set. If no fields are set, then we'll only send out
  * the latest add/settle events.
  *
@@ -1704,7 +1810,7 @@ NS_ASSUME_NONNULL_BEGIN
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  *
@@ -1717,7 +1823,7 @@ NS_ASSUME_NONNULL_BEGIN
  * DescribeGraph returns a description of the latest graph state from the
  * point of view of the node. The graph information is partitioned into two
  * components: all the nodes/vertexes, and all the edges that connect the
- * vertexes themselves.  As this is a directed graph, the edges also contain
+ * vertexes themselves. As this is a directed graph, the edges also contain
  * the node directional specific routing policy which includes: the time lock
  * delta, fee information, etc.
  *
@@ -1948,7 +2054,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  *
@@ -1965,7 +2071,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * A list of forwarding events are returned. The size of each forwarding event
  * is 40 bytes, and the max message size able to be returned in gRPC is 4 MiB.
- * As a result each message can only contain 50k entries.  Each response has
+ * As a result each message can only contain 50k entries. Each response has
  * the index offset of the last entry. The index offset can be provided to the
  * request to allow the caller to skip a series of records.
  *
@@ -2107,6 +2213,29 @@ NS_ASSUME_NONNULL_BEGIN
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToSubscribeChannelBackupsWithRequest:(ChannelBackupSubscription *)request eventHandler:(void(^)(BOOL done, ChanBackupSnapshot *_Nullable response, NSError *_Nullable error))eventHandler;
+
+
+#pragma mark BakeMacaroon(BakeMacaroonRequest) returns (BakeMacaroonResponse)
+
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)bakeMacaroonWithRequest:(BakeMacaroonRequest *)request handler:(void(^)(BakeMacaroonResponse *_Nullable response, NSError *_Nullable error))handler;
+
+/**
+ * * lncli: `bakemacaroon`
+ * BakeMacaroon allows the creation of a new macaroon with custom read and
+ * write permissions. No first-party caveats are added since this can be done
+ * offline.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToBakeMacaroonWithRequest:(BakeMacaroonRequest *)request handler:(void(^)(BakeMacaroonResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
 @end
