@@ -25,6 +25,7 @@
 		AE2ED50521D6CE85003F9442 /* BlockstreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */; };
 		AE4282BA2299CFFE0076E78E /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4282B92299CFFE0076E78E /* EnvironmentTests.swift */; };
 		AE4282BC2299D6C20076E78E /* FreeFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4282BB2299D6C20076E78E /* FreeFunctionsTests.swift */; };
+		AE42E99123F1FE56005FE10C /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE42E99023F1FE56005FE10C /* ActivityIndicatorView.swift */; };
 		AE434C5221C5A2B200D0E1B9 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5121C5A2B200D0E1B9 /* Invoice.swift */; };
 		AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5521C5A54900D0E1B9 /* Info.swift */; };
 		AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE434C5721C5A5A400D0E1B9 /* Result.swift */; };
@@ -97,6 +98,7 @@
 		AE2ED50421D6CE85003F9442 /* BlockstreamAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstreamAPI.swift; sourceTree = "<group>"; };
 		AE4282B92299CFFE0076E78E /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
 		AE4282BB2299D6C20076E78E /* FreeFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFunctionsTests.swift; sourceTree = "<group>"; };
+		AE42E99023F1FE56005FE10C /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		AE434C5121C5A2B200D0E1B9 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		AE434C5521C5A54900D0E1B9 /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		AE434C5721C5A5A400D0E1B9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				AE7497E6236DD81100230073 /* TabUIView.swift */,
 				AE7497E8236DDA1D00230073 /* StatusUIView.swift */,
 				AE7497EA236DDF2E00230073 /* StatusDetailUIView.swift */,
+				AE42E99023F1FE56005FE10C /* ActivityIndicatorView.swift */,
 				AE7497EC236DE1D000230073 /* InvoiceListUIView.swift */,
 				AE7497EE236DE9A400230073 /* InvoiceCreateUIView.swift */,
 				AE5E7FBE22888E9D0090FD00 /* InvoiceViewModel.swift */,
@@ -472,6 +475,7 @@
 				AE434C5621C5A54900D0E1B9 /* Info.swift in Sources */,
 				AE434C5821C5A5A400D0E1B9 /* Result.swift in Sources */,
 				AE7497EF236DE9A400230073 /* InvoiceCreateUIView.swift in Sources */,
+				AE42E99123F1FE56005FE10C /* ActivityIndicatorView.swift in Sources */,
 				AE434C5A21C5A5DF00D0E1B9 /* RemoteNodeConnection.swift in Sources */,
 				AE62AD1921D5BF6B009B7BCA /* FreeFunctions.swift in Sources */,
 				AE15721221C4943F0055D5BD /* LightningAPI.swift in Sources */,

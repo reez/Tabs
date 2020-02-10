@@ -21,6 +21,7 @@ class TabsAppState: ObservableObject {
 
 struct StatusDetailUIView: View {
     @ObservedObject var appState = TabsAppState()
+    @State var isLoading = false
     
     var body: some View {
         
@@ -54,6 +55,10 @@ struct StatusDetailUIView: View {
                 + Text(String(self.appState.syncedToChain))
                     .bold()
             
+            if isLoading {
+                ActivityIndicatorView()
+            }
+            
         }
         .font(.system(.callout, design: .monospaced))
         .onAppear { self.loadStatusDetail() }
@@ -64,6 +69,7 @@ struct StatusDetailUIView: View {
 
 extension StatusDetailUIView {
     func loadStatusDetail() {
+        isLoading = true
         switch Current.keychain.load() {
         case let .success(savedConfig):
             
@@ -71,6 +77,7 @@ extension StatusDetailUIView {
             Current.lightningAPIRPC.info { result in
                 try? result.get()
                     |> flatMap {
+                        self.isLoading = false
                         self.appState.alias = $0.alias
                         self.appState.blockHeight = String($0.blockHeight)
                         self.appState.chainsArray = $0.chainsArray
@@ -82,7 +89,7 @@ extension StatusDetailUIView {
                 }
             }
         case .failure(_):
-            break
+            isLoading = false
         }
     }
 }
