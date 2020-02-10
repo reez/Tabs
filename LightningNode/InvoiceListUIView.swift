@@ -16,7 +16,8 @@ class InvoiceListAppState: ObservableObject {
 struct InvoiceListUIView: View {
     @State var showAlert = false
     @ObservedObject var state = InvoiceListAppState()
-    
+    @State var isLoading = false
+
     var body: some View {
         
         VStack {
@@ -32,6 +33,11 @@ struct InvoiceListUIView: View {
                 .font(.system(.headline, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
+            
+            if isLoading {
+                ActivityIndicatorView()
+            }
+
             
             List {
                 VStack(alignment: .leading) {
@@ -127,12 +133,14 @@ extension InvoiceRow {
 extension InvoiceListUIView {
     
     func loadInvoices(){
+        isLoading = true
         invoices { (result) in
             switch result {
             case let .success(invoices):
+                self.isLoading = false
                 self.state.invoices = invoices
             case .failure(_):
-                break
+                self.isLoading = false
             }
         }
     }
