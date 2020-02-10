@@ -38,7 +38,6 @@ struct InvoiceListUIView: View {
                 ActivityIndicatorView()
             }
 
-            
             List {
                 VStack(alignment: .leading) {
                     InvoiceRow(invoices: self.state.invoices)

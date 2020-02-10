@@ -17,7 +17,8 @@ class AppState: ObservableObject {
 struct SettingsUIView: View {
     @State var removedNode = false
     @ObservedObject var state = AppState()
-    
+    @State var isLoading = false
+
     var body: some View {
         
         VStack {
@@ -73,22 +74,28 @@ struct SettingsUIView: View {
             
             NavigationLink(destination: AddNodeUIView(), isActive: self.$removedNode ) { Spacer().fixedSize() }
             
+            if isLoading {
+                 ActivityIndicatorView()
+             }
+            
         }
         .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
         .onAppear {
+            self.isLoading = true
             switch Current.keychain.load() {
             case let .success(savedConfig):
                 Current.remoteNodeConnectionFormatted = savedConfig
                 Current.lightningAPIRPC.info {  result in
                     try? result.get()
                         |> flatMap {
+                            self.isLoading = false
                             self.state.alias = "\($0.alias)"
                             self.state.pubkey = "\($0.identityPubkey)"
                             self.state.version = "\($0.version)" // \(Constants.lndVersion.rawValue) 
                     }
                 }
             case .failure(_):
-                break
+                self.isLoading = false
             }
             
         }
