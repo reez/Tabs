@@ -69,7 +69,7 @@ struct SettingsUIView: View {
                 Current.remoteNodeConnectionFormatted = RemoteNodeConnection(uri: "", certificate: "", macaroon: "")
                 deleteFromKeychain()
             }
-            .font(.system(.headline, design: Font.Design.monospaced))
+            .font(.system(.title, design: Font.Design.monospaced))
             .padding()
             
             NavigationLink(destination: AddNodeUIView(), isActive: self.$removedNode ) { Spacer().fixedSize() }

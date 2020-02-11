@@ -44,7 +44,7 @@ struct StatusUIView: View {
             Button("Get Info") { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
-                .font(.system(.headline, design: Font.Design.monospaced))
+                .font(.system(.title, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false }) { StatusDetailUIView() }
             
