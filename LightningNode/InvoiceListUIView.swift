@@ -30,7 +30,7 @@ struct InvoiceListUIView: View {
             Button(Constants.addInvoiceButton.rawValue) { self.showAlert = true }
                 .padding()
                 .foregroundColor(.blue)
-                .font(.system(.headline, design: Font.Design.monospaced))
+                .font(.system(.title, design: Font.Design.monospaced))
                 .padding()
                 .sheet(isPresented: $showAlert, onDismiss: { self.showAlert = false}) { InvoiceCreateUIView() }
             
