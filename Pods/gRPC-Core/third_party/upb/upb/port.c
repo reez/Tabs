@@ -1,10 +1,5 @@
 
 #if COCOAPODS==1
-  #include  "third_party/upb/upb/upb.h"
-#else
-  #include  "upb/upb.h"
-#endif
-#if COCOAPODS==1
   #include  "third_party/upb/upb/port_def.inc"
 #else
   #include  "upb/port_def.inc"

@@ -43,6 +43,16 @@
   #include  "google/protobuf/struct.upb.h"
 #endif
 #if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/udpa/annotations/sensitive.upb.h"
+#else
+  #include  "udpa/annotations/sensitive.upb.h"
+#endif
+#if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/udpa/annotations/migrate.upb.h"
+#else
+  #include  "udpa/annotations/migrate.upb.h"
+#endif
+#if COCOAPODS==1
   #include  "src/core/ext/upb-generated/validate/validate.upb.h"
 #else
   #include  "validate/validate.upb.h"
@@ -145,26 +155,28 @@ const upb_msglayout envoy_api_v2_core_GrpcService_GoogleGrpc_ChannelCredentials_
   UPB_SIZE(8, 16), 3, false,
 };
 
-static const upb_msglayout *const envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_submsgs[4] = {
+static const upb_msglayout *const envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_submsgs[5] = {
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit,
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit,
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit,
+  &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit,
   &google_protobuf_Empty_msginit,
 };
 
-static const upb_msglayout_field envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials__fields[6] = {
+static const upb_msglayout_field envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials__fields[7] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 0, 9, 1},
-  {2, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 3, 11, 1},
+  {2, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 4, 11, 1},
   {3, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 0, 9, 1},
   {4, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 2, 11, 1},
   {5, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 0, 11, 1},
   {6, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 1, 11, 1},
+  {7, UPB_SIZE(0, 0), UPB_SIZE(-9, -17), 3, 11, 1},
 };
 
 const upb_msglayout envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_msginit = {
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_submsgs[0],
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials__fields[0],
-  UPB_SIZE(16, 32), 6, false,
+  UPB_SIZE(16, 32), 7, false,
 };
 
 static const upb_msglayout_field envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials__fields[2] = {
@@ -204,6 +216,24 @@ const upb_msglayout envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_Met
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_submsgs[0],
   &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin__fields[0],
   UPB_SIZE(16, 32), 3, false,
+};
+
+static const upb_msglayout_field envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_StsService__fields[9] = {
+  {1, UPB_SIZE(0, 0), 0, 0, 9, 1},
+  {2, UPB_SIZE(8, 16), 0, 0, 9, 1},
+  {3, UPB_SIZE(16, 32), 0, 0, 9, 1},
+  {4, UPB_SIZE(24, 48), 0, 0, 9, 1},
+  {5, UPB_SIZE(32, 64), 0, 0, 9, 1},
+  {6, UPB_SIZE(40, 80), 0, 0, 9, 1},
+  {7, UPB_SIZE(48, 96), 0, 0, 9, 1},
+  {8, UPB_SIZE(56, 112), 0, 0, 9, 1},
+  {9, UPB_SIZE(64, 128), 0, 0, 9, 1},
+};
+
+const upb_msglayout envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit = {
+  NULL,
+  &envoy_api_v2_core_GrpcService_GoogleGrpc_CallCredentials_StsService__fields[0],
+  UPB_SIZE(72, 144), 9, false,
 };
 
 #if COCOAPODS==1
