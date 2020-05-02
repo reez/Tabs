@@ -8,7 +8,7 @@
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+ #import <protobuf/GPBProtocolBuffers.h>
 #else
  #import "GPBProtocolBuffers.h"
 #endif
@@ -40,11 +40,16 @@ CF_EXTERN_C_BEGIN
 @class ChannelFeeReport;
 @class ChannelOpenUpdate;
 @class ChannelPoint;
+@class ChannelUpdate;
 @class ClosedChannelUpdate;
 @class EdgeLocator;
+@class Failure;
 @class Feature;
 @class FeeLimit;
+@class FloatMetric;
 @class ForwardingEvent;
+@class FundingPsbtFinalize;
+@class FundingPsbtVerify;
 @class FundingShim;
 @class FundingShimCancel;
 @class HTLC;
@@ -67,15 +72,19 @@ CF_EXTERN_C_BEGIN
 @class Payment;
 @class Peer;
 @class PendingChannelsResponse_ClosedChannel;
+@class PendingChannelsResponse_Commitments;
 @class PendingChannelsResponse_ForceClosedChannel;
 @class PendingChannelsResponse_PendingChannel;
 @class PendingChannelsResponse_PendingOpenChannel;
 @class PendingChannelsResponse_WaitingCloseChannel;
 @class PendingHTLC;
 @class PendingUpdate;
+@class PsbtShim;
+@class ReadyForPsbtFunding;
 @class Route;
 @class RouteHint;
 @class RoutingPolicy;
+@class TimestampedError;
 @class Transaction;
 @class Utxo;
 
@@ -111,6 +120,98 @@ GPBEnumDescriptor *AddressType_EnumDescriptor(void);
  **/
 BOOL AddressType_IsValidValue(int32_t value);
 
+#pragma mark - Enum CommitmentType
+
+typedef GPB_ENUM(CommitmentType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  CommitmentType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /**
+   * *
+   * A channel using the legacy commitment format having tweaked to_remote
+   * keys.
+   **/
+  CommitmentType_Legacy = 0,
+
+  /**
+   * *
+   * A channel that uses the modern commitment format where the key in the
+   * output of the remote party does not change each state. This makes back
+   * up and recovery easier as when the channel is closed, the funds go
+   * directly to that key.
+   **/
+  CommitmentType_StaticRemoteKey = 1,
+
+  /**
+   * *
+   * A channel that uses a commitment format that has anchor outputs on the
+   * commitments, allowing fee bumping after a force close transaction has
+   * been broadcast.
+   **/
+  CommitmentType_Anchors = 2,
+
+  /**
+   * *
+   * Returned when the commitment type isn't known or unavailable.
+   **/
+  CommitmentType_UnknownCommitmentType = 999,
+};
+
+GPBEnumDescriptor *CommitmentType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL CommitmentType_IsValidValue(int32_t value);
+
+#pragma mark - Enum Initiator
+
+typedef GPB_ENUM(Initiator) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  Initiator_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  Initiator_InitiatorUnknown = 0,
+  Initiator_InitiatorLocal = 1,
+  Initiator_InitiatorRemote = 2,
+  Initiator_InitiatorBoth = 3,
+};
+
+GPBEnumDescriptor *Initiator_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL Initiator_IsValidValue(int32_t value);
+
+#pragma mark - Enum NodeMetricType
+
+typedef GPB_ENUM(NodeMetricType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  NodeMetricType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  NodeMetricType_Unknown = 0,
+  NodeMetricType_BetweennessCentrality = 1,
+};
+
+GPBEnumDescriptor *NodeMetricType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL NodeMetricType_IsValidValue(int32_t value);
+
 #pragma mark - Enum InvoiceHTLCState
 
 typedef GPB_ENUM(InvoiceHTLCState) {
@@ -132,6 +233,62 @@ GPBEnumDescriptor *InvoiceHTLCState_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL InvoiceHTLCState_IsValidValue(int32_t value);
+
+#pragma mark - Enum PaymentFailureReason
+
+typedef GPB_ENUM(PaymentFailureReason) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PaymentFailureReason_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /**
+   * *
+   * Payment isn't failed (yet).
+   **/
+  PaymentFailureReason_FailureReasonNone = 0,
+
+  /**
+   * *
+   * There are more routes to try, but the payment timeout was exceeded.
+   **/
+  PaymentFailureReason_FailureReasonTimeout = 1,
+
+  /**
+   * *
+   * All possible routes were tried and failed permanently. Or were no
+   * routes to the destination at all.
+   **/
+  PaymentFailureReason_FailureReasonNoRoute = 2,
+
+  /**
+   * *
+   * A non-recoverable error has occured.
+   **/
+  PaymentFailureReason_FailureReasonError = 3,
+
+  /**
+   * *
+   * Payment details incorrect (unknown hash, invalid amt or
+   * invalid final cltv delta)
+   **/
+  PaymentFailureReason_FailureReasonIncorrectPaymentDetails = 4,
+
+  /**
+   * *
+   * Insufficient local balance.
+   **/
+  PaymentFailureReason_FailureReasonInsufficientBalance = 5,
+};
+
+GPBEnumDescriptor *PaymentFailureReason_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PaymentFailureReason_IsValidValue(int32_t value);
 
 #pragma mark - Enum FeatureBit
 
@@ -251,6 +408,28 @@ GPBEnumDescriptor *PeerEvent_EventType_EnumDescriptor(void);
  **/
 BOOL PeerEvent_EventType_IsValidValue(int32_t value);
 
+#pragma mark - Enum PendingChannelsResponse_ForceClosedChannel_AnchorState
+
+typedef GPB_ENUM(PendingChannelsResponse_ForceClosedChannel_AnchorState) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PendingChannelsResponse_ForceClosedChannel_AnchorState_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  PendingChannelsResponse_ForceClosedChannel_AnchorState_Limbo = 0,
+  PendingChannelsResponse_ForceClosedChannel_AnchorState_Recovered = 1,
+  PendingChannelsResponse_ForceClosedChannel_AnchorState_Lost = 2,
+};
+
+GPBEnumDescriptor *PendingChannelsResponse_ForceClosedChannel_AnchorState_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PendingChannelsResponse_ForceClosedChannel_AnchorState_IsValidValue(int32_t value);
+
 #pragma mark - Enum ChannelEventUpdate_UpdateType
 
 typedef GPB_ENUM(ChannelEventUpdate_UpdateType) {
@@ -264,6 +443,7 @@ typedef GPB_ENUM(ChannelEventUpdate_UpdateType) {
   ChannelEventUpdate_UpdateType_ClosedChannel = 1,
   ChannelEventUpdate_UpdateType_ActiveChannel = 2,
   ChannelEventUpdate_UpdateType_InactiveChannel = 3,
+  ChannelEventUpdate_UpdateType_PendingOpenChannel = 4,
 };
 
 GPBEnumDescriptor *ChannelEventUpdate_UpdateType_EnumDescriptor(void);
@@ -341,6 +521,74 @@ GPBEnumDescriptor *HTLCAttempt_HTLCStatus_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL HTLCAttempt_HTLCStatus_IsValidValue(int32_t value);
+
+#pragma mark - Enum Failure_FailureCode
+
+typedef GPB_ENUM(Failure_FailureCode) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  Failure_FailureCode_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /**
+   * *
+   * The numbers assigned in this enumeration match the failure codes as
+   * defined in BOLT #4. Because protobuf 3 requires enums to start with 0,
+   * a RESERVED value is added.
+   **/
+  Failure_FailureCode_Reserved = 0,
+  Failure_FailureCode_IncorrectOrUnknownPaymentDetails = 1,
+  Failure_FailureCode_IncorrectPaymentAmount = 2,
+  Failure_FailureCode_FinalIncorrectCltvExpiry = 3,
+  Failure_FailureCode_FinalIncorrectHtlcAmount = 4,
+  Failure_FailureCode_FinalExpiryTooSoon = 5,
+  Failure_FailureCode_InvalidRealm = 6,
+  Failure_FailureCode_ExpiryTooSoon = 7,
+  Failure_FailureCode_InvalidOnionVersion = 8,
+  Failure_FailureCode_InvalidOnionHmac = 9,
+  Failure_FailureCode_InvalidOnionKey = 10,
+  Failure_FailureCode_AmountBelowMinimum = 11,
+  Failure_FailureCode_FeeInsufficient = 12,
+  Failure_FailureCode_IncorrectCltvExpiry = 13,
+  Failure_FailureCode_ChannelDisabled = 14,
+  Failure_FailureCode_TemporaryChannelFailure = 15,
+  Failure_FailureCode_RequiredNodeFeatureMissing = 16,
+  Failure_FailureCode_RequiredChannelFeatureMissing = 17,
+  Failure_FailureCode_UnknownNextPeer = 18,
+  Failure_FailureCode_TemporaryNodeFailure = 19,
+  Failure_FailureCode_PermanentNodeFailure = 20,
+  Failure_FailureCode_PermanentChannelFailure = 21,
+  Failure_FailureCode_ExpiryTooFar = 22,
+  Failure_FailureCode_MppTimeout = 23,
+
+  /**
+   * *
+   * An internal error occurred.
+   **/
+  Failure_FailureCode_InternalFailure = 997,
+
+  /**
+   * *
+   * The error source is known, but the failure itself couldn't be decoded.
+   **/
+  Failure_FailureCode_UnknownFailure = 998,
+
+  /**
+   * *
+   * An unreadable failure result is returned if the received failure message
+   * cannot be decrypted. In that case the error source is unknown.
+   **/
+  Failure_FailureCode_UnreadableFailure = 999,
+};
+
+GPBEnumDescriptor *Failure_FailureCode_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL Failure_FailureCode_IsValidValue(int32_t value);
 
 #pragma mark - RpcRoot
 
@@ -567,7 +815,7 @@ typedef GPB_ENUM(ChangePasswordRequest_FieldNumber) {
 #pragma mark - Utxo
 
 typedef GPB_ENUM(Utxo_FieldNumber) {
-  Utxo_FieldNumber_Type = 1,
+  Utxo_FieldNumber_AddressType = 1,
   Utxo_FieldNumber_Address = 2,
   Utxo_FieldNumber_AmountSat = 3,
   Utxo_FieldNumber_PkScript = 4,
@@ -578,7 +826,7 @@ typedef GPB_ENUM(Utxo_FieldNumber) {
 @interface Utxo : GPBMessage
 
 /** / The type of address */
-@property(nonatomic, readwrite) AddressType type;
+@property(nonatomic, readwrite) AddressType addressType;
 
 /** / The address */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *address;
@@ -600,16 +848,16 @@ typedef GPB_ENUM(Utxo_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c Utxo's @c type property, even
+ * Fetches the raw value of a @c Utxo's @c addressType property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t Utxo_Type_RawValue(Utxo *message);
+int32_t Utxo_AddressType_RawValue(Utxo *message);
 /**
- * Sets the raw value of an @c Utxo's @c type property, allowing
+ * Sets the raw value of an @c Utxo's @c addressType property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetUtxo_Type_RawValue(Utxo *message, int32_t value);
+void SetUtxo_AddressType_RawValue(Utxo *message, int32_t value);
 
 #pragma mark - Transaction
 
@@ -855,7 +1103,7 @@ typedef GPB_ENUM(SendRequest_FieldNumber) {
 /**
  * *
  * Features assumed to be supported by the final node. All transitive feature
- * depdencies must also be set properly. For a given feature bit pair, either
+ * dependencies must also be set properly. For a given feature bit pair, either
  * optional or remote may be set, but not both. If this field is nil or empty,
  * the router will try to load destination features from the graph as a
  * fallback.
@@ -950,7 +1198,10 @@ typedef GPB_ENUM(ChannelAcceptRequest_FieldNumber) {
 /** / The pending channel id. */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
 
-/** / The funding amount in satoshis that initiator wishes to use in the channel. */
+/**
+ * / The funding amount in satoshis that initiator wishes to use in the
+ * / channel.
+ **/
 @property(nonatomic, readwrite) uint64_t fundingAmt;
 
 /** / The push amount of the proposed channel in millisatoshis. */
@@ -959,29 +1210,41 @@ typedef GPB_ENUM(ChannelAcceptRequest_FieldNumber) {
 /** / The dust limit of the initiator's commitment tx. */
 @property(nonatomic, readwrite) uint64_t dustLimit;
 
-/** / The maximum amount of coins in millisatoshis that can be pending in this channel. */
+/**
+ * / The maximum amount of coins in millisatoshis that can be pending in this
+ * / channel.
+ **/
 @property(nonatomic, readwrite) uint64_t maxValueInFlight;
 
-/** / The minimum amount of satoshis the initiator requires us to have at all times. */
+/**
+ * / The minimum amount of satoshis the initiator requires us to have at all
+ * / times.
+ **/
 @property(nonatomic, readwrite) uint64_t channelReserve;
 
 /** / The smallest HTLC in millisatoshis that the initiator will accept. */
 @property(nonatomic, readwrite) uint64_t minHtlc;
 
-/** / The initial fee rate that the initiator suggests for both commitment transactions. */
+/**
+ * / The initial fee rate that the initiator suggests for both commitment
+ * / transactions.
+ **/
 @property(nonatomic, readwrite) uint64_t feePerKw;
 
 /**
  * *
- * The number of blocks to use for the relative time lock in the pay-to-self output
- * of both commitment transactions.
+ * The number of blocks to use for the relative time lock in the pay-to-self
+ * output of both commitment transactions.
  **/
 @property(nonatomic, readwrite) uint32_t csvDelay;
 
 /** / The total number of incoming HTLC's that the initiator will accept. */
 @property(nonatomic, readwrite) uint32_t maxAcceptedHtlcs;
 
-/** / A bit-field which the initiator uses to specify proposed channel behavior. */
+/**
+ * / A bit-field which the initiator uses to specify proposed channel
+ * / behavior.
+ **/
 @property(nonatomic, readwrite) uint32_t channelFlags;
 
 @end
@@ -1078,7 +1341,10 @@ typedef GPB_ENUM(LightningAddress_FieldNumber) {
 /** / The identity pubkey of the Lightning node */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *pubkey;
 
-/** / The network location of the lightning node, e.g. `69.69.69.69:1337` or `localhost:10011` */
+/**
+ * / The network location of the lightning node, e.g. `69.69.69.69:1337` or
+ * / `localhost:10011`
+ **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *host;
 
 @end
@@ -1097,7 +1363,10 @@ typedef GPB_ENUM(EstimateFeeRequest_FieldNumber) {
 /** The number of items in @c addrToAmount without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger addrToAmount_Count;
 
-/** / The target number of blocks that this transaction should be confirmed by. */
+/**
+ * / The target number of blocks that this transaction should be confirmed
+ * / by.
+ **/
 @property(nonatomic, readwrite) int32_t targetConf;
 
 @end
@@ -1134,10 +1403,16 @@ typedef GPB_ENUM(SendManyRequest_FieldNumber) {
 /** The number of items in @c addrToAmount without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger addrToAmount_Count;
 
-/** / The target number of blocks that this transaction should be confirmed by. */
+/**
+ * / The target number of blocks that this transaction should be confirmed
+ * / by.
+ **/
 @property(nonatomic, readwrite) int32_t targetConf;
 
-/** / A manual fee rate set in sat/byte that should be used when crafting the transaction. */
+/**
+ * / A manual fee rate set in sat/byte that should be used when crafting the
+ * / transaction.
+ **/
 @property(nonatomic, readwrite) int64_t satPerByte;
 
 @end
@@ -1173,10 +1448,16 @@ typedef GPB_ENUM(SendCoinsRequest_FieldNumber) {
 /** / The amount in satoshis to send */
 @property(nonatomic, readwrite) int64_t amount;
 
-/** / The target number of blocks that this transaction should be confirmed by. */
+/**
+ * / The target number of blocks that this transaction should be confirmed
+ * / by.
+ **/
 @property(nonatomic, readwrite) int32_t targetConf;
 
-/** / A manual fee rate set in sat/byte that should be used when crafting the transaction. */
+/**
+ * / A manual fee rate set in sat/byte that should be used when crafting the
+ * / transaction.
+ **/
 @property(nonatomic, readwrite) int64_t satPerByte;
 
 /**
@@ -1436,6 +1717,9 @@ typedef GPB_ENUM(Channel_FieldNumber) {
   Channel_FieldNumber_Lifetime = 23,
   Channel_FieldNumber_Uptime = 24,
   Channel_FieldNumber_CloseAddress = 25,
+  Channel_FieldNumber_CommitmentType = 26,
+  Channel_FieldNumber_PushAmountSat = 27,
+  Channel_FieldNumber_ThawHeight = 28,
 };
 
 @interface Channel : GPBMessage
@@ -1545,14 +1829,11 @@ typedef GPB_ENUM(Channel_FieldNumber) {
  **/
 @property(nonatomic, readwrite) int64_t remoteChanReserveSat;
 
-/**
- * *
- * If true, then this channel uses the modern commitment format where the key
- * in the output of the remote party does not change each state. This makes
- * back up and recovery easier as when the channel is closed, the funds go
- * directly to that key.
- **/
-@property(nonatomic, readwrite) BOOL staticRemoteKey;
+/** / Deprecated. Use commitment_type. */
+@property(nonatomic, readwrite) BOOL staticRemoteKey GPB_DEPRECATED_MSG("lnrpc.Channel.static_remote_key is deprecated (see rpc.proto).");
+
+/** / The commitment type used by this channel. */
+@property(nonatomic, readwrite) CommitmentType commitmentType;
 
 /**
  * *
@@ -1565,7 +1846,8 @@ typedef GPB_ENUM(Channel_FieldNumber) {
 /**
  * *
  * The number of seconds that the remote peer has been observed as being online
- * by the channel scoring system over the lifetime of the channel [EXPERIMENTAL].
+ * by the channel scoring system over the lifetime of the channel
+ * [EXPERIMENTAL].
  **/
 @property(nonatomic, readwrite) int64_t uptime;
 
@@ -1579,7 +1861,39 @@ typedef GPB_ENUM(Channel_FieldNumber) {
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSString *closeAddress;
 
+/**
+ *
+ * The amount that the initiator of the channel optionally pushed to the remote
+ * party on channel open. This amount will be zero if the channel initiator did
+ * not push any funds to the remote peer. If the initiator field is true, we
+ * pushed this amount to our peer, if it is false, the remote peer pushed this
+ * amount to us.
+ **/
+@property(nonatomic, readwrite) uint64_t pushAmountSat;
+
+/**
+ * *
+ * This uint32 indicates if this channel is to be considered 'frozen'. A
+ * frozen channel doest not allow a cooperative channel close by the
+ * initiator. The thaw_height is the height that this restriction stops
+ * applying to the channel. This field is optional, not setting it or using a
+ * value of zero will mean the channel has no additional restrictions.
+ **/
+@property(nonatomic, readwrite) uint32_t thawHeight;
+
 @end
+
+/**
+ * Fetches the raw value of a @c Channel's @c commitmentType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t Channel_CommitmentType_RawValue(Channel *message);
+/**
+ * Sets the raw value of an @c Channel's @c commitmentType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetChannel_CommitmentType_RawValue(Channel *message, int32_t value);
 
 #pragma mark - ListChannelsRequest
 
@@ -1588,6 +1902,7 @@ typedef GPB_ENUM(ListChannelsRequest_FieldNumber) {
   ListChannelsRequest_FieldNumber_InactiveOnly = 2,
   ListChannelsRequest_FieldNumber_PublicOnly = 3,
   ListChannelsRequest_FieldNumber_PrivateOnly = 4,
+  ListChannelsRequest_FieldNumber_Peer = 5,
 };
 
 @interface ListChannelsRequest : GPBMessage
@@ -1599,6 +1914,13 @@ typedef GPB_ENUM(ListChannelsRequest_FieldNumber) {
 @property(nonatomic, readwrite) BOOL publicOnly;
 
 @property(nonatomic, readwrite) BOOL privateOnly;
+
+/**
+ * *
+ * Filters the response for channels with a target peer's pubkey. If peer is
+ * empty, all channels will be returned.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *peer;
 
 @end
 
@@ -1630,6 +1952,8 @@ typedef GPB_ENUM(ChannelCloseSummary_FieldNumber) {
   ChannelCloseSummary_FieldNumber_SettledBalance = 8,
   ChannelCloseSummary_FieldNumber_TimeLockedBalance = 9,
   ChannelCloseSummary_FieldNumber_CloseType = 10,
+  ChannelCloseSummary_FieldNumber_OpenInitiator = 11,
+  ChannelCloseSummary_FieldNumber_CloseInitiator = 12,
 };
 
 @interface ChannelCloseSummary : GPBMessage
@@ -1664,6 +1988,24 @@ typedef GPB_ENUM(ChannelCloseSummary_FieldNumber) {
 /** / Details on how the channel was closed. */
 @property(nonatomic, readwrite) ChannelCloseSummary_ClosureType closeType;
 
+/**
+ * *
+ * Open initiator is the party that initiated opening the channel. Note that
+ * this value may be unknown if the channel was closed before we migrated to
+ * store open channel information after close.
+ **/
+@property(nonatomic, readwrite) Initiator openInitiator;
+
+/**
+ * *
+ * Close initiator indicates which party initiated the close. This value will
+ * be unknown for channels that were cooperatively closed before we started
+ * tracking cooperative close initiators. Note that this indicates which party
+ * initiated a close, and it is possible for both to initiate cooperative or
+ * force closes, although only one party's close will be confirmed on chain.
+ **/
+@property(nonatomic, readwrite) Initiator closeInitiator;
+
 @end
 
 /**
@@ -1677,6 +2019,30 @@ int32_t ChannelCloseSummary_CloseType_RawValue(ChannelCloseSummary *message);
  * was generated.
  **/
 void SetChannelCloseSummary_CloseType_RawValue(ChannelCloseSummary *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c ChannelCloseSummary's @c openInitiator property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t ChannelCloseSummary_OpenInitiator_RawValue(ChannelCloseSummary *message);
+/**
+ * Sets the raw value of an @c ChannelCloseSummary's @c openInitiator property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetChannelCloseSummary_OpenInitiator_RawValue(ChannelCloseSummary *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c ChannelCloseSummary's @c closeInitiator property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t ChannelCloseSummary_CloseInitiator_RawValue(ChannelCloseSummary *message);
+/**
+ * Sets the raw value of an @c ChannelCloseSummary's @c closeInitiator property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetChannelCloseSummary_CloseInitiator_RawValue(ChannelCloseSummary *message, int32_t value);
 
 #pragma mark - ClosedChannelsRequest
 
@@ -1732,6 +2098,7 @@ typedef GPB_ENUM(Peer_FieldNumber) {
   Peer_FieldNumber_PingTime = 9,
   Peer_FieldNumber_SyncType = 10,
   Peer_FieldNumber_Features = 11,
+  Peer_FieldNumber_ErrorsArray = 12,
 };
 
 @interface Peer : GPBMessage
@@ -1768,6 +2135,18 @@ typedef GPB_ENUM(Peer_FieldNumber) {
 /** The number of items in @c features without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger features_Count;
 
+/**
+ *
+ * The latest errors received from our peer with timestamps, limited to the 10
+ * most recent errors. These errors are tracked across peer connections, but
+ * are not persisted across lnd restarts. Note that these errors are only
+ * stored for peers that we have channels open with, to prevent peers from
+ * spamming us with errors at no cost.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<TimestampedError*> *errorsArray;
+/** The number of items in @c errorsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger errorsArray_Count;
+
 @end
 
 /**
@@ -1782,9 +2161,38 @@ int32_t Peer_SyncType_RawValue(Peer *message);
  **/
 void SetPeer_SyncType_RawValue(Peer *message, int32_t value);
 
+#pragma mark - TimestampedError
+
+typedef GPB_ENUM(TimestampedError_FieldNumber) {
+  TimestampedError_FieldNumber_Timestamp = 1,
+  TimestampedError_FieldNumber_Error = 2,
+};
+
+@interface TimestampedError : GPBMessage
+
+/** The unix timestamp in seconds when the error occurred. */
+@property(nonatomic, readwrite) uint64_t timestamp;
+
+/** The string representation of the error sent by our peer. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *error;
+
+@end
+
 #pragma mark - ListPeersRequest
 
+typedef GPB_ENUM(ListPeersRequest_FieldNumber) {
+  ListPeersRequest_FieldNumber_LatestError = 1,
+};
+
 @interface ListPeersRequest : GPBMessage
+
+/**
+ *
+ * If true, only the last error that our peer sent us will be returned with
+ * the peer's information, rather than the full set of historic errors we have
+ * stored.
+ **/
+@property(nonatomic, readwrite) BOOL latestError;
 
 @end
 
@@ -1863,12 +2271,16 @@ typedef GPB_ENUM(GetInfoResponse_FieldNumber) {
   GetInfoResponse_FieldNumber_Color = 17,
   GetInfoResponse_FieldNumber_SyncedToGraph = 18,
   GetInfoResponse_FieldNumber_Features = 19,
+  GetInfoResponse_FieldNumber_CommitHash = 20,
 };
 
 @interface GetInfoResponse : GPBMessage
 
 /** / The version of the LND software that the node is running. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *version;
+
+/** / The SHA1 commit hash that the daemon is compiled with. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *commitHash;
 
 /** / The identity pubkey of the current node. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *identityPubkey;
@@ -2020,13 +2432,22 @@ typedef GPB_ENUM(CloseChannelRequest_FieldNumber) {
 /** Test to see if @c channelPoint has been set. */
 @property(nonatomic, readwrite) BOOL hasChannelPoint;
 
-/** / If true, then the channel will be closed forcibly. This means the current commitment transaction will be signed and broadcast. */
+/**
+ * / If true, then the channel will be closed forcibly. This means the
+ * / current commitment transaction will be signed and broadcast.
+ **/
 @property(nonatomic, readwrite) BOOL force;
 
-/** / The target number of blocks that the closure transaction should be confirmed by. */
+/**
+ * / The target number of blocks that the closure transaction should be
+ * / confirmed by.
+ **/
 @property(nonatomic, readwrite) int32_t targetConf;
 
-/** / A manual fee rate set in sat/byte that should be used when crafting the closure transaction. */
+/**
+ * / A manual fee rate set in sat/byte that should be used when crafting the
+ * / closure transaction.
+ **/
 @property(nonatomic, readwrite) int64_t satPerByte;
 
 /**
@@ -2083,6 +2504,41 @@ typedef GPB_ENUM(PendingUpdate_FieldNumber) {
 
 @end
 
+#pragma mark - ReadyForPsbtFunding
+
+typedef GPB_ENUM(ReadyForPsbtFunding_FieldNumber) {
+  ReadyForPsbtFunding_FieldNumber_FundingAddress = 1,
+  ReadyForPsbtFunding_FieldNumber_FundingAmount = 2,
+  ReadyForPsbtFunding_FieldNumber_Psbt = 3,
+};
+
+@interface ReadyForPsbtFunding : GPBMessage
+
+/**
+ * *
+ * The P2WSH address of the channel funding multisig address that the below
+ * specified amount in satoshis needs to be sent to.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSString *fundingAddress;
+
+/**
+ * *
+ * The exact amount in satoshis that needs to be sent to the above address to
+ * fund the pending channel.
+ **/
+@property(nonatomic, readwrite) int64_t fundingAmount;
+
+/**
+ * *
+ * A raw PSBT that contains the pending channel output. If a base PSBT was
+ * provided in the PsbtShim, this is the base PSBT with one additional output.
+ * If no base PSBT was specified, this is an otherwise empty PSBT with exactly
+ * one output.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *psbt;
+
+@end
+
 #pragma mark - OpenChannelRequest
 
 typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
@@ -2120,28 +2576,52 @@ typedef GPB_ENUM(OpenChannelRequest_FieldNumber) {
 /** / The number of satoshis the wallet should commit to the channel */
 @property(nonatomic, readwrite) int64_t localFundingAmount;
 
-/** / The number of satoshis to push to the remote side as part of the initial commitment state */
+/**
+ * / The number of satoshis to push to the remote side as part of the initial
+ * / commitment state
+ **/
 @property(nonatomic, readwrite) int64_t pushSat;
 
-/** / The target number of blocks that the funding transaction should be confirmed by. */
+/**
+ * / The target number of blocks that the funding transaction should be
+ * / confirmed by.
+ **/
 @property(nonatomic, readwrite) int32_t targetConf;
 
-/** / A manual fee rate set in sat/byte that should be used when crafting the funding transaction. */
+/**
+ * / A manual fee rate set in sat/byte that should be used when crafting the
+ * / funding transaction.
+ **/
 @property(nonatomic, readwrite) int64_t satPerByte;
 
-/** / Whether this channel should be private, not announced to the greater network. */
+/**
+ * / Whether this channel should be private, not announced to the greater
+ * / network.
+ **/
 @property(nonatomic, readwrite) BOOL private_p;
 
-/** / The minimum value in millisatoshi we will require for incoming HTLCs on the channel. */
+/**
+ * / The minimum value in millisatoshi we will require for incoming HTLCs on
+ * / the channel.
+ **/
 @property(nonatomic, readwrite) int64_t minHtlcMsat;
 
-/** / The delay we require on the remote's commitment transaction. If this is not set, it will be scaled automatically with the channel size. */
+/**
+ * / The delay we require on the remote's commitment transaction. If this is
+ * / not set, it will be scaled automatically with the channel size.
+ **/
 @property(nonatomic, readwrite) uint32_t remoteCsvDelay;
 
-/** / The minimum number of confirmations each one of your outputs used for the funding transaction must satisfy. */
+/**
+ * / The minimum number of confirmations each one of your outputs used for
+ * / the funding transaction must satisfy.
+ **/
 @property(nonatomic, readwrite) int32_t minConfs;
 
-/** / Whether unconfirmed outputs should be used as inputs for the funding transaction. */
+/**
+ * / Whether unconfirmed outputs should be used as inputs for the funding
+ * / transaction.
+ **/
 @property(nonatomic, readwrite) BOOL spendUnconfirmed;
 
 /**
@@ -2177,21 +2657,40 @@ typedef GPB_ENUM(OpenStatusUpdate_FieldNumber) {
   OpenStatusUpdate_FieldNumber_ChanPending = 1,
   OpenStatusUpdate_FieldNumber_ChanOpen = 3,
   OpenStatusUpdate_FieldNumber_PendingChanId = 4,
+  OpenStatusUpdate_FieldNumber_PsbtFund = 5,
 };
 
 typedef GPB_ENUM(OpenStatusUpdate_Update_OneOfCase) {
   OpenStatusUpdate_Update_OneOfCase_GPBUnsetOneOfCase = 0,
   OpenStatusUpdate_Update_OneOfCase_ChanPending = 1,
   OpenStatusUpdate_Update_OneOfCase_ChanOpen = 3,
+  OpenStatusUpdate_Update_OneOfCase_PsbtFund = 5,
 };
 
 @interface OpenStatusUpdate : GPBMessage
 
 @property(nonatomic, readonly) OpenStatusUpdate_Update_OneOfCase updateOneOfCase;
 
+/**
+ * *
+ * Signals that the channel is now fully negotiated and the funding
+ * transaction published.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) PendingUpdate *chanPending;
 
+/**
+ * *
+ * Signals that the channel's funding transaction has now reached the
+ * required number of confirmations on chain and can be used.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) ChannelOpenUpdate *chanOpen;
+
+/**
+ * *
+ * Signals that the funding process has been suspended and the construction
+ * of a PSBT that funds the channel PK script is now required.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) ReadyForPsbtFunding *psbtFund;
 
 /**
  * *
@@ -2257,6 +2756,7 @@ typedef GPB_ENUM(ChanPointShim_FieldNumber) {
   ChanPointShim_FieldNumber_LocalKey = 3,
   ChanPointShim_FieldNumber_RemoteKey = 4,
   ChanPointShim_FieldNumber_PendingChanId = 5,
+  ChanPointShim_FieldNumber_ThawHeight = 6,
 };
 
 @interface ChanPointShim : GPBMessage
@@ -2290,24 +2790,73 @@ typedef GPB_ENUM(ChanPointShim_FieldNumber) {
  **/
 @property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
 
+/**
+ * *
+ * This uint32 indicates if this channel is to be considered 'frozen'. A
+ * frozen channel does not allow a cooperative channel close by the
+ * initiator. The thaw_height is the height that this restriction stops
+ * applying to the channel.
+ **/
+@property(nonatomic, readwrite) uint32_t thawHeight;
+
+@end
+
+#pragma mark - PsbtShim
+
+typedef GPB_ENUM(PsbtShim_FieldNumber) {
+  PsbtShim_FieldNumber_PendingChanId = 1,
+  PsbtShim_FieldNumber_BasePsbt = 2,
+};
+
+@interface PsbtShim : GPBMessage
+
+/**
+ * *
+ * A unique identifier of 32 random bytes that will be used as the pending
+ * channel ID to identify the PSBT state machine when interacting with it and
+ * on the wire protocol to initiate the funding request.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
+/**
+ * *
+ * An optional base PSBT the new channel output will be added to. If this is
+ * non-empty, it must be a binary serialized PSBT.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *basePsbt;
+
 @end
 
 #pragma mark - FundingShim
 
 typedef GPB_ENUM(FundingShim_FieldNumber) {
   FundingShim_FieldNumber_ChanPointShim = 1,
+  FundingShim_FieldNumber_PsbtShim = 2,
 };
 
 typedef GPB_ENUM(FundingShim_Shim_OneOfCase) {
   FundingShim_Shim_OneOfCase_GPBUnsetOneOfCase = 0,
   FundingShim_Shim_OneOfCase_ChanPointShim = 1,
+  FundingShim_Shim_OneOfCase_PsbtShim = 2,
 };
 
 @interface FundingShim : GPBMessage
 
 @property(nonatomic, readonly) FundingShim_Shim_OneOfCase shimOneOfCase;
 
+/**
+ * *
+ * A channel shim where the channel point was fully constructed outside
+ * of lnd's wallet and the transaction might already be published.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) ChanPointShim *chanPointShim;
+
+/**
+ * *
+ * A channel shim that uses a PSBT to fund and sign the channel funding
+ * transaction.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) PsbtShim *psbtShim;
 
 @end
 
@@ -2329,17 +2878,65 @@ typedef GPB_ENUM(FundingShimCancel_FieldNumber) {
 
 @end
 
+#pragma mark - FundingPsbtVerify
+
+typedef GPB_ENUM(FundingPsbtVerify_FieldNumber) {
+  FundingPsbtVerify_FieldNumber_FundedPsbt = 1,
+  FundingPsbtVerify_FieldNumber_PendingChanId = 2,
+};
+
+@interface FundingPsbtVerify : GPBMessage
+
+/**
+ * *
+ * The funded but not yet signed PSBT that sends the exact channel capacity
+ * amount to the PK script returned in the open channel message in a previous
+ * step.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *fundedPsbt;
+
+/** / The pending channel ID of the channel to get the PSBT for. */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
+@end
+
+#pragma mark - FundingPsbtFinalize
+
+typedef GPB_ENUM(FundingPsbtFinalize_FieldNumber) {
+  FundingPsbtFinalize_FieldNumber_SignedPsbt = 1,
+  FundingPsbtFinalize_FieldNumber_PendingChanId = 2,
+};
+
+@interface FundingPsbtFinalize : GPBMessage
+
+/**
+ * *
+ * The funded PSBT that contains all witness data to send the exact channel
+ * capacity amount to the PK script returned in the open channel message in a
+ * previous step.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *signedPsbt;
+
+/** / The pending channel ID of the channel to get the PSBT for. */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *pendingChanId;
+
+@end
+
 #pragma mark - FundingTransitionMsg
 
 typedef GPB_ENUM(FundingTransitionMsg_FieldNumber) {
   FundingTransitionMsg_FieldNumber_ShimRegister = 1,
   FundingTransitionMsg_FieldNumber_ShimCancel = 2,
+  FundingTransitionMsg_FieldNumber_PsbtVerify = 3,
+  FundingTransitionMsg_FieldNumber_PsbtFinalize = 4,
 };
 
 typedef GPB_ENUM(FundingTransitionMsg_Trigger_OneOfCase) {
   FundingTransitionMsg_Trigger_OneOfCase_GPBUnsetOneOfCase = 0,
   FundingTransitionMsg_Trigger_OneOfCase_ShimRegister = 1,
   FundingTransitionMsg_Trigger_OneOfCase_ShimCancel = 2,
+  FundingTransitionMsg_Trigger_OneOfCase_PsbtVerify = 3,
+  FundingTransitionMsg_Trigger_OneOfCase_PsbtFinalize = 4,
 };
 
 @interface FundingTransitionMsg : GPBMessage
@@ -2348,14 +2945,31 @@ typedef GPB_ENUM(FundingTransitionMsg_Trigger_OneOfCase) {
 
 /**
  * *
- * The funding shim to regsiter. This should be used before any
+ * The funding shim to register. This should be used before any
  * channel funding has began by the remote party, as it is intended as a
- * prepatory step for the full channel funding.
+ * preparatory step for the full channel funding.
  **/
 @property(nonatomic, readwrite, strong, null_resettable) FundingShim *shimRegister;
 
 /** / Used to cancel an existing registered funding shim. */
 @property(nonatomic, readwrite, strong, null_resettable) FundingShimCancel *shimCancel;
+
+/**
+ * *
+ * Used to continue a funding flow that was initiated to be executed
+ * through a PSBT. This step verifies that the PSBT contains the correct
+ * outputs to fund the channel.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) FundingPsbtVerify *psbtVerify;
+
+/**
+ * *
+ * Used to continue a funding flow that was initiated to be executed
+ * through a PSBT. This step finalizes the funded and signed PSBT, finishes
+ * negotiation with the peer and finally publishes the resulting funding
+ * transaction.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) FundingPsbtFinalize *psbtFinalize;
 
 @end
 
@@ -2434,10 +3048,15 @@ typedef GPB_ENUM(PendingChannelsResponse_FieldNumber) {
 /** The number of items in @c pendingOpenChannelsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger pendingOpenChannelsArray_Count;
 
-/** / Channels pending closing */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PendingChannelsResponse_ClosedChannel*> *pendingClosingChannelsArray;
+/**
+ *
+ * Deprecated: Channels pending closing previously contained cooperatively
+ * closed channels with a single confirmation. These channels are now
+ * considered closed from the time we see them on chain.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PendingChannelsResponse_ClosedChannel*> *pendingClosingChannelsArray GPB_DEPRECATED_MSG("lnrpc.PendingChannelsResponse.pending_closing_channels is deprecated (see rpc.proto).");
 /** The number of items in @c pendingClosingChannelsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger pendingClosingChannelsArray_Count;
+@property(nonatomic, readonly) NSUInteger pendingClosingChannelsArray_Count GPB_DEPRECATED_MSG("lnrpc.PendingChannelsResponse.pending_closing_channels is deprecated (see rpc.proto).");
 
 /** / Channels pending force closing */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PendingChannelsResponse_ForceClosedChannel*> *pendingForceClosingChannelsArray;
@@ -2461,6 +3080,8 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingChannel_FieldNumber) {
   PendingChannelsResponse_PendingChannel_FieldNumber_RemoteBalance = 5,
   PendingChannelsResponse_PendingChannel_FieldNumber_LocalChanReserveSat = 6,
   PendingChannelsResponse_PendingChannel_FieldNumber_RemoteChanReserveSat = 7,
+  PendingChannelsResponse_PendingChannel_FieldNumber_Initiator = 8,
+  PendingChannelsResponse_PendingChannel_FieldNumber_CommitmentType = 9,
 };
 
 @interface PendingChannelsResponse_PendingChannel : GPBMessage
@@ -2475,7 +3096,10 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingChannel_FieldNumber) {
 
 @property(nonatomic, readwrite) int64_t remoteBalance;
 
-/** / The minimum satoshis this node is required to reserve in its balance. */
+/**
+ * / The minimum satoshis this node is required to reserve in its
+ * / balance.
+ **/
 @property(nonatomic, readwrite) int64_t localChanReserveSat;
 
 /**
@@ -2485,7 +3109,37 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingChannel_FieldNumber) {
  **/
 @property(nonatomic, readwrite) int64_t remoteChanReserveSat;
 
+/** The party that initiated opening the channel. */
+@property(nonatomic, readwrite) Initiator initiator;
+
+/** / The commitment type used by this channel. */
+@property(nonatomic, readwrite) CommitmentType commitmentType;
+
 @end
+
+/**
+ * Fetches the raw value of a @c PendingChannelsResponse_PendingChannel's @c initiator property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PendingChannelsResponse_PendingChannel_Initiator_RawValue(PendingChannelsResponse_PendingChannel *message);
+/**
+ * Sets the raw value of an @c PendingChannelsResponse_PendingChannel's @c initiator property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPendingChannelsResponse_PendingChannel_Initiator_RawValue(PendingChannelsResponse_PendingChannel *message, int32_t value);
+
+/**
+ * Fetches the raw value of a @c PendingChannelsResponse_PendingChannel's @c commitmentType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PendingChannelsResponse_PendingChannel_CommitmentType_RawValue(PendingChannelsResponse_PendingChannel *message);
+/**
+ * Sets the raw value of an @c PendingChannelsResponse_PendingChannel's @c commitmentType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPendingChannelsResponse_PendingChannel_CommitmentType_RawValue(PendingChannelsResponse_PendingChannel *message, int32_t value);
 
 #pragma mark - PendingChannelsResponse_PendingOpenChannel
 
@@ -2535,6 +3189,7 @@ typedef GPB_ENUM(PendingChannelsResponse_PendingOpenChannel_FieldNumber) {
 typedef GPB_ENUM(PendingChannelsResponse_WaitingCloseChannel_FieldNumber) {
   PendingChannelsResponse_WaitingCloseChannel_FieldNumber_Channel = 1,
   PendingChannelsResponse_WaitingCloseChannel_FieldNumber_LimboBalance = 2,
+  PendingChannelsResponse_WaitingCloseChannel_FieldNumber_Commitments = 3,
 };
 
 @interface PendingChannelsResponse_WaitingCloseChannel : GPBMessage
@@ -2546,6 +3201,60 @@ typedef GPB_ENUM(PendingChannelsResponse_WaitingCloseChannel_FieldNumber) {
 
 /** / The balance in satoshis encumbered in this channel */
 @property(nonatomic, readwrite) int64_t limboBalance;
+
+/**
+ * *
+ * A list of valid commitment transactions. Any of these can confirm at
+ * this point.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) PendingChannelsResponse_Commitments *commitments;
+/** Test to see if @c commitments has been set. */
+@property(nonatomic, readwrite) BOOL hasCommitments;
+
+@end
+
+#pragma mark - PendingChannelsResponse_Commitments
+
+typedef GPB_ENUM(PendingChannelsResponse_Commitments_FieldNumber) {
+  PendingChannelsResponse_Commitments_FieldNumber_LocalTxid = 1,
+  PendingChannelsResponse_Commitments_FieldNumber_RemoteTxid = 2,
+  PendingChannelsResponse_Commitments_FieldNumber_RemotePendingTxid = 3,
+  PendingChannelsResponse_Commitments_FieldNumber_LocalCommitFeeSat = 4,
+  PendingChannelsResponse_Commitments_FieldNumber_RemoteCommitFeeSat = 5,
+  PendingChannelsResponse_Commitments_FieldNumber_RemotePendingCommitFeeSat = 6,
+};
+
+@interface PendingChannelsResponse_Commitments : GPBMessage
+
+/** / Hash of the local version of the commitment tx. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *localTxid;
+
+/** / Hash of the remote version of the commitment tx. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *remoteTxid;
+
+/** / Hash of the remote pending version of the commitment tx. */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *remotePendingTxid;
+
+/**
+ *
+ * The amount in satoshis calculated to be paid in fees for the local
+ * commitment.
+ **/
+@property(nonatomic, readwrite) uint64_t localCommitFeeSat;
+
+/**
+ *
+ * The amount in satoshis calculated to be paid in fees for the remote
+ * commitment.
+ **/
+@property(nonatomic, readwrite) uint64_t remoteCommitFeeSat;
+
+/**
+ *
+ * The amount in satoshis calculated to be paid in fees for the remote
+ * pending commitment.
+ **/
+@property(nonatomic, readwrite) uint64_t remotePendingCommitFeeSat;
 
 @end
 
@@ -2578,6 +3287,7 @@ typedef GPB_ENUM(PendingChannelsResponse_ForceClosedChannel_FieldNumber) {
   PendingChannelsResponse_ForceClosedChannel_FieldNumber_BlocksTilMaturity = 5,
   PendingChannelsResponse_ForceClosedChannel_FieldNumber_RecoveredBalance = 6,
   PendingChannelsResponse_ForceClosedChannel_FieldNumber_PendingHtlcsArray = 8,
+  PendingChannelsResponse_ForceClosedChannel_FieldNumber_Anchor = 9,
 };
 
 @interface PendingChannelsResponse_ForceClosedChannel : GPBMessage
@@ -2611,7 +3321,21 @@ typedef GPB_ENUM(PendingChannelsResponse_ForceClosedChannel_FieldNumber) {
 /** The number of items in @c pendingHtlcsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger pendingHtlcsArray_Count;
 
+@property(nonatomic, readwrite) PendingChannelsResponse_ForceClosedChannel_AnchorState anchor;
+
 @end
+
+/**
+ * Fetches the raw value of a @c PendingChannelsResponse_ForceClosedChannel's @c anchor property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PendingChannelsResponse_ForceClosedChannel_Anchor_RawValue(PendingChannelsResponse_ForceClosedChannel *message);
+/**
+ * Sets the raw value of an @c PendingChannelsResponse_ForceClosedChannel's @c anchor property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPendingChannelsResponse_ForceClosedChannel_Anchor_RawValue(PendingChannelsResponse_ForceClosedChannel *message, int32_t value);
 
 #pragma mark - ChannelEventSubscription
 
@@ -2627,6 +3351,7 @@ typedef GPB_ENUM(ChannelEventUpdate_FieldNumber) {
   ChannelEventUpdate_FieldNumber_ActiveChannel = 3,
   ChannelEventUpdate_FieldNumber_InactiveChannel = 4,
   ChannelEventUpdate_FieldNumber_Type = 5,
+  ChannelEventUpdate_FieldNumber_PendingOpenChannel = 6,
 };
 
 typedef GPB_ENUM(ChannelEventUpdate_Channel_OneOfCase) {
@@ -2635,6 +3360,7 @@ typedef GPB_ENUM(ChannelEventUpdate_Channel_OneOfCase) {
   ChannelEventUpdate_Channel_OneOfCase_ClosedChannel = 2,
   ChannelEventUpdate_Channel_OneOfCase_ActiveChannel = 3,
   ChannelEventUpdate_Channel_OneOfCase_InactiveChannel = 4,
+  ChannelEventUpdate_Channel_OneOfCase_PendingOpenChannel = 6,
 };
 
 @interface ChannelEventUpdate : GPBMessage
@@ -2648,6 +3374,8 @@ typedef GPB_ENUM(ChannelEventUpdate_Channel_OneOfCase) {
 @property(nonatomic, readwrite, strong, null_resettable) ChannelPoint *activeChannel;
 
 @property(nonatomic, readwrite, strong, null_resettable) ChannelPoint *inactiveChannel;
+
+@property(nonatomic, readwrite, strong, null_resettable) PendingUpdate *pendingOpenChannel;
 
 @property(nonatomic, readwrite) ChannelEventUpdate_UpdateType type;
 
@@ -2867,7 +3595,7 @@ typedef GPB_ENUM(QueryRoutesRequest_FieldNumber) {
 /**
  * *
  * Features assumed to be supported by the final node. All transitive feature
- * depdencies must also be set properly. For a given feature bit pair, either
+ * dependencies must also be set properly. For a given feature bit pair, either
  * optional or remote may be set, but not both. If this field is nil or empty,
  * the router will try to load destination features from the graph as a
  * fallback.
@@ -3009,7 +3737,7 @@ typedef GPB_ENUM(Hop_FieldNumber) {
 
 /**
  * *
- * An optional TLV record tha singals the use of an MPP payment. If present,
+ * An optional TLV record that signals the use of an MPP payment. If present,
  * the receiver will enforce that that the same mpp_record is included in the
  * final hop payload of all non-zero payments in the HTLC set. If empty, a
  * regular single-shot payment is or was attempted.
@@ -3357,6 +4085,61 @@ typedef GPB_ENUM(ChannelGraph_FieldNumber) {
 
 @end
 
+#pragma mark - NodeMetricsRequest
+
+typedef GPB_ENUM(NodeMetricsRequest_FieldNumber) {
+  NodeMetricsRequest_FieldNumber_TypesArray = 1,
+};
+
+@interface NodeMetricsRequest : GPBMessage
+
+/** / The requested node metrics. */
+// |typesArray| contains |NodeMetricType|
+@property(nonatomic, readwrite, strong, null_resettable) GPBEnumArray *typesArray;
+/** The number of items in @c typesArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger typesArray_Count;
+
+@end
+
+#pragma mark - NodeMetricsResponse
+
+typedef GPB_ENUM(NodeMetricsResponse_FieldNumber) {
+  NodeMetricsResponse_FieldNumber_BetweennessCentrality = 1,
+};
+
+@interface NodeMetricsResponse : GPBMessage
+
+/**
+ * *
+ * Betweenness centrality is the sum of the ratio of shortest paths that pass
+ * through the node for each pair of nodes in the graph (not counting paths
+ * starting or ending at this node).
+ * Map of node pubkey to betweenness centrality of the node. Normalized
+ * values are in the [0,1] closed interval.
+ **/
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableDictionary<NSString*, FloatMetric*> *betweennessCentrality;
+/** The number of items in @c betweennessCentrality without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger betweennessCentrality_Count;
+
+@end
+
+#pragma mark - FloatMetric
+
+typedef GPB_ENUM(FloatMetric_FieldNumber) {
+  FloatMetric_FieldNumber_Value = 1,
+  FloatMetric_FieldNumber_NormalizedValue = 2,
+};
+
+@interface FloatMetric : GPBMessage
+
+/** / Arbitrary float value. */
+@property(nonatomic, readwrite) double value;
+
+/** / The value normalized to [0,1] or [-1,1]. */
+@property(nonatomic, readwrite) double normalizedValue;
+
+@end
+
 #pragma mark - ChanInfoRequest
 
 typedef GPB_ENUM(ChanInfoRequest_FieldNumber) {
@@ -3636,7 +4419,7 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
   Invoice_FieldNumber_HtlcsArray = 22,
   Invoice_FieldNumber_ValueMsat = 23,
   Invoice_FieldNumber_Features = 24,
-  Invoice_FieldNumber_IsKeySend = 25,
+  Invoice_FieldNumber_IsKeysend = 25,
 };
 
 @interface Invoice : GPBMessage
@@ -3792,7 +4575,7 @@ typedef GPB_ENUM(Invoice_FieldNumber) {
  * Indicates if this invoice was a spontaneous payment that arrived via keysend
  * [EXPERIMENTAL].
  **/
-@property(nonatomic, readwrite) BOOL isKeySend;
+@property(nonatomic, readwrite) BOOL isKeysend;
 
 @end
 
@@ -4039,7 +4822,6 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_PaymentHash = 1,
   Payment_FieldNumber_Value = 2,
   Payment_FieldNumber_CreationDate = 3,
-  Payment_FieldNumber_PathArray = 4,
   Payment_FieldNumber_Fee = 5,
   Payment_FieldNumber_PaymentPreimage = 6,
   Payment_FieldNumber_ValueSat = 7,
@@ -4050,6 +4832,8 @@ typedef GPB_ENUM(Payment_FieldNumber) {
   Payment_FieldNumber_FeeMsat = 12,
   Payment_FieldNumber_CreationTimeNs = 13,
   Payment_FieldNumber_HtlcsArray = 14,
+  Payment_FieldNumber_PaymentIndex = 15,
+  Payment_FieldNumber_FailureReason = 16,
 };
 
 @interface Payment : GPBMessage
@@ -4062,11 +4846,6 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 
 /** / Deprecated, use creation_time_ns */
 @property(nonatomic, readwrite) int64_t creationDate GPB_DEPRECATED_MSG("lnrpc.Payment.creation_date is deprecated (see rpc.proto).");
-
-/** / The path this payment took. */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *pathArray GPB_DEPRECATED_MSG("lnrpc.Payment.path is deprecated (see rpc.proto).");
-/** The number of items in @c pathArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger pathArray_Count GPB_DEPRECATED_MSG("lnrpc.Payment.path is deprecated (see rpc.proto).");
 
 /** / Deprecated, use fee_sat or fee_msat. */
 @property(nonatomic, readwrite) int64_t fee GPB_DEPRECATED_MSG("lnrpc.Payment.fee is deprecated (see rpc.proto).");
@@ -4095,10 +4874,20 @@ typedef GPB_ENUM(Payment_FieldNumber) {
 /** / The time in UNIX nanoseconds at which the payment was created. */
 @property(nonatomic, readwrite) int64_t creationTimeNs;
 
-/** / The HTLCs made in attempt to settle the payment [EXPERIMENTAL]. */
+/** / The HTLCs made in attempt to settle the payment. */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<HTLCAttempt*> *htlcsArray;
 /** The number of items in @c htlcsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger htlcsArray_Count;
+
+/**
+ * *
+ * The creation index of this payment. Each payment can be uniquely identified
+ * by this index, which may not strictly increment by 1 for payments made in
+ * older versions of lnd.
+ **/
+@property(nonatomic, readwrite) uint64_t paymentIndex;
+
+@property(nonatomic, readwrite) PaymentFailureReason failureReason;
 
 @end
 
@@ -4114,6 +4903,18 @@ int32_t Payment_Status_RawValue(Payment *message);
  **/
 void SetPayment_Status_RawValue(Payment *message, int32_t value);
 
+/**
+ * Fetches the raw value of a @c Payment's @c failureReason property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t Payment_FailureReason_RawValue(Payment *message);
+/**
+ * Sets the raw value of an @c Payment's @c failureReason property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPayment_FailureReason_RawValue(Payment *message, int32_t value);
+
 #pragma mark - HTLCAttempt
 
 typedef GPB_ENUM(HTLCAttempt_FieldNumber) {
@@ -4121,6 +4922,7 @@ typedef GPB_ENUM(HTLCAttempt_FieldNumber) {
   HTLCAttempt_FieldNumber_Route = 2,
   HTLCAttempt_FieldNumber_AttemptTimeNs = 3,
   HTLCAttempt_FieldNumber_ResolveTimeNs = 4,
+  HTLCAttempt_FieldNumber_Failure = 5,
 };
 
 @interface HTLCAttempt : GPBMessage
@@ -4143,6 +4945,11 @@ typedef GPB_ENUM(HTLCAttempt_FieldNumber) {
  **/
 @property(nonatomic, readwrite) int64_t resolveTimeNs;
 
+/** Detailed htlc failure info. */
+@property(nonatomic, readwrite, strong, null_resettable) Failure *failure;
+/** Test to see if @c failure has been set. */
+@property(nonatomic, readwrite) BOOL hasFailure;
+
 @end
 
 /**
@@ -4161,6 +4968,9 @@ void SetHTLCAttempt_Status_RawValue(HTLCAttempt *message, int32_t value);
 
 typedef GPB_ENUM(ListPaymentsRequest_FieldNumber) {
   ListPaymentsRequest_FieldNumber_IncludeIncomplete = 1,
+  ListPaymentsRequest_FieldNumber_IndexOffset = 2,
+  ListPaymentsRequest_FieldNumber_MaxPayments = 3,
+  ListPaymentsRequest_FieldNumber_Reversed = 4,
 };
 
 @interface ListPaymentsRequest : GPBMessage
@@ -4169,9 +4979,31 @@ typedef GPB_ENUM(ListPaymentsRequest_FieldNumber) {
  * *
  * If true, then return payments that have not yet fully completed. This means
  * that pending payments, as well as failed payments will show up if this
- * field is set to True.
+ * field is set to true. This flag doesn't change the meaning of the indices,
+ * which are tied to individual payments.
  **/
 @property(nonatomic, readwrite) BOOL includeIncomplete;
+
+/**
+ * *
+ * The index of a payment that will be used as either the start or end of a
+ * query to determine which payments should be returned in the response. The
+ * index_offset is exclusive. In the case of a zero index_offset, the query
+ * will start with the oldest payment when paginating forwards, or will end
+ * with the most recent payment when paginating backwards.
+ **/
+@property(nonatomic, readwrite) uint64_t indexOffset;
+
+/** / The maximal number of payments returned in the response to this query. */
+@property(nonatomic, readwrite) uint64_t maxPayments;
+
+/**
+ * *
+ * If set, the payments returned will result from seeking backwards from the
+ * specified index offset. This can be used to paginate backwards. The order
+ * of the returned payments is always oldest first (ascending index order).
+ **/
+@property(nonatomic, readwrite) BOOL reversed;
 
 @end
 
@@ -4179,6 +5011,8 @@ typedef GPB_ENUM(ListPaymentsRequest_FieldNumber) {
 
 typedef GPB_ENUM(ListPaymentsResponse_FieldNumber) {
   ListPaymentsResponse_FieldNumber_PaymentsArray = 1,
+  ListPaymentsResponse_FieldNumber_FirstIndexOffset = 2,
+  ListPaymentsResponse_FieldNumber_LastIndexOffset = 3,
 };
 
 @interface ListPaymentsResponse : GPBMessage
@@ -4187,6 +5021,20 @@ typedef GPB_ENUM(ListPaymentsResponse_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Payment*> *paymentsArray;
 /** The number of items in @c paymentsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger paymentsArray_Count;
+
+/**
+ * *
+ * The index of the first item in the set of returned payments. This can be
+ * used as the index_offset to continue seeking backwards in the next request.
+ **/
+@property(nonatomic, readwrite) uint64_t firstIndexOffset;
+
+/**
+ * *
+ * The index of the last item in the set of returned payments. This can be used
+ * as the index_offset to continue seeking forwards in the next request.
+ **/
+@property(nonatomic, readwrite) uint64_t lastIndexOffset;
 
 @end
 
@@ -4341,24 +5189,34 @@ typedef GPB_ENUM(Feature_FieldNumber) {
 #pragma mark - ChannelFeeReport
 
 typedef GPB_ENUM(ChannelFeeReport_FieldNumber) {
-  ChannelFeeReport_FieldNumber_ChanPoint = 1,
+  ChannelFeeReport_FieldNumber_ChannelPoint = 1,
   ChannelFeeReport_FieldNumber_BaseFeeMsat = 2,
   ChannelFeeReport_FieldNumber_FeePerMil = 3,
   ChannelFeeReport_FieldNumber_FeeRate = 4,
+  ChannelFeeReport_FieldNumber_ChanId = 5,
 };
 
 @interface ChannelFeeReport : GPBMessage
 
+/** / The short channel id that this fee report belongs to. */
+@property(nonatomic, readwrite) uint64_t chanId;
+
 /** / The channel that this fee report belongs to. */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *chanPoint;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *channelPoint;
 
 /** / The base fee charged regardless of the number of milli-satoshis sent. */
 @property(nonatomic, readwrite) int64_t baseFeeMsat;
 
-/** / The amount charged per milli-satoshis transferred expressed in millionths of a satoshi. */
+/**
+ * / The amount charged per milli-satoshis transferred expressed in
+ * / millionths of a satoshi.
+ **/
 @property(nonatomic, readwrite) int64_t feePerMil;
 
-/** / The effective fee rate in milli-satoshis. Computed by dividing the fee_per_mil value by 1 million. */
+/**
+ * / The effective fee rate in milli-satoshis. Computed by dividing the
+ * / fee_per_mil value by 1 million.
+ **/
 @property(nonatomic, readwrite) double feeRate;
 
 @end
@@ -4374,18 +5232,30 @@ typedef GPB_ENUM(FeeReportResponse_FieldNumber) {
 
 @interface FeeReportResponse : GPBMessage
 
-/** / An array of channel fee reports which describes the current fee schedule for each channel. */
+/**
+ * / An array of channel fee reports which describes the current fee schedule
+ * / for each channel.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ChannelFeeReport*> *channelFeesArray;
 /** The number of items in @c channelFeesArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger channelFeesArray_Count;
 
-/** / The total amount of fee revenue (in satoshis) the switch has collected over the past 24 hrs. */
+/**
+ * / The total amount of fee revenue (in satoshis) the switch has collected
+ * / over the past 24 hrs.
+ **/
 @property(nonatomic, readwrite) uint64_t dayFeeSum;
 
-/** / The total amount of fee revenue (in satoshis) the switch has collected over the past 1 week. */
+/**
+ * / The total amount of fee revenue (in satoshis) the switch has collected
+ * / over the past 1 week.
+ **/
 @property(nonatomic, readwrite) uint64_t weekFeeSum;
 
-/** / The total amount of fee revenue (in satoshis) the switch has collected over the past 1 month. */
+/**
+ * / The total amount of fee revenue (in satoshis) the switch has collected
+ * / over the past 1 month.
+ **/
 @property(nonatomic, readwrite) uint64_t monthFeeSum;
 
 @end
@@ -4422,16 +5292,25 @@ typedef GPB_ENUM(PolicyUpdateRequest_Scope_OneOfCase) {
 /** / The base fee charged regardless of the number of milli-satoshis sent. */
 @property(nonatomic, readwrite) int64_t baseFeeMsat;
 
-/** / The effective fee rate in milli-satoshis. The precision of this value goes up to 6 decimal places, so 1e-6. */
+/**
+ * / The effective fee rate in milli-satoshis. The precision of this value
+ * / goes up to 6 decimal places, so 1e-6.
+ **/
 @property(nonatomic, readwrite) double feeRate;
 
 /** / The required timelock delta for HTLCs forwarded over the channel. */
 @property(nonatomic, readwrite) uint32_t timeLockDelta;
 
-/** / If set, the maximum HTLC size in milli-satoshis. If unset, the maximum HTLC will be unchanged. */
+/**
+ * / If set, the maximum HTLC size in milli-satoshis. If unset, the maximum
+ * / HTLC will be unchanged.
+ **/
 @property(nonatomic, readwrite) uint64_t maxHtlcMsat;
 
-/** / The minimum HTLC size in milli-satoshis. Only applied if min_htlc_msat_specified is true. */
+/**
+ * / The minimum HTLC size in milli-satoshis. Only applied if
+ * / min_htlc_msat_specified is true.
+ **/
 @property(nonatomic, readwrite) uint64_t minHtlcMsat;
 
 /** / If true, min_htlc_msat is applied. */
@@ -4461,13 +5340,25 @@ typedef GPB_ENUM(ForwardingHistoryRequest_FieldNumber) {
 
 @interface ForwardingHistoryRequest : GPBMessage
 
-/** / Start time is the starting point of the forwarding history request. All records beyond this point will be included, respecting the end time, and the index offset. */
+/**
+ * / Start time is the starting point of the forwarding history request. All
+ * / records beyond this point will be included, respecting the end time, and
+ * / the index offset.
+ **/
 @property(nonatomic, readwrite) uint64_t startTime;
 
-/** / End time is the end point of the forwarding history request. The response will carry at most 50k records between the start time and the end time. The index offset can be used to implement pagination. */
+/**
+ * / End time is the end point of the forwarding history request. The
+ * / response will carry at most 50k records between the start time and the
+ * / end time. The index offset can be used to implement pagination.
+ **/
 @property(nonatomic, readwrite) uint64_t endTime;
 
-/** / Index offset is the offset in the time series to start at. As each response can only contain 50k records, callers can use this to skip around within a packed time series. */
+/**
+ * / Index offset is the offset in the time series to start at. As each
+ * / response can only contain 50k records, callers can use this to skip
+ * / around within a packed time series.
+ **/
 @property(nonatomic, readwrite) uint32_t indexOffset;
 
 /** / The max number of events to return in the response to this query. */
@@ -4491,19 +5382,31 @@ typedef GPB_ENUM(ForwardingEvent_FieldNumber) {
 
 @interface ForwardingEvent : GPBMessage
 
-/** / Timestamp is the time (unix epoch offset) that this circuit was completed. */
+/**
+ * / Timestamp is the time (unix epoch offset) that this circuit was
+ * / completed.
+ **/
 @property(nonatomic, readwrite) uint64_t timestamp;
 
 /** / The incoming channel ID that carried the HTLC that created the circuit. */
 @property(nonatomic, readwrite) uint64_t chanIdIn;
 
-/** / The outgoing channel ID that carried the preimage that completed the circuit. */
+/**
+ * / The outgoing channel ID that carried the preimage that completed the
+ * / circuit.
+ **/
 @property(nonatomic, readwrite) uint64_t chanIdOut;
 
-/** / The total amount (in satoshis) of the incoming HTLC that created half the circuit. */
+/**
+ * / The total amount (in satoshis) of the incoming HTLC that created half
+ * / the circuit.
+ **/
 @property(nonatomic, readwrite) uint64_t amtIn;
 
-/** / The total amount (in satoshis) of the outgoing HTLC that created the second half of the circuit. */
+/**
+ * / The total amount (in satoshis) of the outgoing HTLC that created the
+ * / second half of the circuit.
+ **/
 @property(nonatomic, readwrite) uint64_t amtOut;
 
 /** / The total fee (in satoshis) that this payment circuit carried. */
@@ -4512,10 +5415,16 @@ typedef GPB_ENUM(ForwardingEvent_FieldNumber) {
 /** / The total fee (in milli-satoshis) that this payment circuit carried. */
 @property(nonatomic, readwrite) uint64_t feeMsat;
 
-/** / The total amount (in milli-satoshis) of the incoming HTLC that created half the circuit. */
+/**
+ * / The total amount (in milli-satoshis) of the incoming HTLC that created
+ * / half the circuit.
+ **/
 @property(nonatomic, readwrite) uint64_t amtInMsat;
 
-/** / The total amount (in milli-satoshis) of the outgoing HTLC that created the second half of the circuit. */
+/**
+ * / The total amount (in milli-satoshis) of the outgoing HTLC that created
+ * / the second half of the circuit.
+ **/
 @property(nonatomic, readwrite) uint64_t amtOutMsat;
 
 @end
@@ -4529,12 +5438,18 @@ typedef GPB_ENUM(ForwardingHistoryResponse_FieldNumber) {
 
 @interface ForwardingHistoryResponse : GPBMessage
 
-/** / A list of forwarding events from the time slice of the time series specified in the request. */
+/**
+ * / A list of forwarding events from the time slice of the time series
+ * / specified in the request.
+ **/
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ForwardingEvent*> *forwardingEventsArray;
 /** The number of items in @c forwardingEventsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger forwardingEventsArray_Count;
 
-/** / The index of the last time in the set of returned forwarding events. Can be used to seek further, pagination style. */
+/**
+ * / The index of the last time in the set of returned forwarding events. Can
+ * / be used to seek further, pagination style.
+ **/
 @property(nonatomic, readwrite) uint32_t lastOffsetIndex;
 
 @end
@@ -4760,6 +5675,179 @@ typedef GPB_ENUM(BakeMacaroonResponse_FieldNumber) {
 
 /** / The hex encoded macaroon, serialized in binary format. */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *macaroon;
+
+@end
+
+#pragma mark - Failure
+
+typedef GPB_ENUM(Failure_FieldNumber) {
+  Failure_FieldNumber_Code = 1,
+  Failure_FieldNumber_ChannelUpdate = 3,
+  Failure_FieldNumber_HtlcMsat = 4,
+  Failure_FieldNumber_OnionSha256 = 5,
+  Failure_FieldNumber_CltvExpiry = 6,
+  Failure_FieldNumber_Flags = 7,
+  Failure_FieldNumber_FailureSourceIndex = 8,
+  Failure_FieldNumber_Height = 9,
+};
+
+@interface Failure : GPBMessage
+
+/** / Failure code as defined in the Lightning spec */
+@property(nonatomic, readwrite) Failure_FailureCode code;
+
+/** / An optional channel update message. */
+@property(nonatomic, readwrite, strong, null_resettable) ChannelUpdate *channelUpdate;
+/** Test to see if @c channelUpdate has been set. */
+@property(nonatomic, readwrite) BOOL hasChannelUpdate;
+
+/** / A failure type-dependent htlc value. */
+@property(nonatomic, readwrite) uint64_t htlcMsat;
+
+/** / The sha256 sum of the onion payload. */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *onionSha256;
+
+/** / A failure type-dependent cltv expiry value. */
+@property(nonatomic, readwrite) uint32_t cltvExpiry;
+
+/** / A failure type-dependent flags value. */
+@property(nonatomic, readwrite) uint32_t flags;
+
+/**
+ * *
+ * The position in the path of the intermediate or final node that generated
+ * the failure message. Position zero is the sender node.
+ **/
+@property(nonatomic, readwrite) uint32_t failureSourceIndex;
+
+/** / A failure type-dependent block height. */
+@property(nonatomic, readwrite) uint32_t height;
+
+@end
+
+/**
+ * Fetches the raw value of a @c Failure's @c code property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t Failure_Code_RawValue(Failure *message);
+/**
+ * Sets the raw value of an @c Failure's @c code property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetFailure_Code_RawValue(Failure *message, int32_t value);
+
+#pragma mark - ChannelUpdate
+
+typedef GPB_ENUM(ChannelUpdate_FieldNumber) {
+  ChannelUpdate_FieldNumber_Signature = 1,
+  ChannelUpdate_FieldNumber_ChainHash = 2,
+  ChannelUpdate_FieldNumber_ChanId = 3,
+  ChannelUpdate_FieldNumber_Timestamp = 4,
+  ChannelUpdate_FieldNumber_ChannelFlags = 5,
+  ChannelUpdate_FieldNumber_TimeLockDelta = 6,
+  ChannelUpdate_FieldNumber_HtlcMinimumMsat = 7,
+  ChannelUpdate_FieldNumber_BaseFee = 8,
+  ChannelUpdate_FieldNumber_FeeRate = 9,
+  ChannelUpdate_FieldNumber_MessageFlags = 10,
+  ChannelUpdate_FieldNumber_HtlcMaximumMsat = 11,
+  ChannelUpdate_FieldNumber_ExtraOpaqueData = 12,
+};
+
+@interface ChannelUpdate : GPBMessage
+
+/**
+ * *
+ * The signature that validates the announced data and proves the ownership
+ * of node id.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *signature;
+
+/**
+ * *
+ * The target chain that this channel was opened within. This value
+ * should be the genesis hash of the target chain. Along with the short
+ * channel ID, this uniquely identifies the channel globally in a
+ * blockchain.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *chainHash;
+
+/**
+ * *
+ * The unique description of the funding transaction.
+ **/
+@property(nonatomic, readwrite) uint64_t chanId;
+
+/**
+ * *
+ * A timestamp that allows ordering in the case of multiple announcements.
+ * We should ignore the message if timestamp is not greater than the
+ * last-received.
+ **/
+@property(nonatomic, readwrite) uint32_t timestamp;
+
+/**
+ * *
+ * The bitfield that describes whether optional fields are present in this
+ * update. Currently, the least-significant bit must be set to 1 if the
+ * optional field MaxHtlc is present.
+ **/
+@property(nonatomic, readwrite) uint32_t messageFlags;
+
+/**
+ * *
+ * The bitfield that describes additional meta-data concerning how the
+ * update is to be interpreted. Currently, the least-significant bit must be
+ * set to 0 if the creating node corresponds to the first node in the
+ * previously sent channel announcement and 1 otherwise. If the second bit
+ * is set, then the channel is set to be disabled.
+ **/
+@property(nonatomic, readwrite) uint32_t channelFlags;
+
+/**
+ * *
+ * The minimum number of blocks this node requires to be added to the expiry
+ * of HTLCs. This is a security parameter determined by the node operator.
+ * This value represents the required gap between the time locks of the
+ * incoming and outgoing HTLC's set to this node.
+ **/
+@property(nonatomic, readwrite) uint32_t timeLockDelta;
+
+/**
+ * *
+ * The minimum HTLC value which will be accepted.
+ **/
+@property(nonatomic, readwrite) uint64_t htlcMinimumMsat;
+
+/**
+ * *
+ * The base fee that must be used for incoming HTLC's to this particular
+ * channel. This value will be tacked onto the required for a payment
+ * independent of the size of the payment.
+ **/
+@property(nonatomic, readwrite) uint32_t baseFee;
+
+/**
+ * *
+ * The fee rate that will be charged per millionth of a satoshi.
+ **/
+@property(nonatomic, readwrite) uint32_t feeRate;
+
+/**
+ * *
+ * The maximum HTLC value which will be accepted.
+ **/
+@property(nonatomic, readwrite) uint64_t htlcMaximumMsat;
+
+/**
+ * *
+ * The set of data that was appended to this message, some of which we may
+ * not actually know how to iterate or parse. By holding onto this data, we
+ * ensure that we're able to properly validate the set of signatures that
+ * cover these new fields, and ensure we're able to make upgrades to the
+ * network in a forwards compatible manner.
+ **/
+@property(nonatomic, readwrite, copy, null_resettable) NSData *extraOpaqueData;
 
 @end
 

@@ -8,7 +8,7 @@
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers_RuntimeSupport.h>
+ #import <protobuf/GPBProtocolBuffers_RuntimeSupport.h>
 #else
  #import "GPBProtocolBuffers_RuntimeSupport.h"
 #endif
@@ -16,7 +16,7 @@
 #import <stdatomic.h>
 
 #import "Rpc.pbobjc.h"
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -35,7 +35,7 @@
     GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
     registry = [[GPBExtensionRegistry alloc] init];
     // Merge in the imports (direct or indirect) that defined extensions.
-//    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
+    [registry addExtensions:[GAPIAnnotationsRoot extensionRegistry]];
   }
   return registry;
 }
@@ -97,6 +97,121 @@ BOOL AddressType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum CommitmentType
+
+GPBEnumDescriptor *CommitmentType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Legacy\000StaticRemoteKey\000Anchors\000UnknownCo"
+        "mmitmentType\000";
+    static const int32_t values[] = {
+        CommitmentType_Legacy,
+        CommitmentType_StaticRemoteKey,
+        CommitmentType_Anchors,
+        CommitmentType_UnknownCommitmentType,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(CommitmentType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:CommitmentType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL CommitmentType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case CommitmentType_Legacy:
+    case CommitmentType_StaticRemoteKey:
+    case CommitmentType_Anchors:
+    case CommitmentType_UnknownCommitmentType:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum Initiator
+
+GPBEnumDescriptor *Initiator_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "InitiatorUnknown\000InitiatorLocal\000Initiato"
+        "rRemote\000InitiatorBoth\000";
+    static const int32_t values[] = {
+        Initiator_InitiatorUnknown,
+        Initiator_InitiatorLocal,
+        Initiator_InitiatorRemote,
+        Initiator_InitiatorBoth,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(Initiator)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:Initiator_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL Initiator_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case Initiator_InitiatorUnknown:
+    case Initiator_InitiatorLocal:
+    case Initiator_InitiatorRemote:
+    case Initiator_InitiatorBoth:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum NodeMetricType
+
+GPBEnumDescriptor *NodeMetricType_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Unknown\000BetweennessCentrality\000";
+    static const int32_t values[] = {
+        NodeMetricType_Unknown,
+        NodeMetricType_BetweennessCentrality,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(NodeMetricType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:NodeMetricType_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL NodeMetricType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case NodeMetricType_Unknown:
+    case NodeMetricType_BetweennessCentrality:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum InvoiceHTLCState
 
 GPBEnumDescriptor *InvoiceHTLCState_EnumDescriptor(void) {
@@ -128,6 +243,52 @@ BOOL InvoiceHTLCState_IsValidValue(int32_t value__) {
     case InvoiceHTLCState_Accepted:
     case InvoiceHTLCState_Settled:
     case InvoiceHTLCState_Canceled:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PaymentFailureReason
+
+GPBEnumDescriptor *PaymentFailureReason_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "FailureReasonNone\000FailureReasonTimeout\000F"
+        "ailureReasonNoRoute\000FailureReasonError\000F"
+        "ailureReasonIncorrectPaymentDetails\000Fail"
+        "ureReasonInsufficientBalance\000";
+    static const int32_t values[] = {
+        PaymentFailureReason_FailureReasonNone,
+        PaymentFailureReason_FailureReasonTimeout,
+        PaymentFailureReason_FailureReasonNoRoute,
+        PaymentFailureReason_FailureReasonError,
+        PaymentFailureReason_FailureReasonIncorrectPaymentDetails,
+        PaymentFailureReason_FailureReasonInsufficientBalance,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PaymentFailureReason)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PaymentFailureReason_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PaymentFailureReason_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PaymentFailureReason_FailureReasonNone:
+    case PaymentFailureReason_FailureReasonTimeout:
+    case PaymentFailureReason_FailureReasonNoRoute:
+    case PaymentFailureReason_FailureReasonError:
+    case PaymentFailureReason_FailureReasonIncorrectPaymentDetails:
+    case PaymentFailureReason_FailureReasonInsufficientBalance:
       return YES;
     default:
       return NO;
@@ -630,7 +791,7 @@ typedef struct ChangePasswordResponse__storage_ {
 
 @implementation Utxo
 
-@dynamic type;
+@dynamic addressType;
 @dynamic address;
 @dynamic amountSat;
 @dynamic pkScript;
@@ -639,7 +800,7 @@ typedef struct ChangePasswordResponse__storage_ {
 
 typedef struct Utxo__storage_ {
   uint32_t _has_storage_[1];
-  AddressType type;
+  AddressType addressType;
   NSString *address;
   NSString *pkScript;
   OutPoint *outpoint;
@@ -654,11 +815,11 @@ typedef struct Utxo__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "type",
+        .name = "addressType",
         .dataTypeSpecific.enumDescFunc = AddressType_EnumDescriptor,
-        .number = Utxo_FieldNumber_Type,
+        .number = Utxo_FieldNumber_AddressType,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(Utxo__storage_, type),
+        .offset = (uint32_t)offsetof(Utxo__storage_, addressType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
@@ -726,15 +887,15 @@ typedef struct Utxo__storage_ {
 
 @end
 
-int32_t Utxo_Type_RawValue(Utxo *message) {
+int32_t Utxo_AddressType_RawValue(Utxo *message) {
   GPBDescriptor *descriptor = [Utxo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_Type];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_AddressType];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetUtxo_Type_RawValue(Utxo *message, int32_t value) {
+void SetUtxo_AddressType_RawValue(Utxo *message, int32_t value) {
   GPBDescriptor *descriptor = [Utxo descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_Type];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Utxo_FieldNumber_AddressType];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -2842,13 +3003,18 @@ typedef struct HTLC__storage_ {
 @dynamic localChanReserveSat;
 @dynamic remoteChanReserveSat;
 @dynamic staticRemoteKey;
+@dynamic commitmentType;
 @dynamic lifetime;
 @dynamic uptime;
 @dynamic closeAddress;
+@dynamic pushAmountSat;
+@dynamic thawHeight;
 
 typedef struct Channel__storage_ {
   uint32_t _has_storage_[1];
   uint32_t csvDelay;
+  CommitmentType commitmentType;
+  uint32_t thawHeight;
   NSString *remotePubkey;
   NSString *channelPoint;
   NSMutableArray *pendingHtlcsArray;
@@ -2869,6 +3035,7 @@ typedef struct Channel__storage_ {
   int64_t remoteChanReserveSat;
   int64_t lifetime;
   int64_t uptime;
+  uint64_t pushAmountSat;
 } Channel__storage_;
 
 // This method is threadsafe because it is initially called
@@ -3079,7 +3246,7 @@ typedef struct Channel__storage_ {
         .name = "lifetime",
         .dataTypeSpecific.className = NULL,
         .number = Channel_FieldNumber_Lifetime,
-        .hasIndex = 25,
+        .hasIndex = 26,
         .offset = (uint32_t)offsetof(Channel__storage_, lifetime),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -3088,7 +3255,7 @@ typedef struct Channel__storage_ {
         .name = "uptime",
         .dataTypeSpecific.className = NULL,
         .number = Channel_FieldNumber_Uptime,
-        .hasIndex = 26,
+        .hasIndex = 27,
         .offset = (uint32_t)offsetof(Channel__storage_, uptime),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -3097,10 +3264,37 @@ typedef struct Channel__storage_ {
         .name = "closeAddress",
         .dataTypeSpecific.className = NULL,
         .number = Channel_FieldNumber_CloseAddress,
-        .hasIndex = 27,
+        .hasIndex = 28,
         .offset = (uint32_t)offsetof(Channel__storage_, closeAddress),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "commitmentType",
+        .dataTypeSpecific.enumDescFunc = CommitmentType_EnumDescriptor,
+        .number = Channel_FieldNumber_CommitmentType,
+        .hasIndex = 25,
+        .offset = (uint32_t)offsetof(Channel__storage_, commitmentType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "pushAmountSat",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_PushAmountSat,
+        .hasIndex = 29,
+        .offset = (uint32_t)offsetof(Channel__storage_, pushAmountSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "thawHeight",
+        .dataTypeSpecific.className = NULL,
+        .number = Channel_FieldNumber_ThawHeight,
+        .hasIndex = 30,
+        .offset = (uint32_t)offsetof(Channel__storage_, thawHeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3121,6 +3315,18 @@ typedef struct Channel__storage_ {
 
 @end
 
+int32_t Channel_CommitmentType_RawValue(Channel *message) {
+  GPBDescriptor *descriptor = [Channel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Channel_FieldNumber_CommitmentType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetChannel_CommitmentType_RawValue(Channel *message, int32_t value) {
+  GPBDescriptor *descriptor = [Channel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Channel_FieldNumber_CommitmentType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
 #pragma mark - ListChannelsRequest
 
 @implementation ListChannelsRequest
@@ -3129,9 +3335,11 @@ typedef struct Channel__storage_ {
 @dynamic inactiveOnly;
 @dynamic publicOnly;
 @dynamic privateOnly;
+@dynamic peer;
 
 typedef struct ListChannelsRequest__storage_ {
   uint32_t _has_storage_[1];
+  NSData *peer;
 } ListChannelsRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -3175,6 +3383,15 @@ typedef struct ListChannelsRequest__storage_ {
         .offset = 7,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "peer",
+        .dataTypeSpecific.className = NULL,
+        .number = ListChannelsRequest_FieldNumber_Peer,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(ListChannelsRequest__storage_, peer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -3254,11 +3471,15 @@ typedef struct ListChannelsResponse__storage_ {
 @dynamic settledBalance;
 @dynamic timeLockedBalance;
 @dynamic closeType;
+@dynamic openInitiator;
+@dynamic closeInitiator;
 
 typedef struct ChannelCloseSummary__storage_ {
   uint32_t _has_storage_[1];
   uint32_t closeHeight;
   ChannelCloseSummary_ClosureType closeType;
+  Initiator openInitiator;
+  Initiator closeInitiator;
   NSString *channelPoint;
   NSString *chainHash;
   NSString *closingTxHash;
@@ -3365,6 +3586,24 @@ typedef struct ChannelCloseSummary__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
+      {
+        .name = "openInitiator",
+        .dataTypeSpecific.enumDescFunc = Initiator_EnumDescriptor,
+        .number = ChannelCloseSummary_FieldNumber_OpenInitiator,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(ChannelCloseSummary__storage_, openInitiator),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "closeInitiator",
+        .dataTypeSpecific.enumDescFunc = Initiator_EnumDescriptor,
+        .number = ChannelCloseSummary_FieldNumber_CloseInitiator,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(ChannelCloseSummary__storage_, closeInitiator),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ChannelCloseSummary class]
@@ -3393,6 +3632,30 @@ int32_t ChannelCloseSummary_CloseType_RawValue(ChannelCloseSummary *message) {
 void SetChannelCloseSummary_CloseType_RawValue(ChannelCloseSummary *message, int32_t value) {
   GPBDescriptor *descriptor = [ChannelCloseSummary descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelCloseSummary_FieldNumber_CloseType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t ChannelCloseSummary_OpenInitiator_RawValue(ChannelCloseSummary *message) {
+  GPBDescriptor *descriptor = [ChannelCloseSummary descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelCloseSummary_FieldNumber_OpenInitiator];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetChannelCloseSummary_OpenInitiator_RawValue(ChannelCloseSummary *message, int32_t value) {
+  GPBDescriptor *descriptor = [ChannelCloseSummary descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelCloseSummary_FieldNumber_OpenInitiator];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t ChannelCloseSummary_CloseInitiator_RawValue(ChannelCloseSummary *message) {
+  GPBDescriptor *descriptor = [ChannelCloseSummary descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelCloseSummary_FieldNumber_CloseInitiator];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetChannelCloseSummary_CloseInitiator_RawValue(ChannelCloseSummary *message, int32_t value) {
+  GPBDescriptor *descriptor = [ChannelCloseSummary descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ChannelCloseSummary_FieldNumber_CloseInitiator];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -3594,6 +3857,7 @@ typedef struct ClosedChannelsResponse__storage_ {
 @dynamic pingTime;
 @dynamic syncType;
 @dynamic features, features_Count;
+@dynamic errorsArray, errorsArray_Count;
 
 typedef struct Peer__storage_ {
   uint32_t _has_storage_[1];
@@ -3601,6 +3865,7 @@ typedef struct Peer__storage_ {
   NSString *pubKey;
   NSString *address;
   GPBUInt32ObjectDictionary *features;
+  NSMutableArray *errorsArray;
   uint64_t bytesSent;
   uint64_t bytesRecv;
   int64_t satSent;
@@ -3704,6 +3969,15 @@ typedef struct Peer__storage_ {
         .flags = GPBFieldMapKeyUInt32,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "errorsArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(TimestampedError),
+        .number = Peer_FieldNumber_ErrorsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(Peer__storage_, errorsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Peer class]
@@ -3772,10 +4046,67 @@ BOOL Peer_SyncType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - TimestampedError
+
+@implementation TimestampedError
+
+@dynamic timestamp;
+@dynamic error;
+
+typedef struct TimestampedError__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *error;
+  uint64_t timestamp;
+} TimestampedError__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "timestamp",
+        .dataTypeSpecific.className = NULL,
+        .number = TimestampedError_FieldNumber_Timestamp,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(TimestampedError__storage_, timestamp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "error",
+        .dataTypeSpecific.className = NULL,
+        .number = TimestampedError_FieldNumber_Error,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(TimestampedError__storage_, error),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[TimestampedError class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(TimestampedError__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - ListPeersRequest
 
 @implementation ListPeersRequest
 
+@dynamic latestError;
 
 typedef struct ListPeersRequest__storage_ {
   uint32_t _has_storage_[1];
@@ -3786,12 +4117,23 @@ typedef struct ListPeersRequest__storage_ {
 + (GPBDescriptor *)descriptor {
   static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "latestError",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPeersRequest_FieldNumber_LatestError,
+        .hasIndex = 0,
+        .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+    };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ListPeersRequest class]
                                      rootClass:[RpcRoot class]
                                           file:RpcRoot_FileDescriptor()
-                                        fields:NULL
-                                    fieldCount:0
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ListPeersRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     #if defined(DEBUG) && DEBUG
@@ -4021,6 +4363,7 @@ typedef struct GetInfoRequest__storage_ {
 @implementation GetInfoResponse
 
 @dynamic version;
+@dynamic commitHash;
 @dynamic identityPubkey;
 @dynamic alias;
 @dynamic color;
@@ -4053,6 +4396,7 @@ typedef struct GetInfoResponse__storage_ {
   NSMutableArray *chainsArray;
   NSString *color;
   GPBUInt32ObjectDictionary *features;
+  NSString *commitHash;
   int64_t bestHeaderTimestamp;
 } GetInfoResponse__storage_;
 
@@ -4066,7 +4410,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "identityPubkey",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_IdentityPubkey,
-        .hasIndex = 1,
+        .hasIndex = 2,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, identityPubkey),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -4075,7 +4419,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "alias",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_Alias,
-        .hasIndex = 2,
+        .hasIndex = 3,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, alias),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -4084,7 +4428,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "numPendingChannels",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_NumPendingChannels,
-        .hasIndex = 4,
+        .hasIndex = 5,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, numPendingChannels),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
@@ -4093,7 +4437,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "numActiveChannels",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_NumActiveChannels,
-        .hasIndex = 5,
+        .hasIndex = 6,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, numActiveChannels),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
@@ -4102,7 +4446,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "numPeers",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_NumPeers,
-        .hasIndex = 7,
+        .hasIndex = 8,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, numPeers),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
@@ -4111,7 +4455,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "blockHeight",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_BlockHeight,
-        .hasIndex = 8,
+        .hasIndex = 9,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, blockHeight),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
@@ -4120,7 +4464,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "blockHash",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_BlockHash,
-        .hasIndex = 9,
+        .hasIndex = 10,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, blockHash),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -4129,8 +4473,8 @@ typedef struct GetInfoResponse__storage_ {
         .name = "syncedToChain",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_SyncedToChain,
-        .hasIndex = 11,
-        .offset = 12,  // Stored in _has_storage_ to save space.
+        .hasIndex = 12,
+        .offset = 13,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -4138,8 +4482,8 @@ typedef struct GetInfoResponse__storage_ {
         .name = "testnet",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_Testnet,
-        .hasIndex = 15,
-        .offset = 16,  // Stored in _has_storage_ to save space.
+        .hasIndex = 16,
+        .offset = 17,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -4156,7 +4500,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "bestHeaderTimestamp",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_BestHeaderTimestamp,
-        .hasIndex = 10,
+        .hasIndex = 11,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, bestHeaderTimestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -4174,7 +4518,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "numInactiveChannels",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_NumInactiveChannels,
-        .hasIndex = 6,
+        .hasIndex = 7,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, numInactiveChannels),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
@@ -4192,7 +4536,7 @@ typedef struct GetInfoResponse__storage_ {
         .name = "color",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_Color,
-        .hasIndex = 3,
+        .hasIndex = 4,
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, color),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -4201,8 +4545,8 @@ typedef struct GetInfoResponse__storage_ {
         .name = "syncedToGraph",
         .dataTypeSpecific.className = NULL,
         .number = GetInfoResponse_FieldNumber_SyncedToGraph,
-        .hasIndex = 13,
-        .offset = 14,  // Stored in _has_storage_ to save space.
+        .hasIndex = 14,
+        .offset = 15,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -4214,6 +4558,15 @@ typedef struct GetInfoResponse__storage_ {
         .offset = (uint32_t)offsetof(GetInfoResponse__storage_, features),
         .flags = GPBFieldMapKeyUInt32,
         .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "commitHash",
+        .dataTypeSpecific.className = NULL,
+        .number = GetInfoResponse_FieldNumber_CommitHash,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(GetInfoResponse__storage_, commitHash),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -4669,6 +5022,73 @@ typedef struct PendingUpdate__storage_ {
 
 @end
 
+#pragma mark - ReadyForPsbtFunding
+
+@implementation ReadyForPsbtFunding
+
+@dynamic fundingAddress;
+@dynamic fundingAmount;
+@dynamic psbt;
+
+typedef struct ReadyForPsbtFunding__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *fundingAddress;
+  NSData *psbt;
+  int64_t fundingAmount;
+} ReadyForPsbtFunding__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "fundingAddress",
+        .dataTypeSpecific.className = NULL,
+        .number = ReadyForPsbtFunding_FieldNumber_FundingAddress,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ReadyForPsbtFunding__storage_, fundingAddress),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "fundingAmount",
+        .dataTypeSpecific.className = NULL,
+        .number = ReadyForPsbtFunding_FieldNumber_FundingAmount,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ReadyForPsbtFunding__storage_, fundingAmount),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "psbt",
+        .dataTypeSpecific.className = NULL,
+        .number = ReadyForPsbtFunding_FieldNumber_Psbt,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(ReadyForPsbtFunding__storage_, psbt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ReadyForPsbtFunding class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ReadyForPsbtFunding__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - OpenChannelRequest
 
 @implementation OpenChannelRequest
@@ -4851,6 +5271,7 @@ typedef struct OpenChannelRequest__storage_ {
 @dynamic updateOneOfCase;
 @dynamic chanPending;
 @dynamic chanOpen;
+@dynamic psbtFund;
 @dynamic pendingChanId;
 
 typedef struct OpenStatusUpdate__storage_ {
@@ -4858,6 +5279,7 @@ typedef struct OpenStatusUpdate__storage_ {
   PendingUpdate *chanPending;
   ChannelOpenUpdate *chanOpen;
   NSData *pendingChanId;
+  ReadyForPsbtFunding *psbtFund;
 } OpenStatusUpdate__storage_;
 
 // This method is threadsafe because it is initially called
@@ -4892,6 +5314,15 @@ typedef struct OpenStatusUpdate__storage_ {
         .offset = (uint32_t)offsetof(OpenStatusUpdate__storage_, pendingChanId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "psbtFund",
+        .dataTypeSpecific.className = GPBStringifySymbol(ReadyForPsbtFunding),
+        .number = OpenStatusUpdate_FieldNumber_PsbtFund,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(OpenStatusUpdate__storage_, psbtFund),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -5044,9 +5475,11 @@ typedef struct KeyDescriptor__storage_ {
 @dynamic hasLocalKey, localKey;
 @dynamic remoteKey;
 @dynamic pendingChanId;
+@dynamic thawHeight;
 
 typedef struct ChanPointShim__storage_ {
   uint32_t _has_storage_[1];
+  uint32_t thawHeight;
   ChannelPoint *chanPoint;
   KeyDescriptor *localKey;
   NSData *remoteKey;
@@ -5105,6 +5538,15 @@ typedef struct ChanPointShim__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBytes,
       },
+      {
+        .name = "thawHeight",
+        .dataTypeSpecific.className = NULL,
+        .number = ChanPointShim_FieldNumber_ThawHeight,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(ChanPointShim__storage_, thawHeight),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ChanPointShim class]
@@ -5124,16 +5566,74 @@ typedef struct ChanPointShim__storage_ {
 
 @end
 
+#pragma mark - PsbtShim
+
+@implementation PsbtShim
+
+@dynamic pendingChanId;
+@dynamic basePsbt;
+
+typedef struct PsbtShim__storage_ {
+  uint32_t _has_storage_[1];
+  NSData *pendingChanId;
+  NSData *basePsbt;
+} PsbtShim__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "pendingChanId",
+        .dataTypeSpecific.className = NULL,
+        .number = PsbtShim_FieldNumber_PendingChanId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PsbtShim__storage_, pendingChanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "basePsbt",
+        .dataTypeSpecific.className = NULL,
+        .number = PsbtShim_FieldNumber_BasePsbt,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PsbtShim__storage_, basePsbt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PsbtShim class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PsbtShim__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - FundingShim
 
 @implementation FundingShim
 
 @dynamic shimOneOfCase;
 @dynamic chanPointShim;
+@dynamic psbtShim;
 
 typedef struct FundingShim__storage_ {
   uint32_t _has_storage_[2];
   ChanPointShim *chanPointShim;
+  PsbtShim *psbtShim;
 } FundingShim__storage_;
 
 // This method is threadsafe because it is initially called
@@ -5148,6 +5648,15 @@ typedef struct FundingShim__storage_ {
         .number = FundingShim_FieldNumber_ChanPointShim,
         .hasIndex = -1,
         .offset = (uint32_t)offsetof(FundingShim__storage_, chanPointShim),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "psbtShim",
+        .dataTypeSpecific.className = GPBStringifySymbol(PsbtShim),
+        .number = FundingShim_FieldNumber_PsbtShim,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(FundingShim__storage_, psbtShim),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
@@ -5226,6 +5735,118 @@ typedef struct FundingShimCancel__storage_ {
 
 @end
 
+#pragma mark - FundingPsbtVerify
+
+@implementation FundingPsbtVerify
+
+@dynamic fundedPsbt;
+@dynamic pendingChanId;
+
+typedef struct FundingPsbtVerify__storage_ {
+  uint32_t _has_storage_[1];
+  NSData *fundedPsbt;
+  NSData *pendingChanId;
+} FundingPsbtVerify__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "fundedPsbt",
+        .dataTypeSpecific.className = NULL,
+        .number = FundingPsbtVerify_FieldNumber_FundedPsbt,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(FundingPsbtVerify__storage_, fundedPsbt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "pendingChanId",
+        .dataTypeSpecific.className = NULL,
+        .number = FundingPsbtVerify_FieldNumber_PendingChanId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(FundingPsbtVerify__storage_, pendingChanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[FundingPsbtVerify class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(FundingPsbtVerify__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - FundingPsbtFinalize
+
+@implementation FundingPsbtFinalize
+
+@dynamic signedPsbt;
+@dynamic pendingChanId;
+
+typedef struct FundingPsbtFinalize__storage_ {
+  uint32_t _has_storage_[1];
+  NSData *signedPsbt;
+  NSData *pendingChanId;
+} FundingPsbtFinalize__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "signedPsbt",
+        .dataTypeSpecific.className = NULL,
+        .number = FundingPsbtFinalize_FieldNumber_SignedPsbt,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(FundingPsbtFinalize__storage_, signedPsbt),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "pendingChanId",
+        .dataTypeSpecific.className = NULL,
+        .number = FundingPsbtFinalize_FieldNumber_PendingChanId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(FundingPsbtFinalize__storage_, pendingChanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[FundingPsbtFinalize class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(FundingPsbtFinalize__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - FundingTransitionMsg
 
 @implementation FundingTransitionMsg
@@ -5233,11 +5854,15 @@ typedef struct FundingShimCancel__storage_ {
 @dynamic triggerOneOfCase;
 @dynamic shimRegister;
 @dynamic shimCancel;
+@dynamic psbtVerify;
+@dynamic psbtFinalize;
 
 typedef struct FundingTransitionMsg__storage_ {
   uint32_t _has_storage_[2];
   FundingShim *shimRegister;
   FundingShimCancel *shimCancel;
+  FundingPsbtVerify *psbtVerify;
+  FundingPsbtFinalize *psbtFinalize;
 } FundingTransitionMsg__storage_;
 
 // This method is threadsafe because it is initially called
@@ -5261,6 +5886,24 @@ typedef struct FundingTransitionMsg__storage_ {
         .number = FundingTransitionMsg_FieldNumber_ShimCancel,
         .hasIndex = -1,
         .offset = (uint32_t)offsetof(FundingTransitionMsg__storage_, shimCancel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "psbtVerify",
+        .dataTypeSpecific.className = GPBStringifySymbol(FundingPsbtVerify),
+        .number = FundingTransitionMsg_FieldNumber_PsbtVerify,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(FundingTransitionMsg__storage_, psbtVerify),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "psbtFinalize",
+        .dataTypeSpecific.className = GPBStringifySymbol(FundingPsbtFinalize),
+        .number = FundingTransitionMsg_FieldNumber_PsbtFinalize,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(FundingTransitionMsg__storage_, psbtFinalize),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
@@ -5557,9 +6200,13 @@ typedef struct PendingChannelsResponse__storage_ {
 @dynamic remoteBalance;
 @dynamic localChanReserveSat;
 @dynamic remoteChanReserveSat;
+@dynamic initiator;
+@dynamic commitmentType;
 
 typedef struct PendingChannelsResponse_PendingChannel__storage_ {
   uint32_t _has_storage_[1];
+  Initiator initiator;
+  CommitmentType commitmentType;
   NSString *remoteNodePub;
   NSString *channelPoint;
   int64_t capacity;
@@ -5638,6 +6285,24 @@ typedef struct PendingChannelsResponse_PendingChannel__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "initiator",
+        .dataTypeSpecific.enumDescFunc = Initiator_EnumDescriptor,
+        .number = PendingChannelsResponse_PendingChannel_FieldNumber_Initiator,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_PendingChannel__storage_, initiator),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "commitmentType",
+        .dataTypeSpecific.enumDescFunc = CommitmentType_EnumDescriptor,
+        .number = PendingChannelsResponse_PendingChannel_FieldNumber_CommitmentType,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_PendingChannel__storage_, commitmentType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PendingChannelsResponse_PendingChannel class]
@@ -5657,6 +6322,30 @@ typedef struct PendingChannelsResponse_PendingChannel__storage_ {
 }
 
 @end
+
+int32_t PendingChannelsResponse_PendingChannel_Initiator_RawValue(PendingChannelsResponse_PendingChannel *message) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_PendingChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_PendingChannel_FieldNumber_Initiator];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPendingChannelsResponse_PendingChannel_Initiator_RawValue(PendingChannelsResponse_PendingChannel *message, int32_t value) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_PendingChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_PendingChannel_FieldNumber_Initiator];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t PendingChannelsResponse_PendingChannel_CommitmentType_RawValue(PendingChannelsResponse_PendingChannel *message) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_PendingChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_PendingChannel_FieldNumber_CommitmentType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPendingChannelsResponse_PendingChannel_CommitmentType_RawValue(PendingChannelsResponse_PendingChannel *message, int32_t value) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_PendingChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_PendingChannel_FieldNumber_CommitmentType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - PendingChannelsResponse_PendingOpenChannel
 
@@ -5754,10 +6443,12 @@ typedef struct PendingChannelsResponse_PendingOpenChannel__storage_ {
 
 @dynamic hasChannel, channel;
 @dynamic limboBalance;
+@dynamic hasCommitments, commitments;
 
 typedef struct PendingChannelsResponse_WaitingCloseChannel__storage_ {
   uint32_t _has_storage_[1];
   PendingChannelsResponse_PendingChannel *channel;
+  PendingChannelsResponse_Commitments *commitments;
   int64_t limboBalance;
 } PendingChannelsResponse_WaitingCloseChannel__storage_;
 
@@ -5785,6 +6476,15 @@ typedef struct PendingChannelsResponse_WaitingCloseChannel__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "commitments",
+        .dataTypeSpecific.className = GPBStringifySymbol(PendingChannelsResponse_Commitments),
+        .number = PendingChannelsResponse_WaitingCloseChannel_FieldNumber_Commitments,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_WaitingCloseChannel__storage_, commitments),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PendingChannelsResponse_WaitingCloseChannel class]
@@ -5793,6 +6493,107 @@ typedef struct PendingChannelsResponse_WaitingCloseChannel__storage_ {
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PendingChannelsResponse_WaitingCloseChannel__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PendingChannelsResponse_Commitments
+
+@implementation PendingChannelsResponse_Commitments
+
+@dynamic localTxid;
+@dynamic remoteTxid;
+@dynamic remotePendingTxid;
+@dynamic localCommitFeeSat;
+@dynamic remoteCommitFeeSat;
+@dynamic remotePendingCommitFeeSat;
+
+typedef struct PendingChannelsResponse_Commitments__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *localTxid;
+  NSString *remoteTxid;
+  NSString *remotePendingTxid;
+  uint64_t localCommitFeeSat;
+  uint64_t remoteCommitFeeSat;
+  uint64_t remotePendingCommitFeeSat;
+} PendingChannelsResponse_Commitments__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "localTxid",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_LocalTxid,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, localTxid),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "remoteTxid",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_RemoteTxid,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, remoteTxid),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "remotePendingTxid",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_RemotePendingTxid,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, remotePendingTxid),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "localCommitFeeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_LocalCommitFeeSat,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, localCommitFeeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "remoteCommitFeeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_RemoteCommitFeeSat,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, remoteCommitFeeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "remotePendingCommitFeeSat",
+        .dataTypeSpecific.className = NULL,
+        .number = PendingChannelsResponse_Commitments_FieldNumber_RemotePendingCommitFeeSat,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_Commitments__storage_, remotePendingCommitFeeSat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PendingChannelsResponse_Commitments class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PendingChannelsResponse_Commitments__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     [localDescriptor setupContainingMessageClassName:GPBStringifySymbol(PendingChannelsResponse)];
     #if defined(DEBUG) && DEBUG
@@ -5873,11 +6674,13 @@ typedef struct PendingChannelsResponse_ClosedChannel__storage_ {
 @dynamic blocksTilMaturity;
 @dynamic recoveredBalance;
 @dynamic pendingHtlcsArray, pendingHtlcsArray_Count;
+@dynamic anchor;
 
 typedef struct PendingChannelsResponse_ForceClosedChannel__storage_ {
   uint32_t _has_storage_[1];
   uint32_t maturityHeight;
   int32_t blocksTilMaturity;
+  PendingChannelsResponse_ForceClosedChannel_AnchorState anchor;
   PendingChannelsResponse_PendingChannel *channel;
   NSString *closingTxid;
   NSMutableArray *pendingHtlcsArray;
@@ -5954,6 +6757,15 @@ typedef struct PendingChannelsResponse_ForceClosedChannel__storage_ {
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "anchor",
+        .dataTypeSpecific.enumDescFunc = PendingChannelsResponse_ForceClosedChannel_AnchorState_EnumDescriptor,
+        .number = PendingChannelsResponse_ForceClosedChannel_FieldNumber_Anchor,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PendingChannelsResponse_ForceClosedChannel__storage_, anchor),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PendingChannelsResponse_ForceClosedChannel class]
@@ -5973,6 +6785,55 @@ typedef struct PendingChannelsResponse_ForceClosedChannel__storage_ {
 }
 
 @end
+
+int32_t PendingChannelsResponse_ForceClosedChannel_Anchor_RawValue(PendingChannelsResponse_ForceClosedChannel *message) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_ForceClosedChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_ForceClosedChannel_FieldNumber_Anchor];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPendingChannelsResponse_ForceClosedChannel_Anchor_RawValue(PendingChannelsResponse_ForceClosedChannel *message, int32_t value) {
+  GPBDescriptor *descriptor = [PendingChannelsResponse_ForceClosedChannel descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PendingChannelsResponse_ForceClosedChannel_FieldNumber_Anchor];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - Enum PendingChannelsResponse_ForceClosedChannel_AnchorState
+
+GPBEnumDescriptor *PendingChannelsResponse_ForceClosedChannel_AnchorState_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Limbo\000Recovered\000Lost\000";
+    static const int32_t values[] = {
+        PendingChannelsResponse_ForceClosedChannel_AnchorState_Limbo,
+        PendingChannelsResponse_ForceClosedChannel_AnchorState_Recovered,
+        PendingChannelsResponse_ForceClosedChannel_AnchorState_Lost,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PendingChannelsResponse_ForceClosedChannel_AnchorState)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PendingChannelsResponse_ForceClosedChannel_AnchorState_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PendingChannelsResponse_ForceClosedChannel_AnchorState_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PendingChannelsResponse_ForceClosedChannel_AnchorState_Limbo:
+    case PendingChannelsResponse_ForceClosedChannel_AnchorState_Recovered:
+    case PendingChannelsResponse_ForceClosedChannel_AnchorState_Lost:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 #pragma mark - ChannelEventSubscription
 
@@ -6015,6 +6876,7 @@ typedef struct ChannelEventSubscription__storage_ {
 @dynamic closedChannel;
 @dynamic activeChannel;
 @dynamic inactiveChannel;
+@dynamic pendingOpenChannel;
 @dynamic type;
 
 typedef struct ChannelEventUpdate__storage_ {
@@ -6024,6 +6886,7 @@ typedef struct ChannelEventUpdate__storage_ {
   ChannelCloseSummary *closedChannel;
   ChannelPoint *activeChannel;
   ChannelPoint *inactiveChannel;
+  PendingUpdate *pendingOpenChannel;
 } ChannelEventUpdate__storage_;
 
 // This method is threadsafe because it is initially called
@@ -6077,6 +6940,15 @@ typedef struct ChannelEventUpdate__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
+      {
+        .name = "pendingOpenChannel",
+        .dataTypeSpecific.className = GPBStringifySymbol(PendingUpdate),
+        .number = ChannelEventUpdate_FieldNumber_PendingOpenChannel,
+        .hasIndex = -1,
+        .offset = (uint32_t)offsetof(ChannelEventUpdate__storage_, pendingOpenChannel),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ChannelEventUpdate class]
@@ -6126,12 +6998,13 @@ GPBEnumDescriptor *ChannelEventUpdate_UpdateType_EnumDescriptor(void) {
   if (!descriptor) {
     static const char *valueNames =
         "OpenChannel\000ClosedChannel\000ActiveChannel\000"
-        "InactiveChannel\000";
+        "InactiveChannel\000PendingOpenChannel\000";
     static const int32_t values[] = {
         ChannelEventUpdate_UpdateType_OpenChannel,
         ChannelEventUpdate_UpdateType_ClosedChannel,
         ChannelEventUpdate_UpdateType_ActiveChannel,
         ChannelEventUpdate_UpdateType_InactiveChannel,
+        ChannelEventUpdate_UpdateType_PendingOpenChannel,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(ChannelEventUpdate_UpdateType)
@@ -6153,6 +7026,7 @@ BOOL ChannelEventUpdate_UpdateType_IsValidValue(int32_t value__) {
     case ChannelEventUpdate_UpdateType_ClosedChannel:
     case ChannelEventUpdate_UpdateType_ActiveChannel:
     case ChannelEventUpdate_UpdateType_InactiveChannel:
+    case ChannelEventUpdate_UpdateType_PendingOpenChannel:
       return YES;
     default:
       return NO;
@@ -7653,6 +8527,152 @@ typedef struct ChannelGraph__storage_ {
 
 @end
 
+#pragma mark - NodeMetricsRequest
+
+@implementation NodeMetricsRequest
+
+@dynamic typesArray, typesArray_Count;
+
+typedef struct NodeMetricsRequest__storage_ {
+  uint32_t _has_storage_[1];
+  GPBEnumArray *typesArray;
+} NodeMetricsRequest__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "typesArray",
+        .dataTypeSpecific.enumDescFunc = NodeMetricType_EnumDescriptor,
+        .number = NodeMetricsRequest_FieldNumber_TypesArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(NodeMetricsRequest__storage_, typesArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[NodeMetricsRequest class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(NodeMetricsRequest__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - NodeMetricsResponse
+
+@implementation NodeMetricsResponse
+
+@dynamic betweennessCentrality, betweennessCentrality_Count;
+
+typedef struct NodeMetricsResponse__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableDictionary *betweennessCentrality;
+} NodeMetricsResponse__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "betweennessCentrality",
+        .dataTypeSpecific.className = GPBStringifySymbol(FloatMetric),
+        .number = NodeMetricsResponse_FieldNumber_BetweennessCentrality,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(NodeMetricsResponse__storage_, betweennessCentrality),
+        .flags = GPBFieldMapKeyString,
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[NodeMetricsResponse class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(NodeMetricsResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - FloatMetric
+
+@implementation FloatMetric
+
+@dynamic value;
+@dynamic normalizedValue;
+
+typedef struct FloatMetric__storage_ {
+  uint32_t _has_storage_[1];
+  double value;
+  double normalizedValue;
+} FloatMetric__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "value",
+        .dataTypeSpecific.className = NULL,
+        .number = FloatMetric_FieldNumber_Value,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(FloatMetric__storage_, value),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeDouble,
+      },
+      {
+        .name = "normalizedValue",
+        .dataTypeSpecific.className = NULL,
+        .number = FloatMetric_FieldNumber_NormalizedValue,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(FloatMetric__storage_, normalizedValue),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeDouble,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[FloatMetric class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(FloatMetric__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - ChanInfoRequest
 
 @implementation ChanInfoRequest
@@ -8476,7 +9496,7 @@ typedef struct RouteHint__storage_ {
 @dynamic state;
 @dynamic htlcsArray, htlcsArray_Count;
 @dynamic features, features_Count;
-@dynamic isKeySend;
+@dynamic isKeysend;
 
 typedef struct Invoice__storage_ {
   uint32_t _has_storage_[1];
@@ -8717,9 +9737,9 @@ typedef struct Invoice__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "isKeySend",
+        .name = "isKeysend",
         .dataTypeSpecific.className = NULL,
-        .number = Invoice_FieldNumber_IsKeySend,
+        .number = Invoice_FieldNumber_IsKeysend,
         .hasIndex = 22,
         .offset = 23,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -9280,7 +10300,6 @@ typedef struct InvoiceSubscription__storage_ {
 @dynamic paymentHash;
 @dynamic value;
 @dynamic creationDate;
-@dynamic pathArray, pathArray_Count;
 @dynamic fee;
 @dynamic paymentPreimage;
 @dynamic valueSat;
@@ -9291,12 +10310,14 @@ typedef struct InvoiceSubscription__storage_ {
 @dynamic feeMsat;
 @dynamic creationTimeNs;
 @dynamic htlcsArray, htlcsArray_Count;
+@dynamic paymentIndex;
+@dynamic failureReason;
 
 typedef struct Payment__storage_ {
   uint32_t _has_storage_[1];
   Payment_PaymentStatus status;
+  PaymentFailureReason failureReason;
   NSString *paymentHash;
-  NSMutableArray *pathArray;
   NSString *paymentPreimage;
   NSString *paymentRequest;
   NSMutableArray *htlcsArray;
@@ -9308,6 +10329,7 @@ typedef struct Payment__storage_ {
   int64_t feeSat;
   int64_t feeMsat;
   int64_t creationTimeNs;
+  uint64_t paymentIndex;
 } Payment__storage_;
 
 // This method is threadsafe because it is initially called
@@ -9342,15 +10364,6 @@ typedef struct Payment__storage_ {
         .offset = (uint32_t)offsetof(Payment__storage_, creationDate),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
-      },
-      {
-        .name = "pathArray",
-        .dataTypeSpecific.className = NULL,
-        .number = Payment_FieldNumber_PathArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(Payment__storage_, pathArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeString,
       },
       {
         .name = "fee",
@@ -9442,6 +10455,24 @@ typedef struct Payment__storage_ {
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "paymentIndex",
+        .dataTypeSpecific.className = NULL,
+        .number = Payment_FieldNumber_PaymentIndex,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(Payment__storage_, paymentIndex),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "failureReason",
+        .dataTypeSpecific.enumDescFunc = PaymentFailureReason_EnumDescriptor,
+        .number = Payment_FieldNumber_FailureReason,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(Payment__storage_, failureReason),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[Payment class]
@@ -9470,6 +10501,18 @@ int32_t Payment_Status_RawValue(Payment *message) {
 void SetPayment_Status_RawValue(Payment *message, int32_t value) {
   GPBDescriptor *descriptor = [Payment descriptor];
   GPBFieldDescriptor *field = [descriptor fieldWithNumber:Payment_FieldNumber_Status];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+int32_t Payment_FailureReason_RawValue(Payment *message) {
+  GPBDescriptor *descriptor = [Payment descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Payment_FieldNumber_FailureReason];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPayment_FailureReason_RawValue(Payment *message, int32_t value) {
+  GPBDescriptor *descriptor = [Payment descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Payment_FieldNumber_FailureReason];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
@@ -9520,11 +10563,13 @@ BOOL Payment_PaymentStatus_IsValidValue(int32_t value__) {
 @dynamic hasRoute, route;
 @dynamic attemptTimeNs;
 @dynamic resolveTimeNs;
+@dynamic hasFailure, failure;
 
 typedef struct HTLCAttempt__storage_ {
   uint32_t _has_storage_[1];
   HTLCAttempt_HTLCStatus status;
   Route *route;
+  Failure *failure;
   int64_t attemptTimeNs;
   int64_t resolveTimeNs;
 } HTLCAttempt__storage_;
@@ -9570,6 +10615,15 @@ typedef struct HTLCAttempt__storage_ {
         .offset = (uint32_t)offsetof(HTLCAttempt__storage_, resolveTimeNs),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "failure",
+        .dataTypeSpecific.className = GPBStringifySymbol(Failure),
+        .number = HTLCAttempt_FieldNumber_Failure,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(HTLCAttempt__storage_, failure),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -9644,9 +10698,14 @@ BOOL HTLCAttempt_HTLCStatus_IsValidValue(int32_t value__) {
 @implementation ListPaymentsRequest
 
 @dynamic includeIncomplete;
+@dynamic indexOffset;
+@dynamic maxPayments;
+@dynamic reversed;
 
 typedef struct ListPaymentsRequest__storage_ {
   uint32_t _has_storage_[1];
+  uint64_t indexOffset;
+  uint64_t maxPayments;
 } ListPaymentsRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -9661,6 +10720,33 @@ typedef struct ListPaymentsRequest__storage_ {
         .number = ListPaymentsRequest_FieldNumber_IncludeIncomplete,
         .hasIndex = 0,
         .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "indexOffset",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPaymentsRequest_FieldNumber_IndexOffset,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(ListPaymentsRequest__storage_, indexOffset),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "maxPayments",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPaymentsRequest_FieldNumber_MaxPayments,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(ListPaymentsRequest__storage_, maxPayments),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "reversed",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPaymentsRequest_FieldNumber_Reversed,
+        .hasIndex = 4,
+        .offset = 5,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
@@ -9688,10 +10774,14 @@ typedef struct ListPaymentsRequest__storage_ {
 @implementation ListPaymentsResponse
 
 @dynamic paymentsArray, paymentsArray_Count;
+@dynamic firstIndexOffset;
+@dynamic lastIndexOffset;
 
 typedef struct ListPaymentsResponse__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *paymentsArray;
+  uint64_t firstIndexOffset;
+  uint64_t lastIndexOffset;
 } ListPaymentsResponse__storage_;
 
 // This method is threadsafe because it is initially called
@@ -9708,6 +10798,24 @@ typedef struct ListPaymentsResponse__storage_ {
         .offset = (uint32_t)offsetof(ListPaymentsResponse__storage_, paymentsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "firstIndexOffset",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPaymentsResponse_FieldNumber_FirstIndexOffset,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ListPaymentsResponse__storage_, firstIndexOffset),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "lastIndexOffset",
+        .dataTypeSpecific.className = NULL,
+        .number = ListPaymentsResponse_FieldNumber_LastIndexOffset,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ListPaymentsResponse__storage_, lastIndexOffset),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -10292,17 +11400,19 @@ typedef struct FeeReportRequest__storage_ {
 
 @implementation ChannelFeeReport
 
-@dynamic chanPoint;
+@dynamic chanId;
+@dynamic channelPoint;
 @dynamic baseFeeMsat;
 @dynamic feePerMil;
 @dynamic feeRate;
 
 typedef struct ChannelFeeReport__storage_ {
   uint32_t _has_storage_[1];
-  NSString *chanPoint;
+  NSString *channelPoint;
   int64_t baseFeeMsat;
   int64_t feePerMil;
   double feeRate;
+  uint64_t chanId;
 } ChannelFeeReport__storage_;
 
 // This method is threadsafe because it is initially called
@@ -10312,11 +11422,11 @@ typedef struct ChannelFeeReport__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "chanPoint",
+        .name = "channelPoint",
         .dataTypeSpecific.className = NULL,
-        .number = ChannelFeeReport_FieldNumber_ChanPoint,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, chanPoint),
+        .number = ChannelFeeReport_FieldNumber_ChannelPoint,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, channelPoint),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
@@ -10324,7 +11434,7 @@ typedef struct ChannelFeeReport__storage_ {
         .name = "baseFeeMsat",
         .dataTypeSpecific.className = NULL,
         .number = ChannelFeeReport_FieldNumber_BaseFeeMsat,
-        .hasIndex = 1,
+        .hasIndex = 2,
         .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, baseFeeMsat),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -10333,7 +11443,7 @@ typedef struct ChannelFeeReport__storage_ {
         .name = "feePerMil",
         .dataTypeSpecific.className = NULL,
         .number = ChannelFeeReport_FieldNumber_FeePerMil,
-        .hasIndex = 2,
+        .hasIndex = 3,
         .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, feePerMil),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -10342,10 +11452,19 @@ typedef struct ChannelFeeReport__storage_ {
         .name = "feeRate",
         .dataTypeSpecific.className = NULL,
         .number = ChannelFeeReport_FieldNumber_FeeRate,
-        .hasIndex = 3,
+        .hasIndex = 4,
         .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, feeRate),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeDouble,
+      },
+      {
+        .name = "chanId",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelFeeReport_FieldNumber_ChanId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ChannelFeeReport__storage_, chanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -11464,6 +12583,409 @@ typedef struct BakeMacaroonResponse__storage_ {
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(BakeMacaroonResponse__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - Failure
+
+@implementation Failure
+
+@dynamic code;
+@dynamic hasChannelUpdate, channelUpdate;
+@dynamic htlcMsat;
+@dynamic onionSha256;
+@dynamic cltvExpiry;
+@dynamic flags;
+@dynamic failureSourceIndex;
+@dynamic height;
+
+typedef struct Failure__storage_ {
+  uint32_t _has_storage_[1];
+  Failure_FailureCode code;
+  uint32_t cltvExpiry;
+  uint32_t flags;
+  uint32_t failureSourceIndex;
+  uint32_t height;
+  ChannelUpdate *channelUpdate;
+  NSData *onionSha256;
+  uint64_t htlcMsat;
+} Failure__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "code",
+        .dataTypeSpecific.enumDescFunc = Failure_FailureCode_EnumDescriptor,
+        .number = Failure_FieldNumber_Code,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(Failure__storage_, code),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "channelUpdate",
+        .dataTypeSpecific.className = GPBStringifySymbol(ChannelUpdate),
+        .number = Failure_FieldNumber_ChannelUpdate,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(Failure__storage_, channelUpdate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "htlcMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_HtlcMsat,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(Failure__storage_, htlcMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "onionSha256",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_OnionSha256,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(Failure__storage_, onionSha256),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "cltvExpiry",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_CltvExpiry,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(Failure__storage_, cltvExpiry),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "flags",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_Flags,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(Failure__storage_, flags),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "failureSourceIndex",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_FailureSourceIndex,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(Failure__storage_, failureSourceIndex),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "height",
+        .dataTypeSpecific.className = NULL,
+        .number = Failure_FieldNumber_Height,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(Failure__storage_, height),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[Failure class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(Failure__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\005\005\243\203\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    #if defined(DEBUG) && DEBUG
+      NSAssert(descriptor == nil, @"Startup recursed!");
+    #endif  // DEBUG
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+int32_t Failure_Code_RawValue(Failure *message) {
+  GPBDescriptor *descriptor = [Failure descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Failure_FieldNumber_Code];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetFailure_Code_RawValue(Failure *message, int32_t value) {
+  GPBDescriptor *descriptor = [Failure descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:Failure_FieldNumber_Code];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
+
+#pragma mark - Enum Failure_FailureCode
+
+GPBEnumDescriptor *Failure_FailureCode_EnumDescriptor(void) {
+  static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Reserved\000IncorrectOrUnknownPaymentDetail"
+        "s\000IncorrectPaymentAmount\000FinalIncorrectC"
+        "ltvExpiry\000FinalIncorrectHtlcAmount\000Final"
+        "ExpiryTooSoon\000InvalidRealm\000ExpiryTooSoon"
+        "\000InvalidOnionVersion\000InvalidOnionHmac\000In"
+        "validOnionKey\000AmountBelowMinimum\000FeeInsu"
+        "fficient\000IncorrectCltvExpiry\000ChannelDisa"
+        "bled\000TemporaryChannelFailure\000RequiredNod"
+        "eFeatureMissing\000RequiredChannelFeatureMi"
+        "ssing\000UnknownNextPeer\000TemporaryNodeFailu"
+        "re\000PermanentNodeFailure\000PermanentChannel"
+        "Failure\000ExpiryTooFar\000MppTimeout\000Internal"
+        "Failure\000UnknownFailure\000UnreadableFailure"
+        "\000";
+    static const int32_t values[] = {
+        Failure_FailureCode_Reserved,
+        Failure_FailureCode_IncorrectOrUnknownPaymentDetails,
+        Failure_FailureCode_IncorrectPaymentAmount,
+        Failure_FailureCode_FinalIncorrectCltvExpiry,
+        Failure_FailureCode_FinalIncorrectHtlcAmount,
+        Failure_FailureCode_FinalExpiryTooSoon,
+        Failure_FailureCode_InvalidRealm,
+        Failure_FailureCode_ExpiryTooSoon,
+        Failure_FailureCode_InvalidOnionVersion,
+        Failure_FailureCode_InvalidOnionHmac,
+        Failure_FailureCode_InvalidOnionKey,
+        Failure_FailureCode_AmountBelowMinimum,
+        Failure_FailureCode_FeeInsufficient,
+        Failure_FailureCode_IncorrectCltvExpiry,
+        Failure_FailureCode_ChannelDisabled,
+        Failure_FailureCode_TemporaryChannelFailure,
+        Failure_FailureCode_RequiredNodeFeatureMissing,
+        Failure_FailureCode_RequiredChannelFeatureMissing,
+        Failure_FailureCode_UnknownNextPeer,
+        Failure_FailureCode_TemporaryNodeFailure,
+        Failure_FailureCode_PermanentNodeFailure,
+        Failure_FailureCode_PermanentChannelFailure,
+        Failure_FailureCode_ExpiryTooFar,
+        Failure_FailureCode_MppTimeout,
+        Failure_FailureCode_InternalFailure,
+        Failure_FailureCode_UnknownFailure,
+        Failure_FailureCode_UnreadableFailure,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(Failure_FailureCode)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:Failure_FailureCode_IsValidValue];
+    GPBEnumDescriptor *expected = nil;
+    if (!atomic_compare_exchange_strong(&descriptor, &expected, worker)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL Failure_FailureCode_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case Failure_FailureCode_Reserved:
+    case Failure_FailureCode_IncorrectOrUnknownPaymentDetails:
+    case Failure_FailureCode_IncorrectPaymentAmount:
+    case Failure_FailureCode_FinalIncorrectCltvExpiry:
+    case Failure_FailureCode_FinalIncorrectHtlcAmount:
+    case Failure_FailureCode_FinalExpiryTooSoon:
+    case Failure_FailureCode_InvalidRealm:
+    case Failure_FailureCode_ExpiryTooSoon:
+    case Failure_FailureCode_InvalidOnionVersion:
+    case Failure_FailureCode_InvalidOnionHmac:
+    case Failure_FailureCode_InvalidOnionKey:
+    case Failure_FailureCode_AmountBelowMinimum:
+    case Failure_FailureCode_FeeInsufficient:
+    case Failure_FailureCode_IncorrectCltvExpiry:
+    case Failure_FailureCode_ChannelDisabled:
+    case Failure_FailureCode_TemporaryChannelFailure:
+    case Failure_FailureCode_RequiredNodeFeatureMissing:
+    case Failure_FailureCode_RequiredChannelFeatureMissing:
+    case Failure_FailureCode_UnknownNextPeer:
+    case Failure_FailureCode_TemporaryNodeFailure:
+    case Failure_FailureCode_PermanentNodeFailure:
+    case Failure_FailureCode_PermanentChannelFailure:
+    case Failure_FailureCode_ExpiryTooFar:
+    case Failure_FailureCode_MppTimeout:
+    case Failure_FailureCode_InternalFailure:
+    case Failure_FailureCode_UnknownFailure:
+    case Failure_FailureCode_UnreadableFailure:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - ChannelUpdate
+
+@implementation ChannelUpdate
+
+@dynamic signature;
+@dynamic chainHash;
+@dynamic chanId;
+@dynamic timestamp;
+@dynamic messageFlags;
+@dynamic channelFlags;
+@dynamic timeLockDelta;
+@dynamic htlcMinimumMsat;
+@dynamic baseFee;
+@dynamic feeRate;
+@dynamic htlcMaximumMsat;
+@dynamic extraOpaqueData;
+
+typedef struct ChannelUpdate__storage_ {
+  uint32_t _has_storage_[1];
+  uint32_t timestamp;
+  uint32_t channelFlags;
+  uint32_t timeLockDelta;
+  uint32_t baseFee;
+  uint32_t feeRate;
+  uint32_t messageFlags;
+  NSData *signature;
+  NSData *chainHash;
+  NSData *extraOpaqueData;
+  uint64_t chanId;
+  uint64_t htlcMinimumMsat;
+  uint64_t htlcMaximumMsat;
+} ChannelUpdate__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "signature",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_Signature,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, signature),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "chainHash",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_ChainHash,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, chainHash),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "chanId",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_ChanId,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, chanId),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "timestamp",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_Timestamp,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, timestamp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "channelFlags",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_ChannelFlags,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, channelFlags),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "timeLockDelta",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_TimeLockDelta,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, timeLockDelta),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "htlcMinimumMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_HtlcMinimumMsat,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, htlcMinimumMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "baseFee",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_BaseFee,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, baseFee),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "feeRate",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_FeeRate,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, feeRate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "messageFlags",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_MessageFlags,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, messageFlags),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "htlcMaximumMsat",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_HtlcMaximumMsat,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, htlcMaximumMsat),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "extraOpaqueData",
+        .dataTypeSpecific.className = NULL,
+        .number = ChannelUpdate_FieldNumber_ExtraOpaqueData,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(ChannelUpdate__storage_, extraOpaqueData),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBytes,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ChannelUpdate class]
+                                     rootClass:[RpcRoot class]
+                                          file:RpcRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ChannelUpdate__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     #if defined(DEBUG) && DEBUG
       NSAssert(descriptor == nil, @"Startup recursed!");

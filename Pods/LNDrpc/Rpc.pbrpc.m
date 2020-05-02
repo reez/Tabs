@@ -4,7 +4,7 @@
 #import <ProtoRPC/ProtoRPCLegacy.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-//#import "google/api/Annotations.pbobjc.h"
+#import "google/api/Annotations.pbobjc.h"
 
 @implementation WalletUnlocker
 
@@ -113,7 +113,7 @@
 #pragma mark InitWallet(InitWalletRequest) returns (InitWalletResponse)
 
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -134,7 +134,7 @@
 }
 // Returns a not-yet-started RPC object.
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -157,7 +157,7 @@
         responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
 }
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -171,13 +171,13 @@
  * seed, then present it to the user. Once it has been verified by the user,
  * the seed can be fed into this RPC in order to commit the new wallet.
  */
-//- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
-//  return [self RPCToMethod:@"InitWallet"
-//                   message:message
-//           responseHandler:handler
-//               callOptions:callOptions
-//             responseClass:[InitWalletResponse class]];
-//}
+- (GRPCUnaryProtoCall *)initWalletWithMessage:(InitWalletRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"InitWallet"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[InitWalletResponse class]];
+}
 
 #pragma mark UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse)
 
@@ -1448,10 +1448,11 @@
 
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1461,10 +1462,11 @@
 // Returns a not-yet-started RPC object.
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1476,10 +1478,11 @@
 }
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  */
 - (GRPCStreamingProtoCall *)sendPaymentWithResponseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
   return [self RPCToMethod:@"SendPayment"
@@ -1977,6 +1980,45 @@
            responseHandler:handler
                callOptions:callOptions
              responseClass:[ChannelGraph class]];
+}
+
+#pragma mark GetNodeMetrics(NodeMetricsRequest) returns (NodeMetricsResponse)
+
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)getNodeMetricsWithRequest:(NodeMetricsRequest *)request handler:(void(^)(NodeMetricsResponse *_Nullable response, NSError *_Nullable error))handler{
+  [[self RPCToGetNodeMetricsWithRequest:request handler:handler] start];
+}
+// Returns a not-yet-started RPC object.
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToGetNodeMetricsWithRequest:(NodeMetricsRequest *)request handler:(void(^)(NodeMetricsResponse *_Nullable response, NSError *_Nullable error))handler{
+  return [self RPCToMethod:@"GetNodeMetrics"
+            requestsWriter:[GRXWriter writerWithValue:request]
+             responseClass:[NodeMetricsResponse class]
+        responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
+}
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ */
+- (GRPCUnaryProtoCall *)getNodeMetricsWithMessage:(NodeMetricsRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions {
+  return [self RPCToMethod:@"GetNodeMetrics"
+                   message:message
+           responseHandler:handler
+               callOptions:callOptions
+             responseClass:[NodeMetricsResponse class]];
 }
 
 #pragma mark GetChanInfo(ChanInfoRequest) returns (ChannelEdge)
