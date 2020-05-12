@@ -28,6 +28,11 @@
   #include  "google/protobuf/wrappers.upb.h"
 #endif
 #if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/udpa/annotations/migrate.upb.h"
+#else
+  #include  "udpa/annotations/migrate.upb.h"
+#endif
+#if COCOAPODS==1
   #include  "src/core/ext/upb-generated/validate/validate.upb.h"
 #else
   #include  "validate/validate.upb.h"

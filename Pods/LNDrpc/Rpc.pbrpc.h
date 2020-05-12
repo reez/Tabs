@@ -79,6 +79,8 @@
 @class NewAddressResponse;
 @class NodeInfo;
 @class NodeInfoRequest;
+@class NodeMetricsRequest;
+@class NodeMetricsResponse;
 @class OpenChannelRequest;
 @class OpenStatusUpdate;
 @class PayReq;
@@ -148,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark InitWallet(InitWalletRequest) returns (InitWalletResponse)
 
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -466,10 +468,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  */
 - (GRPCStreamingProtoCall *)sendPaymentWithResponseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
@@ -592,6 +595,15 @@ NS_ASSUME_NONNULL_BEGIN
  * delta, fee information, etc.
  */
 - (GRPCUnaryProtoCall *)describeGraphWithMessage:(ChannelGraphRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
+
+#pragma mark GetNodeMetrics(NodeMetricsRequest) returns (NodeMetricsResponse)
+
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ */
+- (GRPCUnaryProtoCall *)getNodeMetricsWithMessage:(NodeMetricsRequest *)message responseHandler:(id<GRPCProtoResponseHandler>)handler callOptions:(GRPCCallOptions *_Nullable)callOptions;
 
 #pragma mark GetChanInfo(ChanInfoRequest) returns (ChannelEdge)
 
@@ -816,7 +828,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark InitWallet(InitWalletRequest) returns (InitWalletResponse)
 
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -835,7 +847,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)initWalletWithRequest:(InitWalletRequest *)request handler:(void(^)(InitWalletResponse *_Nullable response, NSError *_Nullable error))handler;
 
 /**
- * * 
+ * *
  * InitWallet is used when lnd is starting up for the first time to fully
  * initialize the daemon and its internal wallet. At the very least a wallet
  * password must be provided. This will be used to encrypt sensitive material
@@ -1538,10 +1550,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1549,10 +1562,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * * lncli: `sendpayment`
- * SendPayment dispatches a bi-directional streaming RPC for sending payments
- * through the Lightning Network. A single RPC invocation creates a persistent
- * bi-directional stream allowing clients to rapidly send payments through the
- * Lightning Network with a single persistent connection.
+ * Deprecated, use routerrpc.SendPayment. SendPayment dispatches a
+ * bi-directional streaming RPC for sending payments through the Lightning
+ * Network. A single RPC invocation creates a persistent bi-directional
+ * stream allowing clients to rapidly send payments through the Lightning
+ * Network with a single persistent connection.
  *
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
@@ -1830,6 +1844,27 @@ NS_ASSUME_NONNULL_BEGIN
  * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
  */
 - (GRPCProtoCall *)RPCToDescribeGraphWithRequest:(ChannelGraphRequest *)request handler:(void(^)(ChannelGraph *_Nullable response, NSError *_Nullable error))handler;
+
+
+#pragma mark GetNodeMetrics(NodeMetricsRequest) returns (NodeMetricsResponse)
+
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (void)getNodeMetricsWithRequest:(NodeMetricsRequest *)request handler:(void(^)(NodeMetricsResponse *_Nullable response, NSError *_Nullable error))handler;
+
+/**
+ * * lncli: `getnodemetrics`
+ * GetNodeMetrics returns node metrics calculated from the graph. Currently
+ * the only supported metric is betweenness centrality of individual nodes.
+ *
+ * This method belongs to a set of APIs that have been deprecated. Using the v2 API is recommended.
+ */
+- (GRPCProtoCall *)RPCToGetNodeMetricsWithRequest:(NodeMetricsRequest *)request handler:(void(^)(NodeMetricsResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
 #pragma mark GetChanInfo(ChanInfoRequest) returns (ChannelEdge)
